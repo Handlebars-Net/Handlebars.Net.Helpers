@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Models;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -29,6 +31,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
                 default:
                     throw new NotSupportedException();
             }
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public object Sign(object value)
+        {
+            return ExecuteUtils.Execute(value, i => Math.Sign(i), l => Math.Sign(l), d => Math.Sign(d));
         }
     }
 }

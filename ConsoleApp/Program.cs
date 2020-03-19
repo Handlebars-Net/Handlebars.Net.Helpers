@@ -22,6 +22,9 @@ namespace ConsoleApp
 
                 "{{Abs -1}}",
                 "{{Abs -1.1234}}",
+                "{{Sign -1}}",
+                "{{Sign " + long.MinValue + "}}",
+                "{{Sign -1.1234}}",
                 "{{Abs -1,1234}}",
                 // "{{Abs \"x\"}}"
             };
