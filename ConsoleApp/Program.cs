@@ -13,6 +13,7 @@ namespace ConsoleApp
 
             var tests = new[]
             {
+                "{{Append \"abc\" \"!def\"}}",
                 "{{Reverse \"abc def\"}}",
                 "{{Capitalize \"abc def\"}}",
                 "{{ToCamelCase \"abc def\"}}",

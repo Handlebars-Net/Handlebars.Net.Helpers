@@ -10,9 +10,26 @@ namespace HandlebarsDotNet.Helpers.Helpers
 
     /// <summary>
     /// Some code copied from https://www.30secondsofcode.org/c-sharp/t/string/p/1
+    /// and based on https://github.com/helpers/handlebars-helpers#string
     /// </summary>
     internal class StringHelper : IHelper
     {
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Append(string value, string append)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (string.IsNullOrEmpty(append))
+            {
+                return value;
+            }
+
+            return value + append;
+        }
+
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Capitalize(string value)
         {
