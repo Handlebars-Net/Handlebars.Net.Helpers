@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 
@@ -47,15 +48,14 @@ namespace HandlebarsDotNet.Helpers.Helpers
 
             string[] words = value.Split(new char[] { }, StringSplitOptions.RemoveEmptyEntries);
 
-            string result = words[0].ToLower();
+            var builder = new StringBuilder(words[0].ToLower());
             for (int i = 1; i < words.Length; i++)
             {
-                result +=
-                    words[i].Substring(0, 1).ToUpper() +
-                    words[i].Substring(1);
+                builder.Append(words[i].Substring(0, 1).ToUpper());
+                builder.Append(words[i].Substring(1));
             }
 
-            return result;
+            return builder.ToString();
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
@@ -73,15 +73,14 @@ namespace HandlebarsDotNet.Helpers.Helpers
 
             string[] words = value.Split(new char[] { }, StringSplitOptions.RemoveEmptyEntries);
 
-            string result = string.Empty;
+            var builder = new StringBuilder();
             foreach (string word in words)
             {
-                result +=
-                    word.Substring(0, 1).ToUpper() +
-                    word.Substring(1);
+                builder.Append(word.Substring(0, 1).ToUpper());
+                builder.Append(word.Substring(1));
             }
 
-            return result;
+            return builder.ToString();
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
