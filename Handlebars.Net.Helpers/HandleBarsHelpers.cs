@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
@@ -36,7 +37,7 @@ namespace HandlebarsDotNet.Helpers
             string name = methodName ?? methodInfo.Name;
             handlebarsContext.RegisterHelper(name, (writer, context, arguments) =>
             {
-                object value = methodInfo.Invoke(obj, arguments);
+                object value = methodInfo.Invoke(obj, arguments.ToArray());
 
                 switch (type)
                 {

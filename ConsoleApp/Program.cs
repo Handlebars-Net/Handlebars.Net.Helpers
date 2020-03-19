@@ -27,6 +27,10 @@ namespace ConsoleApp
                 "{{Sign -1.1234}}",
                 "{{Abs -1,1234}}",
                 // "{{Abs \"x\"}}"
+
+                "{{Min 42 5}}",
+                "{{Min 42 5.2}}",
+                "{{Min 42.1 5}}",
             };
 
             foreach (string test in tests)

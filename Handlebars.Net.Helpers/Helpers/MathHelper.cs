@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Models;
+using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -37,6 +36,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public object Sign(object value)
         {
             return ExecuteUtils.Execute(value, i => Math.Sign(i), l => Math.Sign(l), d => Math.Sign(d));
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public object Min(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(value1, value2, Math.Min, Math.Min, Math.Min);
         }
     }
 }
