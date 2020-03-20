@@ -14,8 +14,9 @@ namespace ConsoleApp
             var tests = new[]
             {
                 "{{Append \"abc\" \"!def\"}}",
-                "{{Reverse \"abc def\"}}",
                 "{{Capitalize \"abc def\"}}",
+                "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",
+                "{{Reverse \"abc def\"}}",
                 "{{ToCamelCase \"abc def\"}}",
                 "{{ToPascalCase \"abc def\"}}",
                 "{{ToUpper \"abc\"}}",

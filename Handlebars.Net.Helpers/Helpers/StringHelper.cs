@@ -31,6 +31,55 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Prepend(string value, string pre)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (string.IsNullOrEmpty(pre))
+            {
+                return value;
+            }
+
+            return pre + value;
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Trim(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value.Trim();
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string TrimStart(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value.TrimStart();
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string TrimEnd(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value.TrimEnd();
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Capitalize(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -41,6 +90,38 @@ namespace HandlebarsDotNet.Helpers.Helpers
             char[] chars = value.ToCharArray();
             chars[0] = char.ToUpper(chars[0]);
             return new string(chars);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Ellipsis(string value, int length)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            if (string.IsNullOrEmpty(value) || value.Length <= length)
+            {
+                return value;
+            }
+
+            return value.Substring(0, length) + "...";
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Truncate(string value, int length)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            if (string.IsNullOrEmpty(value) || value.Length <= length)
+            {
+                return value;
+            }
+
+            return value.Substring(0, length);
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
