@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Parsers;
 
 namespace HandlebarsDotNet.Helpers
 {
     public static class HandleBarsHelpers
     {
-        private static readonly IHelper[] Helpers = 
+        private static readonly IHelper[] Helpers =
         {
             new StringHelper(),
-            new MathHelper()
+            new MathHelper(),
+            new ArrayHelper()
         };
 
         public static void Register(IHandlebars handlebarsContext)
@@ -38,7 +38,7 @@ namespace HandlebarsDotNet.Helpers
             string name = methodName ?? methodInfo.Name;
             handlebarsContext.RegisterHelper(name, (writer, context, arguments) =>
             {
-                object value = methodInfo.Invoke(obj, FixArguments(arguments));
+                object value = methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
 
                 switch (type)
                 {
@@ -61,43 +61,9 @@ namespace HandlebarsDotNet.Helpers
             string name = methodName ?? methodInfo.Name;
             handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
             {
-                object value = methodInfo.Invoke(obj, FixArguments(arguments));
+                object value = methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
                 options.Template(writer, value);
             });
-        }
-
-        // Bug: Handlebars.Net does provide only strings
-        private static object[] FixArguments(object[] arguments)
-        {
-            var list = new List<object>();
-            foreach (var argument in arguments)
-            {
-                if (argument is string valueAsString)
-                {
-                    if (int.TryParse(valueAsString, out int valueAsInt))
-                    {
-                        list.Add(valueAsInt);
-                    }
-                    else if (long.TryParse(valueAsString, out long valueAsLong))
-                    {
-                        list.Add(valueAsLong);
-                    }
-                    else if (double.TryParse(valueAsString, out double valueAsDouble))
-                    {
-                        list.Add(valueAsDouble);
-                    }
-                    else
-                    {
-                        list.Add(valueAsString);
-                    }
-                }
-                else
-                {
-                    list.Add(argument);
-                }
-            }
-
-            return list.ToArray();
         }
     }
 }

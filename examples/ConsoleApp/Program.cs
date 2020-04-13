@@ -13,6 +13,9 @@ namespace ConsoleApp
 
             var tests = new[]
             {
+                "{{#each ar}}_{{this}}_{{/each}}",
+                "{{#each (Skip ['a', 'b', 'c'] 1)}}{{this}}{{/each}}",
+
                 "{{Append \"abc\" \"!def\"}}",
                 "{{Capitalize \"abc def\"}}",
                 "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",
@@ -37,8 +40,12 @@ namespace ConsoleApp
 
             foreach (string test in tests)
             {
+                var x = new
+                {
+                    ar = new object[] { 1, 2, 3 }
+                };
                 var template = handlebars.Compile(test);
-                var result = template.Invoke("xx");
+                var result = template.Invoke(x);
                 Console.WriteLine(result);
             }
         }

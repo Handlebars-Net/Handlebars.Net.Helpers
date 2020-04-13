@@ -10,19 +10,25 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Write)]
         public object Abs(object value)
         {
-            return ExecuteUtils.Execute(value, i => Math.Abs(i), l => Math.Abs(l), d => Math.Abs(d));
+            return ExecuteUtils.Execute(value, Math.Abs, Math.Abs, Math.Abs);
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public object Sign(object value)
+        public object Max(object value1, object value2)
         {
-            return ExecuteUtils.Execute(value, i => Math.Sign(i), l => Math.Sign(l), d => Math.Sign(d));
+            return ExecuteUtils.Execute(value1, value2, Math.Max, Math.Max, Math.Max);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Min(object value1, object value2)
         {
             return ExecuteUtils.Execute(value1, value2, Math.Min, Math.Min, Math.Min);
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public object Sign(object value)
+        {
+            return ExecuteUtils.Execute(value, Math.Sign, l => Math.Sign(l), d => Math.Sign(d));
         }
     }
 }
