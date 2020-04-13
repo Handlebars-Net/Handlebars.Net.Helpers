@@ -60,6 +60,11 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Reverse(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
             return new string(value.ToCharArray().Reverse().ToArray());
         }
 
