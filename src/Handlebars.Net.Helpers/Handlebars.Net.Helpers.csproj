@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
+    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <LangVersion>8.0</LangVersion>
+    <Description>Several Handlebars.Net helpers in the categories 'String' and 'Math'.</Description>
+  </PropertyGroup>
+ 
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

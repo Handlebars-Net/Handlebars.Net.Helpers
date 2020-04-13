@@ -1,0 +1,31 @@
+<Project>
+  <PropertyGroup>
+    <MsBuildAllProjects>$(MsBuildAllProjects);$(MsBuildThisFileFullPath)</MsBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <Copyright>Copyright © 2020 Stef Heyenrath</Copyright>
+    <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
+    <PackageIconUrl>https://raw.githubusercontent.com/StefH/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/StefH/Handlebars.Net.Helpers</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/StefH/Handlebars.Net.Helpers</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+
+  <Choose>
+    <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
+    <When Condition=" '$(Prerelease)' != '' ">
+      <PropertyGroup>
+        <!-- Set the version to x.x.x.x-{Prerelease}-1{Build_BuildId} (this is same buildId as defined in the azure-pipelines.yml file). -->
+        <VersionSuffix>$(Prerelease)-1$(BUILD_BUILDID)</VersionSuffix>
+      </PropertyGroup>
+    </When>
+  </Choose>
+</Project>
