@@ -6,6 +6,7 @@
   <PropertyGroup>
     <VersionPrefix>0.0.1</VersionPrefix>
     <Copyright>Copyright © 2020 Stef Heyenrath</Copyright>
+    <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/StefH/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/StefH/Handlebars.Net.Helpers</PackageProjectUrl>
