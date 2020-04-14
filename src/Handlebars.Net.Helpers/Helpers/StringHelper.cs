@@ -58,17 +58,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
-        public string Reverse(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
-            return new string(value.ToCharArray().Reverse().ToArray());
-        }
-
-        [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Prepend(string value, string pre)
         {
             if (value == null)
@@ -82,6 +71,33 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return pre + value;
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Replace(string value, string oldValue, string newValue)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (oldValue == null)
+            {
+                throw new ArgumentNullException(nameof(oldValue));
+            }
+
+            return value.Replace(oldValue, newValue);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Reverse(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return new string(value.ToCharArray().Reverse().ToArray());
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]

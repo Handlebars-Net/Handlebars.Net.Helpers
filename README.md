@@ -5,21 +5,50 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 ## String
 
-### Append
+#### Append
 ``` js
 // given that "item.x" is "foo"
 {{Append item.x ".html"}}
 // results in: "foo.html"
 ```
 
-And more ...
+#### Capitalize
+
+#### Ellipsis
+
+#### Prepend
+
+#### Reverse
+
+#### Replace
+
+#### ToCamelCase
+
+#### ToLower
+
+#### ToPascalCase
+
+#### ToUpper
+
+#### Trim
+
+#### TrimEnd
+
+#### TrimStart
+
+#### Truncate
+
 
 ## Math
 
-### Abs
+#### Abs
 ``` js
 {{Abs -1}}
 // results in: 1
 ```
 
-And more ...
+#### Max
+
+#### Min
+
+#### Sign

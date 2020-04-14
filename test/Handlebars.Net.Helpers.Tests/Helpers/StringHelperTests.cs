@@ -79,6 +79,18 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData("", "a", "b", "")]
+        [InlineData("Bar", "a", "?", "B?r")]
+        public void Replace(string value, string oldValue, string newValue, string expected)
+        {
+            // Act
+            var result = _sut.Replace(value, oldValue, newValue);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(null, null)]
         [InlineData("", "")]
         [InlineData("a", "a")]
