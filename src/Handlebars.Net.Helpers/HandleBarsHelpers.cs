@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers
 {
@@ -47,7 +50,14 @@ namespace HandlebarsDotNet.Helpers
                         break;
 
                     default:
-                        writer.Write(value);
+                        if (value is IEnumerable<object> array)
+                        {
+                            writer.WriteSafeString(ArrayUtils.ToArray(array));
+                        }
+                        else
+                        {
+                            writer.Write(value);
+                        }
                         break;
                 }
 

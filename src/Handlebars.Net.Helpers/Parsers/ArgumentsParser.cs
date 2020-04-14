@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
@@ -14,7 +12,6 @@ namespace HandlebarsDotNet.Helpers.Parsers
             var list = new List<object>();
             foreach (var argument in arguments)
             {
-                object parsedValue = null;
                 if (argument is string valueAsString)
                 {
                     if (int.TryParse(valueAsString, out int valueAsInt))
@@ -34,9 +31,9 @@ namespace HandlebarsDotNet.Helpers.Parsers
                         list.Add(valueAsString);
                     }
                 }
-                else if (argument.GetType().Name == "UndefinedBindingResult" && TryParseSpecialValue(argument, out parsedValue))
+                else if (argument.GetType().Name == "UndefinedBindingResult")
                 {
-                    list.Add(parsedValue);
+                    list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
                 }
                 else
                 {
@@ -46,7 +43,6 @@ namespace HandlebarsDotNet.Helpers.Parsers
 
             return list.ToArray();
         }
-
 
         /// <summary>
         /// In case it's an UndefinedBindingResult, just try to convert the value using Json
@@ -65,24 +61,11 @@ namespace HandlebarsDotNet.Helpers.Parsers
                 return false;
             }
 
-            try
+            string value = fieldInfo.GetValue(undefinedBindingResult).ToString();
+            if (ArrayUtils.TryParse(value, out var parsedArray))
             {
-                JToken jToken = JToken.Parse(fieldInfo.GetValue(undefinedBindingResult).ToString());
-                switch (jToken)
-                {
-                    case JArray jTokenArray:
-                        parsedValue = jTokenArray.ToObject<string[]>().Cast<object>().ToList();
-                        break;
-
-                    default:
-                        return jToken.ToObject<dynamic>();
-                }
-
+                parsedValue = parsedArray;
                 return true;
-            }
-            catch (JsonException)
-            {
-                // Ignore and don't add this value
             }
 
             return false;
