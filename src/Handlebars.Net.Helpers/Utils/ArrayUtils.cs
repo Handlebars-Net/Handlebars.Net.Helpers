@@ -25,7 +25,7 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
             catch (JsonException)
             {
-                // Ignore and don't add this value
+                // Ignore and return false
             }
 
             return false;
