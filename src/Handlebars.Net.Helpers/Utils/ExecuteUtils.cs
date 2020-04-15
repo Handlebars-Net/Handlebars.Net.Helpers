@@ -6,11 +6,6 @@ namespace HandlebarsDotNet.Helpers.Utils
     {
         public static object Execute(object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
-            if (value == null)
-            {
-                return null;
-            }
-
             switch (value)
             {
                 case int valueAsInt:
@@ -37,11 +32,6 @@ namespace HandlebarsDotNet.Helpers.Utils
 
         public static object Execute(object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
         {
-            if (value1 == null || value2 == null)
-            {
-                return null;
-            }
-
             switch (value1, value2)
             {
                 case (int int1, int int2):
@@ -71,11 +61,6 @@ namespace HandlebarsDotNet.Helpers.Utils
 
         public static T Execute<T>(object value1, object value2, Func<char, char, T> charFunc, Func<string, string, T> stringFunc)
         {
-            if (value1 == null || value2 == null)
-            {
-                return default;
-            }
-
             switch (value1, value2)
             {
                 case (char char1, char char2):
