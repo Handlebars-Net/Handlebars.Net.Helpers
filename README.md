@@ -17,6 +17,12 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 #### Ellipsis
 
+#### IsString
+``` handlebars
+{{isString "foo"}}
+<!-- results in: 'true' -->
+```
+
 #### Prepend
 
 #### Reverse

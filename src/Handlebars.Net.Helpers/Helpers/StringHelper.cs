@@ -57,6 +57,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Substring(0, length) + "...";
         }
 
+        [HandlebarsWriter(WriterType.Write)]
+        public bool IsString(object value)
+        {
+            return value is string;
+        }
+
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Prepend(string value, string pre)
         {

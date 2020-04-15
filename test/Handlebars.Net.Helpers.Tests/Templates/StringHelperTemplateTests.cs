@@ -33,6 +33,21 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
+        [InlineData("{{#IsString \"Hello\"}}yes{{else}}no{{/IsString}}", "yes")]
+        [InlineData("{{#IsString 1}}yes{{else}}no{{/IsString}}", "no")]
+        public void IsString(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("{{#StartsWith \"Hello\" \"H\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
         [InlineData("{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
         public void StartsWith(string template, string expected)
