@@ -15,7 +15,6 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
 
         [Theory]
         [InlineData("", "bar", "bar")]
-        [InlineData("foo", null, "foo")]
         [InlineData("foo", "bar", "foobar")]
         public void Append(string value, string append, string expected)
         {
@@ -53,7 +52,6 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         }
 
         [Theory]
-        [InlineData("foo", null, "foo")]
         [InlineData("foo", "", "foo")]
         [InlineData("foo", "bar", "barfoo")]
         public void Prepend(string value, string prepend, string expected)

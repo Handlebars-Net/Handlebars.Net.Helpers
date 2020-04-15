@@ -97,7 +97,21 @@ namespace HandlebarsDotNet.Helpers
                 throw new HandlebarsException($"The {name} helper must have exactly {methodArgumentCount} argument{(methodArgumentCount > 1 ? "s" : "")}.");
             }
 
-            return methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
+            var parsedArguments = ArgumentsParser.Parse(arguments);
+
+            try
+            {
+                return methodInfo.Invoke(obj, parsedArguments);
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException != null)
+                {
+                    throw e.InnerException;
+                }
+
+                throw;
+            }
         }
     }
 }

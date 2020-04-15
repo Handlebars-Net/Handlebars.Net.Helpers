@@ -19,6 +19,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         [Theory]
         [InlineData("{{Append \"foo\" \"bar\"}}", "foobar")]
+        [InlineData("{{Append \"foo\" \"b\"}}", "foob")]
+        [InlineData("{{Append \"foo\" 'b'}}", "foob")]
         [InlineData("{{Append \"foo\" (Append \"a\" \"b\")}}", "fooab")]
         public void Append(string template, string expected)
         {
@@ -48,8 +50,26 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
+        [InlineData("{{Split \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
+        public void Split(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("{{#StartsWith \"Hello\" \"He\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
+        [InlineData("{{#StartsWith \"Hello\" \"xx\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
         [InlineData("{{#StartsWith \"Hello\" \"H\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
         [InlineData("{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
+        [InlineData("{{#StartsWith \"Hello\" 'H'}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
+        [InlineData("{{#StartsWith \"Hello\" 'x'}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
         public void StartsWith(string template, string expected)
         {
             // Arrange
@@ -75,14 +95,14 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Append \"foo\" 1}}")]
-        public void InvalidArgumentTypeShouldThrowArgumentException(string template)
+        [InlineData("{{StartsWith \"foo\" 1}}")]
+        public void InvalidArgumentTypeShouldThrowNotSupportedException(string template)
         {
             // Arrange
             var handleBarsAction = _handlebarsContext.Compile(template);
 
             // Act and Assert
-            Assert.Throws<ArgumentException>(() => handleBarsAction(""));
+            Assert.Throws<NotSupportedException>(() => handleBarsAction(""));
         }
     }
 }
