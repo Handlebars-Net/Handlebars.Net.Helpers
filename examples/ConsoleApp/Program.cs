@@ -32,6 +32,7 @@ namespace ConsoleApp
                 //"{{#each (ArrayTest)}}_{{this}}_{{/each}}",
                 //"{{#each ar}}_{{this}}_{{/each}}",
                 
+                "{{this}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
                 "{{Skip ['a', 'b', 'c', 1] 1}}",
 
@@ -60,10 +61,7 @@ namespace ConsoleApp
 
             foreach (string test in tests)
             {
-                var x = new
-                {
-                    ar = new object[] { 1, 2, 3 }
-                };
+                var x = DateTime.Now;
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(x);
                 Console.WriteLine(result);

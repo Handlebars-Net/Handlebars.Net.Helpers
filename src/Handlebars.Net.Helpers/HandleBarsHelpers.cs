@@ -13,9 +13,10 @@ namespace HandlebarsDotNet.Helpers
     {
         private static readonly IHelper[] Helpers =
         {
-            new StringHelper(),
+            new ArrayHelper(),
             new MathHelper(),
-            new ArrayHelper()
+            new RegexHelper(), 
+            new StringHelper()
         };
 
         public static void Register(IHandlebars handlebarsContext)
