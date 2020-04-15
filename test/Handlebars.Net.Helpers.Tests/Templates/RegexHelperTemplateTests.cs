@@ -17,8 +17,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{#IsMatch \"Hello\" \"*\"}}yes{{else}}no{{/Regex.IsMatch}}", "yes")]
-        [InlineData("{{#IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/Regex.IsMatch}}", "no")]
+        [InlineData("{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}", "yes")]
+        [InlineData("{{#IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/IsMatch}}", "no")]
         public void IsMatch(string template, string expected)
         {
             // Arrange
