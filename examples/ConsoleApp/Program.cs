@@ -10,19 +10,19 @@ namespace ConsoleApp
         {
             var handlebars = HandlebarsDotNet.Handlebars.Create();
 
-            handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
-            {
-                var array = new object[]
-                {
-                    1,
-                    "two"
-                };
+            //handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
+            //{
+            //    var array = new object[]
+            //    {
+            //        1,
+            //        "two"
+            //    };
 
-                writer.WriteSafeString($"[{string.Join(", ", array)}]");
-            });
+            //    writer.WriteSafeString($"[{string.Join(", ", array)}]");
+            //});
 
-            var templateX = handlebars.Compile("{{#each (ArrayTest)}}_{{this}}_{{/each}}");
-            var resultX = templateX.Invoke("");
+            //var templateX = handlebars.Compile("{{#each (ArrayTest)}}_{{this}}_{{/each}}");
+            //var resultX = templateX.Invoke("");
             //Console.WriteLine("ArrayTest = " + resultX);
 
             HandleBarsHelpers.Register(handlebars);
@@ -31,8 +31,11 @@ namespace ConsoleApp
             {
                 //"{{#each (ArrayTest)}}_{{this}}_{{/each}}",
                 //"{{#each ar}}_{{this}}_{{/each}}",
+                
+                "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
                 "{{Skip ['a', 'b', 'c', 1] 1}}",
 
+                "{{StartsWith \"abc\" \"!def\"}}",
                 "{{Append \"abc\" \"!def\"}}",
                 "{{Capitalize \"abc def\"}}",
                 "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",

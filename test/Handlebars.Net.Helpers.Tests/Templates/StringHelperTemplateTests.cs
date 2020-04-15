@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 using Xunit;
@@ -29,6 +30,44 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("{{#StartsWith \"Hello\" \"H\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
+        [InlineData("{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
+        public void StartsWith(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("{{Append \"foo\"}}")]
+        [InlineData("{{Append \"foo\" \"bar\" \"bar2\"}}")]
+        public void InvalidNumberOfArgumentsShouldThrowHandlebarsException(string template)
+        {
+            // Arrange
+            var handleBarsAction = _handlebarsContext.Compile(template);
+
+            // Act and Assert
+            Assert.Throws<HandlebarsException>(() => handleBarsAction(""));
+        }
+
+        [Theory]
+        [InlineData("{{Append \"foo\" 1}}")]
+        public void InvalidArgumentTypeShouldThrowArgumentException(string template)
+        {
+            // Arrange
+            var handleBarsAction = _handlebarsContext.Compile(template);
+
+            // Act and Assert
+            Assert.Throws<ArgumentException>(() => handleBarsAction(""));
         }
     }
 }

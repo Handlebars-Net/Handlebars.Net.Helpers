@@ -1,3 +1,4 @@
+
 # Handlebars.Net.Helpers
 Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
@@ -6,7 +7,7 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 ## String
 
 #### Append
-``` js
+``` handlebars
 // given that "item.x" is "foo"
 {{Append item.x ".html"}}
 // results in: "foo.html"
@@ -21,6 +22,15 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 #### Reverse
 
 #### Replace
+
+#### StartsWith
+``` handlebars
+{{#startsWith "Goodbye" "Hello, world!"}}
+  Whoops
+{{else}}
+  Bro, do you even hello world?
+{{/startsWith}}
+```
 
 #### ToCamelCase
 
@@ -42,7 +52,7 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 ## Math
 
 #### Abs
-``` js
+``` handlebars
 {{Abs -1}}
 // results in: 1
 ```

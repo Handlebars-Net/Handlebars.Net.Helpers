@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -30,18 +29,20 @@ namespace HandlebarsDotNet.Helpers
                     var attribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>();
                     if (attribute != null)
                     {
-                        RegisterHelperToWriteAValue(handlebarsContext, helper, attribute.Type, methodInfo, attribute.Name);
+                        string name = attribute.Name ?? methodInfo.Name;
+
+                        RegisterHelper(handlebarsContext, helper, attribute.Type, methodInfo, name);
+                        RegisterBlockHelper(handlebarsContext, helper, methodInfo, name);
                     }
                 }
             }
         }
 
-        private static void RegisterHelperToWriteAValue(IHandlebars handlebarsContext, object obj, WriterType type, MethodInfo methodInfo, string methodName)
+        private static void RegisterHelper(IHandlebars handlebarsContext, object obj, WriterType type, MethodInfo methodInfo, string name)
         {
-            string name = methodName ?? methodInfo.Name;
             handlebarsContext.RegisterHelper(name, (writer, context, arguments) =>
             {
-                object value = methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
+                object value = InvokeMethod(name, methodInfo, arguments, obj);
 
                 switch (type)
                 {
@@ -62,18 +63,41 @@ namespace HandlebarsDotNet.Helpers
                 }
 
             });
-
-            RegisterHelperToWriteATemplate(handlebarsContext, obj, methodInfo, methodName);
         }
 
-        private static void RegisterHelperToWriteATemplate(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string methodName)
+        private static void RegisterBlockHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
         {
-            string name = methodName ?? methodInfo.Name;
             handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
             {
-                object value = methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
-                options.Template(writer, value);
+                object value = InvokeMethod(name, methodInfo, arguments, obj);
+
+                if (value is bool valueAsBool)
+                {
+                    if (valueAsBool)
+                    {
+                        options.Template(writer, value);
+                    }
+                    else
+                    {
+                        options.Inverse(writer, value);
+                    }
+                }
+                else
+                {
+                    options.Template(writer, value);
+                }
             });
+        }
+
+        private static object InvokeMethod(string name, MethodInfo methodInfo, object[] arguments, object obj)
+        {
+            int methodArgumentCount = methodInfo.GetParameters().Length;
+            if (arguments.Length != methodArgumentCount)
+            {
+                throw new HandlebarsException($"The {name} helper must have exactly {methodArgumentCount} argument{(methodArgumentCount > 1 ? "s" : "")}.");
+            }
+
+            return methodInfo.Invoke(obj, ArgumentsParser.Parse(arguments));
         }
     }
 }

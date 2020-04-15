@@ -100,6 +100,17 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return new string(value.ToCharArray().Reverse().ToArray());
         }
 
+        [HandlebarsWriter(WriterType.Write)]
+        public bool StartsWith(string value, string test)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return value.StartsWith(test);
+        }
+
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string ToCamelCase(string value)
         {
