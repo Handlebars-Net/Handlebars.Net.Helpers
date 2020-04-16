@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
@@ -57,6 +59,45 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
 
             throw new NotSupportedException();
+        }
+
+        public static double Execute(object value, Func<double, double> doubleFunc)
+        {
+            try
+            {
+                double @double = (double)value;
+                return doubleFunc(@double);
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static double Execute(IEnumerable<object> values, Func<IEnumerable<double>, double> doubleFunc)
+        {
+            try
+            {
+                return doubleFunc(values.Cast<double>());
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static double Execute(object value1, object value2, Func<double, double, double> doubleFunc)
+        {
+            try
+            {
+                double double1 = (double)value1;
+                double double2 = (double)value2;
+                return doubleFunc(double1, double2);
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
         }
 
         //public static T Execute<T>(object value1, object value2, Func<char, char, T> charFunc, Func<string, string, T> stringFunc)

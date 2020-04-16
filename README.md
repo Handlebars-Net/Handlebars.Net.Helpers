@@ -4,6 +4,65 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
 
+***
+
+## Math
+
+#### Add
+
+#### Abs
+
+
+#### Avg
+
+#### Ceil
+
+#### Divide
+
+#### Math.E
+
+#### Floor
+
+#### Max
+
+#### Min
+
+#### Minus
+
+#### Modulo
+
+#### Multiply
+
+#### Math.PI
+
+#### Plus
+
+#### Pow
+
+#### Round
+
+#### Sign
+
+#### Subtract
+
+#### Sum
+
+#### Times
+
+***
+## Regex
+
+#### IsMatch
+``` handlebars
+{{#IsMatch \"Hello\" \"Hello\"}}
+yes
+{{else}}
+no
+{{/IsMatch}}
+<!-- results in: 'yes' -->
+```
+
+***
 ## String
 
 #### Append
@@ -55,16 +114,3 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 #### Truncate
 
 
-## Math
-
-#### Abs
-``` handlebars
-{{Abs -1}}
-// results in: 1
-```
-
-#### Max
-
-#### Min
-
-#### Sign
