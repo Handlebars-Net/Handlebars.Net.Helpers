@@ -39,13 +39,13 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static void RegisterHelper(IHandlebars handlebarsContext, object obj, WriterType type, MethodInfo methodInfo, string name)
+        private static void RegisterHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string name)
         {
             handlebarsContext.RegisterHelper(name, (writer, context, arguments) =>
             {
                 object value = InvokeMethod(name, methodInfo, arguments, obj);
 
-                switch (type)
+                switch (writerType)
                 {
                     case WriterType.WriteSafeString:
                         writer.WriteSafeString(value);
