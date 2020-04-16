@@ -51,6 +51,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         [Theory]
         [InlineData("{{Split \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{Split \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
         public void Split(string template, string expected)
         {
             // Arrange
@@ -96,13 +97,13 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         [Theory]
         [InlineData("{{StartsWith \"foo\" 1}}")]
-        public void InvalidArgumentTypeShouldThrowNotSupportedException(string template)
+        public void InvalidArgumentTypeShouldThrowNotArgumentException(string template)
         {
             // Arrange
             var handleBarsAction = _handlebarsContext.Compile(template);
 
             // Act and Assert
-            Assert.Throws<NotSupportedException>(() => handleBarsAction(""));
+            Assert.Throws<ArgumentException>(() => handleBarsAction(""));
         }
     }
 }

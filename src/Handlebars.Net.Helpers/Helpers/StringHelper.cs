@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -14,14 +13,15 @@ namespace HandlebarsDotNet.Helpers.Helpers
     internal class StringHelper : IHelper
     {
         [HandlebarsWriter(WriterType.WriteSafeString)]
-        public string Append(object value, object append)
+        public string Append(string value, string append)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            return ExecuteUtils.Execute(value, append, (c1, c2) => $"{c1}{c2}", (s1, s2) => s1 + s2);
+            //return ExecuteUtils.Execute(value, append, (c1, c2) => $"{c1}{c2}", (s1, s2) => s1 + s2);
+            return value + append;
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
@@ -60,14 +60,15 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
-        public string Prepend(object value, object pre)
+        public string Prepend(string value, string pre)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            return ExecuteUtils.Execute(value, pre, (c1, c2) => $"{c2}{c1}", (s1, s2) => s2 + s1);
+            //return ExecuteUtils.Execute(value, pre, (c1, c2) => $"{c2}{c1}", (s1, s2) => s2 + s1);
+            return pre + value;
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
@@ -98,25 +99,31 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public string[] Split(string value, char separator)
+        public string[] Split(string value, string separator)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            return value.Split(separator);
+            if (separator == null)
+            {
+                throw new ArgumentNullException(nameof(separator));
+            }
+
+            return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public bool StartsWith(string value, object test)
+        public bool StartsWith(string value, string test)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            return ExecuteUtils.Execute(value, test, (c1, c2) => c1 == c2, (s1, s2) => s1.StartsWith(s2));
+            // return ExecuteUtils.Execute(value, test, (c1, c2) => c1 == c2, (s1, s2) => s1.StartsWith(s2));
+            return value.StartsWith(test);
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
