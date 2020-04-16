@@ -28,9 +28,9 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public double Ceil(object value1, object value2)
+        public double Ceil(object value)
         {
-            return ExecuteUtils.Execute(value1, value2, (x1, x2) => Math.Ceiling(1.0 * x1 / 1.0 * x2));
+            return ExecuteUtils.Execute(value, x => Math.Ceiling(1.0 * x));
         }
 
         [HandlebarsWriter(WriterType.Write)]
