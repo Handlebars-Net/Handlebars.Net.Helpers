@@ -15,12 +15,16 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Append(string value, string append)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value));
+                return append;
             }
 
-            //return ExecuteUtils.Execute(value, append, (c1, c2) => $"{c1}{c2}", (s1, s2) => s1 + s2);
+            if (string.IsNullOrEmpty(append))
+            {
+                return value;
+            }
+
             return value + append;
         }
 
@@ -62,12 +66,11 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Prepend(string value, string pre)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value));
+                return value;
             }
 
-            //return ExecuteUtils.Execute(value, pre, (c1, c2) => $"{c2}{c1}", (s1, s2) => s2 + s1);
             return pre + value;
         }
 
@@ -122,7 +125,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
                 throw new ArgumentNullException(nameof(value));
             }
 
-            // return ExecuteUtils.Execute(value, test, (c1, c2) => c1 == c2, (s1, s2) => s1.StartsWith(s2));
             return value.StartsWith(test);
         }
 
@@ -149,7 +151,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string ToLower(string value)
         {
-            return value?.ToLower();
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return value.ToLower();
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
@@ -180,15 +187,20 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string ToUpper(string value)
         {
-            return value?.ToUpper();
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return value.ToUpper();
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Trim(string value)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value));
+                return value;
             }
 
             return value.Trim();
@@ -197,9 +209,9 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string TrimEnd(string value)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value));
+                return value;
             }
 
             return value.TrimEnd();
@@ -208,9 +220,9 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string TrimStart(string value)
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException(nameof(value));
+                return value;
             }
 
             return value.TrimStart();

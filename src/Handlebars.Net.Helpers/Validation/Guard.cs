@@ -67,9 +67,9 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
-        public static string NotNullOrEmpty(string value, string parameterName)
+        public static string? NotNullOrEmpty(string? value, string parameterName)
         {
-            Exception e = null;
+            Exception? e = null;
             if (ReferenceEquals(value, null))
             {
                 e = new ArgumentNullException(parameterName);
@@ -89,7 +89,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
-        public static string NullButNotEmpty(string value, string parameterName)
+        public static string? NullButNotEmpty(string? value, string parameterName)
         {
             if (!ReferenceEquals(value, null) && (value.Length == 0))
             {

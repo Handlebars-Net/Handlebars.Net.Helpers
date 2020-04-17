@@ -7,9 +7,9 @@ namespace HandlebarsDotNet.Helpers.Parsers
     internal static class ArgumentsParser
     {
         // Bug: Handlebars.Net does provide only strings
-        public static object[] Parse(object[] arguments)
+        public static object?[] Parse(object?[] arguments)
         {
-            var list = new List<object>();
+            var list = new List<object?>();
             foreach (var argument in arguments)
             {
                 if (argument is string valueAsString)
@@ -35,7 +35,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
                         list.Add(valueAsString);
                     }
                 }
-                else if (argument.GetType().Name == "UndefinedBindingResult")
+                else if (argument != null && argument.GetType().Name == "UndefinedBindingResult")
                 {
                     list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
                 }
@@ -55,7 +55,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
         /// <param name="undefinedBindingResult">The property value</param>
         /// <param name="parsedValue">The parsed value</param>
         /// <returns>true in case parsing is ok, else false</returns>
-        private static bool TryParseSpecialValue(object undefinedBindingResult, out object parsedValue)
+        private static bool TryParseSpecialValue(object undefinedBindingResult, out object? parsedValue)
         {
             parsedValue = null;
 
