@@ -28,6 +28,22 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         [Theory]
         [InlineData(null, null)]
         [InlineData("", "")]
+        [InlineData("a", "a")]
+        [InlineData("A", "A")]
+        [InlineData("foo bar", "fooBar")]
+        [InlineData("FOO Bar", "fooBar")]
+        public void CamelCase(string value, string expected)
+        {
+            // Act
+            var result = _sut.Camelcase(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("", "")]
         [InlineData("foo", "Foo")]
         public void Capitalize(string value, string expected)
         {
@@ -46,6 +62,22 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Ellipsis(value, length);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("", "")]
+        [InlineData("a", "a")]
+        [InlineData("A", "a")]
+        [InlineData("foo bar", "foo bar")]
+        [InlineData("FOO Bar", "foo bar")]
+        public void Lowercase(string value, string expected)
+        {
+            // Act
+            var result = _sut.Lowercase(value);
 
             // Assert
             result.Should().Be(expected);
@@ -91,61 +123,14 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         [Theory]
         [InlineData(null, null)]
         [InlineData("", "")]
-        [InlineData("a", "a")]
-        [InlineData("A", "A")]
-        [InlineData("foo bar", "fooBar")]
-        [InlineData("FOO Bar", "fooBar")]
-        public void ToCamelCase(string value, string expected)
-        {
-            // Act
-            var result = _sut.ToCamelCase(value);
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
-        [InlineData("a", "a")]
-        [InlineData("A", "a")]
-        [InlineData("foo bar", "foo bar")]
-        [InlineData("FOO Bar", "foo bar")]
-        public void ToLower(string value, string expected)
-        {
-            // Act
-            var result = _sut.ToLower(value);
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
         [InlineData("a", "A")]
         [InlineData("A", "A")]
         [InlineData("foo bar", "FooBar")]
         [InlineData("FOO Bar", "FOOBar")]
-        public void ToPascalCase(string value, string expected)
+        public void Pascalcase(string value, string expected)
         {
             // Act
-            var result = _sut.ToPascalCase(value);
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
-        [InlineData("a", "A")]
-        [InlineData("foo bar", "FOO BAR")]
-        [InlineData("FOO Bar", "FOO BAR")]
-        public void ToUpper(string value, string expected)
-        {
-            // Act
-            var result = _sut.ToUpper(value);
+            var result = _sut.Pascalcase(value);
 
             // Assert
             result.Should().Be(expected);
@@ -199,6 +184,22 @@ namespace Handlebars.Net.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Truncate(value, length);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+
+        [Theory]
+        [InlineData(null, null)]
+        [InlineData("", "")]
+        [InlineData("a", "A")]
+        [InlineData("foo bar", "FOO BAR")]
+        [InlineData("FOO Bar", "FOO BAR")]
+        public void Uppercase(string value, string expected)
+        {
+            // Act
+            var result = _sut.Uppercase(value);
 
             // Assert
             result.Should().Be(expected);

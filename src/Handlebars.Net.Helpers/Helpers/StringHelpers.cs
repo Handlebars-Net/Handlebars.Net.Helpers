@@ -108,7 +108,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
-        public string PascalCase(string value)
+        public string Pascalcase(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
