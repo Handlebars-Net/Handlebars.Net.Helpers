@@ -92,6 +92,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         {
             return Add(value1, value2);
         }
+
         [HandlebarsWriter(WriterType.Write)]
         public object Pow(object value1, object value2)
         {
@@ -114,6 +115,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public object Subtract(object value1, object value2)
         {
             return Minus(value1, value2);
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public object Sqrt(object value)
+        {
+            return ExecuteUtils.Execute(value, Math.Sqrt);
         }
 
         [HandlebarsWriter(WriterType.Write)]

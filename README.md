@@ -12,7 +12,6 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 #### Abs
 
-
 #### Avg
 
 #### Ceil
@@ -42,6 +41,8 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 #### Round
 
 #### Sign
+
+#### Sqrt
 
 #### Subtract
 
@@ -91,9 +92,9 @@ no
 #### StartsWith
 ``` handlebars
 {{#startsWith "Goodbye" "Hello, world!"}}
-  Whoops
+  no
 {{else}}
-  Bro, do you even hello world?
+  yes
 {{/startsWith}}
 ```
 
