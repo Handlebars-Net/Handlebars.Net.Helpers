@@ -6,9 +6,9 @@
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Several Handlebars.Net helpers in the categories: 'String' and 'Math'.</Description>
+    <Description>Several Handlebars.Net helpers in the categories: 'Array', 'Collection', 'Math', 'Regex' and 'String'.</Description>
     <PackageId>Handlebars.Net.Helpers</PackageId>
-    <PackageTags>handlebars;mustache;helpers;string;math;extensions</PackageTags>
+    <PackageTags>handlebars;mustache;helpers;extensions;array;collection;math;regex;string</PackageTags>
   </PropertyGroup>
  
   <ItemGroup>
