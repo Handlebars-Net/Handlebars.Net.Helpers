@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-// copied from https://github.com/aspnet/EntityFramework/blob/dev/src/Microsoft.EntityFrameworkCore/Properties/CoreStrings.resx
+﻿// copied from https://github.com/aspnet/EntityFramework/blob/dev/src/Microsoft.EntityFrameworkCore/Properties/CoreStrings.resx
 namespace HandlebarsDotNet.Helpers.Validation
 {
     internal static class CoreStrings
