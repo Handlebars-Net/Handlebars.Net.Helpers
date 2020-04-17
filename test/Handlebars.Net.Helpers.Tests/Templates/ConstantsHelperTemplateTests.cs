@@ -6,21 +6,21 @@ using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
 {
-    public class MathHelperTemplateTests
+    public class ConstantsHelperTemplateTests
     {
         private readonly IHandlebars _handlebarsContext;
 
-        public MathHelperTemplateTests()
+        public ConstantsHelperTemplateTests()
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Math);
+            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Constants);
         }
 
         [Theory]
-        [InlineData("{{Add 1 2}}", "3")]
-        [InlineData("{{Add 2.2 3.1}}", "5.3")]
-        public void Add(string template, string expected)
+        [InlineData("{{Constants.Math.PI}}", "3.141592653589793")]
+        [InlineData("{{Constants.Math.E}}", "2.718281828459045")]
+        public void Constants(string template, string expected)
         {
             // Arrange
             var action = _handlebarsContext.Compile(template);
@@ -29,7 +29,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
             var result = action("");
 
             // Assert
-            result.Should().StartWith(expected);
+            result.Should().Be(expected);
         }
     }
 }

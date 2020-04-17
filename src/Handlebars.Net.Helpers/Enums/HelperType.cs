@@ -2,8 +2,8 @@
 {
     public enum HelperType
     {
-        Array,
-        Collection,
+        Constants,
+        Enumerable,
         Math,
         Regex,
         String

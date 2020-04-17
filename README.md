@@ -26,13 +26,7 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 
 ***
 
-## Array
-
-#### Skip
-
-***
-
-## Collection
+## Enumerable
 
 #### IsEmpty
 ``` handlebars
@@ -45,6 +39,16 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 {{isEmpty array}}
 <!-- results in: true -->
 ```
+
+#### Skip
+
+***
+
+## Constants
+
+#### Constants.Math.E
+
+#### Constants.Math.PI
 
 ***
 
@@ -60,8 +64,6 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 
 #### Divide
 
-#### Math.E
-
 #### Floor
 
 #### Max
@@ -73,8 +75,6 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 #### Modulo
 
 #### Multiply
-
-#### Math.PI
 
 #### Plus
 

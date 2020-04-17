@@ -2,6 +2,7 @@
 using FluentAssertions;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
@@ -14,7 +15,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext);
+            HandleBarsHelpers.Register(_handlebarsContext, HelperType.String);
         }
 
         [Theory]

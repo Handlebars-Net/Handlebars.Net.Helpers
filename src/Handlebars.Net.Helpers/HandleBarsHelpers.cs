@@ -14,8 +14,8 @@ namespace HandlebarsDotNet.Helpers
     {
         private static readonly IDictionary<HelperType, IHelper> Helpers = new Dictionary<HelperType, IHelper>
         {
-            { HelperType.Array, new ArrayHelper() },
-            { HelperType.Collection, new CollectionHelper() },
+            { HelperType.Constants, new ConstantsHelper() },
+            { HelperType.Enumerable, new EnumerableHelper() },
             { HelperType.Math, new MathHelper() },
             { HelperType.Regex, new RegexHelper() },
             { HelperType.String, new StringHelper() }

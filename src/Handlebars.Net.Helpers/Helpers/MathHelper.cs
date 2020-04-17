@@ -39,12 +39,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return ExecuteUtils.Execute(value1, value2, (x1, x2) => 1.0 * x1 / 1.0 * x2);
         }
 
-        [HandlebarsWriter(WriterType.Write, "Math.E")]
-        public double E()
-        {
-            return Math.E;
-        }
-
         [HandlebarsWriter(WriterType.Write)]
         public double Floor(object value1, object value2)
         {
@@ -79,12 +73,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public object Multiply(object value1, object value2)
         {
             return ExecuteUtils.Execute(value1, value2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2);
-        }
-
-        [HandlebarsWriter(WriterType.Write, "Math.PI")]
-        public double PI()
-        {
-            return Math.PI;
         }
 
         [HandlebarsWriter(WriterType.Write)]
