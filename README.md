@@ -26,6 +26,28 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 
 ***
 
+## Array
+
+#### Skip
+
+***
+
+## Collection
+
+#### IsEmpty
+``` handlebars
+!-- array: [] -->
+{{#isEmpty array}}AAA{{else}}BBB{{/isEmpty}}
+<!-- results in: 'AAA' -->
+```
+``` handlebars
+<!-- array: [] -->
+{{isEmpty array}}
+<!-- results in: true -->
+```
+
+***
+
 ## Math
 
 #### Add
