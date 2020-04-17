@@ -6,21 +6,21 @@ using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
 {
-    public class RegexHelperTemplateTests
+    public class ConstantsHelpersTemplateTests
     {
         private readonly IHandlebars _handlebarsContext;
 
-        public RegexHelperTemplateTests()
+        public ConstantsHelpersTemplateTests()
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Regex);
+            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Constants);
         }
 
         [Theory]
-        [InlineData("{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}", "yes")]
-        [InlineData("{{#IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/IsMatch}}", "no")]
-        public void IsMatch(string template, string expected)
+        [InlineData("{{Constants.Math.PI}}", "3.141592653589793")]
+        [InlineData("{{Constants.Math.E}}", "2.718281828459045")]
+        public void Constants(string template, string expected)
         {
             // Arrange
             var action = _handlebarsContext.Compile(template);

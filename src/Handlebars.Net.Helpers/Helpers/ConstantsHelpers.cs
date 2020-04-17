@@ -4,7 +4,7 @@ using HandlebarsDotNet.Helpers.Enums;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
-    internal class ConstantsHelper : IHelper
+    internal class ConstantsHelpers : IHelpers
     {
         [HandlebarsWriter(WriterType.Write, "Constants.Math.E")]
         public double E()

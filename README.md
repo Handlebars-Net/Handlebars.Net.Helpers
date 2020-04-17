@@ -6,19 +6,19 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 ## Usage
 
-## Get all helpers
+#### Get all helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 HandleBarsHelpers.Register(handlebarsContext);
 ```
 
-## Get a specific helper
+#### Get a specific helper
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 HandleBarsHelpers.Register(handlebarsContext, HelperType.String);
 ```
 
-## Get multiple helpers
+#### Get multiple helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String);
@@ -26,134 +26,9 @@ HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String
 
 ***
 
-## Enumerable
-
-#### IsEmpty
-``` handlebars
-!-- array: [] -->
-{{#isEmpty array}}AAA{{else}}BBB{{/isEmpty}}
-<!-- results in: 'AAA' -->
-```
-``` handlebars
-<!-- array: [] -->
-{{isEmpty array}}
-<!-- results in: true -->
-```
-
-#### Skip
-
-***
-
-## Constants
-
-#### Constants.Math.E
-
-#### Constants.Math.PI
-
-***
-
-## Math
-
-#### Add
-
-#### Abs
-
-#### Avg
-
-#### Ceil
-
-#### Divide
-
-#### Floor
-
-#### Max
-
-#### Min
-
-#### Minus
-
-#### Modulo
-
-#### Multiply
-
-#### Plus
-
-#### Pow
-
-#### Round
-
-#### Sign
-
-#### Sqrt
-
-#### Subtract
-
-#### Sum
-
-#### Times
-
-***
-## Regex
-
-#### IsMatch
-``` handlebars
-{{#IsMatch \"Hello\" \"Hello\"}}
-yes
-{{else}}
-no
-{{/IsMatch}}
-<!-- results in: 'yes' -->
-```
-
-***
-## String
-
-#### Append
-``` handlebars
-// given that "item.x" is "foo"
-{{Append item.x ".html"}}
-// results in: "foo.html"
-```
-
-#### Capitalize
-
-#### Ellipsis
-
-#### IsString
-``` handlebars
-{{isString "foo"}}
-<!-- results in: 'true' -->
-```
-
-#### Prepend
-
-#### Reverse
-
-#### Replace
-
-#### StartsWith
-``` handlebars
-{{#startsWith "Goodbye" "Hello, world!"}}
-  no
-{{else}}
-  yes
-{{/startsWith}}
-```
-
-#### ToCamelCase
-
-#### ToLower
-
-#### ToPascalCase
-
-#### ToUpper
-
-#### Trim
-
-#### TrimEnd
-
-#### TrimStart
-
-#### Truncate
-
-
+The following helpers are available:
+- [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
+- [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
+- [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
+- [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
+- [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)

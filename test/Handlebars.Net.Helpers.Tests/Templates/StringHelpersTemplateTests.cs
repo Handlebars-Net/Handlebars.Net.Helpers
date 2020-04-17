@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
 {
-    public class StringHelperTemplateTests
+    public class StringHelpersTemplateTests
     {
         private readonly IHandlebars _handlebarsContext;
 
-        public StringHelperTemplateTests()
+        public StringHelpersTemplateTests()
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 
@@ -39,6 +39,21 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         [InlineData("{{#IsString \"Hello\"}}yes{{else}}no{{/IsString}}", "yes")]
         [InlineData("{{#IsString 1}}yes{{else}}no{{/IsString}}", "no")]
         public void IsString(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("{{Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
+        [InlineData("{{Join [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
+        public void Join(string template, string expected)
         {
             // Arrange
             var action = _handlebarsContext.Compile(template);

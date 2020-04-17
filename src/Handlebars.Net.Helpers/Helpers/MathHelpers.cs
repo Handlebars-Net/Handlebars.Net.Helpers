@@ -7,7 +7,7 @@ using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
-    internal class MathHelper : IHelper
+    internal class MathHelpers : IHelpers
     {
         [HandlebarsWriter(WriterType.Write)]
         public object Add(object value1, object value2)

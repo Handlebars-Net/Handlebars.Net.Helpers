@@ -12,13 +12,13 @@ namespace HandlebarsDotNet.Helpers
 {
     public static class HandleBarsHelpers
     {
-        private static readonly IDictionary<HelperType, IHelper> Helpers = new Dictionary<HelperType, IHelper>
+        private static readonly IDictionary<HelperType, IHelpers> Helpers = new Dictionary<HelperType, IHelpers>
         {
-            { HelperType.Constants, new ConstantsHelper() },
-            { HelperType.Enumerable, new EnumerableHelper() },
-            { HelperType.Math, new MathHelper() },
-            { HelperType.Regex, new RegexHelper() },
-            { HelperType.String, new StringHelper() }
+            { HelperType.Constants, new ConstantsHelpers() },
+            { HelperType.Enumerable, new EnumerableHelpers() },
+            { HelperType.Math, new MathHelpers() },
+            { HelperType.Regex, new RegexHelpers() },
+            { HelperType.String, new StringHelpers() }
         };
 
         public static void Register(IHandlebars handlebarsContext, params HelperType[] helpers)

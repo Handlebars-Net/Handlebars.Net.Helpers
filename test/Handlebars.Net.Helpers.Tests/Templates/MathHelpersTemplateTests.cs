@@ -6,11 +6,11 @@ using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
 {
-    public class MathHelperTemplateTests
+    public class MathHelpersTemplateTests
     {
         private readonly IHandlebars _handlebarsContext;
 
-        public MathHelperTemplateTests()
+        public MathHelpersTemplateTests()
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 

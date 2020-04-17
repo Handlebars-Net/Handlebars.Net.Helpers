@@ -4,7 +4,7 @@ using HandlebarsDotNet.Helpers.Enums;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
-    internal class RegexHelper : IHelper
+    internal class RegexHelpers : IHelpers
     {
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public bool IsMatch(string value, string regexPattern)

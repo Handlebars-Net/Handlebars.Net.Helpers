@@ -9,7 +9,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// <summary>
     /// Some ideas based on https://github.com/helpers/handlebars-helpers#array
     /// </summary>
-    internal class EnumerableHelper : IHelper
+    internal class EnumerableHelpers : IHelpers
     {
         [HandlebarsWriter(WriterType.Write)]
         public bool IsEmpty(IEnumerable<object> value)
