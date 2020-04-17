@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
@@ -11,21 +12,23 @@ namespace HandlebarsDotNet.Helpers
 {
     public static class HandleBarsHelpers
     {
-        private static readonly IHelper[] Helpers =
+        private static readonly IDictionary<HelperType, IHelper> Helpers = new Dictionary<HelperType, IHelper>
         {
-            new ArrayHelper(),
-            new MathHelper(),
-            new RegexHelper(), 
-            new StringHelper()
+            { HelperType.Array, new ArrayHelper() },
+            { HelperType.Collection, new CollectionHelper() },
+            { HelperType.Math, new MathHelper() },
+            { HelperType.Regex, new RegexHelper() },
+            { HelperType.String, new StringHelper() }
         };
 
-        public static void Register(IHandlebars handlebarsContext)
+        public static void Register(IHandlebars handlebarsContext, params HelperType[] helpers)
         {
-            foreach (var helper in Helpers)
+            foreach (var item in Helpers.Where(h => helpers == null || helpers.Length == 0 || helpers.Contains(h.Key)))
             {
-                Type classType = helper.GetType();
+                var helper = item.Value;
+                Type helperClassType = helper.GetType();
 
-                foreach (var methodInfo in classType.GetMethods())
+                foreach (var methodInfo in helperClassType.GetMethods())
                 {
                     var attribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>();
                     if (attribute != null)

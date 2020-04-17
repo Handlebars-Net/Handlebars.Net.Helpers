@@ -1,6 +1,7 @@
 ﻿using System;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using HandlebarsDotNet.Helpers.Enums;
 
 namespace ConsoleApp
 {

@@ -4,6 +4,26 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
 
+## Usage
+
+## Get all helpers
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext);
+```
+
+## Get a specific helper
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext, HelperType.String);
+```
+
+## Get multiple helpers
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String);
+```
+
 ***
 
 ## Math
