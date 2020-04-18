@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
+    <RootNamespace>HandlebarsDotNet.Helpers.Tests</RootNamespace>
+    <AssemblyName>HandlebarsDotNet.Helpers.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+    <PackageReference Include="Handlebars.Net" Version="1.9.5" />
   </ItemGroup>
 
   <ItemGroup>

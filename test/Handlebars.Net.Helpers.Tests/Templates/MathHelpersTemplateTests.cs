@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class MathHelpersTemplateTests
     {
@@ -12,9 +10,9 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public MathHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Math);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.Math);
         }
 
         [Theory]

@@ -1,11 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class StringHelpersTemplateTests
     {
@@ -13,9 +11,9 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public StringHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.String);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.String);
         }
 
         [Theory]
@@ -33,6 +31,21 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void AppendWithPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
+            var action = handlebarsContext.Compile("{{String.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
         }
 
         [Theory]

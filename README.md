@@ -6,22 +6,45 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 ## Usage
 
+### Register
+
 #### Get all helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext);
+HandlebarsHelpers.Register(handlebarsContext);
 ```
 
 #### Get a specific helper
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext, HelperType.String);
+HandlebarsHelpers.Register(handlebarsContext, Category.String);
 ```
 
 #### Get multiple helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String);
+HandlebarsHelpers.Register(handlebarsContext, Category.Math, Category.String);
+```
+
+### Using
+
+#### Without a prefix
+By default you can access all the helpers by using the name like:
+```handlebars
+{{Append "foobar" "bar"}}
+```
+
+#### With a prefix
+If you would like to use the helpers with a prefix from the category, you need to register the helpers using this code:
+``` c#
+HandlebarsHelpers.Register(handlebarsContext, true);
+// or
+HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
+```
+
+Now you can only access the helpers by using the prefix and the name like:
+```handlebars
+{{String.Append "foobar" "bar"}}
 ```
 
 ***
