@@ -10,6 +10,9 @@ using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers
 {
+    /// <summary>
+    /// Extension class to Register additional Helpers and BlockHelpers.
+    /// </summary>
     public static class HandlebarsHelpers
     {
         private static readonly IDictionary<Category, IHelpers> Helpers = new Dictionary<Category, IHelpers>
@@ -21,12 +24,35 @@ namespace HandlebarsDotNet.Helpers
             { Category.String, new StringHelpers() }
         };
 
+        /// <summary>
+        /// Register all (default) or specific categories.
+        /// </summary>
+        /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+        /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
         public static void Register(IHandlebars handlebarsContext, params Category[] categories)
         {
             Register(handlebarsContext, false, categories);
         }
 
-        public static void Register(IHandlebars handlebarsContext, bool usePrefix, params Category[] categories)
+        /// <summary>
+        /// Register all (default) or specific categories and use the prefix from the categories.
+        /// </summary>
+        /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+        /// <param name="useCategoryPrefix">Set to true if you want to add the prefix from the category to the helper name.</param>
+        /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
+        public static void Register(IHandlebars handlebarsContext, bool useCategoryPrefix, params Category[] categories)
+        {
+            Register(handlebarsContext, useCategoryPrefix, null, categories);
+        }
+
+
+        /// <summary>
+        /// Register all (default) or specific categories and use the prefix from the categories.
+        /// </summary>
+        /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+        /// <param name="useCategoryPrefix">Set to true if you want to add the prefix from the category to the helper name.</param>
+        /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
+        public static void Register(IHandlebars handlebarsContext, bool useCategoryPrefix = false, string? prefix = null, params Category[] categories)
         {
             foreach (var item in Helpers.Where(h => categories == null || categories.Length == 0 || categories.Contains(h.Key)))
             {
@@ -38,7 +64,27 @@ namespace HandlebarsDotNet.Helpers
                     var attribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>();
                     if (attribute != null)
                     {
-                        string name = attribute.Name ?? (usePrefix ? $"{item.Key}.{methodInfo.Name}" : methodInfo.Name);
+                        var names = new List<string>();
+                        if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
+                        {
+                            names.Add(attribute.Name);
+                        }
+                        else
+                        {
+                            if (prefix is { } && !string.IsNullOrWhiteSpace(prefix))
+                            {
+                                names.Add(prefix);
+                            }
+
+                            if (useCategoryPrefix)
+                            {
+                                names.Add(item.Key.ToString());
+                            }
+
+                            names.Add(methodInfo.Name);
+                        }
+
+                        string name = string.Join(".", names);
 
                         RegisterHelper(handlebarsContext, helper, attribute.Type, methodInfo, name);
                         RegisterBlockHelper(handlebarsContext, helper, methodInfo, name);

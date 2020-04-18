@@ -33,21 +33,6 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             result.Should().Be(expected);
         }
 
-        [Fact]
-        public void AppendWithPrefix()
-        {
-            // Arrange
-            var handlebarsContext = Handlebars.Create();
-            HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
-            var action = handlebarsContext.Compile("{{String.Append \"foo\" \"bar\"}}");
-
-            // Act
-            var result = action("");
-
-            // Assert
-            result.Should().Be("foobar");
-        }
-
         [Theory]
         [InlineData("{{#IsString \"Hello\"}}yes{{else}}no{{/IsString}}", "yes")]
         [InlineData("{{#IsString 1}}yes{{else}}no{{/IsString}}", "no")]
@@ -133,6 +118,36 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
 
             // Act and Assert
             Assert.Throws<ArgumentException>(() => handleBarsAction(""));
+        }
+
+        [Fact]
+        public void WithCategoryPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
+            var action = handlebarsContext.Compile("{{String.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
+        }
+
+        [Fact]
+        public void WithCategoryPrefixAndExtraPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, true, "test", Category.String);
+            var action = handlebarsContext.Compile("{{test.String.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
         }
     }
 }

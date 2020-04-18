@@ -34,7 +34,7 @@ By default you can access all the helpers by using the name like:
 {{Append "foobar" "bar"}}
 ```
 
-#### With a prefix
+#### With a category prefix
 If you would like to use the helpers with a prefix from the category, you need to register the helpers using this code:
 ``` c#
 HandlebarsHelpers.Register(handlebarsContext, true);
@@ -45,6 +45,17 @@ HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
 Now you can only access the helpers by using the prefix and the name like:
 ```handlebars
 {{String.Append "foobar" "bar"}}
+```
+
+#### With a custom prefix
+If you would like to use the helpers with a custom prefix, you need to register the helpers using this code:
+``` c#
+HandlebarsHelpers.Register(handlebarsContext, true, "custom");
+```
+
+Now you can only access the helpers by using the custom prefix, category prefix and the name like:
+```handlebars
+{{custom.String.Append "foobar" "bar"}}
 ```
 
 ***
