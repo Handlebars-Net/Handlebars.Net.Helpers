@@ -65,7 +65,6 @@ namespace HandlebarsDotNet.Helpers
                         }
                         break;
                 }
-
             });
         }
 
@@ -95,17 +94,34 @@ namespace HandlebarsDotNet.Helpers
 
         private static object InvokeMethod(string name, MethodInfo methodInfo, object[] arguments, object obj)
         {
-            int methodArgumentCount = methodInfo.GetParameters().Length;
-            if (arguments.Length != methodArgumentCount)
+            int parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional);
+            int parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
+            int[] parameterCountAllowed = Enumerable.Range(parameterCountRequired, parameterCountOptional + 1).ToArray();
+
+            if (parameterCountRequired == 0 && parameterCountOptional == 0 && arguments.Length != 0)
             {
-                throw new HandlebarsException($"The {name} helper must have exactly {methodArgumentCount} argument{(methodArgumentCount > 1 ? "s" : "")}.");
+                throw new HandlebarsException($"The {name} helper should have no arguments.");
+            }
+            if (parameterCountAllowed.Length == 1 && arguments.Length != parameterCountAllowed[0])
+            {
+                throw new HandlebarsException($"The {name} helper must have exactly {parameterCountAllowed[0]} argument{(parameterCountAllowed[0] > 1 ? "s" : "")}.");
+            }
+            if (!parameterCountAllowed.Contains(arguments.Length))
+            {
+                throw new HandlebarsException($"The {name} helper must have {string.Join(" or ", parameterCountAllowed)} arguments.");
             }
 
             var parsedArguments = ArgumentsParser.Parse(arguments);
 
+            // Add null for optional arguments
+            for (int i = 0; i < parameterCountAllowed.Max() - arguments.Length; i++)
+            {
+                parsedArguments.Add(null);
+            }
+
             try
             {
-                return methodInfo.Invoke(obj, parsedArguments);
+                return methodInfo.Invoke(obj, parsedArguments.ToArray());
             }
             catch (Exception e)
             {

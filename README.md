@@ -32,3 +32,9 @@ The following helpers are available:
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
+
+***
+## References
+- Thanks to https://github.com/rexm/Handlebars.Net
+- Ideas based on https://github.com/helpers/handlebars-helpers
+- Documentation based on https://github.com/arinet/HandlebarDocs

@@ -7,7 +7,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
     internal static class ArgumentsParser
     {
         // Bug: Handlebars.Net does provide only strings
-        public static object?[] Parse(object?[] arguments)
+        public static List<object?> Parse(object?[] arguments)
         {
             var list = new List<object?>();
             foreach (var argument in arguments)
@@ -45,7 +45,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
                 }
             }
 
-            return list.ToArray();
+            return list;
         }
 
         /// <summary>
