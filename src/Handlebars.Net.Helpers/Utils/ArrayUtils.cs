@@ -11,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Utils
             return new JArray(array).ToString(Formatting.None);
         }
 
-        public static bool TryParse(string value, out IEnumerable<object> parsedArray)
+        public static bool TryParse(string value, out IEnumerable<object>? parsedArray)
         {
             parsedArray = null;
             try
@@ -25,7 +25,7 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
             catch (JsonException)
             {
-                // Ignore and don't add this value
+                // Ignore and return false
             }
 
             return false;

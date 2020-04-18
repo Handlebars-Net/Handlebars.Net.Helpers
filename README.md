@@ -1,54 +1,41 @@
+
 # Handlebars.Net.Helpers
 Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
 
-## String
+## Usage
 
-#### Append
-``` js
-// given that "item.x" is "foo"
-{{Append item.x ".html"}}
-// results in: "foo.html"
+#### Get all helpers
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext);
 ```
 
-#### Capitalize
-
-#### Ellipsis
-
-#### Prepend
-
-#### Reverse
-
-#### Replace
-
-#### ToCamelCase
-
-#### ToLower
-
-#### ToPascalCase
-
-#### ToUpper
-
-#### Trim
-
-#### TrimEnd
-
-#### TrimStart
-
-#### Truncate
-
-
-## Math
-
-#### Abs
-``` js
-{{Abs -1}}
-// results in: 1
+#### Get a specific helper
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext, HelperType.String);
 ```
 
-#### Max
+#### Get multiple helpers
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String);
+```
 
-#### Min
+***
 
-#### Sign
+The following helpers are available:
+- [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
+- [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
+- [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
+- [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
+- [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
+
+***
+## References
+- Thanks to https://github.com/rexm/Handlebars.Net
+- Some ideas based on https://github.com/helpers/handlebars-helpers
+- Some code based on https://www.30secondsofcode.org/c-sharp/t/string/p/1
+- Some documentation based on https://github.com/arinet/HandlebarDocs

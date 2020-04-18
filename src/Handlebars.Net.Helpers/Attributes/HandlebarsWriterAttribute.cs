@@ -8,9 +8,9 @@ namespace HandlebarsDotNet.Helpers.Attributes
     {
         public WriterType Type { get; }
 
-        public string Name{ get; set; }
+        public string? Name{ get; set; }
 
-        public HandlebarsWriterAttribute(WriterType type, string name = null)
+        public HandlebarsWriterAttribute(WriterType type, string? name = null)
         {
             Type = type;
             Name = name;

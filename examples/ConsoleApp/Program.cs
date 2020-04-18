@@ -1,6 +1,7 @@
 ﻿using System;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using HandlebarsDotNet.Helpers.Enums;
 
 namespace ConsoleApp
 {
@@ -10,19 +11,19 @@ namespace ConsoleApp
         {
             var handlebars = HandlebarsDotNet.Handlebars.Create();
 
-            handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
-            {
-                var array = new object[]
-                {
-                    1,
-                    "two"
-                };
+            //handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
+            //{
+            //    var array = new object[]
+            //    {
+            //        1,
+            //        "two"
+            //    };
 
-                writer.WriteSafeString($"[{string.Join(", ", array)}]");
-            });
+            //    writer.WriteSafeString($"[{string.Join(", ", array)}]");
+            //});
 
-            var templateX = handlebars.Compile("{{#each (ArrayTest)}}_{{this}}_{{/each}}");
-            var resultX = templateX.Invoke("");
+            //var templateX = handlebars.Compile("{{#each (ArrayTest)}}_{{this}}_{{/each}}");
+            //var resultX = templateX.Invoke("");
             //Console.WriteLine("ArrayTest = " + resultX);
 
             HandleBarsHelpers.Register(handlebars);
@@ -31,16 +32,23 @@ namespace ConsoleApp
             {
                 //"{{#each (ArrayTest)}}_{{this}}_{{/each}}",
                 //"{{#each ar}}_{{this}}_{{/each}}",
+                
+                "{{this}}",
+                "{{Constants.Math.PI}}",
+                "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
+                "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
+                "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
                 "{{Skip ['a', 'b', 'c', 1] 1}}",
 
+                "{{StartsWith \"abc\" \"!def\"}}",
                 "{{Append \"abc\" \"!def\"}}",
                 "{{Capitalize \"abc def\"}}",
                 "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",
                 "{{Reverse \"abc def\"}}",
-                "{{ToCamelCase \"abc def\"}}",
-                "{{ToPascalCase \"abc def\"}}",
-                "{{ToUpper \"abc\"}}",
-                "{{ToLower \"XYZ\"}}",
+                "{{Camelcase \"abc def\"}}",
+                "{{Pascalcase \"abc def\"}}",
+                "{{Uppercase \"abc\"}}",
+                "{{Lowercase \"XYZ\"}}",
 
                 "{{Abs -1}}",
                 "{{Abs -1.1234}}",
@@ -57,10 +65,7 @@ namespace ConsoleApp
 
             foreach (string test in tests)
             {
-                var x = new
-                {
-                    ar = new object[] { 1, 2, 3 }
-                };
+                var x = DateTime.Now;
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(x);
                 Console.WriteLine(result);

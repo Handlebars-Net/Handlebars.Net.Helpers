@@ -5,9 +5,10 @@
     <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <LangVersion>8.0</LangVersion>
-    <Description>Several Handlebars.Net helpers in the categories: 'String' and 'Math'.</Description>
+    <Nullable>enable</Nullable>
+    <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex' and 'String'.</Description>
     <PackageId>Handlebars.Net.Helpers</PackageId>
-    <PackageTags>handlebars;mustache;helpers;string;math;extensions</PackageTags>
+    <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
   </PropertyGroup>
  
   <ItemGroup>

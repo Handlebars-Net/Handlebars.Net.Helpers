@@ -4,13 +4,13 @@ using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Helpers
 {
-    public class MathHelperTests
+    public class MathHelpersTests
     {
-        private readonly MathHelper _sut;
+        private readonly MathHelpers _sut;
 
-        public MathHelperTests()
+        public MathHelpersTests()
         {
-            _sut = new MathHelper();
+            _sut = new MathHelpers();
         }
 
         [Theory]

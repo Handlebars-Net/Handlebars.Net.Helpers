@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
@@ -6,11 +8,6 @@ namespace HandlebarsDotNet.Helpers.Utils
     {
         public static object Execute(object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
-            if (value == null)
-            {
-                return null;
-            }
-
             switch (value)
             {
                 case int valueAsInt:
@@ -37,11 +34,6 @@ namespace HandlebarsDotNet.Helpers.Utils
 
         public static object Execute(object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
         {
-            if (value1 == null || value2 == null)
-            {
-                return null;
-            }
-
             switch (value1, value2)
             {
                 case (int int1, int int2):
@@ -68,6 +60,65 @@ namespace HandlebarsDotNet.Helpers.Utils
 
             throw new NotSupportedException();
         }
+
+        public static double Execute(object value, Func<double, double> doubleFunc)
+        {
+            try
+            {
+                double @double = (double)value;
+                return doubleFunc(@double);
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static double Execute(IEnumerable<object> values, Func<IEnumerable<double>, double> doubleFunc)
+        {
+            try
+            {
+                return doubleFunc(values.Cast<double>());
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public static double Execute(object value1, object value2, Func<double, double, double> doubleFunc)
+        {
+            try
+            {
+                double double1 = (double)value1;
+                double double2 = (double)value2;
+                return doubleFunc(double1, double2);
+            }
+            catch
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        //public static T Execute<T>(object value1, object value2, Func<char, char, T> charFunc, Func<string, string, T> stringFunc)
+        //{
+        //    switch (value1, value2)
+        //    {
+        //        case (char char1, char char2):
+        //            return charFunc(char1, char2);
+
+        //        case (string string1, string string2):
+        //            return stringFunc(string1, string2);
+
+        //        case (char char1, string string2):
+        //            return stringFunc(char1.ToString(), string2);
+
+        //        case (string string1, char char2):
+        //            return stringFunc(string1, char2.ToString());
+        //    }
+
+        //    throw new NotSupportedException();
+        //}
 
         private static object Execute(string string1, string string2, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
         {

@@ -1,25 +1,26 @@
 ﻿using FluentAssertions;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
 namespace Handlebars.Net.Helpers.Tests.Templates
 {
-    public class StringHelperTemplateTests
+    public class MathHelpersTemplateTests
     {
         private readonly IHandlebars _handlebarsContext;
 
-        public StringHelperTemplateTests()
+        public MathHelpersTemplateTests()
         {
             _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext);
+            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Math);
         }
 
         [Theory]
-        [InlineData("{{Append \"foo\" \"bar\"}}", "foobar")]
-        [InlineData("{{Append \"foo\" (Append \"a\" \"b\")}}", "fooab")]
-        public void Append(string template, string expected)
+        [InlineData("{{Add 1 2}}", "3")]
+        [InlineData("{{Add 2.2 3.1}}", "5.3")]
+        public void Add(string template, string expected)
         {
             // Arrange
             var action = _handlebarsContext.Compile(template);
@@ -28,7 +29,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
             var result = action("");
 
             // Assert
-            result.Should().Be(expected);
+            result.Should().StartWith(expected);
         }
     }
 }
