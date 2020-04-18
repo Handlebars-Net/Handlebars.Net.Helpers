@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -26,6 +27,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return value.Skip(after);
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public object Sum(IEnumerable<object> values)
+        {
+            return ExecuteUtils.Execute(values, x => x.Sum());
         }
     }
 }

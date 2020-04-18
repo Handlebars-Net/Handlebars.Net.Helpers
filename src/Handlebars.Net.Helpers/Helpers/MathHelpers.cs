@@ -28,7 +28,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public double Ceil(object value)
+        public double Ceiling(object value)
         {
             return ExecuteUtils.Execute(value, x => Math.Ceiling(1.0 * x));
         }
@@ -82,7 +82,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.Write)]
-        public object Pow(object value1, object value2)
+        public object Power(object value1, object value2)
         {
             return ExecuteUtils.Execute(value1, value2, Math.Pow);
         }
@@ -109,12 +109,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public object Sqrt(object value)
         {
             return ExecuteUtils.Execute(value, Math.Sqrt);
-        }
-
-        [HandlebarsWriter(WriterType.Write)]
-        public object Sum(IEnumerable<object> values)
-        {
-            return ExecuteUtils.Execute(values, x => x.Sum());
         }
 
         [HandlebarsWriter(WriterType.Write)]

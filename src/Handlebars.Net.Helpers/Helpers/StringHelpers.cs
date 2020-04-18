@@ -85,7 +85,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
-        public string Join(IEnumerable<object> values, string? separator)
+        public string Join(IEnumerable<object> values, string? separator = null)
         {
             if (values == null)
             {
@@ -94,7 +94,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
 
             return separator is null ? string.Join(string.Empty, values) : string.Join(separator, values);
         }
-
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Lowercase(string value)
