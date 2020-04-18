@@ -64,6 +64,7 @@ The following helpers are available:
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
+- [Url](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Url)
 
 ***
 ## References

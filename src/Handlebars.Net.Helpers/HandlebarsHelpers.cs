@@ -21,7 +21,8 @@ namespace HandlebarsDotNet.Helpers
             { Category.Enumerable, new EnumerableHelpers() },
             { Category.Math, new MathHelpers() },
             { Category.Regex, new RegexHelpers() },
-            { Category.String, new StringHelpers() }
+            { Category.String, new StringHelpers() },
+            { Category.Url, new UrlHelpers() }
         };
 
         /// <summary>

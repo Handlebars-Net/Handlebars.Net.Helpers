@@ -6,6 +6,7 @@
         Enumerable,
         Math,
         Regex,
-        String
+        String,
+        Url
     }
 }
