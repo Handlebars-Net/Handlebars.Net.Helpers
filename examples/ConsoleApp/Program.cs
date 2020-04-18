@@ -11,20 +11,20 @@ namespace ConsoleApp
         {
             var handlebars = HandlebarsDotNet.Handlebars.Create();
 
-            //handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
-            //{
-            //    var array = new object[]
-            //    {
-            //        1,
-            //        "two"
-            //    };
+            handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
+            {
+                var array = new object[]
+                {
+                    1,
+                    "two"
+                };
 
-            //    writer.WriteSafeString($"[{string.Join(", ", array)}]");
-            //});
+                writer.WriteSafeString($"[{string.Join(", ", array)}]");
+            });
 
-            //var templateX = handlebars.Compile("{{#each (ArrayTest)}}_{{this}}_{{/each}}");
-            //var resultX = templateX.Invoke("");
-            //Console.WriteLine("ArrayTest = " + resultX);
+            var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");
+            var resultX = templateX.Invoke("");
+            Console.WriteLine("ArrayTest = " + resultX);
 
             HandleBarsHelpers.Register(handlebars);
 
