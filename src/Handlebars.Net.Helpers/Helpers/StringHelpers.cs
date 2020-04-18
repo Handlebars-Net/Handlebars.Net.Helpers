@@ -145,7 +145,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Replace(string value, string oldValue, string newValue)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -172,7 +172,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Write)]
         public string[] Split(string value, string separator)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -185,10 +185,30 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public static string Titlecase(string value)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var tokens = value.Split(new[] { " ", "-" }, StringSplitOptions.RemoveEmptyEntries);
+            for (var i = 0; i < tokens.Length; i++)
+            {
+                var token = tokens[i];
+                tokens[i] = token == token.ToUpper()
+                    ? token
+                    : token.Substring(0, 1).ToUpper() + token.Substring(1).ToLower();
+            }
+
+            return string.Join(" ", tokens);
+        }
+
         [HandlebarsWriter(WriterType.Write)]
         public bool StartsWith(string value, string test)
         {
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
