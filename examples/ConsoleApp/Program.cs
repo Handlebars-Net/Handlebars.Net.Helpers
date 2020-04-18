@@ -26,7 +26,7 @@ namespace ConsoleApp
             var resultX = templateX.Invoke("");
             Console.WriteLine("ArrayTest = " + resultX);
 
-            HandlebarsHelpers.Register(handlebars);
+            HandlebarsHelpers.Register(handlebars, false);
 
             var tests = new[]
             {

@@ -28,26 +28,13 @@ HandlebarsHelpers.Register(handlebarsContext, Category.Math, Category.String);
 
 ### Using
 
-#### Without a prefix
-By default you can access all the helpers by using the name like:
-```handlebars
-{{Append "foobar" "bar"}}
-```
-
-#### With a category prefix
-If you would like to use the helpers with a prefix from the category, you need to register the helpers using this code:
-``` c#
-HandlebarsHelpers.Register(handlebarsContext, true);
-// or
-HandlebarsHelpers.Register(handlebarsContext, true, Category.String);
-```
-
-Now you can only access the helpers by using the prefix and the name like:
+#### With a category prefix (default)
+By default you can use the helpers by using a prefix from the category:
 ```handlebars
 {{String.Append "foobar" "bar"}}
 ```
 
-#### With a custom prefix
+#### With an additional custom prefix
 If you would like to use the helpers with a custom prefix, you need to register the helpers using this code:
 ``` c#
 HandlebarsHelpers.Register(handlebarsContext, true, "custom");
@@ -56,6 +43,17 @@ HandlebarsHelpers.Register(handlebarsContext, true, "custom");
 Now you can only access the helpers by using the custom prefix, category prefix and the name like:
 ```handlebars
 {{custom.String.Append "foobar" "bar"}}
+```
+
+#### Without a prefix
+If you would like to use the helpers without a prefix, so just by name, use this code:
+``` c#
+HandlebarsHelpers.Register(handlebarsContext, false);
+```
+
+Now you can only access the helpers by just using the name like:
+```handlebars
+{{Append "foobar" "bar"}}
 ```
 
 ***

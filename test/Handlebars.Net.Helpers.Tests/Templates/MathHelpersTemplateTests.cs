@@ -16,8 +16,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Add 1 2}}", "3")]
-        [InlineData("{{Add 2.2 3.1}}", "5.3")]
+        [InlineData("{{Math.Add 1 2}}", "3")]
+        [InlineData("{{Math.Add 2.2 3.1}}", "5.3")]
         public void Add(string template, string expected)
         {
             // Arrange
