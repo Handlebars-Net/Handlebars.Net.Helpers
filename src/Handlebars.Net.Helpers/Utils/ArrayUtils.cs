@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -6,9 +7,9 @@ namespace HandlebarsDotNet.Helpers.Utils
 {
     internal static class ArrayUtils
     {
-        public static string ToArray(IEnumerable<object> array)
+        public static string ToArray(IEnumerable<object?> array)
         {
-            return new JArray(array).ToString(Formatting.None);
+            return new JArray(Fix(array)).ToString(Formatting.None);
         }
 
         public static bool TryParse(string value, out IEnumerable<object>? parsedArray)
@@ -16,7 +17,7 @@ namespace HandlebarsDotNet.Helpers.Utils
             parsedArray = null;
             try
             {
-                JToken jToken = JToken.Parse(value);
+                var jToken = JToken.Parse(value);
                 if (jToken is JArray jTokenArray)
                 {
                     parsedArray = jTokenArray.ToObject<IEnumerable<object>>();
@@ -29,6 +30,11 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
 
             return false;
+        }
+
+        private static IEnumerable<object?> Fix(IEnumerable<object?> array)
+        {
+            return array.Select(a => a is char ? a.ToString() : a);
         }
     }
 }

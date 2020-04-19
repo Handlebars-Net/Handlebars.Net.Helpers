@@ -5,6 +5,8 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>HandlebarsDotNet.Helpers.Tests</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Tests</AssemblyName>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
