@@ -4,7 +4,6 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
 
 ## Framework support
-The library supports:
 - .NET Framework 4.5.1 and 4.5.2
 - .NET Standard 1.3, 2.0 and 2.1
 
@@ -43,7 +42,7 @@ By default you can use the helpers by using a prefix from the category:
 #### With an additional custom prefix
 If you would like to use the helpers with a custom prefix, you need to register the helpers using this code:
 ``` c#
-HandlebarsHelpers.Register(handlebarsContext, options => { Prefix = "custom"; } );
+HandlebarsHelpers.Register(handlebarsContext, options => { Prefix = "custom"; });
 ```
 
 Now you can only access the helpers by using the custom prefix, category prefix and the name like:
@@ -54,7 +53,7 @@ Now you can only access the helpers by using the custom prefix, category prefix 
 #### Without a prefix
 If you would like to use the helpers without a prefix, so just by name, use this code:
 ``` c#
-HandlebarsHelpers.Register(handlebarsContext, options => { UseCategoryPrefix = false; } );
+HandlebarsHelpers.Register(handlebarsContext, options => { UseCategoryPrefix = false; });
 ```
 
 Now you can access the helpers by just using the name like:
