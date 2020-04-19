@@ -125,7 +125,10 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         {
             // Arrange
             var handlebarsContext = Handlebars.Create();
-            HandlebarsHelpers.Register(handlebarsContext, false, Category.String);
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = false;
+            });
             var action = handlebarsContext.Compile("{{Append \"foo\" \"bar\"}}");
 
             // Act
@@ -136,11 +139,34 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Fact]
-        public void WithCategoryPrefixAndExtraPrefix()
+        public void WithoutCategoryPrefixAndWithExtraPrefix()
         {
             // Arrange
             var handlebarsContext = Handlebars.Create();
-            HandlebarsHelpers.Register(handlebarsContext, true, "test", Category.String);
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = false;
+                options.Prefix = "test";
+            });
+            var action = handlebarsContext.Compile("{{test.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
+        }
+
+        [Fact]
+        public void WithCategoryPrefixAndExtraWithPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = true;
+                options.Prefix = "test";
+            });
             var action = handlebarsContext.Compile("{{test.String.Append \"foo\" \"bar\"}}");
 
             // Act

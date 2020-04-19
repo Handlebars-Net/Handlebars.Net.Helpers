@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>net452;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <RootNamespace>HandlebarsDotNet.Helpers.Tests</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Tests</AssemblyName>
@@ -22,7 +22,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Handlebars.Net" Version="1.9.5" />
   </ItemGroup>
 
   <ItemGroup>
