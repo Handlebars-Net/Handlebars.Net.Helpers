@@ -37,7 +37,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
                         list.Add(valueAsString);
                     }
                 }
-                else if (argument != null && argument.GetType().Name == "UndefinedBindingResult")
+                else if (argument is { } && argument.GetType().Name == "UndefinedBindingResult")
                 {
                     list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
                 }
@@ -62,7 +62,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
             parsedValue = null;
 
             var fieldInfo = undefinedBindingResult.GetType().GetField("Value");
-            if (fieldInfo == null)
+            if (fieldInfo is null)
             {
                 return false;
             }
