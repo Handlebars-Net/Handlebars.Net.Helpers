@@ -1,7 +1,6 @@
 ﻿using System;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
-using HandlebarsDotNet.Helpers.Enums;
 
 namespace ConsoleApp
 {
@@ -9,7 +8,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            var handlebars = HandlebarsDotNet.Handlebars.Create();
+            var handlebars = Handlebars.Create();
 
             handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
             {
@@ -26,7 +25,7 @@ namespace ConsoleApp
             var resultX = templateX.Invoke("");
             Console.WriteLine("ArrayTest = " + resultX);
 
-            HandleBarsHelpers.Register(handlebars);
+            HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
             var tests = new[]
             {

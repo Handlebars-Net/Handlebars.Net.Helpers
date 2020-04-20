@@ -30,6 +30,30 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
+        public static string Base64Decode(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var base64EncodedBytes = Convert.FromBase64String(value);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public static string Base64Encode(string value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var plainTextBytes = Encoding.UTF8.GetBytes(value);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Camelcase(string value)
         {
             if (string.IsNullOrEmpty(value) || value.Length < 2)

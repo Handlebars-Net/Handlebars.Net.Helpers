@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class RegexHelpersTemplateTests
     {
@@ -12,14 +10,14 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public RegexHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Regex);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.Regex);
         }
 
         [Theory]
-        [InlineData("{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}", "yes")]
-        [InlineData("{{#IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/IsMatch}}", "no")]
+        [InlineData("{{#Regex.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/Regex.IsMatch}}", "yes")]
+        [InlineData("{{#Regex.IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/Regex.IsMatch}}", "no")]
         public void IsMatch(string template, string expected)
         {
             // Arrange

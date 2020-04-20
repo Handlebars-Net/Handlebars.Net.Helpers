@@ -2,7 +2,7 @@ using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Helpers
+namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class MathHelpersTests
     {

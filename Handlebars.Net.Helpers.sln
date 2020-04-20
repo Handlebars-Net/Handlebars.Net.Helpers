@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlebars.Net.Helpers", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01DFE66D-E850-4ADC-A0FC-A3A13B896CDA}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipeline-ci.yml = azure-pipeline-ci.yml
+		azure-pipelines-nuget.yml = azure-pipelines-nuget.yml
 		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
 		GitHubReleaseNotes.txt = GitHubReleaseNotes.txt

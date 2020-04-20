@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class MathHelpersTemplateTests
     {
@@ -12,14 +10,14 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public MathHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Math);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.Math);
         }
 
         [Theory]
-        [InlineData("{{Add 1 2}}", "3")]
-        [InlineData("{{Add 2.2 3.1}}", "5.3")]
+        [InlineData("{{Math.Add 1 2}}", "3")]
+        [InlineData("{{Math.Add 2.2 3.1}}", "5.3")]
         public void Add(string template, string expected)
         {
             // Arrange

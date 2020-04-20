@@ -1,11 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class StringHelpersTemplateTests
     {
@@ -13,16 +11,16 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public StringHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.String);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.String);
         }
 
         [Theory]
-        [InlineData("{{Append \"foo\" \"bar\"}}", "foobar")]
-        [InlineData("{{Append \"foo\" \"b\"}}", "foob")]
-        [InlineData("{{Append \"foo\" 'b'}}", "foob")]
-        [InlineData("{{Append \"foo\" (Append \"a\" \"b\")}}", "fooab")]
+        [InlineData("{{String.Append \"foo\" \"bar\"}}", "foobar")]
+        [InlineData("{{String.Append \"foo\" \"b\"}}", "foob")]
+        [InlineData("{{String.Append \"foo\" 'b'}}", "foob")]
+        [InlineData("{{String.Append \"foo\" (String.Append \"a\" \"b\")}}", "fooab")]
         public void Append(string template, string expected)
         {
             // Arrange
@@ -36,8 +34,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{#IsString \"Hello\"}}yes{{else}}no{{/IsString}}", "yes")]
-        [InlineData("{{#IsString 1}}yes{{else}}no{{/IsString}}", "no")]
+        [InlineData("{{#String.IsString \"Hello\"}}yes{{else}}no{{/String.IsString}}", "yes")]
+        [InlineData("{{#String.IsString 1}}yes{{else}}no{{/String.IsString}}", "no")]
         public void IsString(string template, string expected)
         {
             // Arrange
@@ -51,8 +49,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
-        [InlineData("{{Join [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
+        [InlineData("{{String.Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
+        [InlineData("{{String.Join [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
         public void Join(string template, string expected)
         {
             // Arrange
@@ -66,8 +64,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Split \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
-        [InlineData("{{Split \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{String.Split \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{String.Split \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
         public void Split(string template, string expected)
         {
             // Arrange
@@ -81,12 +79,12 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{#StartsWith \"Hello\" \"He\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
-        [InlineData("{{#StartsWith \"Hello\" \"xx\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
-        [InlineData("{{#StartsWith \"Hello\" \"H\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
-        [InlineData("{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
-        [InlineData("{{#StartsWith \"Hello\" 'H'}}Hi{{else}}Goodbye{{/StartsWith}}", "Hi")]
-        [InlineData("{{#StartsWith \"Hello\" 'x'}}Hi{{else}}Goodbye{{/StartsWith}}", "Goodbye")]
+        [InlineData("{{#String.StartsWith \"Hello\" \"He\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Hi")]
+        [InlineData("{{#String.StartsWith \"Hello\" \"xx\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Goodbye")]
+        [InlineData("{{#String.StartsWith \"Hello\" \"H\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Hi")]
+        [InlineData("{{#String.StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Goodbye")]
+        [InlineData("{{#String.StartsWith \"Hello\" 'H'}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Hi")]
+        [InlineData("{{#String.StartsWith \"Hello\" 'x'}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Goodbye")]
         public void StartsWith(string template, string expected)
         {
             // Arrange
@@ -100,8 +98,8 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Append \"foo\"}}")]
-        [InlineData("{{Append \"foo\" \"bar\" \"bar2\"}}")]
+        [InlineData("{{String.Append \"foo\"}}")]
+        [InlineData("{{String.Append \"foo\" \"bar\" \"bar2\"}}")]
         public void InvalidNumberOfArgumentsShouldThrowHandlebarsException(string template)
         {
             // Arrange
@@ -112,7 +110,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{StartsWith \"foo\" 1}}")]
+        [InlineData("{{String.StartsWith \"foo\" 1}}")]
         public void InvalidArgumentTypeShouldThrowNotArgumentException(string template)
         {
             // Arrange
@@ -120,6 +118,62 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
             // Act and Assert
             Assert.Throws<ArgumentException>(() => handleBarsAction(""));
+        }
+
+        [Fact]
+        public void WithoutCategoryPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = false;
+            });
+            var action = handlebarsContext.Compile("{{Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
+        }
+
+        [Fact]
+        public void WithoutCategoryPrefixAndWithExtraPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = false;
+                options.Prefix = "test";
+            });
+            var action = handlebarsContext.Compile("{{test.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
+        }
+
+        [Fact]
+        public void WithCategoryPrefixAndExtraWithPrefix()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.UseCategoryPrefix = true;
+                options.Prefix = "test";
+            });
+            var action = handlebarsContext.Compile("{{test.String.Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
         }
     }
 }

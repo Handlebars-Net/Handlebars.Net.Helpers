@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Parsers
@@ -7,22 +9,22 @@ namespace HandlebarsDotNet.Helpers.Parsers
     internal static class ArgumentsParser
     {
         // Bug: Handlebars.Net does provide only strings
-        public static List<object?> Parse(object?[] arguments)
+        public static List<object?> Parse(object?[] arguments, HandlebarsHelpersOptions options)
         {
             var list = new List<object?>();
             foreach (var argument in arguments)
             {
                 if (argument is string valueAsString)
                 {
-                    if (int.TryParse(valueAsString, out int valueAsInt))
+                    if (int.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out int valueAsInt))
                     {
                         list.Add(valueAsInt);
                     }
-                    else if (long.TryParse(valueAsString, out long valueAsLong))
+                    else if (long.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out long valueAsLong))
                     {
                         list.Add(valueAsLong);
                     }
-                    else if (double.TryParse(valueAsString, out double valueAsDouble))
+                    else if (double.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out double valueAsDouble))
                     {
                         list.Add(valueAsDouble);
                     }
@@ -35,7 +37,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
                         list.Add(valueAsString);
                     }
                 }
-                else if (argument != null && argument.GetType().Name == "UndefinedBindingResult")
+                else if (argument is { } && argument.GetType().Name == "UndefinedBindingResult")
                 {
                     list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
                 }
@@ -60,7 +62,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
             parsedValue = null;
 
             var fieldInfo = undefinedBindingResult.GetType().GetField("Value");
-            if (fieldInfo == null)
+            if (fieldInfo is null)
             {
                 return false;
             }

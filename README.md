@@ -1,27 +1,64 @@
-
 # Handlebars.Net.Helpers
 Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
 [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
 
+## Framework support
+- .NET Framework 4.5.1 and 4.5.2
+- .NET Standard 1.3, 2.0 and 2.1
+
+`*` : not all fucntionality works on .NET 4.5.1 due to an older version from Handlebars.Net
+
 ## Usage
+
+### Register
 
 #### Get all helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext);
+HandlebarsHelpers.Register(handlebarsContext);
 ```
 
 #### Get a specific helper
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext, HelperType.String);
+HandlebarsHelpers.Register(handlebarsContext, Category.String);
 ```
 
 #### Get multiple helpers
 ``` c#
 var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
-HandleBarsHelpers.Register(handlebarsContext, HelperType.Math, HelperType.String);
+HandlebarsHelpers.Register(handlebarsContext, Category.Math, Category.String);
+```
+
+### Using
+
+#### With a category prefix (default)
+By default you can use the helpers by using a prefix from the category:
+```handlebars
+{{String.Append "foobar" "bar"}}
+```
+
+#### With an additional custom prefix
+If you would like to use the helpers with a custom prefix, you need to register the helpers using this code:
+``` c#
+HandlebarsHelpers.Register(handlebarsContext, options => { Prefix = "custom"; });
+```
+
+Now you can only access the helpers by using the custom prefix, category prefix and the name like:
+```handlebars
+{{custom.String.Append "foobar" "bar"}}
+```
+
+#### Without a prefix
+If you would like to use the helpers without a prefix, so just by name, use this code:
+``` c#
+HandlebarsHelpers.Register(handlebarsContext, options => { UseCategoryPrefix = false; });
+```
+
+Now you can access the helpers by just using the name like:
+```handlebars
+{{Append "foobar" "bar"}}
 ```
 
 ***
@@ -32,6 +69,7 @@ The following helpers are available:
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
+- [Url](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Url)
 
 ***
 ## References

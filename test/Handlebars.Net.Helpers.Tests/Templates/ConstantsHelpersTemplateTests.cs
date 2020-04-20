@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
-using HandlebarsDotNet;
-using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace Handlebars.Net.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
     public class ConstantsHelpersTemplateTests
     {
@@ -12,14 +10,14 @@ namespace Handlebars.Net.Helpers.Tests.Templates
 
         public ConstantsHelpersTemplateTests()
         {
-            _handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+            _handlebarsContext = Handlebars.Create();
 
-            HandleBarsHelpers.Register(_handlebarsContext, HelperType.Constants);
+            HandlebarsHelpers.Register(_handlebarsContext, Category.Constants);
         }
 
         [Theory]
-        [InlineData("{{Constants.Math.PI}}", "3.141592653589793")]
-        [InlineData("{{Constants.Math.E}}", "2.718281828459045")]
+        [InlineData("{{Constants.Math.PI}}", "3.14")]
+        [InlineData("{{Constants.Math.E}}", "2.71")]
         public void Constants(string template, string expected)
         {
             // Arrange
@@ -29,7 +27,7 @@ namespace Handlebars.Net.Helpers.Tests.Templates
             var result = action("");
 
             // Assert
-            result.Should().Be(expected);
+            result.Should().StartWith(expected);
         }
     }
 }
