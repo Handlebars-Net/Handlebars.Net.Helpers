@@ -1,19 +1,14 @@
 # Handlebars.Net.Helpers
 Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 
-[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers)
-
 ## Project
 | | |
 | --- | --- |
-| &nbsp;&nbsp;**Build Azure** | [![Build Status Azure](https://stef.visualstudio.com/Handlebars.Net.Helpers/_apis/build/status/Handlebars.Net.Helpers)](https://stef.visualstudio.com/Handlebars.Net.Helpers/_build/latest?definitionId=36) |
-| &nbsp;&nbsp;**CodeFactor** | [![CodeFactor](https://www.codefactor.io/repository/github/wiremock-net/wiremock.net/badge)](https://www.codefactor.io/repository/github/wiremock-net/wiremock.net)
-| &nbsp;&nbsp;**Sonar Quality Gate** | [![Sonar Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=wiremock&metric=alert_status)](https://sonarcloud.io/project/issues?id=wiremock) |
-| &nbsp;&nbsp;**Sonar Bugs** | [![Sonar Bugs](https://sonarcloud.io/api/project_badges/measure?project=wiremock&metric=bugs)](https://sonarcloud.io/project/issues?id=wiremock&resolved=false&types=BUG) |
-| &nbsp;&nbsp;**Sonar Code Smells** | [![Sonar Code Smells](https://sonarcloud.io/api/project_badges/measure?project=wiremock&metric=code_smells)](https://sonarcloud.io/project/issues?id=wiremock&resolved=false&types=CODE_SMELL) |
-| &nbsp;&nbsp;**Sonar Coverage** | [![Sonar Coverage](https://sonarcloud.io/api/project_badges/measure?project=wiremock&metric=coverage)](https://sonarcloud.io/component_measures?id=wiremock&metric=coverage) |
-| &nbsp;&nbsp;**Codecov** | [![codecov](https://codecov.io/gh/WireMock-Net/WireMock.Net/branch/master/graph/badge.svg)](https://codecov.io/gh/WireMock-Net/WireMock.Net) |
-| &nbsp;&nbsp;**Coveralls** | [![Coverage Status](https://coveralls.io/repos/github/WireMock-Net/WireMock.Net/badge.svg?branch=master)](https://coveralls.io/github/WireMock-Net/WireMock.Net?branch=master) |
+| **Build Azure** | [![Build Status Azure](https://dev.azure.com/stef/Handlebars.Net.Helpers/_apis/build/status/CI?branchName=master)](https://dev.azure.com/stef/Handlebars.Net.Helpers/_build/latest?definitionId=36&branchName=master) |
+| **Sonar Quality** | [![Sonar Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=alert_status)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers) [![Sonar Bugs](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=bugs)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers&resolved=false&types=BUG) [![Sonar Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=code_smells)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers&resolved=false&types=CODE_SMELL)|
+| **Coverage** | [![Sonar Coverage](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=coverage)](https://sonarcloud.io/component_measures?id=Handlebars.Net.Helpers&metric=coverage) [![codecov](https://codecov.io/gh/StefH/Handlebars.Net.Helpers/branch/master/graph/badge.svg)](https://codecov.io/gh/StefH/Handlebars.Net.Helpers) |
+| **NuGet** _(official)_| [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers) |
+| **MyGet** _(preview)_) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) |
 
 ## Framework support
 - .NET Framework 4.5.1 and 4.5.2

@@ -54,38 +54,45 @@ namespace HandlebarsDotNet.Helpers
                 var helper = item.Value;
                 Type helperClassType = helper.GetType();
 
-                foreach (var methodInfo in helperClassType.GetMethods())
+                var methods = helperClassType.GetMethods()
+                    .Select(methodInfo => (methodInfo, methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()))
+                    .Where(x => x.Item2 is { })
+                    ;
+
+                foreach (var x in methods)
                 {
-                    var attribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>();
-                    if (attribute != null)
-                    {
-                        var names = new List<string>();
-                        if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
-                        {
-                            names.Add(attribute.Name);
-                        }
-                        else
-                        {
-                            if (options.Prefix is { } && !string.IsNullOrWhiteSpace(options.Prefix))
-                            {
-                                names.Add(options.Prefix);
-                            }
+                    var name = GetName(x, options, item);
 
-                            if (options.UseCategoryPrefix)
-                            {
-                                names.Add(item.Key.ToString());
-                            }
-
-                            names.Add(methodInfo.Name);
-                        }
-
-                        string name = string.Join(".", names);
-
-                        RegisterHelper(options, handlebarsContext, helper, attribute.Type, methodInfo, name);
-                        RegisterBlockHelper(options, handlebarsContext, helper, methodInfo, name);
-                    }
+                    RegisterHelper(options, handlebarsContext, helper, x.Item2.Type, x.methodInfo, name);
+                    RegisterBlockHelper(options, handlebarsContext, helper, x.methodInfo, name);
                 }
             }
+        }
+
+        private static string GetName((MethodInfo methodInfo, HandlebarsWriterAttribute attribute) x, HandlebarsHelpersOptions options, KeyValuePair<Category, IHelpers> item)
+        {
+            var names = new List<string>();
+            if (x.attribute.Name is { } && !string.IsNullOrWhiteSpace(x.attribute.Name))
+            {
+                names.Add(x.attribute.Name);
+            }
+            else
+            {
+                if (options.Prefix is { } && !string.IsNullOrWhiteSpace(options.Prefix))
+                {
+                    names.Add(options.Prefix);
+                }
+
+                if (options.UseCategoryPrefix)
+                {
+                    names.Add(item.Key.ToString());
+                }
+
+                names.Add(x.methodInfo.Name);
+            }
+
+            string name = string.Join(".", names);
+            return name;
         }
 
         private static void RegisterHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string name)
