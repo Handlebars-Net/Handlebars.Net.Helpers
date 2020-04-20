@@ -7,6 +7,7 @@
     <AssemblyName>HandlebarsDotNet.Helpers.Tests</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
+    <ProjectGuid>{12344228-91F4-4502-9595-39584E5BBBB}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
