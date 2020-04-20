@@ -28,10 +28,6 @@ namespace HandlebarsDotNet.Helpers.Parsers
                     {
                         list.Add(valueAsDouble);
                     }
-                    //else if (valueAsString.Length == 1)
-                    //{
-                    //    list.Add(valueAsString[0]);
-                    //}
                     else
                     {
                         list.Add(valueAsString);
