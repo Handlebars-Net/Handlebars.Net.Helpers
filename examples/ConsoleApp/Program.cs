@@ -44,6 +44,7 @@ namespace ConsoleApp
                 "{{Capitalize \"abc def\"}}",
                 "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",
                 "{{Reverse \"abc def\"}}",
+                "{{Truncate \"abc def\" 166}}",
                 "{{Camelcase \"abc def\"}}",
                 "{{Pascalcase \"abc def\"}}",
                 "{{Uppercase \"abc\"}}",

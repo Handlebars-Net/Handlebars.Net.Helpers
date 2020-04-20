@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -89,10 +90,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Ellipsis(string value, int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentException();
-            }
+            Guard.Condition(length, l => l >= 0, nameof(length));
 
             if (string.IsNullOrEmpty(value) || value.Length <= length)
             {
@@ -276,10 +274,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Truncate(string value, int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentException();
-            }
+            Guard.Condition(length, l => l >= 0, nameof(length));
 
             if (string.IsNullOrEmpty(value) || value.Length <= length)
             {
