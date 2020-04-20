@@ -8,7 +8,7 @@ Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
 | **Sonar Quality** | [![Sonar Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=alert_status)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers) [![Sonar Bugs](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=bugs)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers&resolved=false&types=BUG) [![Sonar Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=code_smells)](https://sonarcloud.io/project/issues?id=Handlebars.Net.Helpers&resolved=false&types=CODE_SMELL)|
 | **Coverage** | [![Sonar Coverage](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=coverage)](https://sonarcloud.io/component_measures?id=Handlebars.Net.Helpers&metric=coverage) [![codecov](https://codecov.io/gh/StefH/Handlebars.Net.Helpers/branch/master/graph/badge.svg)](https://codecov.io/gh/StefH/Handlebars.Net.Helpers) |
 | **NuGet** _(official)_| [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers) |
-| **MyGet** _(preview)_) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) |
+| **MyGet** _(preview)_) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) [Info](https://github.com/StefH/Handlebars.Net.Helpers/wiki/MyGet)|
 
 ## Framework support
 - .NET Framework 4.5.1 and 4.5.2
