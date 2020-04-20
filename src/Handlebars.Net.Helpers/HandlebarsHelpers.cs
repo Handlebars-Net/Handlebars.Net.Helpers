@@ -127,16 +127,10 @@ namespace HandlebarsDotNet.Helpers
             {
                 object value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
 
-                if (value is bool valueAsBool)
+                if (value is bool valueAsBool && !valueAsBool)
                 {
-                    if (valueAsBool)
-                    {
-                        options.Template(writer, value);
-                    }
-                    else
-                    {
-                        options.Inverse(writer, value);
-                    }
+                    // If it's a boolean value, and if this is 'False', execute the Inverse.
+                    options.Inverse(writer, value);
                 }
                 else
                 {
