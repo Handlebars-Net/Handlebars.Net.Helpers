@@ -55,6 +55,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData("", "bar", false)]
+        [InlineData("foo", "bar", false)]
+        [InlineData("foo", "", true)]
+        [InlineData("foobar", "foo", true)]
+        public void Contains(string value, string test, bool expected)
+        {
+            // Act
+            var result = _sut.Contains(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("foobar", 0, "...")]
         [InlineData("foobar", 1, "f...")]
         [InlineData("foobar", 8, "foobar")]

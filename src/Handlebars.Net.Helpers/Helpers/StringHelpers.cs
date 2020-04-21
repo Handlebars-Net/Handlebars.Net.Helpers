@@ -87,6 +87,14 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return new string(chars);
         }
 
+        [HandlebarsWriter(WriterType.Write)]
+        public bool Contains(string value, string test)
+        {
+            Guard.NotNull(value, nameof(value));
+
+            return value.Contains(test);
+        }
+
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Ellipsis(string value, int length)
         {
