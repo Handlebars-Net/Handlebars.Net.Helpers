@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.0.4</VersionPrefix>
+    <VersionPrefix>1.0.0</VersionPrefix>
     <Copyright>Copyright © 2020 Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
@@ -18,7 +18,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
 
   <Choose>
     <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
