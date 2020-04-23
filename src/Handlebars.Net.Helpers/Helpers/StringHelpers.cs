@@ -87,6 +87,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return new string(chars);
         }
 
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Concat(string value, string append)
+        {
+            return Append(value, append);
+        }
+
         [HandlebarsWriter(WriterType.Write)]
         public bool Contains(string value, string test)
         {
@@ -170,6 +176,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return pre + value;
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Remove(string value, string oldValue)
+        {
+            return Replace(value, oldValue, string.Empty);
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]

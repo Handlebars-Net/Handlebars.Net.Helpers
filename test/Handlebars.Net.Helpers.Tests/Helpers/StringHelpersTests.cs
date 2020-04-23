@@ -55,6 +55,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData("", "", "")]
+        [InlineData("a", "b", "ab")]
+        [InlineData("foo", "bar", "foobar")]
+        public void Concat(string value1, string value2, string expected)
+        {
+            // Act
+            var result = _sut.Concat(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("", "bar", false)]
         [InlineData("foo", "bar", false)]
         [InlineData("foo", "", true)]
@@ -104,6 +117,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Prepend(value, prepend);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("", "a", "")]
+        [InlineData("a", "b", "a")]
+        [InlineData("foo", "o", "f")]
+        public void Remove(string value, string oldValue, string expected)
+        {
+            // Act
+            var result = _sut.Remove(value, oldValue);
 
             // Assert
             result.Should().Be(expected);
