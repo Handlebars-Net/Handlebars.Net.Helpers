@@ -136,6 +136,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData("", 2, "")]
+        [InlineData("a", 0, "")]
+        [InlineData("a", 3, "aaa")]
+        [InlineData("foo", 2, "foofoo")]
+        public void Repeat(string value, int count, string expected)
+        {
+            // Act
+            var result = _sut.Repeat(value, count);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(null, null)]
         [InlineData("", "")]
         [InlineData("Bar", "raB")]

@@ -185,6 +185,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Repeat(string value, int count)
+        {
+            return string.Concat(Enumerable.Repeat(value, count));
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Replace(string value, string oldValue, string newValue)
         {
             if (value is null)
