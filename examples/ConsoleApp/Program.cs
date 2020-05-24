@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 
@@ -25,7 +26,12 @@ namespace ConsoleApp
             var resultX = templateX.Invoke("");
             Console.WriteLine("ArrayTest = " + resultX);
 
-            HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
+            for (int i = 0; i < 5; i++)
+            {
+                var stopwatch = Stopwatch.StartNew();
+                HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
+                Console.WriteLine($"HandlebarsHelpers.Register {stopwatch.Elapsed}");
+            }
 
             var tests = new[]
             {
