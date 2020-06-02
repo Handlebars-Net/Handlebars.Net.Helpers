@@ -28,12 +28,15 @@ namespace HandlebarsDotNet.Helpers.Utils
                     return doubleFunc(double.Parse(valueAsString));
 
                 default:
-                    throw new NotSupportedException();
+                    // Just call ToString()
+                    return Execute(value.ToString(), intFunc, longFunc, doubleFunc);
             }
         }
 
         public static object Execute(object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
         {
+            var supported = new[] { typeof(int), typeof(long), typeof(double) };
+
             switch (value1, value2)
             {
                 case (int int1, int int2):
@@ -56,9 +59,20 @@ namespace HandlebarsDotNet.Helpers.Utils
 
                 case (string string1, string string2):
                     return Execute(string1, string2, longFunc, doubleFunc);
-            }
 
-            throw new NotSupportedException();
+                default:
+                    object object1 = value1;
+                    object object2 = value2;
+                    if (!supported.Contains(value1.GetType()))
+                    {
+                        object1 = value1.ToString();
+                    }
+                    if (!supported.Contains(value2.GetType()))
+                    {
+                        object2 = value2.ToString();
+                    }
+                    return Execute(object1, object2, intFunc, longFunc, doubleFunc);
+            }
         }
 
         public static double Execute(object value, Func<double, double> doubleFunc)
@@ -110,6 +124,26 @@ namespace HandlebarsDotNet.Helpers.Utils
             if (double.TryParse(string1, out double double1) && double.TryParse(string2, out double double2))
             {
                 return doubleFunc(double1, double2);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        private static object Parse(string stringValue)
+        {
+            if (int.TryParse(stringValue, out int intValue))
+            {
+                return intValue;
+            }
+
+            if (long.TryParse(stringValue, out long longValue))
+            {
+                return longValue;
+            }
+
+            if (double.TryParse(stringValue, out double doubleValue))
+            {
+                return doubleValue;
             }
 
             throw new NotSupportedException();
