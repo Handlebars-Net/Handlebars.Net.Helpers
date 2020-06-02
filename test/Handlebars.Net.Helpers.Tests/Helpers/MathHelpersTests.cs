@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Xunit;
@@ -11,6 +12,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public MathHelpersTests()
         {
             _sut = new MathHelpers();
+        }
+
+        [Theory]
+        [InlineData(-1, 1, 0)]
+        [InlineData(1, 2, 3)]
+        [InlineData(-1.2, 1.2, 0)]
+        [InlineData(1.2, 1.3, 2.5)]
+        [InlineData("1000", "1.2", 1001.2)]
+        public void Add(object value1, object value2, object expected)
+        {
+            // Act
+            var result = _sut.Add(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
         }
 
         [Theory]
