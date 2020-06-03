@@ -19,6 +19,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [InlineData(-2147483649L, 2147483649L)]
         [InlineData(1.2, 1.2)]
         [InlineData(-1.2, 1.2)]
+        [InlineData("-1", 1)]
+        [InlineData("-1.2", 1.2)]
         public void Abs(object value, object expected)
         {
             // Act
@@ -26,6 +28,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Abs_Complex()
+        {
+            // Act
+            var result1 = _sut.Abs(new ComplexInt());
+            var result2 = _sut.Abs(new ComplexDouble());
+
+            // Assert
+            result1.Should().Be("42");
+            result2.Should().Be("42.1");
         }
 
         [Theory]
