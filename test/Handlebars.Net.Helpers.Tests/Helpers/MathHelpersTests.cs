@@ -38,8 +38,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             var result2 = _sut.Abs(new ComplexDouble());
 
             // Assert
-            result1.Should().Be("42");
-            result2.Should().Be("42.1");
+            result1.Should().Be(42);
+            result2.Should().Be(42.1);
         }
 
         [Theory]
