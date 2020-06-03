@@ -42,34 +42,40 @@ namespace HandlebarsDotNet.Helpers.Utils
                 case (int int1, int int2):
                     return intFunc(int1, int2);
 
-                case (double double1, double double2):
-                    return doubleFunc(double1, double2);
+                case (int int1, long long2):
+                    return longFunc(int1, long2);
 
                 case (int int1, double double2):
                     return doubleFunc(int1, double2);
 
+                case (long long1, long long2):
+                    return longFunc(long1, long2);
+
+                case (long long1, int int2):
+                    return longFunc(long1, int2);
+
+                case (long long1, double double2):
+                    return doubleFunc(long1, double2);
+
+                case (double double1, double double2):
+                    return doubleFunc(double1, double2);
+
                 case (double double1, int int2):
                     return doubleFunc(double1, int2);
 
-                case (int int1, string string2):
-                    return Execute(int1.ToString(), string2, longFunc, doubleFunc);
-
-                case (string string1, int int2):
-                    return Execute(string1, int2.ToString(), longFunc, doubleFunc);
-
-                case (string string1, string string2):
-                    return Execute(string1, string2, longFunc, doubleFunc);
+                case (double double1, long long2):
+                    return doubleFunc(double1, long2);
 
                 default:
                     object object1 = value1;
                     object object2 = value2;
                     if (!supported.Contains(value1.GetType()))
                     {
-                        object1 = value1.ToString();
+                        object1 = Parse(value1 is string string1 ? string1 : value1.ToString());
                     }
                     if (!supported.Contains(value2.GetType()))
                     {
-                        object2 = value2.ToString();
+                        object2 = Parse(value2 is string string2 ? string2 : value2.ToString());
                     }
                     return Execute(object1, object2, intFunc, longFunc, doubleFunc);
             }
@@ -112,21 +118,6 @@ namespace HandlebarsDotNet.Helpers.Utils
             {
                 throw new NotSupportedException();
             }
-        }
-
-        private static object Execute(string string1, string string2, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
-        {
-            if (long.TryParse(string1, out long long1) && long.TryParse(string2, out long long2))
-            {
-                return longFunc(long1, long2);
-            }
-
-            if (double.TryParse(string1, out double double1) && double.TryParse(string2, out double double2))
-            {
-                return doubleFunc(double1, double2);
-            }
-
-            throw new NotSupportedException();
         }
 
         private static object Parse(string stringValue)

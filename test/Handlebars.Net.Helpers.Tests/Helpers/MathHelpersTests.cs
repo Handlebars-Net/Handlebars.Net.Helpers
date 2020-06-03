@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Xunit;
@@ -47,17 +46,34 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [Theory]
         [InlineData(1, 43)]
         [InlineData("1", 43)]
-        //[InlineData(1.2, 43.2)]
-        //[InlineData("1.2", 43.2)]
+        [InlineData(1.2, 43.2)]
+        [InlineData("1.2", 43.2)]
         public void Add_Complex_And_Any(object value, object expected)
         {
             // Act
-            var result1 = _sut.Add(new Complex(), value);
-            var result2 = _sut.Add(value, new Complex());
+            var result1 = _sut.Add(new ComplexInt(), value);
+            var result2 = _sut.Add(value, new ComplexInt());
 
             // Assert
             result1.Should().Be(expected);
             result2.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Add_Complex_And_Complex()
+        {
+            // Act
+            var result1 = _sut.Add(new ComplexInt(), new ComplexInt());
+            var result2 = _sut.Add(new ComplexInt(), new ComplexDouble());
+
+            var result3 = _sut.Add(new ComplexDouble(), new ComplexDouble());
+            var result4 = _sut.Add(new ComplexDouble(), new ComplexInt());
+
+            // Assert
+            result1.Should().Be(84);
+            result2.Should().Be(84.1);
+            result3.Should().Be(84.2);
+            result4.Should().Be(84.1);
         }
 
         [Theory]
@@ -103,11 +119,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
     }
 
-    class Complex
+    class ComplexInt
     {
         public override string ToString()
         {
             return "42";
+        }
+    }
+
+    class ComplexDouble
+    {
+        public override string ToString()
+        {
+            return "42.1";
         }
     }
 }
