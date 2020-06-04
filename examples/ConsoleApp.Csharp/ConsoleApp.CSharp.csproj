@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\ConsoleApp\Program.cs" Link="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!--<ProjectReference Include="..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />-->
     <!--<ProjectReference Include="..\Handlebars\Handlebars.csproj" />-->
 
