@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers
@@ -12,7 +13,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// Some code copied from https://www.30secondsofcode.org/c-sharp/t/string/p/1
     /// and based on https://github.com/helpers/handlebars-helpers#string
     /// </summary>
-    internal class StringHelpers : IHelpers
+    internal class StringHelpers : BaseHelpers, IHelpers
     {
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Append(string value, string append)
@@ -319,6 +320,10 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return value.ToUpper();
+        }
+
+        public StringHelpers(HandlebarsHelpersOptions options) : base(options)
+        {
         }
     }
 }

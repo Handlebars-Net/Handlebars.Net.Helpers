@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
@@ -9,37 +8,24 @@ namespace HandlebarsDotNet.Helpers.Parsers
     internal static class ArgumentsParser
     {
         // Bug: Handlebars.Net does provide only strings
-        public static List<object?> Parse(object?[] arguments, HandlebarsHelpersOptions options)
+        public static List<object?> Parse(HandlebarsHelpersOptions options, object?[] arguments)
         {
             var list = new List<object?>();
             foreach (var argument in arguments)
             {
-                if (argument is string valueAsString)
+                switch (argument)
                 {
-                    if (int.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out int valueAsInt))
-                    {
-                        list.Add(valueAsInt);
-                    }
-                    else if (long.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out long valueAsLong))
-                    {
-                        list.Add(valueAsLong);
-                    }
-                    else if (double.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out double valueAsDouble))
-                    {
-                        list.Add(valueAsDouble);
-                    }
-                    else
-                    {
-                        list.Add(valueAsString);
-                    }
-                }
-                else if (argument is { } && argument.GetType().Name == "UndefinedBindingResult")
-                {
-                    list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
-                }
-                else
-                {
-                    list.Add(argument);
+                    case string valueAsString:
+                        list.Add(StringValueParser.Parse(options, valueAsString));
+                        break;
+
+                    case { } when argument.GetType().Name == "UndefinedBindingResult":
+                        list.Add(TryParseSpecialValue(argument, out var parsedValue) ? parsedValue : argument);
+                        break;
+
+                    default:
+                        list.Add(argument);
+                        break;
                 }
             }
 

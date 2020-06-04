@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using HandlebarsDotNet.Helpers.Options;
+using HandlebarsDotNet.Helpers.Parsers;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
     internal static class ExecuteUtils
     {
-        public static object Execute(object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
+        public static object Execute(HandlebarsHelpersOptions options, object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
             switch (value)
             {
@@ -20,20 +23,30 @@ namespace HandlebarsDotNet.Helpers.Utils
                     return doubleFunc(valueAsDouble);
 
                 case string valueAsString:
-                    if (long.TryParse(valueAsString, out long valueParsedAsLong))
+                    if (int.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out int valueParsedAsInt))
+                    {
+                        return intFunc(valueParsedAsInt);
+                    }
+
+                    if (long.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out long valueParsedAsLong))
                     {
                         return longFunc(valueParsedAsLong);
                     }
 
-                    return doubleFunc(double.Parse(valueAsString));
+                    if (double.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out double valueParsedAsDouble))
+                    {
+                        return doubleFunc(valueParsedAsDouble);
+                    }
+
+                    return valueAsString;
 
                 default:
                     // Just call ToString()
-                    return Execute(value.ToString(), intFunc, longFunc, doubleFunc);
+                    return Execute(options, value.ToString(), intFunc, longFunc, doubleFunc);
             }
         }
 
-        public static object Execute(object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
+        public static object Execute(HandlebarsHelpersOptions options, object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
         {
             var supported = new[] { typeof(int), typeof(long), typeof(double) };
 
@@ -71,13 +84,13 @@ namespace HandlebarsDotNet.Helpers.Utils
                     object object2 = value2;
                     if (!supported.Contains(value1.GetType()))
                     {
-                        object1 = Parse(value1 is string string1 ? string1 : value1.ToString());
+                        object1 = StringValueParser.Parse(options, value1 is string string1 ? string1 : value1.ToString());
                     }
                     if (!supported.Contains(value2.GetType()))
                     {
-                        object2 = Parse(value2 is string string2 ? string2 : value2.ToString());
+                        object2 = StringValueParser.Parse(options, value2 is string string2 ? string2 : value2.ToString());
                     }
-                    return Execute(object1, object2, intFunc, longFunc, doubleFunc);
+                    return Execute(options, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }
 
@@ -118,26 +131,6 @@ namespace HandlebarsDotNet.Helpers.Utils
             {
                 throw new NotSupportedException();
             }
-        }
-
-        private static object Parse(string stringValue)
-        {
-            if (int.TryParse(stringValue, out int intValue))
-            {
-                return intValue;
-            }
-
-            if (long.TryParse(stringValue, out long longValue))
-            {
-                return longValue;
-            }
-
-            if (double.TryParse(stringValue, out double doubleValue))
-            {
-                return doubleValue;
-            }
-
-            throw new NotSupportedException();
         }
     }
 }

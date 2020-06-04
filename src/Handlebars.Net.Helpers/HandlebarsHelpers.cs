@@ -18,16 +18,6 @@ namespace HandlebarsDotNet.Helpers
     /// </summary>
     public static class HandlebarsHelpers
     {
-        private static readonly IDictionary<Category, IHelpers> Helpers = new Dictionary<Category, IHelpers>
-        {
-            { Category.Constants, new ConstantsHelpers() },
-            { Category.Enumerable, new EnumerableHelpers() },
-            { Category.Math, new MathHelpers() },
-            { Category.Regex, new RegexHelpers() },
-            { Category.String, new StringHelpers() },
-            { Category.Url, new UrlHelpers() }
-        };
-
         /// <summary>
         /// Register all (default) or specific categories.
         /// </summary>
@@ -46,18 +36,28 @@ namespace HandlebarsDotNet.Helpers
         public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
         {
             Guard.NotNull(optionsCallback, nameof(optionsCallback));
+
             var options = new HandlebarsHelpersOptions();
             optionsCallback(options);
 
-            foreach (var item in Helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
+            var helpers = new Dictionary<Category, IHelpers>
+            {
+                { Category.Constants, new ConstantsHelpers(options) },
+                { Category.Enumerable, new EnumerableHelpers(options) },
+                { Category.Math, new MathHelpers(options) },
+                { Category.Regex, new RegexHelpers(options) },
+                { Category.String, new StringHelpers(options) },
+                { Category.Url, new UrlHelpers(options) }
+            };
+
+            foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
             {
                 var helper = item.Value;
                 Type helperClassType = helper.GetType();
 
                 var methods = helperClassType.GetMethods()
                     .Select(methodInfo => (methodInfo, methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()))
-                    .Where(x => x.Item2 is { })
-                    ;
+                    .Where(x => x.Item2 is { });
 
                 foreach (var x in methods)
                 {
@@ -139,7 +139,7 @@ namespace HandlebarsDotNet.Helpers
             });
         }
 
-        private static object InvokeMethod(HandlebarsHelpersOptions helperOptions, string name, MethodInfo methodInfo, object[] arguments, object obj)
+        private static object InvokeMethod(HandlebarsHelpersOptions options, string name, MethodInfo methodInfo, object[] arguments, object obj)
         {
             int parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional);
             int parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
@@ -158,7 +158,7 @@ namespace HandlebarsDotNet.Helpers
                 throw new HandlebarsException($"The {name} helper must have {string.Join(" or ", parameterCountAllowed)} arguments.");
             }
 
-            var parsedArguments = ArgumentsParser.Parse(arguments, helperOptions);
+            var parsedArguments = ArgumentsParser.Parse(options, arguments);
 
             // Add null for optional arguments
             for (int i = 0; i < parameterCountAllowed.Max() - arguments.Length; i++)

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         public MathHelpersTests()
         {
-            _sut = new MathHelpers();
+            _sut = new MathHelpers(new HandlebarsHelpersOptions());
         }
 
         [Theory]

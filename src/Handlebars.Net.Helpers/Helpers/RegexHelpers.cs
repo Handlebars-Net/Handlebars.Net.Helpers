@@ -2,10 +2,11 @@
 using System.Text.RegularExpressions;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
-    internal class RegexHelpers : IHelpers
+    internal class RegexHelpers : BaseHelpers, IHelpers
     {
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public bool IsMatch(string value, string regexPattern, string? options = null)
@@ -51,6 +52,10 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return Regex.Match(value, regexPattern).Success;
+        }
+
+        public RegexHelpers(HandlebarsHelpersOptions options) : base(options)
+        {
         }
     }
 }
