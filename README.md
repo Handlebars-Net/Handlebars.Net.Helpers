@@ -1,5 +1,5 @@
 # Handlebars.Net.Helpers
-Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net).
+Several helpers for [Handlebars.Net](https://github.com/rexm/Handlebars.Net) or [Handlebars.CSharp](https://github.com/zjklee/Handlebars.CSharp).
 
 ## Project
 | | |
