@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ConsoleApp\Program.cs" Link="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<ProjectReference Include="..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />-->
+    <!--<ProjectReference Include="..\Handlebars\Handlebars.csproj" />-->
+
+    <!--<PackageReference Include="Handlebars.Net" Version="1.10.1" />-->
+    <!--<PackageReference Include="Handlebars.CSharp" Version="1.3.2" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Handlebars.CSharp.Helpers\Handlebars.CSharp.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>

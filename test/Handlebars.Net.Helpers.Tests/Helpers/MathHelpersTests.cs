@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         public MathHelpersTests()
         {
-            _sut = new MathHelpers();
+            _sut = new MathHelpers(new HandlebarsHelpersOptions());
         }
 
         [Theory]
@@ -19,6 +20,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [InlineData(-2147483649L, 2147483649L)]
         [InlineData(1.2, 1.2)]
         [InlineData(-1.2, 1.2)]
+        [InlineData("-1", 1)]
+        [InlineData("-1.2", 1.2)]
         public void Abs(object value, object expected)
         {
             // Act
@@ -26,6 +29,66 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Abs_Complex()
+        {
+            // Act
+            var result1 = _sut.Abs(new ComplexInt());
+            var result2 = _sut.Abs(new ComplexDouble());
+
+            // Assert
+            result1.Should().Be(42);
+            result2.Should().Be(42.1);
+        }
+
+        [Theory]
+        [InlineData(-1, 1, 0)]
+        [InlineData(1, 2, 3)]
+        [InlineData(-1.2, 1.2, 0)]
+        [InlineData(1.2, 1.3, 2.5)]
+        [InlineData("1000", "1.2", 1001.2)]
+        public void Add(object value1, object value2, object expected)
+        {
+            // Act
+            var result = _sut.Add(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(1, 43)]
+        [InlineData("1", 43)]
+        [InlineData(1.2, 43.2)]
+        [InlineData("1.2", 43.2)]
+        public void Add_Complex_And_Any(object value, object expected)
+        {
+            // Act
+            var result1 = _sut.Add(new ComplexInt(), value);
+            var result2 = _sut.Add(value, new ComplexInt());
+
+            // Assert
+            result1.Should().Be(expected);
+            result2.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Add_Complex_And_Complex()
+        {
+            // Act
+            var result1 = _sut.Add(new ComplexInt(), new ComplexInt());
+            var result2 = _sut.Add(new ComplexInt(), new ComplexDouble());
+
+            var result3 = _sut.Add(new ComplexDouble(), new ComplexDouble());
+            var result4 = _sut.Add(new ComplexDouble(), new ComplexInt());
+
+            // Assert
+            result1.Should().Be(84);
+            result2.Should().Be(84.1);
+            result3.Should().Be(84.2);
+            result4.Should().Be(84.1);
         }
 
         [Theory]
@@ -68,6 +131,22 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+    }
+
+    class ComplexInt
+    {
+        public override string ToString()
+        {
+            return "42";
+        }
+    }
+
+    class ComplexDouble
+    {
+        public override string ToString()
+        {
+            return "42.1";
         }
     }
 }

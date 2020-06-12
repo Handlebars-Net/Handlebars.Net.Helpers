@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         public UrlHelpersTests()
         {
-            _sut = new UrlHelpers();
+            _sut = new UrlHelpers(new HandlebarsHelpersOptions());
         }
 
         [Theory]

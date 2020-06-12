@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         public StringHelpersTests()
         {
-            _sut = new StringHelpers();
+            _sut = new StringHelpers(new HandlebarsHelpersOptions());
         }
 
         [Theory]
@@ -49,6 +50,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Capitalize(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("", "", "")]
+        [InlineData("a", "b", "ab")]
+        [InlineData("foo", "bar", "foobar")]
+        public void Concat(string value1, string value2, string expected)
+        {
+            // Act
+            var result = _sut.Concat(value1, value2);
 
             // Assert
             result.Should().Be(expected);
@@ -104,6 +118,33 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Prepend(value, prepend);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("", "a", "")]
+        [InlineData("a", "b", "a")]
+        [InlineData("foo", "o", "f")]
+        public void Remove(string value, string oldValue, string expected)
+        {
+            // Act
+            var result = _sut.Remove(value, oldValue);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("", 2, "")]
+        [InlineData("a", 0, "")]
+        [InlineData("a", 3, "aaa")]
+        [InlineData("foo", 2, "foofoo")]
+        public void Repeat(string value, int count, string expected)
+        {
+            // Act
+            var result = _sut.Repeat(value, count);
 
             // Assert
             result.Should().Be(expected);

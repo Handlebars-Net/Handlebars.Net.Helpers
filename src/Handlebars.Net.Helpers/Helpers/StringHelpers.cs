@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers
@@ -12,7 +13,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// Some code copied from https://www.30secondsofcode.org/c-sharp/t/string/p/1
     /// and based on https://github.com/helpers/handlebars-helpers#string
     /// </summary>
-    internal class StringHelpers : IHelpers
+    internal class StringHelpers : BaseHelpers, IHelpers
     {
         [HandlebarsWriter(WriterType.WriteSafeString)]
         public string Append(string value, string append)
@@ -85,6 +86,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
             char[] chars = value.ToCharArray();
             chars[0] = char.ToUpper(chars[0]);
             return new string(chars);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Concat(string value, string append)
+        {
+            return Append(value, append);
         }
 
         [HandlebarsWriter(WriterType.Write)]
@@ -170,6 +177,18 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return pre + value;
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Remove(string value, string oldValue)
+        {
+            return Replace(value, oldValue, string.Empty);
+        }
+
+        [HandlebarsWriter(WriterType.WriteSafeString)]
+        public string Repeat(string value, int count)
+        {
+            return string.Concat(Enumerable.Repeat(value, count));
         }
 
         [HandlebarsWriter(WriterType.WriteSafeString)]
@@ -301,6 +320,10 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return value.ToUpper();
+        }
+
+        public StringHelpers(HandlebarsHelpersOptions options) : base(options)
+        {
         }
     }
 }

@@ -35,9 +35,22 @@ namespace ConsoleApp
 
             var tests = new[]
             {
-                //"{{#each (ArrayTest)}}_{{this}}_{{/each}}",
-                //"{{#each ar}}_{{this}}_{{/each}}",
-                
+                "{{Abs -1}}",
+                "{{Abs -1.1234}}",
+
+                "{{Add 1 2}}",
+                "{{Add 1 '2'}}",
+
+                "{{Sign -1}}",
+                "{{Sign " + long.MinValue + "}}",
+                "{{Sign -1.1234}}",
+                "{{Abs -1,1234}}",
+                // "{{Abs \"x\"}}"
+
+                "{{Min 42 5}}",
+                "{{Min 42 5.2}}",
+                "{{Min 42.1 5}}",
+
                 "{{this}}",
                 "{{Constants.Math.PI}}",
                 "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
@@ -55,18 +68,6 @@ namespace ConsoleApp
                 "{{Pascalcase \"abc def\"}}",
                 "{{Uppercase \"abc\"}}",
                 "{{Lowercase \"XYZ\"}}",
-
-                "{{Abs -1}}",
-                "{{Abs -1.1234}}",
-                "{{Sign -1}}",
-                "{{Sign " + long.MinValue + "}}",
-                "{{Sign -1.1234}}",
-                "{{Abs -1,1234}}",
-                // "{{Abs \"x\"}}"
-
-                "{{Min 42 5}}",
-                "{{Min 42 5.2}}",
-                "{{Min 42.1 5}}",
             };
 
             foreach (string test in tests)

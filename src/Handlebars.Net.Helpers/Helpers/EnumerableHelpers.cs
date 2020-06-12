@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// <summary>
     /// Some ideas based on https://github.com/helpers/handlebars-helpers#array
     /// </summary>
-    internal class EnumerableHelpers : IHelpers
+    internal class EnumerableHelpers : BaseHelpers, IHelpers
     {
         [HandlebarsWriter(WriterType.Write)]
         public object Average(IEnumerable<object> values)
@@ -107,6 +108,10 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
 
             return values.Take(count);
+        }
+
+        public EnumerableHelpers(HandlebarsHelpersOptions options) : base(options)
+        {
         }
     }
 }
