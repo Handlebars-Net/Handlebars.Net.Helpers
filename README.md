@@ -76,7 +76,7 @@ HandlebarsHelpers.Register(handlebarsContext, options => { UseCategoryPrefix = f
 
 Now you can use it like:
 ``` handlebars
-{{[String-Append] "foobar" "bar"}}
+{{String-Append "foobar" "bar"}}
 ```
 
 Now you can access the helpers by just using the name like:
