@@ -18,7 +18,7 @@ Several helpers which can be used for:
 - .NET Framework 4.5.1 and 4.5.2 `*`
 - .NET Standard 1.3, 2.0 and 2.1
 
-`*` : not all fucntionality works on .NET 4.5.1 due to an older version from Handlebars.Net
+`*` : not all functionality works on .NET 4.5.1 due to an older version from Handlebars.Net
 
 ## Usage
 
@@ -47,7 +47,7 @@ HandlebarsHelpers.Register(handlebarsContext, Category.Math, Category.String);
 #### With a category prefix (default)
 By default you can use the helpers by using a prefix from the category:
 ```handlebars
-{{String.Append "foobar" "bar"}}
+{{[String.Append] "foobar" "bar"}}
 ```
 
 #### With an additional custom prefix
@@ -58,7 +58,7 @@ HandlebarsHelpers.Register(handlebarsContext, options => { Prefix = "custom"; })
 
 Now you can only access the helpers by using the custom prefix, category prefix and the name like:
 ```handlebars
-{{custom.String.Append "foobar" "bar"}}
+{{[custom.String.Append] "foobar" "bar"}}
 ```
 
 #### Without a prefix

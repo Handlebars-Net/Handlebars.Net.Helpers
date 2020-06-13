@@ -1,33 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
-		<AssemblyName>Handlebars.CSharp.Helpers</AssemblyName>
-		<RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-		<LangVersion>8.0</LangVersion>
-		<Nullable>enable</Nullable>
-		<Description>Several Handlebars.CSharp helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex', 'String' and 'Urls'.</Description>
-		<PackageId>Handlebars.CSharp.Helpers</PackageId>
-		<PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
-		<ProjectGuid>{272975E7-161D-4FBC-A06E-5F659F4FC4FD}</ProjectGuid>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <AssemblyName>Handlebars.CSharp.Helpers</AssemblyName>
+    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Description>Several Handlebars.CSharp helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex', 'String' and 'Urls'.</Description>
+    <PackageId>Handlebars.CSharp.Helpers</PackageId>
+    <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
+    <ProjectGuid>{272975E7-161D-4FBC-A06E-5F659F4FC4FD}</ProjectGuid>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-		<PackageReference Include="Handlebars.CSharp" Version="1.3.6" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Handlebars.CSharp" Version="1.3.6" />
+  </ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net451' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.3' ">
-		<PackageReference Include="System.ValueTuple" Version="4.3.0" />
-	</ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+  </ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-		<PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
-	</ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Compile Remove="..\Handlebars.Net.Helpers\*\AssemblyInfo.cs" />
-		<Compile Include="..\Handlebars.Net.Helpers\*.cs;..\Handlebars.Net.Helpers\*\*.cs" Exclude="..\Handlebars.Net.Helpers\*\AssemblyInfo.cs;bin\**;obj\**;**\*.xproj;packages\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\Handlebars.Net.Helpers\*\AssemblyInfo.cs" />
+    <Compile Include="..\Handlebars.Net.Helpers\*.cs;..\Handlebars.Net.Helpers\*\*.cs" Exclude="..\Handlebars.Net.Helpers\*\AssemblyInfo.cs;bin\**;obj\**;**\*.xproj;packages\**" />
+  </ItemGroup>
 
 </Project>

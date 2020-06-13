@@ -12,7 +12,7 @@
     <ProjectGuid>{fd1cf989-3f17-4f38-a5f4-edecc647d237}</ProjectGuid>
     <DefineConstants>$(DefineConstants);HANDLEBARSNET</DefineConstants>
   </PropertyGroup>
- 
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>

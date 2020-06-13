@@ -17,10 +17,10 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.Append \"foo\" \"bar\"}}", "foobar")]
-        [InlineData("{{String.Append \"foo\" \"b\"}}", "foob")]
-        [InlineData("{{String.Append \"foo\" 'b'}}", "foob")]
-        [InlineData("{{String.Append \"foo\" (String.Append \"a\" \"b\")}}", "fooab")]
+        [InlineData("{{[String.Append] \"foo\" \"bar\"}}", "foobar")]
+        [InlineData("{{[String.Append] \"foo\" \"b\"}}", "foob")]
+        [InlineData("{{[String.Append] \"foo\" 'b'}}", "foob")]
+        [InlineData("{{[String.Append] \"foo\" ([String.Append] \"a\" \"b\")}}", "fooab")]
         public void Append(string template, string expected)
         {
             // Arrange
@@ -49,8 +49,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
-        [InlineData("{{String.Join [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
+        [InlineData("{{[String.Join] [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
+        [InlineData("{{[String.Join] [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
         public void Join(string template, string expected)
         {
             // Arrange
@@ -64,8 +64,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.Split \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
-        [InlineData("{{String.Split \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{[String.Split] \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{[String.Split] \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
         public void Split(string template, string expected)
         {
             // Arrange
@@ -98,8 +98,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.Append \"foo\"}}")]
-        [InlineData("{{String.Append \"foo\" \"bar\" \"bar2\"}}")]
+        [InlineData("{{[String.Append] \"foo\"}}")]
+        [InlineData("{{[String.Append] \"foo\" \"bar\" \"bar2\"}}")]
         public void InvalidNumberOfArgumentsShouldThrowHandlebarsException(string template)
         {
             // Arrange
@@ -110,7 +110,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.StartsWith \"foo\" 1}}")]
+        [InlineData("{{[String.StartsWith] \"foo\" 1}}")]
         public void InvalidArgumentTypeShouldThrowNotArgumentException(string template)
         {
             // Arrange
@@ -129,7 +129,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             {
                 options.UseCategoryPrefix = false;
             });
-            var action = handlebarsContext.Compile("{{Append \"foo\" \"bar\"}}");
+            var action = handlebarsContext.Compile("{{[Append] \"foo\" \"bar\"}}");
 
             // Act
             var result = action("");
@@ -148,7 +148,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
                 options.UseCategoryPrefix = false;
                 options.Prefix = "test";
             });
-            var action = handlebarsContext.Compile("{{test.Append \"foo\" \"bar\"}}");
+            var action = handlebarsContext.Compile("{{[test.Append] \"foo\" \"bar\"}}");
 
             // Act
             var result = action("");
@@ -167,7 +167,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
                 options.UseCategoryPrefix = true;
                 options.Prefix = "test";
             });
-            var action = handlebarsContext.Compile("{{test.String.Append \"foo\" \"bar\"}}");
+            var action = handlebarsContext.Compile("{{[test.String.Append] \"foo\" \"bar\"}}");
 
             // Act
             var result = action("");

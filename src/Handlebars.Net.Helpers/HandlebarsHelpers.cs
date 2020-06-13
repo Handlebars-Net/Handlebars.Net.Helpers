@@ -91,13 +91,12 @@ namespace HandlebarsDotNet.Helpers
                 names.Add(x.methodInfo.Name);
             }
 
-            string name = string.Join(".", names);
-            return name;
+            return string.Join(".", names);
         }
 
-        private static void RegisterHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string methodName)
+        private static void RegisterHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string name)
         {
-            foreach (string helperName in CreateHelperNames(methodName))
+            foreach (string helperName in CreateHelperNames(name))
             {
                 handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
                 {
@@ -124,13 +123,13 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static void RegisterBlockHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string methodName)
+        private static void RegisterBlockHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
         {
-            foreach (string helperName in CreateHelperNames(methodName))
+            //foreach (string helperName in CreateHelperNames(methodName))
             {
-                handlebarsContext.RegisterHelper(helperName, (writer, options, context, arguments) =>
+                handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
                 {
-                    object value = InvokeMethod(helperOptions, helperName, methodInfo, arguments, obj);
+                    object value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
 
                     if (value is bool valueAsBool && !valueAsBool)
                     {
