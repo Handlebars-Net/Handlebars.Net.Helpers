@@ -125,23 +125,20 @@ namespace HandlebarsDotNet.Helpers
 
         private static void RegisterBlockHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
         {
-            //foreach (string helperName in CreateHelperNames(methodName))
+            handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
             {
-                handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
-                {
-                    object value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
+                object value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
 
-                    if (value is bool valueAsBool && !valueAsBool)
-                    {
-                        // If it's a boolean value, and if this is 'False', execute the Inverse.
-                        options.Inverse(writer, value);
-                    }
-                    else
-                    {
-                        options.Template(writer, value);
-                    }
-                });
-            }
+                if (value is bool valueAsBool && !valueAsBool)
+                {
+                    // If it's a boolean value, and if this is 'False', execute the Inverse.
+                    options.Inverse(writer, value);
+                }
+                else
+                {
+                    options.Template(writer, value);
+                }
+            });
         }
 
         private static object InvokeMethod(HandlebarsHelpersOptions options, string helperName, MethodInfo methodInfo, object[] arguments, object obj)
