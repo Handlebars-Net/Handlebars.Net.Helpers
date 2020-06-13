@@ -121,6 +121,24 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Fact]
+        public void WithCustomPrefixSeparator()
+        {
+            // Arrange
+            var handlebarsContext = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebarsContext, options =>
+            {
+                options.PrefixSeparator = "-";
+            });
+            var action = handlebarsContext.Compile("{{String-Append \"foo\" \"bar\"}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("foobar");
+        }
+
+        [Fact]
         public void WithoutCategoryPrefix()
         {
             // Arrange

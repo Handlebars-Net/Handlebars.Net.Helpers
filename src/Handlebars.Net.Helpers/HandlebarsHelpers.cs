@@ -91,7 +91,7 @@ namespace HandlebarsDotNet.Helpers
                 names.Add(x.methodInfo.Name);
             }
 
-            return string.Join(".", names);
+            return string.Join(options.PrefixSeparator, names);
         }
 
         private static void RegisterHelper(HandlebarsHelpersOptions helperOptions, IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string name)
