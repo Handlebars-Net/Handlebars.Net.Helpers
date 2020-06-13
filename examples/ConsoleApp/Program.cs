@@ -45,7 +45,7 @@ namespace ConsoleApp
                 "{{Min 42.1 5}}",
 
                 "{{this}}",
-                "{{Constants.Math.PI}}",
+                "{{[Constants.Math.PI]}}",
                 "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
                 "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
@@ -68,7 +68,7 @@ namespace ConsoleApp
                 var x = DateTime.Now;
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(x);
-                Console.WriteLine(result);
+                Console.WriteLine($"{test} : {result}");
             }
 
             Console.WriteLine(new string('-', 80));
@@ -79,6 +79,8 @@ namespace ConsoleApp
             var tests2 = new[]
             {
                 "{{[Math.Abs] -42}}",
+                "{{#String.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/String.IsMatch}}",  // fails
+
                 "{{Math.Abs -42}}", // this will return empty value for Handlebars.CSharp as this follows the specification from handlebarsjs more closely
             };
 
@@ -87,7 +89,7 @@ namespace ConsoleApp
                 var x = DateTime.Now;
                 var template = handlebars2.Compile(test);
                 var result = template.Invoke(x);
-                Console.WriteLine(result);
+                Console.WriteLine($"{test} : {result}");
             }
         }
     }
