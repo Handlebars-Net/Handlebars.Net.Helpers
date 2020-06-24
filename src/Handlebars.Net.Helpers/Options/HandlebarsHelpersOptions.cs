@@ -8,10 +8,17 @@ namespace HandlebarsDotNet.Helpers.Options
     /// </summary>
     public class HandlebarsHelpersOptions
     {
+        private const string Dot = ".";
+
         /// <summary>
         /// Set to false if you don't want to add the prefix from the category to the helper name. (Default is set to true).
         /// </summary>
         public bool UseCategoryPrefix { get; set; } = true;
+
+        /// <summary>
+        /// Define a custom separator when <see cref="UseCategoryPrefix"/> is set to <see langword="true"/>. (Default value is a dot '.').
+        /// </summary>
+        public string PrefixSeparator { get; set; } = Dot;
 
         /// <summary>
         /// Define a custom prefix which will be added before of the helper name.

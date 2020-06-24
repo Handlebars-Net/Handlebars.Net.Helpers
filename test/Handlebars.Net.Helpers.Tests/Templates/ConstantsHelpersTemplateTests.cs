@@ -16,8 +16,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{Constants.Math.PI}}", "3.14")]
-        [InlineData("{{Constants.Math.E}}", "2.71")]
+        [InlineData("{{[Constants.Math.PI]}}", "3.14")]
+        [InlineData("{{[Constants.Math.E]}}", "2.71")]
         public void Constants(string template, string expected)
         {
             // Arrange

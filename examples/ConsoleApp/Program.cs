@@ -10,6 +10,7 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             var handlebars = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
             handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
             {
@@ -26,13 +27,6 @@ namespace ConsoleApp
             var resultX = templateX.Invoke("");
             Console.WriteLine("ArrayTest = " + resultX);
 
-            for (int i = 0; i < 5; i++)
-            {
-                var stopwatch = Stopwatch.StartNew();
-                HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
-                Console.WriteLine($"HandlebarsHelpers.Register {stopwatch.Elapsed}");
-            }
-
             var tests = new[]
             {
                 "{{Abs -1}}",
@@ -45,14 +39,13 @@ namespace ConsoleApp
                 "{{Sign " + long.MinValue + "}}",
                 "{{Sign -1.1234}}",
                 "{{Abs -1,1234}}",
-                // "{{Abs \"x\"}}"
 
                 "{{Min 42 5}}",
                 "{{Min 42 5.2}}",
                 "{{Min 42.1 5}}",
 
                 "{{this}}",
-                "{{Constants.Math.PI}}",
+                "{{[Constants.Math.PI]}}",
                 "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
                 "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
@@ -75,7 +68,28 @@ namespace ConsoleApp
                 var x = DateTime.Now;
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(x);
-                Console.WriteLine(result);
+                Console.WriteLine($"{test} : {result}");
+            }
+
+            Console.WriteLine(new string('-', 80));
+
+            var handlebars2 = Handlebars.Create();
+            HandlebarsHelpers.Register(handlebars2, options => { options.UseCategoryPrefix = true; });
+
+            var tests2 = new[]
+            {
+                "{{[Math.Abs] -42}}",
+                "{{#String.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/String.IsMatch}}",  // fails
+
+                "{{Math.Abs -42}}", // this will return empty value for Handlebars.CSharp as this follows the specification from handlebarsjs more closely
+            };
+
+            foreach (string test in tests2)
+            {
+                var x = DateTime.Now;
+                var template = handlebars2.Compile(test);
+                var result = template.Invoke(x);
+                Console.WriteLine($"{test} : {result}");
             }
         }
     }
