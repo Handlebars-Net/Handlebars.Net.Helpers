@@ -68,6 +68,11 @@ By default the dot (`.`) character is used, use the code below to use a differen
 HandlebarsHelpers.Register(handlebarsContext, options => { PrefixSeparator = "-"; });
 ```
 
+Now you can only access the helpers by using the `-` separator like this:
+```handlebars
+{{[String-Append] "foobar" "bar"}}
+```
+
 #### Without a prefix
 If you would like to use the helpers without a prefix, so just by name, use this code:
 ``` c#
