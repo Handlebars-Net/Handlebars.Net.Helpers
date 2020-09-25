@@ -12,7 +12,7 @@ Several helpers which can be used for:
 | **Packages** | |
 | &nbsp;&nbsp;Handlebars.Net.Helpers | [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers) |
 | &nbsp;&nbsp;Handlebars.CSharp.Helpers | [![NuGet](https://buildstats.info/nuget/Handlebars.CSharp.Helpers)](https://www.nuget.org/packages/Handlebars.CSharp.Helpers)|
-| &nbsp;&nbsp;MyGet previews | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.CSharp.Helpers) [Info](https://github.com/StefH/Handlebars.Net.Helpers/wiki/MyGet)|
+| &nbsp;&nbsp;MyGet previews | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.CSharp.Helpers) [Info](https://github.com/StefH/Handlebars.Net.Helpers/wiki/MyGet)|
 
 ## Framework support
 - .NET Framework 4.5.1 and 4.5.2 `*`
