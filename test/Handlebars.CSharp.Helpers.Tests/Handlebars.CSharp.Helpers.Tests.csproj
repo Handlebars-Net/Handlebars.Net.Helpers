@@ -8,6 +8,8 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <ProjectGuid>{FE40384A-BBB3-47E7-9B06-2DD1E2AFA411}</ProjectGuid>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../../src/Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

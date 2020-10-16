@@ -1,0 +1,4 @@
+Start VS2019 developer prompt
+
+sn -p Handlebars.Net.Helpers public-key
+sn -tp public-key > public-key.txt
