@@ -1,3 +1,7 @@
+# 1.1.0 (16 October 2020)
+- [#11](https://github.com/StefH/Handlebars.Net.Helpers/pull/11) - Sign assemblies [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#10](https://github.com/StefH/Handlebars.Net.Helpers/issues/10) - The assembly is not signed [enhancement]
+
 # 1.0.2 (24 June 2020)
 - [#8](https://github.com/StefH/Handlebars.Net.Helpers/pull/8) - Handlebars Net v.s. CSharp compatiblity fixes [enhancement] contributed by [StefH](https://github.com/StefH)
 
