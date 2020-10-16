@@ -11,6 +11,8 @@
     <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
     <ProjectGuid>{fd1cf989-3f17-4f38-a5f4-edecc647d237}</ProjectGuid>
     <DefineConstants>$(DefineConstants);HANDLEBARSNET</DefineConstants>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

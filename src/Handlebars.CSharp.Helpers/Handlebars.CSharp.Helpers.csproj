@@ -10,6 +10,8 @@
     <PackageId>Handlebars.CSharp.Helpers</PackageId>
     <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
     <ProjectGuid>{272975E7-161D-4FBC-A06E-5F659F4FC4FD}</ProjectGuid>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
