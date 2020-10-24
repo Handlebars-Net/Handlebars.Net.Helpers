@@ -100,7 +100,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
-        public static IList<T> HasNoNulls<T>(IList<T> value, string parameterName)
+        public static IEnumerable<T?> HasNoNulls<T>(IEnumerable<T?> value, string parameterName)
             where T : class
         {
             NotNull(value, parameterName);

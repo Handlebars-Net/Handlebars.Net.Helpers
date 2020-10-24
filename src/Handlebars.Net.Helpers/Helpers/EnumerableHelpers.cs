@@ -5,6 +5,7 @@ using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
+using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -80,6 +81,22 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public IEnumerable<object?> Reverse(IEnumerable<object?> values)
         {
             return values.Reverse();
+        }
+
+        [HandlebarsWriter(WriterType.Write)]
+        public IEnumerable<object?> Select(IEnumerable<object?> values, string propertyName, bool skipNullValues = false)
+        {
+            Guard.NotNull(values, nameof(values));
+            Guard.NotNullOrEmpty(propertyName, nameof(propertyName));
+
+            foreach (var value in values)
+            {
+                var result = ReflectionUtils.GetPropertyOrFieldValue(value, propertyName);
+                if (!skipNullValues || (skipNullValues && result != null))
+                {
+                    yield return result;
+                }
+            }
         }
 
         [HandlebarsWriter(WriterType.Write)]
