@@ -1,3 +1,7 @@
+# 1.1.1 (24 October 2020)
+- [#12](https://github.com/StefH/Handlebars.Net.Helpers/pull/12) - Enumerable.Select [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#9](https://github.com/StefH/Handlebars.Net.Helpers/issues/9) - Enumerable.Select [enhancement]
+
 # 1.1.0 (16 October 2020)
 - [#11](https://github.com/StefH/Handlebars.Net.Helpers/pull/11) - Sign assemblies [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#10](https://github.com/StefH/Handlebars.Net.Helpers/issues/10) - The assembly is not signed [enhancement]
