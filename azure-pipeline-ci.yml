@@ -17,6 +17,14 @@ steps:
     dotnet tool install --global dotnet-sonarscanner
   displayName: Install Tools (SonarScanner)
 
+- task: PowerShell@2
+  displayName: "Use JDK11 by default"
+  inputs:
+    targetType: 'inline'
+    script: |
+      $jdkPath = $env:JAVA_HOME_11_X64
+      Write-Host "##vso[task.setvariable variable=JAVA_HOME]$jdkPath"
+
 # Begin SonarScanner
 # See also
 # - https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools, else you get this error: `Since you just installed the .NET Core SDK, you will need to reopen the Command Prompt window before running the tool you installed.`
