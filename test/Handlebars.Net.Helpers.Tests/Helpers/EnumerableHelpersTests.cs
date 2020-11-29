@@ -51,6 +51,16 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Fact]
+        public void IsEmpty()
+        {
+            // Act
+            var result = _sut.IsEmpty(_array);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        [Fact]
         public void Select_NestedProperty_From_Array()
         {
             // Act
