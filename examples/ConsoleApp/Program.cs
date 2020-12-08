@@ -12,15 +12,9 @@ namespace ConsoleApp
             var handlebars = Handlebars.Create();
             HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
-            handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
+            handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
             {
-                var array = new object[]
-                {
-                    1,
-                    "two"
-                };
-
-                writer.WriteSafeString($"[{string.Join(", ", array)}]");
+                return new object[] { 1, "two" };
             });
 
             var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");

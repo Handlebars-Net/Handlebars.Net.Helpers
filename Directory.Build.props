@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.1.1</VersionPrefix>
+    <VersionPrefix>2.0.2</VersionPrefix>
     <Copyright>Copyright © 2020 Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>

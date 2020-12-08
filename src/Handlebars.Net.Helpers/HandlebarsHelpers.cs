@@ -25,6 +25,9 @@ namespace HandlebarsDotNet.Helpers
         /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
         public static void Register(IHandlebars handlebarsContext, params Category[] categories)
         {
+            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
+            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = true;
+
             Register(handlebarsContext, o => { o.Categories = categories; });
         }
 
@@ -100,7 +103,7 @@ namespace HandlebarsDotNet.Helpers
             {
                 handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
                 {
-                    object value = InvokeMethod(helperOptions, helperName, methodInfo, arguments, obj);
+                    object? value = InvokeMethod(helperOptions, helperName, methodInfo, arguments, obj);
 
                     switch (writerType)
                     {
@@ -127,7 +130,7 @@ namespace HandlebarsDotNet.Helpers
         {
             handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
             {
-                object value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
+                object? value = InvokeMethod(helperOptions, name, methodInfo, arguments, obj);
 
                 if (value is bool valueAsBool && !valueAsBool)
                 {
@@ -141,7 +144,7 @@ namespace HandlebarsDotNet.Helpers
             });
         }
 
-        private static object InvokeMethod(HandlebarsHelpersOptions options, string helperName, MethodInfo methodInfo, object[] arguments, object obj)
+        private static object? InvokeMethod(HandlebarsHelpersOptions options, string helperName, MethodInfo methodInfo, Arguments arguments, object instance)
         {
             int parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional);
             int parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
@@ -170,7 +173,7 @@ namespace HandlebarsDotNet.Helpers
 
             try
             {
-                return methodInfo.Invoke(obj, parsedArguments.ToArray());
+                return methodInfo.Invoke(instance, parsedArguments.ToArray());
             }
             catch (Exception e)
             {

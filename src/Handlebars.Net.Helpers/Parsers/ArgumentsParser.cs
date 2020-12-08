@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
+#if NETSTANDARD1_3
+using System.Reflection;
+#endif
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
     internal static class ArgumentsParser
     {
-        // Bug: Handlebars.Net does provide only strings
-        public static List<object?> Parse(HandlebarsHelpersOptions options, object?[] arguments)
+        public static List<object?> Parse(HandlebarsHelpersOptions options, Arguments arguments)
         {
             var list = new List<object?>();
             foreach (var argument in arguments)

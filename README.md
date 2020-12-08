@@ -1,5 +1,5 @@
 # Handlebars.Net.Helpers
-Several helpers which can be used for:
+Several helpers which can be used for
 - [Handlebars.Net](https://github.com/rexm/Handlebars.Net)
 - [Handlebars.CSharp](https://github.com/zjklee/Handlebars.CSharp) (Note that this library follows [handlebarsjs](https://handlebarsjs.com/) more strictly.)
 
