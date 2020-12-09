@@ -25,9 +25,6 @@ namespace HandlebarsDotNet.Helpers
         /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
         public static void Register(IHandlebars handlebarsContext, params Category[] categories)
         {
-            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
-            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = true;
-
             Register(handlebarsContext, o => { o.Categories = categories; });
         }
 
@@ -42,6 +39,9 @@ namespace HandlebarsDotNet.Helpers
 
             var options = new HandlebarsHelpersOptions();
             optionsCallback(options);
+
+            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
+            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.UseCategoryPrefix;
 
             var helpers = new Dictionary<Category, IHelpers>
             {
