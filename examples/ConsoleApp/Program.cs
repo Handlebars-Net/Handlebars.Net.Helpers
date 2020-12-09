@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 
@@ -14,7 +13,13 @@ namespace ConsoleApp
 
             handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
             {
-                return new object[] { 1, "two" };
+                var array = new object[]
+                {
+                    1,
+                    "two"
+                };
+
+                return array;
             });
 
             var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");
@@ -73,9 +78,7 @@ namespace ConsoleApp
             var tests2 = new[]
             {
                 "{{[Math.Abs] -42}}",
-                "{{#String.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/String.IsMatch}}",  // fails
-
-                "{{Math.Abs -42}}", // this will return empty value for Handlebars.CSharp as this follows the specification from handlebarsjs more closely
+                "{{Math.Abs -42}}"
             };
 
             foreach (string test in tests2)

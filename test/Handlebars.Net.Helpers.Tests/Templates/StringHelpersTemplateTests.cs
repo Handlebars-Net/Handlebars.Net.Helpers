@@ -57,7 +57,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             var action = _handlebarsContext.Compile(template);
 
             // Act
-            var result = action("");
+            var result = action(null);
 
             // Assert
             result.Should().Be(expected);
