@@ -1,7 +1,5 @@
 # Handlebars.Net.Helpers
-Several helpers which can be used for
-- [Handlebars.Net](https://github.com/rexm/Handlebars.Net)
-- [Handlebars.CSharp](https://github.com/zjklee/Handlebars.CSharp) (Note that this library follows [handlebarsjs](https://handlebarsjs.com/) more strictly.)
+Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/Handlebars.Net)
 
 ## Project
 | | |
@@ -11,14 +9,11 @@ Several helpers which can be used for
 | **Coverage** | [![Sonar Coverage](https://sonarcloud.io/api/project_badges/measure?project=Handlebars.Net.Helpers&metric=coverage)](https://sonarcloud.io/component_measures?id=Handlebars.Net.Helpers&metric=coverage) [![codecov](https://codecov.io/gh/StefH/Handlebars.Net.Helpers/branch/master/graph/badge.svg)](https://codecov.io/gh/StefH/Handlebars.Net.Helpers) |
 | **Packages** | |
 | &nbsp;&nbsp;Handlebars.Net.Helpers | [![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers)](https://www.nuget.org/packages/Handlebars.Net.Helpers) |
-| &nbsp;&nbsp;Handlebars.CSharp.Helpers | [![NuGet](https://buildstats.info/nuget/Handlebars.CSharp.Helpers)](https://www.nuget.org/packages/Handlebars.CSharp.Helpers)|
 | &nbsp;&nbsp;MyGet previews | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers) [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.CSharp.Helpers) [Info](https://github.com/StefH/Handlebars.Net.Helpers/wiki/MyGet)|
 
 ## Framework support
-- .NET Framework 4.5.1 and 4.5.2 `*`
+- .NET Framework 4.5.1 and 4.5.2
 - .NET Standard 1.3, 2.0 and 2.1
-
-`*` : not all functionality works on .NET 4.5.1 due to an older version from Handlebars.Net
 
 ## Usage
 

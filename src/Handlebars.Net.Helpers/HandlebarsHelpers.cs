@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
@@ -39,6 +38,11 @@ namespace HandlebarsDotNet.Helpers
 
             var options = new HandlebarsHelpersOptions();
             optionsCallback(options);
+
+            if (options.CultureInfo != null)
+            {
+                handlebarsContext.Configuration.FormatProvider = options.CultureInfo;
+            }
 
             // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
             handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.UseCategoryPrefix;
@@ -108,17 +112,17 @@ namespace HandlebarsDotNet.Helpers
                     switch (writerType)
                     {
                         case WriterType.WriteSafeString:
-                            writer.WriteSafeString(value, helperOptions);
+                            writer.WriteSafeString(value);
                             break;
 
                         default:
                             if (value is IEnumerable<object> array)
                             {
-                                writer.WriteSafeString(ArrayUtils.ToArray(array), helperOptions);
+                                writer.WriteSafeString(ArrayUtils.ToArray(array));
                             }
                             else
                             {
-                                writer.Write(value, helperOptions);
+                                writer.WriteSafeString(value);
                             }
                             break;
                     }
@@ -187,18 +191,13 @@ namespace HandlebarsDotNet.Helpers
         }
 
         /// <summary>
-        /// For Handlebars.Net : also return a helperName surrounded by [ ] to support the official handlebarsjs rules
-        /// For Handlebars.CSharp : only register normal helper name
+        /// Return also a helperName surrounded by [ ] to support the official handlebarsjs rules
         ///
         /// See https://github.com/StefH/Handlebars.Net.Helpers/issues/7
         /// </summary>
         private static string[] CreateHelperNames(string helperName)
         {
-#if HANDLEBARSNET
             return new[] { helperName, $"[{helperName}]" };
-#else
-            return new[] { helperName };
-#endif
         }
     }
 }
