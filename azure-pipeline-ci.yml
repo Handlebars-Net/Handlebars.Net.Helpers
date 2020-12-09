@@ -4,7 +4,7 @@ pool:
 variables:
   Prerelease: 'ci'
   buildId: "1$(Build.BuildId)"
-  buildProjects: '**/src/**/Handlebars.Net.Helpers.Tests.csproj'
+  buildProjects: '**/src/**/Handlebars.Net*.csproj'
 
 steps:
 # Print buildId
