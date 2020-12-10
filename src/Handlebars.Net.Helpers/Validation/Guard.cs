@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 // Copied from https://github.com/aspnet/EntityFramework/blob/dev/src/Shared/Check.cs
 namespace HandlebarsDotNet.Helpers.Validation
@@ -12,6 +13,7 @@ namespace HandlebarsDotNet.Helpers.Validation
     [DebuggerStepThrough]
     internal static class Guard
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Condition<T>(T value, Predicate<T> condition, string parameterName)
         {
             NotNull(condition, nameof(condition));
@@ -27,6 +29,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T NotNull<T>(T value, string parameterName)
         {
             if (ReferenceEquals(value, null))
@@ -39,6 +42,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T NotNull<T>(T value, string parameterName, string propertyName)
         {
             if (ReferenceEquals(value, null))
@@ -52,6 +56,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IList<T> NotNullOrEmpty<T>(IList<T> value, string parameterName)
         {
             NotNull(value, parameterName);
@@ -66,6 +71,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string? NotNullOrEmpty(string? value, string parameterName)
         {
             Exception? e = null;
@@ -88,6 +94,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string? NullButNotEmpty(string? value, string parameterName)
         {
             if (!ReferenceEquals(value, null) && (value.Length == 0))
@@ -100,6 +107,7 @@ namespace HandlebarsDotNet.Helpers.Validation
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T?> HasNoNulls<T>(IEnumerable<T?> value, string parameterName)
             where T : class
         {
