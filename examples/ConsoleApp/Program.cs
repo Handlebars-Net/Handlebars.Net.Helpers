@@ -46,6 +46,7 @@ namespace ConsoleApp
                 "{{this}}",
                 "{{[Constants.Math.PI]}}",
                 "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
+                "{{#IsMatch \"Hello\" \"hello\"}}yes{{else}}no{{/IsMatch}}",
                 "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
                 "{{Skip ['a', 'b', 'c', 1] 1}}",

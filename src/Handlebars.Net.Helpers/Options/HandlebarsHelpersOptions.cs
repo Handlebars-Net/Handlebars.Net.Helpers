@@ -21,6 +21,11 @@ namespace HandlebarsDotNet.Helpers.Options
         public string PrefixSeparator { get; set; } = Dot;
 
         /// <summary>
+        /// Defines if a dot '.' is used as PrefixSeparator.
+        /// </summary>
+        public bool PrefixSeparatorIsDot => PrefixSeparator == Dot;
+
+        /// <summary>
         /// Define a custom prefix which will be added before of the helper name.
         /// </summary>
         public string? Prefix { get; set; }

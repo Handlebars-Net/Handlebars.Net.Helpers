@@ -10,7 +10,7 @@ using System.Linq;
 namespace HandlebarsDotNet.Helpers.Validation
 {
     [DebuggerStepThrough]
-    public static class Guard
+    internal static class Guard
     {
         public static T Condition<T>(T value, Predicate<T> condition, string parameterName)
         {

@@ -45,7 +45,7 @@ namespace HandlebarsDotNet.Helpers
             }
 
             // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
-            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.UseCategoryPrefix;
+            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
 
             var helpers = new Dictionary<Category, IHelpers>
             {
