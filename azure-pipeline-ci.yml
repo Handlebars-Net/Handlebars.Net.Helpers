@@ -12,11 +12,6 @@ steps:
     echo "BuildId = $(buildId)"
   displayName: 'Print buildId'
 
-# Install Tools (SonarScanner)
-- script: |
-    dotnet tool install --global dotnet-sonarscanner
-  displayName: Install Tools (SonarScanner)
-
 - task: PowerShell@2
   displayName: "Use JDK11 by default"
   inputs:
@@ -25,16 +20,16 @@ steps:
       $jdkPath = $env:JAVA_HOME_11_X64
       Write-Host "##vso[task.setvariable variable=JAVA_HOME]$jdkPath"
 
-# Begin SonarScanner
-# See also
-# - https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools, else you get this error: `Since you just installed the .NET Core SDK, you will need to reopen the Command Prompt window before running the tool you installed.`
-# - https://github.com/dotnet/cli/issues/8368
-# - https://github.com/Microsoft/vsts-tasks/issues/8291
-#
-- script: |
-    %USERPROFILE%\.dotnet\tools\dotnet-sonarscanner begin /k:"Handlebars.Net.Helpers" /o:"stefh-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$(SONAR_TOKEN)" /v:"$(buildId)" /d:sonar.cs.opencover.reportsPaths="**\coverage.netcoreapp3.1.opencover.xml"
-  displayName: Begin SonarScanner
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare analysis on SonarCloud'
   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
+  inputs:
+    SonarCloud: SonarCloud
+    organization: stefh-github
+    projectKey: 'Handlebars.Net.Helpers'
+    projectName: 'Handlebars.Net.Helpers'
+    extraProperties: |
+    sonar.cs.opencover.reportsPaths=**/coverage.netcoreapp3.1.opencover.xml
 
 # Build source, tests and run tests for net452 and netcoreapp2.1 (with coverage)
 - script: |
@@ -42,10 +37,12 @@ steps:
     dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework netcoreapp3.1 --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
   displayName: 'Build source, tests and run tests for net452 and netcoreapp3.1 (with coverage)'
 
-# End SonarScanner
-- script: |
-    %USERPROFILE%\.dotnet\tools\dotnet-sonarscanner end /d:sonar.login="$(SONAR_TOKEN)"
-  displayName: End SonarScanner
+- task: SonarCloudAnalyze@1
+  displayName: 'SonarCloud: Run Code Analysis'
+  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
+  
+- task: SonarCloudPublish@1
+  displayName: 'SonarCloud: Publish Quality Gate Result'
   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
 
 - task: whitesource.ws-bolt.bolt.wss.WhiteSource Bolt@19
