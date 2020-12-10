@@ -1,17 +1,22 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
-using HandlebarsDotNet.Helpers.Options;
+using Moq;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class MathHelpersTests
     {
+        private readonly Mock<IHandlebars> _contextMock;
+
         private readonly MathHelpers _sut;
 
         public MathHelpersTests()
         {
-            _sut = new MathHelpers(new HandlebarsHelpersOptions());
+            _contextMock = new Mock<IHandlebars>();
+            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+
+            _sut = new MathHelpers(_contextMock.Object);
         }
 
         [Theory]

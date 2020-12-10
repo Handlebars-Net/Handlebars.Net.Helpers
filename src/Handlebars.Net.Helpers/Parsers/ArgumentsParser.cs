@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
     internal static class ArgumentsParser
     {
-        public static List<object?> Parse(HandlebarsHelpersOptions options, Arguments arguments)
+        public static List<object?> Parse(IHandlebars context, Arguments arguments)
         {
             var list = new List<object?>();
             foreach (var argument in arguments)
@@ -14,7 +13,7 @@ namespace HandlebarsDotNet.Helpers.Parsers
                 switch (argument)
                 {
                     case string valueAsString:
-                        list.Add(StringValueParser.Parse(options, valueAsString));
+                        list.Add(StringValueParser.Parse(context, valueAsString));
                         break;
 
                     case UndefinedBindingResult valueAsUndefinedBindingResult:

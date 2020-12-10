@@ -18,7 +18,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         {
             return Math.PI;
         }
-        public ConstantsHelpers(HandlebarsHelpersOptions options) : base(options)
+        public ConstantsHelpers(IHandlebars context) : base(context)
         {
         }
     }

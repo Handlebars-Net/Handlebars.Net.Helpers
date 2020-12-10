@@ -34,10 +34,5 @@ namespace HandlebarsDotNet.Helpers.Options
         /// The categories to register. By default all categories are registered. See the WIKI for details.
         /// </summary>
         public Category[]? Categories { get; set; } = null;
-
-        /// <summary>
-        /// The CultureInfo to use.  (Default is set to InvariantCulture).
-        /// </summary>
-        public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
     }
 }

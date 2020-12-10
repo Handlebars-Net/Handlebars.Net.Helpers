@@ -11,13 +11,13 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Write)]
         public object Add(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, (x1, x2) => x1 + x2, (x1, x2) => x1 + x2, (x1, x2) => x1 + x2);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 + x2, (x1, x2) => x1 + x2, (x1, x2) => x1 + x2);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Abs(object value)
         {
-            return ExecuteUtils.Execute(Options, value, Math.Abs, Math.Abs, Math.Abs);
+            return ExecuteUtils.Execute(Context, value, Math.Abs, Math.Abs, Math.Abs);
         }
 
         [HandlebarsWriter(WriterType.Write)]
@@ -47,31 +47,31 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Write)]
         public object Max(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, Math.Max, Math.Max, Math.Max);
+            return ExecuteUtils.Execute(Context, value1, value2, Math.Max, Math.Max, Math.Max);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Min(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, Math.Min, Math.Min, Math.Min);
+            return ExecuteUtils.Execute(Context, value1, value2, Math.Min, Math.Min, Math.Min);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Minus(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, (x1, x2) => x1 - x2, (x1, x2) => x1 - x2, (x1, x2) => x1 - x2);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 - x2, (x1, x2) => x1 - x2, (x1, x2) => x1 - x2);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Modulo(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, (x1, x2) => x1 % x2, (x1, x2) => x1 % x2, (x1, x2) => x1 % x2);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 % x2, (x1, x2) => x1 % x2, (x1, x2) => x1 % x2);
         }
 
         [HandlebarsWriter(WriterType.Write)]
         public object Multiply(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Options, value1, value2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2);
         }
 
         [HandlebarsWriter(WriterType.Write)]
@@ -95,7 +95,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Write)]
         public object Sign(object value)
         {
-            return ExecuteUtils.Execute(Options, value, Math.Sign, l => Math.Sign(l), d => Math.Sign(d));
+            return ExecuteUtils.Execute(Context, value, Math.Sign, l => Math.Sign(l), d => Math.Sign(d));
         }
 
         [HandlebarsWriter(WriterType.Write)]
@@ -116,7 +116,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return Multiply(value1, value2);
         }
 
-        public MathHelpers(HandlebarsHelpersOptions options) : base(options)
+        public MathHelpers(IHandlebars context) : base(context)
         {
         }
     }

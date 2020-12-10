@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
@@ -19,7 +18,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return WebUtility.UrlEncode(value);
         }
 
-        public UrlHelpers(HandlebarsHelpersOptions options) : base(options)
+        public UrlHelpers(IHandlebars context) : base(context)
         {
         }
     }

@@ -1,14 +1,12 @@
-﻿using HandlebarsDotNet.Helpers.Options;
-
-namespace HandlebarsDotNet.Helpers.Helpers
+﻿namespace HandlebarsDotNet.Helpers.Helpers
 {
     internal abstract class BaseHelpers
     {
-        private protected HandlebarsHelpersOptions Options;
+        private protected IHandlebars Context;
 
-        protected BaseHelpers(HandlebarsHelpersOptions options)
+        protected BaseHelpers(IHandlebars context)
         {
-            Options = options;
+            Context = context;
         }
     }
 }

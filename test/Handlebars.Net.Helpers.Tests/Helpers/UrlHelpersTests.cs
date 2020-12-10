@@ -1,17 +1,21 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
-using HandlebarsDotNet.Helpers.Options;
+using Moq;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class UrlHelpersTests
     {
+        private readonly Mock<IHandlebars> _contextMock;
+
         private readonly UrlHelpers _sut;
 
         public UrlHelpersTests()
         {
-            _sut = new UrlHelpers(new HandlebarsHelpersOptions());
+            _contextMock = new Mock<IHandlebars>();
+
+            _sut = new UrlHelpers(_contextMock.Object);
         }
 
         [Theory]

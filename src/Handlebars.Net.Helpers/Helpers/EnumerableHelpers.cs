@@ -127,7 +127,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return values.Take(count);
         }
 
-        public EnumerableHelpers(HandlebarsHelpersOptions options) : base(options)
+        public EnumerableHelpers(IHandlebars context) : base(context)
         {
         }
     }

@@ -54,7 +54,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return Regex.Match(value, regexPattern).Success;
         }
 
-        public RegexHelpers(HandlebarsHelpersOptions options) : base(options)
+        public RegexHelpers(IHandlebars context) : base(context)
         {
         }
     }

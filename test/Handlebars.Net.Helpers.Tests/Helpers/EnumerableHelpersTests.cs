@@ -1,13 +1,15 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
-using HandlebarsDotNet.Helpers.Options;
+using Moq;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class EnumerableHelpersTests
     {
+        private readonly Mock<IHandlebars> _contextMock;
+
         private readonly A?[] _array;
 
         private readonly EnumerableHelpers _sut;
@@ -33,7 +35,9 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
                 null
             };
 
-            _sut = new EnumerableHelpers(new HandlebarsHelpersOptions());
+            _contextMock = new Mock<IHandlebars>();
+
+            _sut = new EnumerableHelpers(_contextMock.Object);
         }
 
         private class A

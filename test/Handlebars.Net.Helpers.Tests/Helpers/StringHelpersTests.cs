@@ -1,17 +1,22 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Options;
+using Moq;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class StringHelpersTests
     {
+        private readonly Mock<IHandlebars> _contextMock;
+
         private readonly StringHelpers _sut;
 
         public StringHelpersTests()
         {
-            _sut = new StringHelpers(new HandlebarsHelpersOptions());
+            _contextMock = new Mock<IHandlebars>();
+
+            _sut = new StringHelpers(_contextMock.Object);
         }
 
         [Theory]

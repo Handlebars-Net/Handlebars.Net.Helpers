@@ -1,23 +1,22 @@
 ﻿using System.Globalization;
-using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
     internal static class StringValueParser
     {
-        public static object Parse(HandlebarsHelpersOptions options, string valueAsString)
+        public static object Parse(IHandlebars context, string valueAsString)
         {
-            if (int.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out int valueAsInt))
+            if (int.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out int valueAsInt))
             {
                 return valueAsInt;
             }
             
-            if (long.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out long valueAsLong))
+            if (long.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out long valueAsLong))
             {
                 return valueAsLong;
             }
             
-            if (double.TryParse(valueAsString, NumberStyles.Any, options.CultureInfo, out double valueAsDouble))
+            if (double.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out double valueAsDouble))
             {
                 return valueAsDouble;
             }

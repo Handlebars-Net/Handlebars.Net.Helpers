@@ -322,7 +322,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.ToUpper();
         }
 
-        public StringHelpers(HandlebarsHelpersOptions options) : base(options)
+        public StringHelpers(IHandlebars context) : base(context)
         {
         }
     }
