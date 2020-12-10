@@ -29,7 +29,7 @@ steps:
     projectKey: 'Handlebars.Net.Helpers'
     projectName: 'Handlebars.Net.Helpers'
     extraProperties: |
-    sonar.cs.opencover.reportsPaths=**/coverage.netcoreapp3.1.opencover.xml
+      sonar.cs.opencover.reportsPaths=**/coverage.netcoreapp3.1.opencover.xml
 
 # Build source, tests and run tests for net452 and netcoreapp2.1 (with coverage)
 - script: |
