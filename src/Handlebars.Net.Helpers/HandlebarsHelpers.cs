@@ -107,11 +107,11 @@ namespace HandlebarsDotNet.Helpers
                 switch (writerType)
                 {
                     case WriterType.String:
-                        RegisterStringHelper(handlebarsContext, obj, writerType, methodInfo, helperName);
+                        RegisterStringHelper(handlebarsContext, obj, methodInfo, helperName);
                         break;
 
                     case WriterType.Value:
-                        RegisterValueHelper(handlebarsContext, obj, writerType, methodInfo, helperName);
+                        RegisterValueHelper(handlebarsContext, obj, methodInfo, helperName);
                         break;
 
                     default:
@@ -120,7 +120,7 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static void RegisterStringHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string helperName)
+        private static void RegisterStringHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string helperName)
         {
             handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
             {
@@ -137,7 +137,7 @@ namespace HandlebarsDotNet.Helpers
             });
         }
 
-        private static void RegisterValueHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string helperName)
+        private static void RegisterValueHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string helperName)
         {
             handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
             {
