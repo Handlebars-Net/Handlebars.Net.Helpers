@@ -7,7 +7,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
 {
     internal class RegexHelpers : BaseHelpers, IHelpers
     {
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool IsMatch(string value, string regexPattern, string? options = null)
         {
             if (!string.IsNullOrWhiteSpace(options))

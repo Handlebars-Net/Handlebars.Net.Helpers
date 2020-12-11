@@ -58,25 +58,29 @@ namespace HandlebarsDotNet.Helpers
                 Type helperClassType = helper.GetType();
 
                 var methods = helperClassType.GetMethods()
-                    .Select(methodInfo => (methodInfo, methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()))
-                    .Where(x => x.Item2 is { });
+                    .Select(methodInfo => new
+                    {
+                        MethodInfo = methodInfo,
+                        HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
+                    })
+                    .Where(x => x.HandlebarsWriterAttribute is { });
 
-                foreach (var x in methods)
+                foreach (var method in methods)
                 {
-                    var name = GetName(x, options, item);
+                    var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute, options, item);
 
-                    RegisterHelper(handlebarsContext, helper, x.Item2.Type, x.methodInfo, name);
-                    RegisterBlockHelper(handlebarsContext, helper, x.methodInfo, name);
+                    RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute.Type, method.MethodInfo, name);
+                    RegisterBlockHelper(handlebarsContext, helper, method.MethodInfo, name);
                 }
             }
         }
 
-        private static string GetName((MethodInfo methodInfo, HandlebarsWriterAttribute attribute) x, HandlebarsHelpersOptions options, KeyValuePair<Category, IHelpers> item)
+        private static string GetName(MethodInfo methodInfo, HandlebarsWriterAttribute attribute, HandlebarsHelpersOptions options, KeyValuePair<Category, IHelpers> item)
         {
             var names = new List<string>();
-            if (x.attribute.Name is { } && !string.IsNullOrWhiteSpace(x.attribute.Name))
+            if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
             {
-                names.Add(x.attribute.Name);
+                names.Add(attribute.Name);
             }
             else
             {
@@ -90,7 +94,7 @@ namespace HandlebarsDotNet.Helpers
                     names.Add(item.Key.ToString());
                 }
 
-                names.Add(x.methodInfo.Name);
+                names.Add(methodInfo.Name);
             }
 
             return string.Join(options.PrefixSeparator, names);
@@ -100,29 +104,45 @@ namespace HandlebarsDotNet.Helpers
         {
             foreach (string helperName in CreateHelperNames(name))
             {
-                handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
+                switch (writerType)
                 {
-                    object? value = InvokeMethod(handlebarsContext, helperName, methodInfo, arguments, obj);
+                    case WriterType.String:
+                        RegisterStringHelper(handlebarsContext, obj, writerType, methodInfo, helperName);
+                        break;
 
-                    switch (writerType)
-                    {
-                        case WriterType.WriteSafeString:
-                            writer.WriteSafeString(value);
-                            break;
+                    case WriterType.Value:
+                        RegisterValueHelper(handlebarsContext, obj, writerType, methodInfo, helperName);
+                        break;
 
-                        default:
-                            if (value is IEnumerable<object> array)
-                            {
-                                writer.WriteSafeString(ArrayUtils.ToArray(array));
-                            }
-                            else
-                            {
-                                writer.WriteSafeString(value);
-                            }
-                            break;
-                    }
-                });
+                    default:
+                        break;
+                }
             }
+        }
+
+        private static void RegisterStringHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string helperName)
+        {
+            handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
+            {
+                object? value = InvokeMethod(handlebarsContext, helperName, methodInfo, arguments, obj);
+
+                if (value is IEnumerable<object> array)
+                {
+                    writer.WriteSafeString(ArrayUtils.ToArray(array));
+                }
+                else
+                {
+                    writer.WriteSafeString(value);
+                }
+            });
+        }
+
+        private static void RegisterValueHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string helperName)
+        {
+            handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
+            {
+                return InvokeMethod(handlebarsContext, helperName, methodInfo, arguments, obj);
+            });
         }
 
         private static void RegisterBlockHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)

@@ -13,13 +13,13 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// </summary>
     internal class EnumerableHelpers : BaseHelpers, IHelpers
     {
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public object Average(IEnumerable<object> values)
         {
             return ExecuteUtils.Execute(values, x => x.Average());
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Distinct(IEnumerable<object?> values)
         {
             if (values is null)
@@ -30,7 +30,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return values.Distinct();
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool IsFirst(IEnumerable<object?> values, object? value)
         {
             if (values is null)
@@ -41,7 +41,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return values.FirstOrDefault() == value;
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool IsLast(IEnumerable<object?> values, object? value)
         {
             if (values is null)
@@ -52,37 +52,37 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return values.LastOrDefault() == value;
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool IsEmpty(IEnumerable<object?> value)
         {
             return value is null || !value.Any();
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public object Max(IEnumerable<object> values)
         {
             return ExecuteUtils.Execute(values, x => x.Max());
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public object Min(IEnumerable<object> values)
         {
             return ExecuteUtils.Execute(values, x => x.Min());
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Page(IEnumerable<object?> values, int pageNumber, int numberOfObjectsPerPage = 0)
         {
             return values.Skip(numberOfObjectsPerPage * pageNumber).Take(numberOfObjectsPerPage);
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Reverse(IEnumerable<object?> values)
         {
             return values.Reverse();
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Select(IEnumerable<object?> values, string propertyName, bool skipNullValues = false)
         {
             Guard.NotNull(values, nameof(values));
@@ -98,7 +98,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             }
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Skip(IEnumerable<object?> values, int count)
         {
             if (values is null)
@@ -109,13 +109,13 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return values.Skip(count);
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public object Sum(IEnumerable<object> values)
         {
             return ExecuteUtils.Execute(values, x => x.Sum());
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Take(IEnumerable<object?> values, int count)
         {
             if (values is null)
