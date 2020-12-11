@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers

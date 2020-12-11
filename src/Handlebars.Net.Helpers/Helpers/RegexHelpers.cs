@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {

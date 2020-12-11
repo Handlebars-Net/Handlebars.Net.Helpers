@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
 
 namespace HandlebarsDotNet.Helpers.Utils

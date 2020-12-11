@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using HandlebarsDotNet.Helpers.Validation;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {

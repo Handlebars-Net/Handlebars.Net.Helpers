@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using HandlebarsDotNet.Helpers.Enums;
+﻿using HandlebarsDotNet.Helpers.Enums;
 
 namespace HandlebarsDotNet.Helpers.Options
 {
