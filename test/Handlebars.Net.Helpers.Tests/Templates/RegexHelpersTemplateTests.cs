@@ -29,5 +29,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             // Assert
             result.Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData("{{#Regex.IsMatch \"Hello\" \"Hello\"}}TRUE{{else}}FALSE{{/Regex.IsMatch}}", "TRUE")]
+        [InlineData("{{#Regex.IsMatch \"Hello\" \"x\"}}TRUE{{else}}FALSE{{/Regex.IsMatch}}", "FALSE")]
+        public void IsMatch_With_True_And_False(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
