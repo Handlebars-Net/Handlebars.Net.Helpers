@@ -1,3 +1,7 @@
+# 2.0.0 (13 December 2020)
+- [#13](https://github.com/StefH/Handlebars.Net.Helpers/pull/13) - Enumerable test : IsEmpty contributed by [StefH](https://github.com/StefH)
+- [#15](https://github.com/StefH/Handlebars.Net.Helpers/pull/15) - Use HandleBars.Net version 2 contributed by [StefH](https://github.com/StefH)
+
 # 1.1.1 (24 October 2020)
 - [#12](https://github.com/StefH/Handlebars.Net.Helpers/pull/12) - Enumerable.Select [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#9](https://github.com/StefH/Handlebars.Net.Helpers/issues/9) - Enumerable.Select [enhancement]
