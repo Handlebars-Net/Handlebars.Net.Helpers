@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers
@@ -15,7 +14,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
     /// </summary>
     internal class StringHelpers : BaseHelpers, IHelpers
     {
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Append(string value, string append)
         {
             if (string.IsNullOrEmpty(value))
@@ -31,7 +30,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value + append;
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public static string Base64Decode(string value)
         {
             if (value == null)
@@ -43,7 +42,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public static string Base64Encode(string value)
         {
             if (value == null)
@@ -55,7 +54,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return Convert.ToBase64String(plainTextBytes);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Camelcase(string value)
         {
             if (string.IsNullOrEmpty(value) || value.Length < 2)
@@ -75,7 +74,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return builder.ToString();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Capitalize(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -88,13 +87,13 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return new string(chars);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Concat(string value, string append)
         {
             return Append(value, append);
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool Contains(string value, string test)
         {
             Guard.NotNull(value, nameof(value));
@@ -102,7 +101,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Contains(test);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Ellipsis(string value, int length)
         {
             Guard.Condition(length, l => l >= 0, nameof(length));
@@ -115,13 +114,13 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Substring(0, length) + "...";
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool IsString(object value)
         {
             return value is string;
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Join(IEnumerable<object> values, string? separator = null)
         {
             if (values == null)
@@ -132,7 +131,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return separator is null ? string.Join(string.Empty, values) : string.Join(separator, values);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Lowercase(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -143,7 +142,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.ToLower();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Pascalcase(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -168,7 +167,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return builder.ToString();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Prepend(string value, string pre)
         {
             if (string.IsNullOrEmpty(value))
@@ -179,19 +178,19 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return pre + value;
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Remove(string value, string oldValue)
         {
             return Replace(value, oldValue, string.Empty);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Repeat(string value, int count)
         {
             return string.Concat(Enumerable.Repeat(value, count));
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Replace(string value, string oldValue, string newValue)
         {
             if (value is null)
@@ -207,7 +206,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Replace(oldValue, newValue);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Reverse(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -218,7 +217,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return new string(value.ToCharArray().Reverse().ToArray());
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.String)]
         public string[] Split(string value, string separator)
         {
             if (value is null)
@@ -234,7 +233,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public static string Titlecase(string value)
         {
             if (value is null)
@@ -254,7 +253,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return string.Join(" ", tokens);
         }
 
-        [HandlebarsWriter(WriterType.Write)]
+        [HandlebarsWriter(WriterType.Value)]
         public bool StartsWith(string value, string test)
         {
             if (value is null)
@@ -265,7 +264,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.StartsWith(test);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Trim(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -276,7 +275,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Trim();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string TrimEnd(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -287,7 +286,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.TrimEnd();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string TrimStart(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -298,7 +297,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.TrimStart();
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Truncate(string value, int length)
         {
             Guard.Condition(length, l => l >= 0, nameof(length));
@@ -311,7 +310,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.Substring(0, length);
         }
 
-        [HandlebarsWriter(WriterType.WriteSafeString)]
+        [HandlebarsWriter(WriterType.String)]
         public string Uppercase(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -322,7 +321,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.ToUpper();
         }
 
-        public StringHelpers(HandlebarsHelpersOptions options) : base(options)
+        public StringHelpers(IHandlebars context) : base(context)
         {
         }
     }

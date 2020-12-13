@@ -49,7 +49,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{[String.Join] [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
+        [InlineData("{{String.Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
         [InlineData("{{[String.Join] [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
         public void Join(string template, string expected)
         {
@@ -57,7 +57,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             var action = _handlebarsContext.Compile(template);
 
             // Act
-            var result = action("");
+            var result = action(null);
 
             // Assert
             result.Should().Be(expected);

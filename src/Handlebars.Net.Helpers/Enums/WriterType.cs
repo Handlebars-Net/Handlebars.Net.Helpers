@@ -2,8 +2,8 @@
 {
     internal enum WriterType
     {
-        Write,
+        Value,
 
-        WriteSafeString
+        String
     }
 }

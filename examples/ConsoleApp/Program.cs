@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 
@@ -12,7 +11,7 @@ namespace ConsoleApp
             var handlebars = Handlebars.Create();
             HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
-            handlebars.RegisterHelper("ArrayTest", (writer, context, arguments) =>
+            handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
             {
                 var array = new object[]
                 {
@@ -20,7 +19,7 @@ namespace ConsoleApp
                     "two"
                 };
 
-                writer.WriteSafeString($"[{string.Join(", ", array)}]");
+                return array;
             });
 
             var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");
@@ -47,6 +46,7 @@ namespace ConsoleApp
                 "{{this}}",
                 "{{[Constants.Math.PI]}}",
                 "{{#IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/IsMatch}}",
+                "{{#IsMatch \"Hello\" \"hello\"}}yes{{else}}no{{/IsMatch}}",
                 "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
                 "{{Skip ['a', 'b', 'c', 1] 1}}",
@@ -79,9 +79,7 @@ namespace ConsoleApp
             var tests2 = new[]
             {
                 "{{[Math.Abs] -42}}",
-                "{{#String.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/String.IsMatch}}",  // fails
-
-                "{{Math.Abs -42}}", // this will return empty value for Handlebars.CSharp as this follows the specification from handlebarsjs more closely
+                "{{Math.Abs -42}}"
             };
 
             foreach (string test in tests2)
