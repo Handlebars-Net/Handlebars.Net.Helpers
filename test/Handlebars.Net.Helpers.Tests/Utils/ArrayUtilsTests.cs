@@ -24,7 +24,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Utils
         [InlineData("[", false, null)]
         [InlineData("[]", true, new object?[] { })]
         [InlineData(@"[1,""c"",""str"",null]", true, new object?[] { 1, "c", "str", null })]
-        public void TryParse(string value, bool valid, IEnumerable<object?> expected)
+        public void TryParse(string value, bool valid, object?[] expected)
         {
             // Act
             bool result = ArrayUtils.TryParse(value, out var parsed);

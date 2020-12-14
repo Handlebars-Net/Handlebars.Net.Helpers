@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using HandlebarsDotNet.Helpers.TinyJson;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
@@ -9,22 +9,18 @@ namespace HandlebarsDotNet.Helpers.Utils
     {
         public static string ToArray(IEnumerable<object?> array)
         {
-            return new JArray(Fix(array)).ToString(Formatting.None);
+            return Fix(array).ToJson();
         }
 
-        public static bool TryParse(string value, out IEnumerable<object>? parsedArray)
+        public static bool TryParse(string value, out object?[]? parsedArray)
         {
             parsedArray = null;
             try
             {
-                var jToken = JToken.Parse(value);
-                if (jToken is JArray jTokenArray)
-                {
-                    parsedArray = jTokenArray.ToObject<IEnumerable<object>>();
-                    return true;
-                }
+                parsedArray = value.FromJson<object?[]>();
+                return true;
             }
-            catch (JsonException)
+            catch (Exception)
             {
                 // Ignore and return false
             }
