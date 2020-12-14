@@ -4,15 +4,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>2.0.1</VersionPrefix>
     <Copyright>Copyright © 2020 Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
-    <PackageIconUrl>https://raw.githubusercontent.com/StefH/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/StefH/Handlebars.Net.Helpers</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Handlebars-Net/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/StefH/Handlebars.Net.Helpers</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
