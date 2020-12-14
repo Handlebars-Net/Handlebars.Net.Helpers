@@ -32,7 +32,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
         [ThreadStatic] static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoCache;
         [ThreadStatic] static Dictionary<Type, Dictionary<string, PropertyInfo>> propertyInfoCache;
 
-        public static T FromJson<T>(this string json)
+        public static T? FromJson<T>(this string json) where T : class
         {
             // Initialize, if needed, the ThreadStatic variables
             if (propertyInfoCache == null) propertyInfoCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
@@ -59,8 +59,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                 stringBuilder.Append(c);
             }
 
-            //Parse the thing!
-            return (T)ParseValue(typeof(T), stringBuilder.ToString());
+            return (T?)ParseValue(typeof(T), stringBuilder.ToString());
         }
 
         static int AppendUntilStringEnd(bool appendEscapeCharacter, int startIdx, string json)
@@ -261,7 +260,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                     if (elems[i].Length <= 2)
                         continue;
                     string keyValue = elems[i].Substring(1, elems[i].Length - 2);
-                    object val = ParseValue(valueType, elems[i + 1]);
+                    object? val = ParseValue(valueType, elems[i + 1]);
                     dictionary[keyValue] = val;
                 }
                 return dictionary;
