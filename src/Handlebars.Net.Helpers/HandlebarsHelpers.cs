@@ -46,6 +46,25 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Url, new UrlHelpers(handlebarsContext) }
             };
 
+            var extraHelpers = new Dictionary<Category, string>
+            {
+                { Category.XPath2, "XPath2Helpers" }
+            };
+
+            foreach (var extra in extraHelpers)
+            {
+                try
+                {
+                    var helper = Plugin.PluginLoader.LoadAndCreateInstance<IHelpers>(extra.Value, handlebarsContext);
+                    
+                    helpers.Add(extra.Key, helper)
+                }
+                catch
+                {
+                    // no-op: just try next extraHelper
+                }
+            }
+
             var options = new HandlebarsHelpersOptions();
             optionsCallback(options);
 
