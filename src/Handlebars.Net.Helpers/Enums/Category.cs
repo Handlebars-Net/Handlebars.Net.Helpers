@@ -7,6 +7,7 @@
         Math,
         Regex,
         String,
-        Url
+        Url,
+        XPath2
     }
 }

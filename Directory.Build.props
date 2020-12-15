@@ -19,6 +19,10 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.0.3" />
+  </ItemGroup>
+
   <Choose>
     <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
     <When Condition=" '$(Prerelease)' != '' ">

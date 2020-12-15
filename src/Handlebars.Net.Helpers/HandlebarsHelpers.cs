@@ -34,13 +34,7 @@ namespace HandlebarsDotNet.Helpers
         /// <param name="optionsCallback">The options callback.</param>
         public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
         {
-            Guard.NotNull(optionsCallback, nameof(optionsCallback));
-
-            var options = new HandlebarsHelpersOptions();
-            optionsCallback(options);
-
-            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
-            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
+            Guard.NotNull(optionsCallback, nameof(optionsCallback));            
 
             var helpers = new Dictionary<Category, IHelpers>
             {
@@ -51,6 +45,12 @@ namespace HandlebarsDotNet.Helpers
                 { Category.String, new StringHelpers(handlebarsContext) },
                 { Category.Url, new UrlHelpers(handlebarsContext) }
             };
+
+            var options = new HandlebarsHelpersOptions();
+            optionsCallback(options);
+
+            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
+            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
 
             foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
             {
