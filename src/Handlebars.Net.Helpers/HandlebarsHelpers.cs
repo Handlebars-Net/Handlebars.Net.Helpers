@@ -7,6 +7,7 @@ using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using HandlebarsDotNet.Helpers.Validation;
 
@@ -55,9 +56,9 @@ namespace HandlebarsDotNet.Helpers
             {
                 try
                 {
-                    var helper = Plugin.PluginLoader.LoadAndCreateInstance<IHelpers>(extra.Value, handlebarsContext);
-                    
-                    helpers.Add(extra.Key, helper)
+                    var helper = PluginLoader.LoadAndCreateInstance<IHelpers>(extra.Value, handlebarsContext);
+
+                    helpers.Add(extra.Key, helper);
                 }
                 catch
                 {

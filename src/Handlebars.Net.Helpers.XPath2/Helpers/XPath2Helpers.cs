@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HandlebarsDotNet.Helpers.Helpers;
 
-namespace HandlebarsDotNet.Helpers.Helpers
+namespace HandlebarsDotNet.Helpers
 {
-    public class XPath2Helpers
+    internal class XPath2Helpers : BaseHelpers, IHelpers
     {
+        public XPath2Helpers(IHandlebars context) : base(context)
+        {
+        }
     }
 }

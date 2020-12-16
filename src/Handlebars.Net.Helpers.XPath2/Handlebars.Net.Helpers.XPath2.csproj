@@ -4,6 +4,7 @@
     <VersionPrefix>0.0.1</VersionPrefix>
     <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <AssemblyName>HandlebarsDotNet.Helpers.XPath2</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net XPath2 helpers</Description>

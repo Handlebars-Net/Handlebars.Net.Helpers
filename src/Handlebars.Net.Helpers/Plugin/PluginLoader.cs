@@ -10,13 +10,13 @@ namespace HandlebarsDotNet.Helpers.Plugin
     {
         private static ConcurrentDictionary<Type, object> Assemblies = new ConcurrentDictionary<Type, object>();
 
-        public static T LoadAndCreateInstance<T>(string name, params object[] args) where T : class
+        public static T? LoadAndCreateInstance<T>(string name, params object[] args) where T : class
         {
             return Assemblies.GetOrAdd(typeof(T), (type) =>
             {
                 var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
 
-                Type pluginType = null;
+                Type? pluginType = null;
                 foreach (var file in files)
                 {
                     try
@@ -26,7 +26,7 @@ namespace HandlebarsDotNet.Helpers.Plugin
                             Name = Path.GetFileNameWithoutExtension(file)
                         });
 
-                        pluginType = GetImplementationTypeByInterfaceAndName<T>(assembly);
+                        pluginType = GetImplementationTypeByInterfaceAndName<T>(assembly, name);
                         if (pluginType != null)
                         {
                             break;

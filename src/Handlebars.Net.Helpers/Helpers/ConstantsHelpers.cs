@@ -6,6 +6,10 @@ namespace HandlebarsDotNet.Helpers.Helpers
 {
     internal class ConstantsHelpers : BaseHelpers, IHelpers
     {
+        public ConstantsHelpers(IHandlebars context) : base(context)
+        {
+        }
+
         [HandlebarsWriter(WriterType.Value, "Constants.Math.E")]
         public double E()
         {
@@ -16,9 +20,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public double PI()
         {
             return Math.PI;
-        }
-        public ConstantsHelpers(IHandlebars context) : base(context)
-        {
         }
     }
 }
