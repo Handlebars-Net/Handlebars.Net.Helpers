@@ -49,7 +49,7 @@ namespace HandlebarsDotNet.Helpers
 
             var extraHelpers = new Dictionary<Category, string>
             {
-                { Category.XPath2, "XPath2Helpers" }
+                { Category.XPath, "XPath2Helpers" }
             };
 
             foreach (var extra in extraHelpers)

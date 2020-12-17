@@ -8,6 +8,6 @@
         Regex,
         String,
         Url,
-        XPath2
+        XPath
     }
 }

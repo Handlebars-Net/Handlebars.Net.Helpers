@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlebars.Net.Helpers.XPath2", "src\Handlebars.Net.Helpers.XPath2\Handlebars.Net.Helpers.XPath2.csproj", "{42D47A7E-EF66-477D-A524-45EEC130EA67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlebars.Net.Helpers.XPath", "src\Handlebars.Net.Helpers.XPath\Handlebars.Net.Helpers.XPath.csproj", "{42D47A7E-EF66-477D-A524-45EEC130EA67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
