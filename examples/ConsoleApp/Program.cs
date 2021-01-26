@@ -61,6 +61,7 @@ namespace ConsoleApp
                 "{{Pascalcase \"abc def\"}}",
                 "{{Uppercase \"abc\"}}",
                 "{{Lowercase \"XYZ\"}}",
+                "{{Format x \"o\"}}",
             };
 
             foreach (string test in tests)
