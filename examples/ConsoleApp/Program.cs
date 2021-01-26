@@ -62,13 +62,18 @@ namespace ConsoleApp
                 "{{Uppercase \"abc\"}}",
                 "{{Lowercase \"XYZ\"}}",
                 "{{Format x \"o\"}}",
+                "{{Now}}",
+                "{{UtcNow}}",
             };
 
             foreach (string test in tests)
             {
-                var x = DateTime.Now;
+                var t = new
+                {
+                    x = DateTime.Now
+                };
                 var template = handlebars.Compile(test);
-                var result = template.Invoke(x);
+                var result = template.Invoke(t);
                 Console.WriteLine($"{test} : {result}");
             }
 

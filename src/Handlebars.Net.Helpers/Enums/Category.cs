@@ -8,6 +8,7 @@
         Regex,
         String,
         Url,
-        DateTime
+        DateTime,
+        GenericFormat
     }
 }

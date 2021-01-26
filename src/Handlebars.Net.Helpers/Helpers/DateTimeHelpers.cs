@@ -10,10 +10,16 @@ namespace HandlebarsDotNet.Helpers.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string Format(DateTime value, string format)
+        [HandlebarsWriter(WriterType.Value)]
+        public DateTime Now()
         {
-            return value.ToString(format, Context.Configuration.FormatProvider);
+            return DateTime.Now;
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public DateTime UtcNow()
+        {
+            return DateTime.UtcNow;
         }
     }
 }

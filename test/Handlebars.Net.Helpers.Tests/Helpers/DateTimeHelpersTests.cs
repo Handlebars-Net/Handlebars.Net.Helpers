@@ -20,20 +20,24 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             _sut = new DateTimeHelpers(_contextMock.Object);
         }
 
-        [Theory]
-        [InlineData("d", "4/15/2020")]
-        [InlineData("o", "2020-04-15T23:59:58.0000000")]
-        [InlineData("MM-dd-yyy", "04-15-2020")]
-        public void Format(string format, string expected)
+        [Fact]
+        public void Now()
         {
-            // Arrange
-            var value = new DateTime(2020, 4, 15, 23, 59, 58);
-
             // Act
-            var result = _sut.Format(value, format);
+            var result = _sut.Now();
 
             // Assert
-            result.Should().Be(expected);
+            result.Should().BeOnOrBefore(DateTime.Now);
+        }
+
+        [Fact]
+        public void UtcNow()
+        {
+            // Act
+            var result = _sut.UtcNow();
+
+            // Assert
+            result.Should().BeOnOrBefore(DateTime.UtcNow);
         }
     }
 }
