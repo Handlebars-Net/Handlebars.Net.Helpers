@@ -24,7 +24,7 @@ namespace HandlebarsDotNet.Helpers
             try
             {
 #if NETSTANDARD1_3
-                    var result = nav.SelectSingleNode(xpath);
+                var result = nav.SelectSingleNode(xpath);
 #else
                 var result = nav.XPath2SelectSingleNode(xpath);
 #endif
