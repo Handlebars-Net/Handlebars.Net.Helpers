@@ -8,11 +8,11 @@ namespace HandlebarsDotNet.Helpers.Plugin
 {
     internal static class PluginLoader
     {
-        private static ConcurrentDictionary<Type, object> Assemblies = new ConcurrentDictionary<Type, object>();
+        private static readonly ConcurrentDictionary<Type, Type> Assemblies = new ConcurrentDictionary<Type, Type>();
 
-        public static T? LoadAndCreateInstance<T>(string name, params object[] args) where T : class
+        public static T? Load<T>(string name, params object[] args) where T : class
         {
-            return Assemblies.GetOrAdd(typeof(T), (type) =>
+            var foundType = Assemblies.GetOrAdd(typeof(T), (type) =>
             {
                 var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
 
@@ -40,11 +40,13 @@ namespace HandlebarsDotNet.Helpers.Plugin
 
                 if (pluginType != null)
                 {
-                    return Activator.CreateInstance(pluginType, args);
+                    return pluginType;
                 }
 
                 throw new DllNotFoundException($"No dll found which implements type '{type}'");
-            }) as T;
+            });
+
+            return (T)Activator.CreateInstance(foundType, args);
         }
 
         private static Type GetImplementationTypeByInterfaceAndName<T>(Assembly assembly, string name)

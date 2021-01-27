@@ -71,11 +71,10 @@ namespace HandlebarsDotNet.Helpers
             try
             {
 #if NETSTANDARD1_3
-                var result = nav.Evaluate(xpath);
+                return nav.Evaluate(xpath);
 #else
-                var result = nav.XPath2Evaluate(xpath);
+                return nav.XPath2Evaluate(xpath);
 #endif
-                return result;
             }
             catch (Exception)
             {

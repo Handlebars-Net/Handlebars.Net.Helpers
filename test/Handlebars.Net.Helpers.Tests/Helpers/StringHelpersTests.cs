@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Moq;
@@ -15,7 +16,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public StringHelpersTests()
         {
             _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
             _sut = new StringHelpers(_contextMock.Object);
         }
@@ -267,7 +268,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
-        [InlineData("d", "4/15/2020")]
+        [InlineData("d", "04/15/2020")]
         [InlineData("o", "2020-04-15T23:59:58.0000000")]
         [InlineData("MM-dd-yyyy", "04-15-2020")]
         public void Format_DateTime(string format, string expected)

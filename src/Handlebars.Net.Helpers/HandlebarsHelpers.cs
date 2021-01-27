@@ -35,7 +35,10 @@ namespace HandlebarsDotNet.Helpers
         /// <param name="optionsCallback">The options callback.</param>
         public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
         {
-            Guard.NotNull(optionsCallback, nameof(optionsCallback));            
+            Guard.NotNull(optionsCallback, nameof(optionsCallback));
+
+            var options = new HandlebarsHelpersOptions();
+            optionsCallback(options);
 
             var helpers = new Dictionary<Category, IHelpers>
             {
@@ -57,18 +60,17 @@ namespace HandlebarsDotNet.Helpers
             {
                 try
                 {
-                    var helper = PluginLoader.LoadAndCreateInstance<IHelpers>(extra.Value, handlebarsContext);
-
-                    helpers.Add(extra.Key, helper);
+                    var helper = PluginLoader.Load<IHelpers>(extra.Value, handlebarsContext);
+                    if (helper is { })
+                    {
+                        helpers.Add(extra.Key, helper);
+                    }
                 }
                 catch
                 {
                     // no-op: just try next extraHelper
                 }
             }
-
-            var options = new HandlebarsHelpersOptions();
-            optionsCallback(options);
 
             // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
             handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
