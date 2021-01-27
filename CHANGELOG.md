@@ -1,3 +1,6 @@
+# 2.0.2 (27 January 2021)
+- [#17](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/17) - Add DateTimeHelpers [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.0.1 (14 December 2020)
 - [#16](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/16) - Remove dependency on Newtonsoft.Json [enhancement] contributed by [StefH](https://github.com/StefH)
 

@@ -321,6 +321,19 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return value.ToUpper();
         }
 
+        [HandlebarsWriter(WriterType.String)]
+        public string Format(object value, string format)
+        {
+            switch (value)
+            {
+                case DateTime dateTime:
+                    return dateTime.ToString(format, Context.Configuration.FormatProvider);
+
+                default:
+                    throw new NotSupportedException($"The method {nameof(Format)} cannot be used on value '{value}' of Type '{value?.GetType()}'.");
+            }
+        }
+
         public StringHelpers(IHandlebars context) : base(context)
         {
         }

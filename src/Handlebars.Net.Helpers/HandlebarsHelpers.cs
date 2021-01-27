@@ -44,7 +44,8 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Math, new MathHelpers(handlebarsContext) },
                 { Category.Regex, new RegexHelpers(handlebarsContext) },
                 { Category.String, new StringHelpers(handlebarsContext) },
-                { Category.Url, new UrlHelpers(handlebarsContext) }
+                { Category.Url, new UrlHelpers(handlebarsContext) },
+                { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) }
             };
 
             var extraHelpers = new Dictionary<Category, string>
