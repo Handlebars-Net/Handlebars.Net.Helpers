@@ -4,7 +4,7 @@
     <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex', 'String' and 'Urls'.</Description>
     <PackageId>Handlebars.Net.Helpers</PackageId>

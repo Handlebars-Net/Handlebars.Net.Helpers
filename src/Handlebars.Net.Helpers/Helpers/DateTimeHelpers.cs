@@ -1,25 +1,34 @@
-﻿using System;
-using HandlebarsDotNet.Helpers.Attributes;
+﻿using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers
 {
     internal class DateTimeHelpers : BaseHelpers, IHelpers
     {
-        public DateTimeHelpers(IHandlebars context) : base(context)
+        private readonly IDateTimeService _dateTimeService;
+
+        public DateTimeHelpers(IHandlebars context) : this(context, new DateTimeService())
         {
         }
 
-        [HandlebarsWriter(WriterType.Value)]
-        public DateTime Now()
+        public DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : base(context)
         {
-            return DateTime.Now;
+            _dateTimeService = dateTimeService;
         }
 
         [HandlebarsWriter(WriterType.Value)]
-        public DateTime UtcNow()
+        public object Now(string? format = null)
         {
-            return DateTime.UtcNow;
+            var now = _dateTimeService.Now();
+            return format is null ? now : now.ToString(format, Context.Configuration.FormatProvider);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public object UtcNow(string? format = null)
+        {
+            var utc = _dateTimeService.UtcNow();
+            return format is null ? utc : utc.ToString(format, Context.Configuration.FormatProvider);
         }
     }
 }

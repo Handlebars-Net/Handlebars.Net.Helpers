@@ -64,6 +64,7 @@ namespace ConsoleApp
                 "{{Format x \"o\"}}",
                 "{{Now}}",
                 "{{UtcNow}}",
+                "{{Now \"yyyy-MM-dd\"}}",
                 "{{Format (Now) \"yyyy-MM-dd\"}}",
             };
 

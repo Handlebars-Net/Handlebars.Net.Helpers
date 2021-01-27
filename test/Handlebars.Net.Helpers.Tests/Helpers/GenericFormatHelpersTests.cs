@@ -23,7 +23,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [Theory]
         [InlineData("d", "4/15/2020")]
         [InlineData("o", "2020-04-15T23:59:58.0000000")]
-        [InlineData("MM-dd-yyy", "04-15-2020")]
+        [InlineData("MM-dd-yyyy", "04-15-2020")]
         public void Format_DateTime(string format, string expected)
         {
             // Arrange

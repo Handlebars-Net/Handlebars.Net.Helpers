@@ -50,7 +50,7 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Regex, new RegexHelpers(handlebarsContext) },
                 { Category.String, new StringHelpers(handlebarsContext) },
                 { Category.Url, new UrlHelpers(handlebarsContext) },
-                { Category.DateTime, new DateTimeHelpers(handlebarsContext) },
+                { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
                 { Category.GenericFormat, new GenericFormatHelpers(handlebarsContext) }
             };
 
