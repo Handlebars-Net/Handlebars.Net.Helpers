@@ -7,7 +7,7 @@ using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Templates
 {
-    public class GenericFormatHelpersTemplateTests
+    public class DateTimeHelpersTemplateTests
     {
         private readonly DateTime DateTimeNow = new DateTime(2020, 4, 15, 23, 59, 58);
 
@@ -15,7 +15,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
 
         private readonly IHandlebars _handlebarsContext;
 
-        public GenericFormatHelpersTemplateTests()
+        public DateTimeHelpersTemplateTests()
         {
             _dateTimeServiceMock = new Mock<IDateTimeService>();
             _dateTimeServiceMock.Setup(d => d.Now()).Returns(DateTimeNow);
@@ -30,35 +30,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             });
         }
 
-        [Fact]
-        public void Format_Now()
+        [Theory]
+        [InlineData("{{Now}}", "2020-04-15T23:59:58.0000000")]
+        [InlineData("{{Now \"yyyy-MM-dd\"}}", "2020-04-15")]
+        public void Now(string template, string expected)
         {
             // Arrange
-            var action = _handlebarsContext.Compile("{{Format (Now) \"yyyy-MM-dd\"}}");
+            var action = _handlebarsContext.Compile(template);
 
             // Act
             var result = action("");
 
             // Assert
-            result.Should().Be("2020-04-15");
-        }
-
-        [Fact]
-        public void Format_Template_Now()
-        {
-            // Arrange
-            var model = new
-            {
-                x = DateTimeNow
-            };
-
-            var action = _handlebarsContext.Compile("{{Format x \"yyyy-MMM-dd\"}}");
-
-            // Act
-            var result = action(model);
-
-            // Assert
-            result.Should().Be("2020-Apr-15");
+            result.Should().Be(expected);
         }
     }
 }
