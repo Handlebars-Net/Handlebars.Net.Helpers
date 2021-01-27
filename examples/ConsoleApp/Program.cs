@@ -64,7 +64,8 @@ namespace ConsoleApp
                 "{{Format x \"o\"}}",
                 "{{Now}}",
                 "{{UtcNow}}",
-                "{{Format {{Now}} \"yyyy-MM-dd\"}}",
+                "{{Now \"yyyy-MM-dd\"}}",
+                "{{Format (Now) \"yyyy-MM-dd\"}}",
             };
 
             foreach (string test in tests)

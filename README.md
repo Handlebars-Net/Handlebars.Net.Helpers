@@ -92,6 +92,7 @@ The following helpers are available:
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
 - [Url](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Url)
+- [DateTime](https://github.com/StefH/Handlebars.Net.Helpers/wiki/DateTime)
 
 ***
 ## References
