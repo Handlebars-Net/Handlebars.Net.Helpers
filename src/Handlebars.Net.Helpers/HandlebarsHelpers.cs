@@ -50,8 +50,7 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Regex, new RegexHelpers(handlebarsContext) },
                 { Category.String, new StringHelpers(handlebarsContext) },
                 { Category.Url, new UrlHelpers(handlebarsContext) },
-                { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
-                { Category.GenericFormat, new GenericFormatHelpers(handlebarsContext) }
+                { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) }
             };
 
             foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
