@@ -8,10 +8,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
     {
         private readonly IDateTimeService _dateTimeService;
 
-        public DateTimeHelpers(IHandlebars context) : this(context, new DateTimeService())
-        {
-        }
-
         public DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : base(context)
         {
             _dateTimeService = dateTimeService;
