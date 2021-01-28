@@ -42,18 +42,18 @@ namespace HandlebarsDotNet.Helpers
             if (hash.TryGetValue("Type", out var value) && value is string randomType)
             {
                 var newProperties = new Dictionary<string, object>();
-                foreach (var property in hash.Where(p => p.Key != "Type"))
+                foreach (var item in hash.Where(p => p.Key != "Type"))
                 {
-                    if (property.Value is { })
+                    if (item.Value is { })
                     {
-                        newProperties.Add(property.Key, property.Value);
+                        newProperties.Add(item.Key, item.Value);
                     }
                 }
 
                 return FieldOptionsFactory.GetFieldOptions(randomType, newProperties);
             }
             
-            throw new HandlebarsException($"The Type argumenet is missing.");
+            throw new HandlebarsException($"The Type argument is missing.");
         }
     }
 }

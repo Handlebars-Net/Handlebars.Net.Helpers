@@ -11,6 +11,7 @@
         DateTime,
         XPath,
         Xeger,
-        Random
+        Random,
+        JsonPath
     }
 }
