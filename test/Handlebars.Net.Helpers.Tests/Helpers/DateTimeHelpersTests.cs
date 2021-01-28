@@ -1,5 +1,7 @@
 using System;
+using System.Globalization;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -23,7 +25,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             _dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(DateTimeNow.ToUniversalTime);
 
             _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
             _sut = new DateTimeHelpers(_contextMock.Object, _dateTimeServiceMock.Object);
         }
@@ -38,18 +40,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be(DateTimeNow);
         }
 
-        [Fact]
-        public void UtcNow()
-        {
-            // Act
-            var result = _sut.UtcNow() as DateTime?;
-
-            // Assert
-            result.Should().Be(DateTimeNow);
-        }
-
         [Theory]
-        [InlineData("d", "4/15/2020")]
+        [InlineData("d", "04/15/2020")]
         [InlineData("o", "2020-04-15T23:59:58.0000000")]
         [InlineData("MM-dd-yyyy", "04-15-2020")]
         public void Now_Format(string format, string expected)

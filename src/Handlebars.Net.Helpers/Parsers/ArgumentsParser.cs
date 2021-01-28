@@ -1,32 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
     internal static class ArgumentsParser
     {
-        public static List<object?> Parse(IHandlebars context, Arguments arguments)
+        public static List<object?> Parse(IHandlebars context, IEnumerable<object?> arguments)
         {
-            var list = new List<object?>();
-            foreach (var argument in arguments)
+            return arguments.Select(argument => Parse(context, argument)).ToList();
+        }
+
+        public static object? Parse(IHandlebars context, object? argument)
+        {
+            switch (argument)
             {
-                switch (argument)
-                {
-                    case string valueAsString:
-                        list.Add(StringValueParser.Parse(context, valueAsString));
-                        break;
+                case string valueAsString:
+                    return StringValueParser.Parse(context, valueAsString);
 
-                    case UndefinedBindingResult valueAsUndefinedBindingResult:
-                        list.Add(TryParseSpecialValue(valueAsUndefinedBindingResult, out var parsedValue) ? parsedValue : argument);
-                        break;
+                case UndefinedBindingResult valueAsUndefinedBindingResult:
+                    return TryParseSpecialValue(valueAsUndefinedBindingResult, out var parsedValue) ? parsedValue : argument;
 
-                    default:
-                        list.Add(argument);
-                        break;
-                }
+                case IDictionary<string, object?> hash:
+                    return hash;
+
+                default:
+                    return argument;
             }
-
-            return list;
         }
 
         /// <summary>

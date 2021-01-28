@@ -4,7 +4,7 @@ using HandlebarsDotNet.Helpers.Enums;
 namespace HandlebarsDotNet.Helpers.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    internal class HandlebarsWriterAttribute : Attribute
+    public class HandlebarsWriterAttribute : Attribute
     {
         public WriterType Type { get; }
 

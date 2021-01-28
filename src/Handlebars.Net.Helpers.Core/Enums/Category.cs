@@ -8,6 +8,11 @@
         Regex,
         String,
         Url,
-        DateTime
+        DateTime,
+        XPath,
+        Xeger,
+        Random,
+        JsonPath,
+        DynamicLinq
     }
 }

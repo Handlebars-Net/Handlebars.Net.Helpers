@@ -1,6 +1,6 @@
 ﻿namespace HandlebarsDotNet.Helpers.Enums
 {
-    internal enum WriterType
+    public enum WriterType
     {
         Value,
 

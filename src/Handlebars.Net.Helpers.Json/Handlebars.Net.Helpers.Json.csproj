@@ -1,20 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <AssemblyName>HandlebarsDotNet.Helpers.Json</AssemblyName>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex', 'String', 'DateTime' and 'Urls'.</Description>
-    <PackageId>Handlebars.Net.Helpers</PackageId>
-    <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;datetime;string</PackageTags>
-    <ProjectGuid>{fd1cf989-3f17-4f38-a5f4-edecc647d237}</ProjectGuid>
+    <Description>Handlebars.Net JsonPath</Description>
+    <PackageTags>handlebars;helper;JsonPath;Json</PackageTags>
+    <ProjectGuid>{181B9A96-5662-44AA-8601-BB8E1263125A}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
+    <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

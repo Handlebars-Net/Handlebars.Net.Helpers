@@ -66,6 +66,8 @@ namespace ConsoleApp
                 "{{UtcNow}}",
                 "{{Now \"yyyy-MM-dd\"}}",
                 "{{Format (Now) \"yyyy-MM-dd\"}}",
+                "{{Xeger \"[1-9]{1}\\d{3}\"}}",
+                "{{Random Type=\"Integer\" Min=1000 Max=9999}}"
             };
 
             foreach (string test in tests)

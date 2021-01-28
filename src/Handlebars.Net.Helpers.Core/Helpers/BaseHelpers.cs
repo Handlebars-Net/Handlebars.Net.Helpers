@@ -1,8 +1,8 @@
 ﻿namespace HandlebarsDotNet.Helpers.Helpers
 {
-    internal abstract class BaseHelpers
+    public abstract class BaseHelpers
     {
-        private protected IHandlebars Context;
+        protected IHandlebars Context;
 
         protected BaseHelpers(IHandlebars context)
         {

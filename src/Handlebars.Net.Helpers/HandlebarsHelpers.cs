@@ -7,6 +7,7 @@ using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using HandlebarsDotNet.Helpers.Validation;
 
@@ -39,9 +40,6 @@ namespace HandlebarsDotNet.Helpers
             var options = new HandlebarsHelpersOptions();
             optionsCallback(options);
 
-            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
-            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
-
             var helpers = new Dictionary<Category, IHelpers>
             {
                 { Category.Constants, new ConstantsHelpers(handlebarsContext) },
@@ -52,6 +50,24 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Url, new UrlHelpers(handlebarsContext) },
                 { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) }
             };
+
+            var extra = new Dictionary<Category, string>
+            {
+                { Category.XPath, "XPathHelpers" },
+                { Category.Xeger, "XegerHelpers" },
+                { Category.Random, "RandomHelpers" },
+                { Category.JsonPath, "JsonPathHelpers" },
+                { Category.DynamicLinq, "DynamicLinqHelpers" }
+            };
+            var extraHelpers = PluginLoader.Load(extra, handlebarsContext);
+
+            foreach (var item in extraHelpers)
+            {
+                helpers.Add(item.Key, item.Value);
+            }
+
+            // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
+            handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
 
             foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
             {
