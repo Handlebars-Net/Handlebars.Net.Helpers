@@ -51,7 +51,7 @@ namespace HandlebarsDotNet.Helpers
                 { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) }
             };
 
-            var extraHelpers = new Dictionary<Category, string>
+            var extra = new Dictionary<Category, string>
             {
                 { Category.XPath, "XPathHelpers" },
                 { Category.Xeger, "XegerHelpers" },
@@ -59,21 +59,11 @@ namespace HandlebarsDotNet.Helpers
                 { Category.JsonPath, "JsonPathHelpers" },
                 { Category.DynamicLinq, "DynamicLinqHelpers" }
             };
+            var extraHelpers = PluginLoader.Load(extra, handlebarsContext);
 
-            foreach (var extra in extraHelpers)
+            foreach (var item in extraHelpers)
             {
-                try
-                {
-                    var helper = PluginLoader.Load(extra.Key, extra.Value, handlebarsContext);
-                    if (helper is { })
-                    {
-                        helpers.Add(extra.Key, helper);
-                    }
-                }
-                catch
-                {
-                    // no-op: just try next extraHelper
-                }
+                helpers.Add(item.Key, item.Value);
             }
 
             // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming

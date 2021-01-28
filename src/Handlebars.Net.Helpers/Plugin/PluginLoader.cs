@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,51 +10,45 @@ namespace HandlebarsDotNet.Helpers.Plugin
 {
     internal static class PluginLoader
     {
-        private static readonly ConcurrentDictionary<string, Type> Assemblies = new ConcurrentDictionary<string, Type>();
+        //private static readonly ConcurrentDictionary<string, Type> Assemblies = new ConcurrentDictionary<string, Type>();
 
-        public static IHelpers Load(Category category, string name, params object[] args)
+        public static IDictionary<Category, IHelpers> Load(IDictionary<Category, string> items, params object[] args)
         {
-            string key = $"{typeof(IHelpers)}_{category}_{name}";
-            var foundType = Assemblies.GetOrAdd(key, (type) =>
+            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
+            var pluginTypes = new List<Type>();
+            foreach (var file in files)
             {
-                var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
-
-                Type? pluginType = null;
-                foreach (var file in files)
+                try
                 {
-                    try
+                    var assembly = Assembly.Load(new AssemblyName
                     {
-                        var assembly = Assembly.Load(new AssemblyName
-                        {
-                            Name = Path.GetFileNameWithoutExtension(file)
-                        });
+                        Name = Path.GetFileNameWithoutExtension(file)
+                    });
 
-                        pluginType = GetImplementationTypeByInterfaceAndName(assembly, name);
-                        if (pluginType != null)
-                        {
-                            break;
-                        }
-                    }
-                    catch
-                    {
-                        // no-op: just try next .dll
-                    }
+                    pluginTypes.AddRange(GetImplementationTypeByInterface(assembly));
                 }
-
-                if (pluginType != null)
+                catch
                 {
-                    return pluginType;
+                    // no-op: just try next .dll
                 }
+            }
 
-                throw new DllNotFoundException($"No dll found which implements type '{type}'");
-            });
+            var helpers = new Dictionary<Category, IHelpers>();
+            foreach (var item in items)
+            {
+                var matchingType = pluginTypes.FirstOrDefault(pt => pt.Name == item.Value);
+                if (matchingType is { })
+                {
+                    helpers.Add(item.Key, (IHelpers)Activator.CreateInstance(matchingType, args));
+                }
+            }
 
-            return (IHelpers)Activator.CreateInstance(foundType, args);
+            return helpers;
         }
 
-        private static Type GetImplementationTypeByInterfaceAndName(Assembly assembly, string name)
+        private static IEnumerable<Type> GetImplementationTypeByInterface(Assembly assembly)
         {
-            return assembly.GetTypes().FirstOrDefault(t => typeof(IHelpers).IsAssignableFrom(t) && !t.GetTypeInfo().IsInterface && t.Name == name);
+            return assembly.GetTypes().Where(t => typeof(IHelpers).IsAssignableFrom(t) && !t.GetTypeInfo().IsInterface);
         }
     }
 }
