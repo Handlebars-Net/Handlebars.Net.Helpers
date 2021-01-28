@@ -66,6 +66,7 @@ namespace ConsoleApp
                 "{{UtcNow}}",
                 "{{Now \"yyyy-MM-dd\"}}",
                 "{{Format (Now) \"yyyy-MM-dd\"}}",
+                "{{Xeger \"[1-9]{1}\\d{3}\"}}"
             };
 
             foreach (string test in tests)

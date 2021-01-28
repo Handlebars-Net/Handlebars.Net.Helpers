@@ -83,7 +83,7 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private XPathNavigator CreateNavigator(string document)
+        private static XPathNavigator CreateNavigator(string document)
         {
             return new XmlDocument { InnerXml = document }.CreateNavigator();
         }

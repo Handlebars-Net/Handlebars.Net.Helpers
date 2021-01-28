@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <!--<ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />-->
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xeger\Handlebars.Net.Helpers.Xeger.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.XPath\Handlebars.Net.Helpers.XPath.csproj" />
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
   </ItemGroup>
 

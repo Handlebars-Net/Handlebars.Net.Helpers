@@ -9,6 +9,7 @@
         String,
         Url,
         DateTime,
-        XPath
+        XPath,
+        Xeger
     }
 }

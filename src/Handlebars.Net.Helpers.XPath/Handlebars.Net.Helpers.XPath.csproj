@@ -6,20 +6,14 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net XPath helpers</Description>
-    <!--<PackageId>Handlebars.Net.Helpers</PackageId>-->
     <PackageTags>handlebars;helper;xpath;xpath2</PackageTags>
     <ProjectGuid>{42D47A7E-EF66-477D-A524-45EEC130EA67}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <!--<ItemGroup Condition=" '$(TargetFramework)' == 'net451' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-  </ItemGroup>-->
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <!--<PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />-->
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
   </ItemGroup>
