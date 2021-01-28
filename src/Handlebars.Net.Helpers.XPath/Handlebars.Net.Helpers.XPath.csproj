@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>0.0.1</VersionPrefix>
-    <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.XPath</AssemblyName>
     <LangVersion>8.0</LangVersion>
@@ -31,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
     <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
   </ItemGroup>
 

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--<ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />-->
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
   </ItemGroup>
 

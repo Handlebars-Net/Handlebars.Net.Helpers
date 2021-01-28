@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <AssemblyName>HandlebarsDotNet.Helpers.Core</AssemblyName>
+    <Description>Core functionality for Handlebars.Net.Helpers</Description>
+    <PackageId>Handlebars.Net.Helpers.Core</PackageId>
+    <PackageTags>handlebars;helpers;extensions;core;models;interfaces;common</PackageTags>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <PackageTags>handlebars;helper;models;interfaces</PackageTags>
+    <ProjectGuid>{7CBD113C-A754-480B-B0D0-AA9DF734F612}</ProjectGuid>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

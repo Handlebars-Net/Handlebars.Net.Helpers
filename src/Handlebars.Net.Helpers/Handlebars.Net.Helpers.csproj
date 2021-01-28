@@ -1,26 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Math', 'Regex', 'String', 'DateTime' and 'Urls'.</Description>
     <PackageId>Handlebars.Net.Helpers</PackageId>
-    <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;string</PackageTags>
+    <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;math;regex;datetime;string</PackageTags>
     <ProjectGuid>{fd1cf989-3f17-4f38-a5f4-edecc647d237}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+  <ItemGroup>
+    <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
   </ItemGroup>
 
 </Project>
