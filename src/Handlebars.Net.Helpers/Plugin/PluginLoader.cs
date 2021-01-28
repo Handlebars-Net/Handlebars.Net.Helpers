@@ -10,13 +10,10 @@ namespace HandlebarsDotNet.Helpers.Plugin
 {
     internal static class PluginLoader
     {
-        //private static readonly ConcurrentDictionary<string, Type> Assemblies = new ConcurrentDictionary<string, Type>();
-
         public static IDictionary<Category, IHelpers> Load(IDictionary<Category, string> items, params object[] args)
         {
-            var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
             var pluginTypes = new List<Type>();
-            foreach (var file in files)
+            foreach (var file in Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll"))
             {
                 try
                 {
