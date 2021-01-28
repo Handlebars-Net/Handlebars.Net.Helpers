@@ -3,16 +3,19 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Helpers;
 
 namespace HandlebarsDotNet.Helpers.Plugin
 {
     internal static class PluginLoader
     {
-        private static readonly ConcurrentDictionary<Type, Type> Assemblies = new ConcurrentDictionary<Type, Type>();
+        private static readonly ConcurrentDictionary<string, Type> Assemblies = new ConcurrentDictionary<string, Type>();
 
-        public static T? Load<T>(string name, params object[] args) where T : class
+        public static IHelpers Load(Category category, string name, params object[] args)
         {
-            var foundType = Assemblies.GetOrAdd(typeof(T), (type) =>
+            string key = $"{typeof(IHelpers)}_{category}_{name}";
+            var foundType = Assemblies.GetOrAdd(key, (type) =>
             {
                 var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll");
 
@@ -26,7 +29,7 @@ namespace HandlebarsDotNet.Helpers.Plugin
                             Name = Path.GetFileNameWithoutExtension(file)
                         });
 
-                        pluginType = GetImplementationTypeByInterfaceAndName<T>(assembly, name);
+                        pluginType = GetImplementationTypeByInterfaceAndName(assembly, name);
                         if (pluginType != null)
                         {
                             break;
@@ -46,12 +49,12 @@ namespace HandlebarsDotNet.Helpers.Plugin
                 throw new DllNotFoundException($"No dll found which implements type '{type}'");
             });
 
-            return (T)Activator.CreateInstance(foundType, args);
+            return (IHelpers)Activator.CreateInstance(foundType, args);
         }
 
-        private static Type GetImplementationTypeByInterfaceAndName<T>(Assembly assembly, string name)
+        private static Type GetImplementationTypeByInterfaceAndName(Assembly assembly, string name)
         {
-            return assembly.GetTypes().FirstOrDefault(t => typeof(T).IsAssignableFrom(t) && !t.GetTypeInfo().IsInterface && t.Name == name);
+            return assembly.GetTypes().FirstOrDefault(t => typeof(IHelpers).IsAssignableFrom(t) && !t.GetTypeInfo().IsInterface && t.Name == name);
         }
     }
 }

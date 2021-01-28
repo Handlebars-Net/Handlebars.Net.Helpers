@@ -53,15 +53,16 @@ namespace HandlebarsDotNet.Helpers
 
             var extraHelpers = new Dictionary<Category, string>
             {
-                { Category.XPath, "XPath2Helpers" },
-                { Category.Xeger, "XegerHelpers" }
+                { Category.XPath, "XPathHelpers" },
+                { Category.Xeger, "XegerHelpers" },
+                { Category.Random, "RandomHelpers" }
             };
 
             foreach (var extra in extraHelpers)
             {
                 try
                 {
-                    var helper = PluginLoader.Load<IHelpers>(extra.Value, handlebarsContext);
+                    var helper = PluginLoader.Load(extra.Key, extra.Value, handlebarsContext);
                     if (helper is { })
                     {
                         helpers.Add(extra.Key, helper);

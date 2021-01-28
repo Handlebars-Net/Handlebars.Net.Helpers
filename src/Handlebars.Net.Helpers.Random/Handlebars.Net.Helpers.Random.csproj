@@ -2,18 +2,18 @@
 
   <PropertyGroup>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-    <AssemblyName>HandlebarsDotNet.Helpers.Xeger</AssemblyName>
+    <AssemblyName>HandlebarsDotNet.Helpers.Random</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Handlebars.Net Xeger</Description>
-    <PackageTags>handlebars;helper;Xeger;Fare</PackageTags>
-    <ProjectGuid>{2278B30D-D61C-4FEB-8AEB-2EC9AE84693B}</ProjectGuid>
+    <Description>Handlebars.Net Random</Description>
+    <PackageTags>handlebars;helper;Random</PackageTags>
+    <ProjectGuid>{2A78B30D-D61C-4FEB-4567-2EC9AE84693B}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fare" Version="2.1.2" />
+    <PackageReference Include="RandomDataGenerator.Net" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>

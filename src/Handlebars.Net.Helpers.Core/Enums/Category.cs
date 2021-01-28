@@ -10,6 +10,7 @@
         Url,
         DateTime,
         XPath,
-        Xeger
+        Xeger,
+        Random
     }
 }
