@@ -12,6 +12,7 @@
         XPath,
         Xeger,
         Random,
-        JsonPath
+        JsonPath,
+        DynamicLinq
     }
 }

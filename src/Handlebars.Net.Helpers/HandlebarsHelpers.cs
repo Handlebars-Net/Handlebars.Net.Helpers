@@ -56,7 +56,8 @@ namespace HandlebarsDotNet.Helpers
                 { Category.XPath, "XPathHelpers" },
                 { Category.Xeger, "XegerHelpers" },
                 { Category.Random, "RandomHelpers" },
-                { Category.JsonPath, "JsonPathHelpers" }
+                { Category.JsonPath, "JsonPathHelpers" },
+                { Category.DynamicLinq, "DynamicLinqHelpers" }
             };
 
             foreach (var extra in extraHelpers)

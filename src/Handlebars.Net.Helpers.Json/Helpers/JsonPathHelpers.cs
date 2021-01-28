@@ -5,6 +5,7 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,11 +13,6 @@ namespace HandlebarsDotNet.Helpers
 {
     internal class JsonPathHelpers : BaseHelpers, IHelpers
     {
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.None
-        };
-
         public JsonPathHelpers(IHandlebars context) : base(context)
         {
         }
@@ -60,7 +56,7 @@ namespace HandlebarsDotNet.Helpers
                     return tokenValue;
 
                 case string stringValue:
-                    return Parse(stringValue);
+                    return JsonUtils.Parse(stringValue);
 
                 case IEnumerable enumerableValue:
                     return JArray.FromObject(enumerableValue);
@@ -68,11 +64,6 @@ namespace HandlebarsDotNet.Helpers
                 default:
                     throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars JsonPath {methodName}.");
             }
-        }
-
-        private static JToken Parse(string json)
-        {
-            return JsonConvert.DeserializeObject<JToken>(json, JsonSerializerSettings);
         }
     }
 }

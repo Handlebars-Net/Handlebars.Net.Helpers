@@ -2,22 +2,23 @@
 
   <PropertyGroup>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-    <AssemblyName>HandlebarsDotNet.Helpers.Json</AssemblyName>
+    <AssemblyName>HandlebarsDotNet.Helpers.DynamicLinq</AssemblyName>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Handlebars.Net JsonPath</Description>
-    <PackageTags>handlebars;helper;JsonPath;Json</PackageTags>
-    <ProjectGuid>{181B9A96-5662-44AA-8601-BB8E1263125A}</ProjectGuid>
+    <Description>Handlebars.Net DynamicLinq</Description>
+    <PackageTags>handlebars;helper;Linq;DynamicLinq</PackageTags>
+    <ProjectGuid>{181B9A96-5662-BBAA-5678-BB8E1263125A}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
+    <ProjectReference Include="..\Handlebars.Net.Helpers.Json\Handlebars.Net.Helpers.Json.csproj" />
     <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
   </ItemGroup>
 
