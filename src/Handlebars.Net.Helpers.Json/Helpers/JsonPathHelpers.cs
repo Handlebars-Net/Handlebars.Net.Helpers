@@ -24,11 +24,11 @@ namespace HandlebarsDotNet.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public object SelectToken(object value, string jsonPath)
         {
-            var valueToProcess = ParseAsJToken(value);
+            var valueAsJToken = ParseAsJToken(value, nameof(SelectToken));
 
             try
             {
-                return valueToProcess.SelectToken(jsonPath);
+                return valueAsJToken.SelectToken(jsonPath);
             }
             catch (JsonException ex)
             {
@@ -39,17 +39,12 @@ namespace HandlebarsDotNet.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public object SelectTokens(object value, string jsonPath)
         {
-            var valueToProcess = ParseAsJToken(value);
+            var valueAsJToken = ParseAsJToken(value, nameof(SelectTokens));
 
             try
             {
-                var values = valueToProcess.SelectTokens(jsonPath);
-                if (values is { })
-                {
-                    return values.ToDictionary(value => value.Path, value => value);
-                }
-
-                return new Dictionary<string, JToken>();
+                var jTokens = valueAsJToken.SelectTokens(jsonPath) ?? new List<JToken>();
+                return jTokens.ToDictionary(value => value.Path, value => value);
             }
             catch (JsonException ex)
             {
@@ -57,7 +52,7 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static JToken ParseAsJToken(object value)
+        private static JToken ParseAsJToken(object value, string methodName)
         {
             switch (value)
             {
@@ -71,7 +66,7 @@ namespace HandlebarsDotNet.Helpers
                     return JArray.FromObject(enumerableValue);
 
                 default:
-                    throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars JsonPath.");
+                    throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars JsonPath {methodName}.");
             }
         }
 
