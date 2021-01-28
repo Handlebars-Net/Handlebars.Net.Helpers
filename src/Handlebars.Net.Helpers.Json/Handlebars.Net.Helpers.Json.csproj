@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net JsonPath</Description>
     <PackageTags>handlebars;helper;JsonPath;Json</PackageTags>
-    <ProjectGuid>{181B9A96-5662-44AA-8601-BB8E1263125A}</ProjectGuid>
+    <ProjectGuid>{181B9A96-5662-44AA-8685-E68E1263125A}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
