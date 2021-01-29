@@ -16,16 +16,29 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Fact]
-        public void Random()
+        public void Random_Integer()
         {
             // Arrange
-            var action = _handlebarsContext.Compile("{{Random.Random Type=\"Integer\" Min=1000 Max=9999}}");
+            var action = _handlebarsContext.Compile("{{Random.Generate Type=\"Integer\" Min=1000 Max=9999}}");
 
             // Act
             var result = action("");
 
             // Assert
             int.Parse(result).Should().BeInRange(1000, 9999);
+        }
+
+        [Fact]
+        public void Random_StringList()
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile("{{Random.Generate Type=\"StringList\" Values=[\"a\", \"b\", \"c\"]}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().NotBeEmpty("a");
         }
     }
 }

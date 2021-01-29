@@ -27,20 +27,14 @@ namespace HandlebarsDotNet.Helpers.TinyJson
     // - Parsing of abstract classes or interfaces is NOT supported and will throw an exception.
     public static class JSONParser
     {
-        [ThreadStatic] static Stack<List<string>> splitArrayPool;
-        [ThreadStatic] static StringBuilder stringBuilder;
-        [ThreadStatic] static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoCache;
-        [ThreadStatic] static Dictionary<Type, Dictionary<string, PropertyInfo>> propertyInfoCache;
+        [ThreadStatic] static Stack<List<string>> splitArrayPool = new Stack<List<string>>();
+        [ThreadStatic] static StringBuilder stringBuilder = new StringBuilder();
+        [ThreadStatic] static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoCache = new Dictionary<Type, Dictionary<string, FieldInfo>>();
+        [ThreadStatic] static Dictionary<Type, Dictionary<string, PropertyInfo>> propertyInfoCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
 
         public static T? FromJson<T>(this string json) where T : class
         {
-            // Initialize, if needed, the ThreadStatic variables
-            if (propertyInfoCache == null) propertyInfoCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
-            if (fieldInfoCache == null) fieldInfoCache = new Dictionary<Type, Dictionary<string, FieldInfo>>();
-            if (stringBuilder == null) stringBuilder = new StringBuilder();
-            if (splitArrayPool == null) splitArrayPool = new Stack<List<string>>();
-
-            //Remove all whitespace not within strings to make parsing simpler
+            // Remove all whitespace not within strings to make parsing simpler
             stringBuilder.Length = 0;
             for (int i = 0; i < json.Length; i++)
             {
@@ -74,7 +68,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                         stringBuilder.Append(json[i]);
                     }
                     stringBuilder.Append(json[i + 1]);
-                    i++;//Skip next character as it is escaped
+                    i++; //Skip next character as it is escaped
                 }
                 else if (json[i] == '"')
                 {
@@ -86,16 +80,21 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                     stringBuilder.Append(json[i]);
                 }
             }
+
             return json.Length - 1;
         }
 
-        //Splits { <value>:<value>, <value>:<value> } and [ <value>, <value> ] into a list of <value> strings
+        // Splits { <value>:<value>, <value>:<value> } and [ <value>, <value> ] into a list of <value> strings
         static List<string> Split(string json)
         {
-            List<string> splitArray = splitArrayPool.Count > 0 ? splitArrayPool.Pop() : new List<string>();
+            var splitArray = splitArrayPool.Count > 0 ? splitArrayPool.Pop() : new List<string>();
             splitArray.Clear();
+
             if (json.Length == 2)
+            {
                 return splitArray;
+            }
+
             int parseDepth = 0;
             stringBuilder.Length = 0;
             for (int i = 1; i < json.Length - 1; i++)
@@ -106,13 +105,16 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                     case '{':
                         parseDepth++;
                         break;
+
                     case ']':
                     case '}':
                         parseDepth--;
                         break;
+
                     case '"':
                         i = AppendUntilStringEnd(true, i, json);
                         continue;
+
                     case ',':
                     case ':':
                         if (parseDepth == 0)
@@ -155,8 +157,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                         }
                         if (json[i + 1] == 'u' && i + 5 < json.Length - 1)
                         {
-                            uint c = 0;
-                            if (uint.TryParse(json.Substring(i + 2, 4), NumberStyles.AllowHexSpecifier, null, out c))
+                            if (uint.TryParse(json.Substring(i + 2, 4), NumberStyles.AllowHexSpecifier, null, out uint c))
                             {
                                 parseStringBuilder.Append((char)c);
                                 i += 5;
@@ -177,8 +178,7 @@ namespace HandlebarsDotNet.Helpers.TinyJson
 
             if (type == typeof(decimal))
             {
-                decimal result;
-                decimal.TryParse(json, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
+                decimal.TryParse(json, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal result);
                 return result;
             }
 
@@ -190,7 +190,10 @@ namespace HandlebarsDotNet.Helpers.TinyJson
             if (type.GetTypeInfo().IsEnum)
             {
                 if (json[0] == '"')
+                {
                     json = json.Substring(1, json.Length - 2);
+                }
+
                 try
                 {
                     return Enum.Parse(type, json, false);
@@ -224,35 +227,45 @@ namespace HandlebarsDotNet.Helpers.TinyJson
             {
                 Type listType = type.GetGenericArguments()[0];
                 if (json[0] != '[' || json[json.Length - 1] != ']')
+                {
                     return null;
+                }
 
-                List<string> elems = Split(json);
+                var elems = Split(json);
                 var list = (IList)type.GetConstructor(new Type[] { typeof(int) }).Invoke(new object[] { elems.Count });
                 for (int i = 0; i < elems.Count; i++)
+                {
                     list.Add(ParseValue(listType, elems[i]));
+                }
+
                 splitArrayPool.Push(elems);
                 return list;
             }
 
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
             {
-                Type keyType, valueType;
+                var args = type.GetGenericArguments();
+                var keyType = args[0];
+                var valueType = args[1];
+
+                // Refuse to parse dictionary keys that aren't of type string
+                if (keyType != typeof(string))
                 {
-                    Type[] args = type.GetGenericArguments();
-                    keyType = args[0];
-                    valueType = args[1];
+                    return null;
                 }
 
-                //Refuse to parse dictionary keys that aren't of type string
-                if (keyType != typeof(string))
-                    return null;
-                //Must be a valid dictionary element
+                // Must be a valid dictionary element
                 if (json[0] != '{' || json[json.Length - 1] != '}')
+                {
                     return null;
-                //The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
-                List<string> elems = Split(json);
+                }
+
+                // The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
+                var elems = Split(json);
                 if (elems.Count % 2 != 0)
+                {
                     return null;
+                }
 
                 var dictionary = (IDictionary)type.GetConstructor(new Type[] { typeof(int) }).Invoke(new object[] { elems.Count / 2 });
                 for (int i = 0; i < elems.Count; i += 2)
@@ -323,14 +336,12 @@ namespace HandlebarsDotNet.Helpers.TinyJson
             {
                 if (json.Contains("."))
                 {
-                    double result;
-                    double.TryParse(json, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
+                    double.TryParse(json, NumberStyles.Float, CultureInfo.InvariantCulture, out double result);
                     return result;
                 }
                 else
                 {
-                    int result;
-                    int.TryParse(json, out result);
+                    int.TryParse(json, out int result);
                     return result;
                 }
             }
@@ -385,22 +396,20 @@ namespace HandlebarsDotNet.Helpers.TinyJson
             object instance = Activator.CreateInstance(type);
 #endif
 
-            //The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
-            List<string> elems = Split(json);
+            // The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
+            var elems = Split(json);
             if (elems.Count % 2 != 0)
             {
                 return instance;
             }
 
-            Dictionary<string, FieldInfo> nameToField;
-            Dictionary<string, PropertyInfo> nameToProperty;
-            if (!fieldInfoCache.TryGetValue(type, out nameToField))
+            if (!fieldInfoCache.TryGetValue(type, out var nameToField))
             {
                 nameToField = CreateMemberNameDictionary(type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy));
                 fieldInfoCache.Add(type, nameToField);
             }
 
-            if (!propertyInfoCache.TryGetValue(type, out nameToProperty))
+            if (!propertyInfoCache.TryGetValue(type, out var nameToProperty))
             {
                 nameToProperty = CreateMemberNameDictionary(type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy));
                 propertyInfoCache.Add(type, nameToProperty);
@@ -416,13 +425,11 @@ namespace HandlebarsDotNet.Helpers.TinyJson
                 string key = elems[i].Substring(1, elems[i].Length - 2);
                 string value = elems[i + 1];
 
-                FieldInfo fieldInfo;
-                PropertyInfo propertyInfo;
-                if (nameToField.TryGetValue(key, out fieldInfo))
+                if (nameToField.TryGetValue(key, out var fieldInfo))
                 {
                     fieldInfo.SetValue(instance, ParseValue(fieldInfo.FieldType, value));
                 }
-                else if (nameToProperty.TryGetValue(key, out propertyInfo))
+                else if (nameToProperty.TryGetValue(key, out var propertyInfo))
                 {
                     propertyInfo.SetValue(instance, ParseValue(propertyInfo.PropertyType, value), null);
                 }

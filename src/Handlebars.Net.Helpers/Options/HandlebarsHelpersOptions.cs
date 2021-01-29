@@ -1,4 +1,6 @@
-﻿using HandlebarsDotNet.Helpers.Enums;
+﻿using System.Collections.Generic;
+using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Options
@@ -39,5 +41,10 @@ namespace HandlebarsDotNet.Helpers.Options
         /// Used for unit-testing DateTime related functionality.
         /// </summary>
         public IDateTimeService? DateTimeService { get; set; } = null;
+
+        /// <summary>
+        /// A Dictionary with additional Custom Helpers (Key = CategoryPrefix, Value = IHelpers)
+        /// </summary>
+        public IDictionary<string, IHelpers>? CustomHelpers { get; set; } = null;
     }
 }

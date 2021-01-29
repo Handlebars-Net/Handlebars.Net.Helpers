@@ -42,10 +42,10 @@ namespace HandlebarsDotNet.Helpers
 
             var helpers = new Dictionary<Category, IHelpers>
             {
+                { Category.Regex, new RegexHelpers(handlebarsContext) },
                 { Category.Constants, new ConstantsHelpers(handlebarsContext) },
                 { Category.Enumerable, new EnumerableHelpers(handlebarsContext) },
                 { Category.Math, new MathHelpers(handlebarsContext) },
-                { Category.Regex, new RegexHelpers(handlebarsContext) },
                 { Category.String, new StringHelpers(handlebarsContext) },
                 { Category.Url, new UrlHelpers(handlebarsContext) },
                 { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) }
@@ -71,28 +71,53 @@ namespace HandlebarsDotNet.Helpers
 
             foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
             {
-                var helper = item.Value;
-                Type helperClassType = helper.GetType();
+                RegisterCustomHelper(handlebarsContext, options, item.Key.ToString(), item.Value);
+            }
 
-                var methods = helperClassType.GetMethods()
-                    .Select(methodInfo => new
-                    {
-                        MethodInfo = methodInfo,
-                        HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
-                    })
-                    .Where(x => x.HandlebarsWriterAttribute is { });
-
-                foreach (var method in methods)
+            if (options.CustomHelpers is { })
+            {
+                foreach (var item in options.CustomHelpers)
                 {
-                    var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute, options, item);
-
-                    RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute.Type, method.MethodInfo, name);
-                    RegisterBlockHelper(handlebarsContext, helper, method.MethodInfo, name);
+                    RegisterCustomHelper(handlebarsContext, options, item.Key, item.Value);
                 }
             }
         }
 
-        private static string GetName(MethodInfo methodInfo, HandlebarsWriterAttribute attribute, HandlebarsHelpersOptions options, KeyValuePair<Category, IHelpers> item)
+        private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
+        {
+            Type helperClassType = helper.GetType();
+
+            var methods = helperClassType.GetMethods()
+                .Select(methodInfo => new
+                {
+                    MethodInfo = methodInfo,
+                    HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
+                })
+                .Where(x => x.HandlebarsWriterAttribute is { });
+
+            foreach (var method in methods)
+            {
+                var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute, options, categoryPrefix);
+
+                switch (method.HandlebarsWriterAttribute.Usage)
+                {
+                    case HelperUsage.Normal:
+                        RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute, method.MethodInfo, name);
+                        break;
+
+                    case HelperUsage.Block:
+                        RegisterBlockHelper(true, handlebarsContext, helper, method.MethodInfo, name);
+                        break;
+
+                    default:
+                        RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute, method.MethodInfo, name);
+                        RegisterBlockHelper(false, handlebarsContext, helper, method.MethodInfo, name);
+                        break;
+                }
+            }
+        }
+
+        private static string GetName(MethodInfo methodInfo, HandlebarsWriterAttribute attribute, HandlebarsHelpersOptions options, string categoryPrefix)
         {
             var names = new List<string>();
             if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
@@ -108,7 +133,7 @@ namespace HandlebarsDotNet.Helpers
 
                 if (options.UseCategoryPrefix)
                 {
-                    names.Add(item.Key.ToString());
+                    names.Add(categoryPrefix);
                 }
 
                 names.Add(methodInfo.Name);
@@ -117,18 +142,18 @@ namespace HandlebarsDotNet.Helpers
             return string.Join(options.PrefixSeparator, names);
         }
 
-        private static void RegisterHelper(IHandlebars handlebarsContext, object obj, WriterType writerType, MethodInfo methodInfo, string name)
+        private static void RegisterHelper(IHandlebars handlebarsContext, object instance, HandlebarsWriterAttribute attribute, MethodInfo methodInfo, string name)
         {
             foreach (string helperName in CreateHelperNames(name))
             {
-                switch (writerType)
+                switch (attribute.Type)
                 {
                     case WriterType.String:
-                        RegisterStringHelper(handlebarsContext, obj, methodInfo, helperName);
+                        RegisterStringHelper(handlebarsContext, instance, methodInfo, helperName, attribute.PassContext);
                         break;
 
                     case WriterType.Value:
-                        RegisterValueHelper(handlebarsContext, obj, methodInfo, helperName);
+                        RegisterValueHelper(handlebarsContext, instance, methodInfo, helperName, attribute.PassContext);
                         break;
 
                     default:
@@ -137,11 +162,11 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static void RegisterStringHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string helperName)
+        private static void RegisterStringHelper(IHandlebars handlebarsContext, object instance, MethodInfo methodInfo, string helperName, bool passContext)
         {
             handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
             {
-                object? value = InvokeMethod(handlebarsContext, helperName, methodInfo, arguments, obj);
+                object? value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
 
                 if (value is IEnumerable<object> array)
                 {
@@ -154,19 +179,19 @@ namespace HandlebarsDotNet.Helpers
             });
         }
 
-        private static void RegisterValueHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string helperName)
+        private static void RegisterValueHelper(IHandlebars handlebarsContext, object instance, MethodInfo methodInfo, string helperName, bool passContext)
         {
             handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
             {
-                return InvokeMethod(handlebarsContext, helperName, methodInfo, arguments, obj);
+                return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
             });
         }
 
-        private static void RegisterBlockHelper(IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
+        private static void RegisterBlockHelper(bool methodIsOnlyUsedInContextOfABlockHelper, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
         {
             handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
             {
-                object? value = InvokeMethod(handlebarsContext, name, methodInfo, arguments, obj);
+                object? value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, name, methodInfo, arguments, obj);
 
                 if (value is bool valueAsBool && !valueAsBool)
                 {
@@ -180,21 +205,40 @@ namespace HandlebarsDotNet.Helpers
             });
         }
 
-        private static object? InvokeMethod(IHandlebars context, string helperName, MethodInfo methodInfo, Arguments arguments, object instance)
+        private static object? InvokeMethod(
+            Context? model,
+            bool methodIsOnlyUsedInContextOfABlockHelper,
+            IHandlebars context,
+            string helperName,
+            MethodInfo methodInfo,
+            Arguments arguments,
+            object instance)
         {
+            int numberOfArguments = arguments.Length;
             int parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional);
+
+            if (model is { })
+            {
+                numberOfArguments += 1;
+            }
+
+            if (methodIsOnlyUsedInContextOfABlockHelper)
+            {
+                numberOfArguments += 1;
+            }
+
             int parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
             int[] parameterCountAllowed = Enumerable.Range(parameterCountRequired, parameterCountOptional + 1).ToArray();
 
-            if (parameterCountRequired == 0 && parameterCountOptional == 0 && arguments.Length != 0)
+            if (parameterCountRequired == 0 && parameterCountOptional == 0 && numberOfArguments != 0)
             {
                 throw new HandlebarsException($"The {helperName} helper should have no arguments.");
             }
-            if (parameterCountAllowed.Length == 1 && arguments.Length != parameterCountAllowed[0])
+            if (parameterCountAllowed.Length == 1 && numberOfArguments != parameterCountAllowed[0])
             {
                 throw new HandlebarsException($"The {helperName} helper must have exactly {parameterCountAllowed[0]} argument{(parameterCountAllowed[0] > 1 ? "s" : "")}.");
             }
-            if (!parameterCountAllowed.Contains(arguments.Length))
+            if (!parameterCountAllowed.Contains(numberOfArguments))
             {
                 throw new HandlebarsException($"The {helperName} helper must have {string.Join(" or ", parameterCountAllowed)} arguments.");
             }
@@ -202,9 +246,19 @@ namespace HandlebarsDotNet.Helpers
             var parsedArguments = ArgumentsParser.Parse(context, arguments);
 
             // Add null for optional arguments
-            for (int i = 0; i < parameterCountAllowed.Max() - arguments.Length; i++)
+            for (int i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
             {
                 parsedArguments.Add(null);
+            }
+
+            if (methodIsOnlyUsedInContextOfABlockHelper)
+            {
+                parsedArguments.Insert(0, true);
+            }
+
+            if (model is { })
+            {
+                parsedArguments.Insert(0, model);
             }
 
             try

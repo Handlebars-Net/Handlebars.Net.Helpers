@@ -17,23 +17,42 @@ namespace HandlebarsDotNet.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.Value)]
-        public object SelectToken(object value, string jsonPath)
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectToken(object value, string jsonPath)
         {
             var valueAsJToken = ParseAsJToken(value, nameof(SelectToken));
 
             try
             {
-                return valueAsJToken.SelectToken(jsonPath);
+                var result = valueAsJToken.SelectToken(jsonPath);
+                switch (result)
+                {
+                    case JToken jTokenResult:
+                        return jTokenResult.ToString();
+
+                    default:
+                        return result.ToString();
+                }
             }
             catch (JsonException ex)
             {
-                return ex;
+                return ex.Message;
             }
         }
 
         [HandlebarsWriter(WriterType.Value)]
         public object SelectTokens(object value, string jsonPath)
+        {
+            return SelectTokensInternal(value, jsonPath);
+        }
+
+        [HandlebarsWriter(WriterType.Value, usage: HelperUsage.Block)]
+        public object SelectTokens(bool _, object value, string jsonPath)
+        {
+            return SelectTokensInternal(value, jsonPath);
+        }
+
+        private object SelectTokensInternal(object value, string jsonPath)
         {
             var valueAsJToken = ParseAsJToken(value, nameof(SelectTokens));
 
@@ -48,8 +67,13 @@ namespace HandlebarsDotNet.Helpers
             }
         }
 
-        private static JToken ParseAsJToken(object value, string methodName)
+        private static JToken ParseAsJToken(object? value, string methodName)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             switch (value)
             {
                 case JToken tokenValue:

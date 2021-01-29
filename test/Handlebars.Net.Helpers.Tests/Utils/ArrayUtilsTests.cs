@@ -27,7 +27,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Utils
         public void TryParse(string value, bool valid, object?[] expected)
         {
             // Act
-            bool result = ArrayUtils.TryParse(value, out var parsed);
+            bool result = ArrayUtils.TryParse(value, out object?[]? parsed);
 
             // Assert
             result.Should().Be(valid);

@@ -25,7 +25,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
                 Path = "/test"
             };
 
-            var action = _handlebarsContext.Compile("{{DynamicLinq.Linq Path 'it'}}");
+            var action = _handlebarsContext.Compile("{{Linq Path 'it'}}");
 
             // Act
             var result = action(request);
@@ -47,7 +47,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
                 }
             };
 
-            var action = _handlebarsContext.Compile("{{DynamicLinq.Linq body 'it.Name + \"_123\"' }}");
+            var action = _handlebarsContext.Compile("{{Linq body 'it.Name + \"_123\"' }}");
 
             // Act
             var result = action(request);

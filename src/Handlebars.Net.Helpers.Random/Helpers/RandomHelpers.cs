@@ -4,6 +4,8 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Utils;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
@@ -15,8 +17,17 @@ namespace HandlebarsDotNet.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.Value)]
+        /// <summary>
+        /// For backwards compatibility with WireMock.Net
+        /// </summary>
+        [HandlebarsWriter(WriterType.Value, "Random")]
         public object? Random(IDictionary<string, object?> hash)
+        {
+            return Generate(hash);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public object? Generate(IDictionary<string, object?> hash)
         {
             var fieldOptions = GetFieldOptionsFromHash(hash);
             dynamic randomizer = RandomizerFactory.GetRandomizerAsDynamic(fieldOptions);
@@ -37,17 +48,17 @@ namespace HandlebarsDotNet.Helpers
             return randomizer.Generate();
         }
 
-        private static FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
+        private FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
         {
             if (hash.TryGetValue("Type", out var value) && value is string randomType)
             {
-                var newProperties = new Dictionary<string, object>();
+                var newProperties = new Dictionary<string, object?>();
                 foreach (var item in hash.Where(p => p.Key != "Type"))
                 {
-                    if (item.Value is { })
-                    {
-                        newProperties.Add(item.Key, item.Value);
-                    }
+                    bool convertObjectArrayToStringList = randomType == "StringList";
+                    var parsedArgumentValue = ArgumentsParser.Parse(Context, item.Value, convertObjectArrayToStringList);
+
+                    newProperties.Add(item.Key, parsedArgumentValue);
                 }
 
                 return FieldOptionsFactory.GetFieldOptions(randomType, newProperties);

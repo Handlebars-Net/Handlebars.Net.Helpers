@@ -22,7 +22,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public void Xeger()
         {
             // Act
-            var result = _sut.Xeger("[1-9]{1}\\d{3}");
+            var result = _sut.Generate("[1-9]{1}\\d{3}");
 
             // Assert
             int.Parse(result).Should().BeInRange(1000, 9999);

@@ -5,19 +5,19 @@ using HandlebarsDotNet.Helpers.TinyJson;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
-    internal static class ArrayUtils
+    public static class ArrayUtils
     {
         public static string ToArray(IEnumerable<object?> array)
         {
             return Fix(array).ToJson();
         }
 
-        public static bool TryParse(string value, out object?[]? parsedArray)
+        public static bool TryParse<T>(string value, out T? parsedArray) where T : class
         {
-            parsedArray = null;
+            parsedArray = default;
             try
             {
-                parsedArray = value.FromJson<object?[]>();
+                parsedArray = value.FromJson<T>();
                 return true;
             }
             catch (Exception)

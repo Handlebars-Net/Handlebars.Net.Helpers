@@ -15,7 +15,10 @@ namespace HandlebarsDotNet.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.Value)]
+        /// <summary>
+        /// For backwards compatibility with WireMock.Net
+        /// </summary>
+        [HandlebarsWriter(WriterType.Value, "Linq")]
         public object Linq(object value, string linqStatement)
         {
             var valueToProcess = ParseAsJToken(value);
@@ -47,6 +50,11 @@ namespace HandlebarsDotNet.Helpers
 
         private static JToken ParseAsJToken(object value)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             switch (value)
             {
                 case string valueAsString:

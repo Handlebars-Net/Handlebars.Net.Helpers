@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -21,11 +22,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [Fact]
         public void Random()
         {
+            // Arrange
+            var hash = new Dictionary<string, object?>
+            {
+                { "Type", "Integer" },
+                { "Min", 1000 },
+                { "Max", 9999 }
+            };
+
             // Act
-            //var result = _sut.Random("Type=\"Integer\" Min=1000 Max=9999");
+            var result = _sut.Random(hash);
 
             // Assert
-            // int.Parse(result).Should().BeInRange(1000, 9999);
+            (result as int?).Should().BeInRange(1000, 9999);
         }
     }
 }

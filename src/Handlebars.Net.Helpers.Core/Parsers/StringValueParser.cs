@@ -2,7 +2,7 @@
 
 namespace HandlebarsDotNet.Helpers.Parsers
 {
-    internal static class StringValueParser
+    public static class StringValueParser
     {
         public static object Parse(IHandlebars context, string valueAsString)
         {

@@ -11,8 +11,8 @@ namespace HandlebarsDotNet.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string Xeger(string pattern)
+        [HandlebarsWriter(WriterType.String, "Xeger.Generate")]
+        public string Generate(string pattern)
         {
             return new Xeger(pattern).Generate();
         }

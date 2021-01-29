@@ -8,12 +8,26 @@ namespace HandlebarsDotNet.Helpers.Attributes
     {
         public WriterType Type { get; }
 
-        public string? Name{ get; set; }
+        public string? Name { get; set; }
 
-        public HandlebarsWriterAttribute(WriterType type, string? name = null)
+        public HelperUsage Usage { get; set; } = HelperUsage.Both;
+
+        public bool PassContext { get; set; }
+
+        public HandlebarsWriterAttribute(WriterType type, string? name = null) : this(type, HelperUsage.Both, name)
+        {
+        }
+
+        public HandlebarsWriterAttribute(WriterType type, HelperUsage usage, string? name = null) : this(type, usage, false, name)
+        {
+        }
+
+        public HandlebarsWriterAttribute(WriterType type, HelperUsage usage, bool passContext, string? name = null)
         {
             Type = type;
             Name = name;
+            Usage = usage;
+            PassContext = passContext;
         }
     }
 }
