@@ -10,7 +10,7 @@ namespace HandlebarsDotNet.Helpers.Attributes
 
         public string? Name { get; set; }
 
-        public HelperUsage Usage { get; set; } = HelperUsage.Both;
+        public HelperUsage Usage { get; set; }
 
         public bool PassContext { get; set; }
 
