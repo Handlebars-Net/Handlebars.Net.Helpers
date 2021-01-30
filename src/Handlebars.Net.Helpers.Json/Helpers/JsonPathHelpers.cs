@@ -36,7 +36,7 @@ namespace HandlebarsDotNet.Helpers
             }
             catch (JsonException ex)
             {
-                return ex.Message;
+                throw new HandlebarsException(nameof(SelectToken), ex);
             }
         }
 
@@ -63,7 +63,7 @@ namespace HandlebarsDotNet.Helpers
             }
             catch (JsonException ex)
             {
-                return ex;
+                throw new HandlebarsException(nameof(SelectTokensInternal), ex);
             }
         }
 
