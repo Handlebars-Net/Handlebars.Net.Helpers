@@ -19,19 +19,14 @@ namespace HandlebarsDotNet.Helpers.Parsers
                     return StringValueParser.Parse(context, valueAsString);
 
                 case UndefinedBindingResult valueAsUndefinedBindingResult:
-                    if (convertObjectArrayToStringList)
+                    if (TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out List<object?>? parsedAsObjectList))
                     {
-                        if (TryParseAsArray(valueAsUndefinedBindingResult, out List<string>? parsedAsStringList))
+                        if (convertObjectArrayToStringList)
                         {
-                            return parsedAsStringList;
+                            return parsedAsObjectList.Cast<string?>().ToList();
                         }
 
-                        return argument;
-                    }
-
-                    if (TryParseAsArray(valueAsUndefinedBindingResult, out object?[]? parsedAsObjectArray))
-                    {
-                        return parsedAsObjectArray;
+                        return parsedAsObjectList;
                     }
 
                     return argument;
@@ -46,14 +41,14 @@ namespace HandlebarsDotNet.Helpers.Parsers
 
         /// <summary>
         /// In case it's an UndefinedBindingResult, just try to convert the value using Json.
-        /// This logic adds functionality like parsing an array.
+        /// This logic adds functionality like parsing a list.
         /// </summary>
         /// <param name="undefinedBindingResult">The property value</param>
         /// <param name="parsedValue">The parsed value</param>
         /// <returns>true in case parsing is ok, else false</returns>
-        private static bool TryParseAsArray<T>(UndefinedBindingResult undefinedBindingResult, out T? parsedValue) where T : class
+        private static bool TryParseUndefinedBindingResult(UndefinedBindingResult undefinedBindingResult, out List<object?>? parsedValue)
         {
-            return ArrayUtils.TryParse(undefinedBindingResult.Value, out parsedValue);
+            return ArrayUtils.TryParseAsObjectList(undefinedBindingResult.Value, out parsedValue);
         }
     }
 }

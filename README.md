@@ -100,4 +100,4 @@ The following helpers are available:
 - Some ideas based on https://github.com/helpers/handlebars-helpers
 - Some code based on https://www.30secondsofcode.org/c-sharp/t/string/p/1
 - Some documentation based on https://github.com/arinet/HandlebarDocs
-- Some code copied from TinyJson (https://github.com/zanders3/json)
+- SimpleJson copied from (https://github.com/facebook-csharp-sdk/simple-json)

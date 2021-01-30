@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using HandlebarsDotNet.Helpers.TinyJson;
+using HandlebarsDotNet.Helpers.Json;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
@@ -9,22 +8,18 @@ namespace HandlebarsDotNet.Helpers.Utils
     {
         public static string ToArray(IEnumerable<object?> array)
         {
-            return Fix(array).ToJson();
+            return SimpleJson.SerializeObject(Fix(array));
         }
 
-        public static bool TryParse<T>(string value, out T? parsedArray) where T : class
+        public static bool TryParseAsObjectList(string value, out List<object?>? list)
         {
-            parsedArray = default;
-            try
+            if (SimpleJson.TryDeserializeObject(value, out object? obj))
             {
-                parsedArray = value.FromJson<T>();
+                list = (List<object?>?)obj;
                 return true;
             }
-            catch (Exception)
-            {
-                // Ignore and return false
-            }
 
+            list = null;
             return false;
         }
 
