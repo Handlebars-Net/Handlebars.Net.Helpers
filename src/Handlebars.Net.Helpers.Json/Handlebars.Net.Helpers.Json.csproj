@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Json</AssemblyName>
+    <PackageId>Handlebars.Net.Helpers.Json</PackageId>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net.Helpers Json</Description>

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Xeger</AssemblyName>
+    <PackageId>Handlebars.Net.Helpers.Xeger</PackageId>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net.Helpers Xeger (Fare)</Description>

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Random</AssemblyName>
+    <PackageId>Handlebars.Net.Helpers.Random</PackageId>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <Description>Handlebars.Net.Helpers Random</Description>
