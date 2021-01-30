@@ -29,7 +29,7 @@ namespace HandlebarsDotNet.Helpers
             }
             catch (Exception ex)
             {
-                return ex;
+                throw new HandlebarsException(nameof(Linq), ex);
             }
         }
 

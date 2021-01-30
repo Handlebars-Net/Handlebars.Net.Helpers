@@ -11,20 +11,20 @@ namespace ConsoleApp
             var handlebars = Handlebars.Create();
             HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
-            handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
-            {
-                var array = new object[]
-                {
-                    1,
-                    "two"
-                };
+            //handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
+            //{
+            //    var array = new object[]
+            //    {
+            //        1,
+            //        "two"
+            //    };
 
-                return array;
-            });
+            //    return array;
+            //});
 
-            var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");
-            var resultX = templateX.Invoke("");
-            Console.WriteLine("ArrayTest = " + resultX);
+            //var templateX = handlebars.Compile("{{#each (ArrayTest min=6)}}_{{this}}_{{/each}}");
+            //var resultX = templateX.Invoke("");
+            //Console.WriteLine("ArrayTest = " + resultX);
 
             var tests = new[]
             {
@@ -49,7 +49,7 @@ namespace ConsoleApp
                 "{{#IsMatch \"Hello\" \"hello\"}}yes{{else}}no{{/IsMatch}}",
                 "{{#IsMatch \"Hello\" \"hello\" 'i'}}yesI{{else}}noI{{/IsMatch}}",
                 "{{#StartsWith \"Hello\" \"x\"}}Hi{{else}}Goodbye{{/StartsWith}}",
-                "{{Skip ['a', 'b', 'c', 1] 1}}",
+                "{{Skip [\"a\", \"b\", \"c\", 1] 1}}",
 
                 "{{StartsWith \"abc\" \"!def\"}}",
                 "{{Append \"abc\" \"!def\"}}",

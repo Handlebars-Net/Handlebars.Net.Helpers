@@ -27,7 +27,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
                 throw new ArgumentNullException(nameof(values));
             }
 
-            return values.Distinct();
+            return values.Distinct().ToList();
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -79,7 +79,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public IEnumerable<object?> Reverse(IEnumerable<object?> values)
         {
-            return values.Reverse();
+            return values.Reverse().ToList();
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -106,7 +106,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
                 throw new ArgumentNullException(nameof(values));
             }
 
-            return values.Skip(count);
+            return values.Skip(count).ToList();
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -123,7 +123,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
                 throw new ArgumentNullException(nameof(values));
             }
 
-            return values.Take(count);
+            return values.Take(count).ToList();
         }
 
         public EnumerableHelpers(IHandlebars context) : base(context)

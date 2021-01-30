@@ -5,8 +5,8 @@
     <AssemblyName>HandlebarsDotNet.Helpers.Xeger</AssemblyName>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Handlebars.Net Xeger</Description>
-    <PackageTags>handlebars;helper;Xeger;Fare</PackageTags>
+    <Description>Handlebars.Net.Helpers Xeger (Fare)</Description>
+    <PackageTags>handlebars;helper;Regex;Xeger;Fare</PackageTags>
     <ProjectGuid>{2278B30D-D61C-4FEB-8AEB-2EC9AE84693B}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
