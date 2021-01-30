@@ -5,7 +5,7 @@
     <AssemblyName>HandlebarsDotNet.Helpers.DynamicLinq</AssemblyName>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Description>Handlebars.Net DynamicLinq</Description>
+    <Description>Handlebars.Net.Helpers DynamicLinq</Description>
     <PackageTags>handlebars;helper;Linq;DynamicLinq</PackageTags>
     <ProjectGuid>{181B9A96-5662-BBAA-5678-BB8E1263125A}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
