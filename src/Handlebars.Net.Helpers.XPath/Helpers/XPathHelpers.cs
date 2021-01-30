@@ -18,7 +18,7 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string? SelectSingleNode(string document, string xpath)
+        public string SelectSingleNode(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
@@ -30,15 +30,14 @@ namespace HandlebarsDotNet.Helpers
 #endif
                 return result.OuterXml;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore Exception
-                return null;
+                throw new HandlebarsException(nameof(SelectSingleNode), ex);
             }
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string? SelectNodes(string document, string xpath)
+        public string SelectNodes(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
@@ -56,15 +55,14 @@ namespace HandlebarsDotNet.Helpers
 
                 return resultXml.ToString();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore Exception
-                return null;
+                throw new HandlebarsException(nameof(SelectNodes), ex);
             }
         }
 
         [HandlebarsWriter(WriterType.Value)]
-        public object? Evaluate(string document, string xpath)
+        public object Evaluate(string document, string xpath)
         {
             var nav = CreateNavigator(document);
 
@@ -76,10 +74,9 @@ namespace HandlebarsDotNet.Helpers
                 return nav.XPath2Evaluate(xpath);
 #endif
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Ignore Exception
-                return null;
+                throw new HandlebarsException(nameof(SelectNodes), ex);
             }
         }
 
