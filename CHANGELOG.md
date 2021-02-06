@@ -1,3 +1,7 @@
+# 2.1.0 (06 February 2021)
+- [#18](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/18) - Add XPath, DynamicLinq, Json, Xeger and Random [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#19](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/19) - Use SimpleJson and update packages [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.0.2 (27 January 2021)
 - [#17](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/17) - Add DateTimeHelpers [enhancement] contributed by [StefH](https://github.com/StefH)
 
