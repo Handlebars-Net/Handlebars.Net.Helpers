@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Utils;
@@ -46,5 +47,10 @@ namespace HandlebarsDotNet.Helpers.Options
         /// A Dictionary with additional Custom Helpers (Key = CategoryPrefix, Value = IHelpers)
         /// </summary>
         public IDictionary<string, IHelpers>? CustomHelpers { get; set; } = null;
+
+        /// <summary>
+        /// The paths to search for additional helpers. If null, the CurrentDirectory is used.
+        /// </summary>
+        public IReadOnlyList<string>? CustomHelperPaths = new List<string> { Directory.GetCurrentDirectory() };
     }
 }
