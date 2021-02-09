@@ -1,3 +1,6 @@
+# 2.1.1 (09 February 2021)
+- [#20](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/20) - Add  CustomHelperPaths to options [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.1.0 (06 February 2021)
 - [#18](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/18) - Add XPath, DynamicLinq, Json, Xeger and Random [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#19](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/19) - Use SimpleJson and update packages [enhancement] contributed by [StefH](https://github.com/StefH)
