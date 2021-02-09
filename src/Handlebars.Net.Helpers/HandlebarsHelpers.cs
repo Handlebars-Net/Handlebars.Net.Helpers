@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -59,7 +60,9 @@ namespace HandlebarsDotNet.Helpers
                 { Category.JsonPath, "JsonPathHelpers" },
                 { Category.DynamicLinq, "DynamicLinqHelpers" }
             };
-            var extraHelpers = PluginLoader.Load(extra, handlebarsContext);
+
+            var paths = options.CustomHelperPaths ?? new List<string> { Directory.GetCurrentDirectory() };
+            var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
 
             foreach (var item in extraHelpers)
             {
