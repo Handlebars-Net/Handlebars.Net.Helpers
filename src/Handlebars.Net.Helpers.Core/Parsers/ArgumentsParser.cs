@@ -15,9 +15,6 @@ namespace HandlebarsDotNet.Helpers.Parsers
         {
             switch (argument)
             {
-                case string valueAsString:
-                    return StringValueParser.Parse(context, valueAsString);
-
                 case UndefinedBindingResult valueAsUndefinedBindingResult:
                     if (TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out List<object?>? parsedAsObjectList))
                     {
@@ -30,9 +27,6 @@ namespace HandlebarsDotNet.Helpers.Parsers
                     }
 
                     return argument;
-
-                case IDictionary<string, object?> hash:
-                    return hash;
 
                 default:
                     return argument;

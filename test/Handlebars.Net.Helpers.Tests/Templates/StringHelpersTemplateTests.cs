@@ -122,14 +122,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{[String.StartsWith] \"foo\" 1}}")]
-        public void InvalidArgumentTypeShouldThrowNotArgumentException(string template)
+        [InlineData("{{[String.Lowercase] \"foo\"}}", "foo")]
+        [InlineData("{{[String.Lowercase] \"FOO\"}}", "foo")]
+        [InlineData("{{[String.Lowercase] \"42\"}}", "42")]
+        public void ToLower(string template, string expected)
         {
             // Arrange
-            var handleBarsAction = _handlebarsContext.Compile(template);
+            var action = _handlebarsContext.Compile(template);
 
-            // Act and Assert
-            Assert.Throws<ArgumentException>(() => handleBarsAction(""));
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
         }
 
         [Fact]
