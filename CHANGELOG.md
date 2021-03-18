@@ -1,3 +1,7 @@
+# 2.1.2 (18 March 2021)
+- [#22](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/22) - Do not use StringValueParser when parsing arguments [bug] contributed by [StefH](https://github.com/StefH)
+- [#21](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/21) - System.ArgumentException: 'Object of type 'System.Int32' cannot be converted to type 'System.String'.' [bug]
+
 # 2.1.1 (09 February 2021)
 - [#20](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/20) - Add  CustomHelperPaths to options [enhancement] contributed by [StefH](https://github.com/StefH)
 
