@@ -120,30 +120,28 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         [Theory]
         [InlineData("foo", 10, "0", "0000000foo")]
-        [InlineData("foo", "10", "0", "0000000foo")]
         [InlineData("foo", 10, "padding", "foo")]
-        [InlineData("foo", 10, "", "foo")]
+        [InlineData("foo", 10, "", "       foo")]
         [InlineData("", 10, "0", "0000000000")]
-        [InlineData("", 10, "", "")]
+        [InlineData("", 10, "", "          ")]
         [InlineData("foobarbaz", 6, "0", "foobarbaz")]
-        public void PadLeft(string value, object width, string padChar, string expected)
+        public void PadLeft(string value, int totalWidth, string padChar, string expected)
         {
-            var result = _sut.PadLeft(value, width, padChar);
+            var result = _sut.PadLeft(value, totalWidth, padChar);
 
             result.Should().Be(expected);
         }
 
         [Theory]
         [InlineData("foo", 10, "0", "foo0000000")]
-        [InlineData("foo", "10", "0", "foo0000000")]
         [InlineData("foo", 10, "padding", "foo")]
-        [InlineData("foo", 10, "", "foo")]
+        [InlineData("foo", 10, "", "foo       ")]
         [InlineData("", 10, "0", "0000000000")]
-        [InlineData("", 10, "", "")]
+        [InlineData("", 10, "", "          ")]
         [InlineData("foobarbaz", 6, "0", "foobarbaz")]
-        public void PadRight(string value, object width, string padChar, string expected)
+        public void PadRight(string value, int totalWidth, string padChar, string expected)
         {
-            var result = _sut.PadRight(value, width, padChar);
+            var result = _sut.PadRight(value, totalWidth, padChar);
 
             result.Should().Be(expected);
         }
