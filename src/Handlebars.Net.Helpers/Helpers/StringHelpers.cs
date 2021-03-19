@@ -143,6 +143,48 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
+        public string PadLeft(string value, object width, string padChar)
+        {
+            if (String.IsNullOrEmpty(value) && String.IsNullOrEmpty(padChar))
+                return String.Empty;
+
+            if (String.IsNullOrEmpty(value))
+                value = "";
+
+            if (String.IsNullOrEmpty(padChar))
+                return value;
+
+            if (padChar.Length > 1)
+                return value;
+
+            if (!Int32.TryParse(width.ToString(), out int realWidth))
+                return value;
+
+            return value.PadLeft(realWidth, padChar[0]);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string PadRight(string value, object width, string padChar)
+        {
+            if (String.IsNullOrEmpty(value) && String.IsNullOrEmpty(padChar))
+                return String.Empty;
+
+            if (String.IsNullOrEmpty(value))
+                value = "";
+
+            if (String.IsNullOrEmpty(padChar))
+                return value;
+
+            if (padChar.Length > 1)
+                return value;
+
+            if (!Int32.TryParse(width.ToString(), out int realWidth))
+                return value;
+
+            return value.PadRight(realWidth, padChar[0]);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
         public string Pascalcase(string value)
         {
             if (string.IsNullOrEmpty(value))
