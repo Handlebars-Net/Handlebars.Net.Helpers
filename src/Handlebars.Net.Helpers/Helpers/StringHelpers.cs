@@ -143,7 +143,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string PadLeft(string value, object width, string padChar)
+        public string PadLeft(string value, object totalWidth, string padChar)
         {
             if (String.IsNullOrEmpty(value) && String.IsNullOrEmpty(padChar))
                 return String.Empty;
@@ -157,14 +157,14 @@ namespace HandlebarsDotNet.Helpers.Helpers
             if (padChar.Length > 1)
                 return value;
 
-            if (!Int32.TryParse(width.ToString(), out int realWidth))
+            if (!Int32.TryParse(totalWidth.ToString(), out int realWidth))
                 return value;
 
             return value.PadLeft(realWidth, padChar[0]);
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string PadRight(string value, object width, string padChar)
+        public string PadRight(string value, object totalWidth, string padChar)
         {
             if (String.IsNullOrEmpty(value) && String.IsNullOrEmpty(padChar))
                 return String.Empty;
@@ -178,7 +178,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             if (padChar.Length > 1)
                 return value;
 
-            if (!Int32.TryParse(width.ToString(), out int realWidth))
+            if (!Int32.TryParse(totalWidth.ToString(), out int realWidth))
                 return value;
 
             return value.PadRight(realWidth, padChar[0]);
