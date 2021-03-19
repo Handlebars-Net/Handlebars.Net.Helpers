@@ -145,7 +145,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.String)]
         public string PadLeft(string value, int totalWidth, string padChar)
         {
-            if (String.IsNullOrEmpty(padChar))
+            if (string.IsNullOrEmpty(padChar))
             {
                 padChar = " ";
             }
@@ -161,7 +161,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.String)]
         public string PadRight(string value, int totalWidth, string padChar)
         {
-            if (String.IsNullOrEmpty(padChar))
+            if (string.IsNullOrEmpty(padChar))
             {
                 padChar = " ";
             }
