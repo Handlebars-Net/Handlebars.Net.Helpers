@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
@@ -18,22 +19,10 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         [Theory]
         [InlineData("{{#Regex.IsMatch \"Hello\" \"Hello\"}}yes{{else}}no{{/Regex.IsMatch}}", "yes")]
         [InlineData("{{#Regex.IsMatch \"Hello\" \"x\"}}yes{{else}}no{{/Regex.IsMatch}}", "no")]
-        public void BlockHelper_IsMatch(string template, string expected)
-        {
-            // Arrange
-            var action = _handlebarsContext.Compile(template);
-
-            // Act
-            var result = action("");
-
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
         [InlineData("{{#Regex.IsMatch \"Hello\" \"Hello\"}}TRUE{{else}}FALSE{{/Regex.IsMatch}}", "TRUE")]
         [InlineData("{{#Regex.IsMatch \"Hello\" \"x\"}}TRUE{{else}}FALSE{{/Regex.IsMatch}}", "FALSE")]
-        public void BlockHelper_IsMatch_With_True_And_False(string template, string expected)
+        [InlineData("{{#Regex.IsMatch \"Hello\" \"Hello\"}}{{.}}{{else}}no{{/Regex.IsMatch}}", "True")]
+        public void BlockHelper_IsMatch(string template, string expected)
         {
             // Arrange
             var action = _handlebarsContext.Compile(template);
@@ -58,6 +47,25 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void NormalHelper_IsMatch_With_If_And_ComplexObject()
+        {
+            // Arrange
+            var template = "{{#if (#Regex.IsMatch Attributes 'visible')}}{{Value}}{{/if}}";
+            var context = new Dictionary<string, object>()
+            {
+                ["Attributes"] = "visible",
+                ["Value"] = "SomeString"
+            };
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action(context);
+
+            // Assert
+            result.Should().Be("SomeString");
         }
     }
 }
