@@ -67,5 +67,25 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             // Assert
             result.Should().Be("SomeString");
         }
+
+        [Theory]
+        [InlineData("{{#Regex.IsMatch thing 'foo' 'i'}}Yes{{/Regex.IsMatch}}", "Yes")]
+        [InlineData("{{#Regex.IsMatch thing 'foo'}}Yes{{/Regex.IsMatch}}", "")]
+        [InlineData("{{#Regex.IsMatch thing 'bar' 'i'}}Yes{{/Regex.IsMatch}}", "")]
+        public void NormalHelper_IsMatch_IgnoreCase(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+            var value = new
+            {
+                thing = "Foo"
+            };
+
+            // Act
+            var result = action(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
