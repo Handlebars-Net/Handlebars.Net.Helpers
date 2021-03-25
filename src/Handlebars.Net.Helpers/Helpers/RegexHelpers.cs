@@ -26,7 +26,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
             return MatchInternal(isBlockHelper, value, regexPattern, defaultValue, options);
         }
 
-        //[HandlebarsWriter(WriterType.Value, blockHelper: true)]
         private object? MatchInternal(bool isBlockHelper, string value, string regexPattern, object? defaultValue = null, string? options = null)
         {
             Regex regex;
