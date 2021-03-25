@@ -9,25 +9,24 @@ namespace HandlebarsDotNet.Helpers.Helpers
     internal class RegexHelpers : BaseHelpers, IHelpers
     {
         [HandlebarsWriter(WriterType.Value)]
-        public bool IsMatch(string value, string regexPattern, object? defaultValue = null, string? options = null)
+        public bool IsMatch(string value, string regexPattern, string? options = null)
         {
-            return Match(value, regexPattern, defaultValue, options) is { };
+            return Match(value, regexPattern, options) is not null;
         }
 
         [HandlebarsWriter(WriterType.Value)]
-        public object? Match(string value, string regexPattern, object? defaultValue = null, string? options = null)
+        public object? Match(string value, string regexPattern, string? options = null)
         {
-            return MatchInternal(false, value, regexPattern, defaultValue, options);
+            return MatchInternal(false, value, regexPattern, options);
         }
 
         [HandlebarsWriter(WriterType.Value, usage: HelperUsage.Block)]
-        public object? Match(bool isBlockHelper, string value, string regexPattern, object? defaultValue = null, string? options = null)
+        public object? Match(bool isBlockHelper, string value, string regexPattern, string? options = null)
         {
-            return MatchInternal(isBlockHelper, value, regexPattern, defaultValue, options);
+            return MatchInternal(isBlockHelper, value, regexPattern, options);
         }
 
-        //[HandlebarsWriter(WriterType.Value, blockHelper: true)]
-        private object? MatchInternal(bool isBlockHelper, string value, string regexPattern, object? defaultValue = null, string? options = null)
+        private object? MatchInternal(bool isBlockHelper, string value, string regexPattern, string? options = null)
         {
             Regex regex;
             if (!string.IsNullOrWhiteSpace(options))
@@ -84,11 +83,6 @@ namespace HandlebarsDotNet.Helpers.Helpers
             if (match.Success)
             {
                 return match.Value;
-            }
-
-            if (defaultValue is { })
-            {
-                return defaultValue;
             }
 
             return null;
