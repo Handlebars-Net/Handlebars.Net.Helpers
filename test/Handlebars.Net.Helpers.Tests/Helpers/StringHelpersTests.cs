@@ -120,7 +120,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         [Theory]
         [InlineData("foo", 10, "0", "0000000foo")]
-        [InlineData("foo", 10, "padding", "foo")]
+        [InlineData("foo", 10, "padding", "pppppppfoo")]
         [InlineData("foo", 10, "", "       foo")]
         [InlineData("", 10, "0", "0000000000")]
         [InlineData("", 10, "", "          ")]
@@ -134,7 +134,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         [Theory]
         [InlineData("foo", 10, "0", "foo0000000")]
-        [InlineData("foo", 10, "padding", "foo")]
+        [InlineData("foo", 10, "padding", "fooppppppp")]
         [InlineData("foo", 10, "", "foo       ")]
         [InlineData("", 10, "0", "0000000000")]
         [InlineData("", 10, "", "          ")]
