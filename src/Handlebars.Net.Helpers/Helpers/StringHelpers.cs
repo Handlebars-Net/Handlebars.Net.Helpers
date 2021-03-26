@@ -145,33 +145,19 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.String)]
         public string PadLeft(string value, int totalWidth, string padChar)
         {
-            if (string.IsNullOrEmpty(padChar))
-            {
-                padChar = " ";
-            }
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
-            if (padChar.Length > 1)
-            {
-                return value;
-            }
-
-            return (value ?? "").PadLeft(totalWidth, padChar[0]);
+            return (padChar?.Length > 0) ? value.PadLeft(totalWidth, padChar[0]) : value.PadLeft(totalWidth);
         }
 
         [HandlebarsWriter(WriterType.String)]
         public string PadRight(string value, int totalWidth, string padChar)
         {
-            if (string.IsNullOrEmpty(padChar))
-            {
-                padChar = " ";
-            }
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
 
-            if (padChar.Length > 1)
-            {
-                return value;
-            }
-
-            return (value ?? "").PadRight(totalWidth, padChar[0]);
+            return (padChar?.Length > 0) ? value.PadRight(totalWidth, padChar[0]) : value.PadRight(totalWidth);
         }
 
         [HandlebarsWriter(WriterType.String)]
