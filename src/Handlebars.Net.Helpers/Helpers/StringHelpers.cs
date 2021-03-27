@@ -146,7 +146,9 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public string PadLeft(string value, int totalWidth, string padChar)
         {
             if (value == null)
+            {
                 throw new ArgumentNullException(nameof(value));
+            }
 
             return (padChar?.Length > 0) ? value.PadLeft(totalWidth, padChar[0]) : value.PadLeft(totalWidth);
         }
@@ -155,7 +157,9 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public string PadRight(string value, int totalWidth, string padChar)
         {
             if (value == null)
+            {
                 throw new ArgumentNullException(nameof(value));
+            }
 
             return (padChar?.Length > 0) ? value.PadRight(totalWidth, padChar[0]) : value.PadRight(totalWidth);
         }

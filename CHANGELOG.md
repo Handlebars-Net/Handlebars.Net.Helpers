@@ -1,3 +1,6 @@
+# 2.1.4 (27 March 2021)
+- [#24](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/24) - Add String PadLeft and PadRight  [enhancement] contributed by [mrbelk](https://github.com/mrbelk)
+
 # 2.1.3 (25 March 2021)
 - [#26](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/26) - Add extra unit tests for Regex [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#28](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/28) - Remove default value from Regex helper [bug] contributed by [StefH](https://github.com/StefH)
