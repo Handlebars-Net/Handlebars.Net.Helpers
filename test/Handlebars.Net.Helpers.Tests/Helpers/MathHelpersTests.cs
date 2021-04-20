@@ -97,6 +97,23 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData(-1, 0, false)]
+        [InlineData(-2147483649L, 0, false)]
+        [InlineData(2147483649L, 0, true)]
+        [InlineData(1.2, 0.2, true)]
+        [InlineData(-1.2, 0.2, false)]
+        [InlineData("-1", 0, false)]
+        [InlineData("1.2", 0, true)]
+        public void GreaterThan(object value1, object value2, bool expected)
+        {
+            // Act
+            var result = _sut.GreaterThan(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(-1, 1, 1)]
         [InlineData(-1.2, 1, 1)]
         [InlineData(1, -1.2, 1)]

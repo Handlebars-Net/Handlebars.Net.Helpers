@@ -45,7 +45,7 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
         }
 
-        public static object Execute(IHandlebars context, object value1, object value2, Func<int, int, int> intFunc, Func<long, long, long> longFunc, Func<double, double, double> doubleFunc)
+        public static TResult Execute<TResult>(IHandlebars context, object value1, object value2, Func<int, int, TResult> intFunc, Func<long, long, TResult> longFunc, Func<double, double, TResult> doubleFunc)
         {
             var supported = new[] { typeof(int), typeof(long), typeof(double) };
 
@@ -85,10 +85,12 @@ namespace HandlebarsDotNet.Helpers.Utils
                     {
                         object1 = StringValueParser.Parse(context, value1 is string string1 ? string1 : value1.ToString());
                     }
+
                     if (!supported.Contains(value2.GetType()))
                     {
                         object2 = StringValueParser.Parse(context, value2 is string string2 ? string2 : value2.ToString());
                     }
+
                     return Execute(context, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }

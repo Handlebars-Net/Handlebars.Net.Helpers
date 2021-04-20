@@ -38,21 +38,51 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.Value)]
+        public bool Equal(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 == x2, (x1, x2) => x1 == x2, (x1, x2) => x1 == x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
         public double Floor(object value1, object value2)
         {
             return ExecuteUtils.Execute(value1, value2, (x1, x2) => Math.Floor(1.0 * x1 / 1.0 * x2));
         }
 
         [HandlebarsWriter(WriterType.Value)]
+        public bool GreaterThan(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 > x2, (x1, x2) => x1 > x2, (x1, x2) => x1 > x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public bool GreaterThanEqual(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 >= x2, (x1, x2) => x1 >= x2, (x1, x2) => x1 >= x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public bool LessThan(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 < x2, (x1, x2) => x1 < x2, (x1, x2) => x1 < x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public bool LessThanEqual(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 <= x2, (x1, x2) => x1 <= x2, (x1, x2) => x1 <= x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
         public object Max(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Context, value1, value2, Math.Max, Math.Max, Math.Max);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => Math.Max(x1, x2), (x1, x2) => Math.Max(x1, x2), (x1, x2) => Math.Max(x1, x2));
         }
 
         [HandlebarsWriter(WriterType.Value)]
         public object Min(object value1, object value2)
         {
-            return ExecuteUtils.Execute(Context, value1, value2, Math.Min, Math.Min, Math.Min);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => Math.Min(x1, x2), (x1, x2) => Math.Min(x1, x2), (x1, x2) => Math.Min(x1, x2));
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -71,6 +101,12 @@ namespace HandlebarsDotNet.Helpers.Helpers
         public object Multiply(object value1, object value2)
         {
             return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2, (x1, x2) => x1 * x2);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public bool NotEqual(object value1, object value2)
+        {
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 != x2, (x1, x2) => x1 != x2, (x1, x2) => x1 != x2);
         }
 
         [HandlebarsWriter(WriterType.Value)]

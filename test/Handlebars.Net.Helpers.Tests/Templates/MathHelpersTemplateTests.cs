@@ -29,5 +29,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             // Assert
             result.Should().StartWith(expected);
         }
+
+        [Theory]
+        [InlineData("{{[Math.LessThan] 2 1}}", "False")]
+        [InlineData("{{[Math.LessThan] 1 2}}", "True")]
+        [InlineData("{{[Math.LessThan] 2.2 3.1}}", "True")]
+        public void LessThan(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
