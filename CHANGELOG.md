@@ -1,3 +1,6 @@
+# 2.1.5 (20 April 2021)
+- [#30](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/30) - Add compare operators to Math [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.1.4 (27 March 2021)
 - [#24](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/24) - Add String PadLeft and PadRight  [enhancement] contributed by [mrbelk](https://github.com/mrbelk)
 
