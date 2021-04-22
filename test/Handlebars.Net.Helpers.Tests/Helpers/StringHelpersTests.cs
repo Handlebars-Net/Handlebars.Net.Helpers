@@ -312,5 +312,46 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result1.Should().Be(expected);
             result2.Should().Be(expected);
         }
+        
+        [Theory]
+        [InlineData("N0", "1")]
+        [InlineData("N1", "1.2")]
+        [InlineData("N2", "1.20")]
+        public void Format_Decimal(string format, string expected)
+        {
+            // Arrange
+            var value = 1.2m;
+
+            // Act
+            var result1 = _sut.Format(value, format);
+            var result2 = _sut.Format((decimal?)value, format);
+
+            // Assert
+            result1.Should().Be(expected);
+            result2.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Format_NotIFormattableType()
+        {
+            // Arrange
+            var value = new Version(1, 2, 3, 4);
+            
+            // Act
+            var result = _sut.Format(value, "should-be-ignored");
+
+            // Assert
+            result.Should().Be(value.ToString());
+        }
+
+        [Fact]
+        public void Format_Null()
+        {
+            // Act
+            var result = _sut.Format(null, "should-be-ignored");
+
+            // Assert
+            result.Should().BeEmpty();
+        }
     }
 }
