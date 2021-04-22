@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -21,6 +22,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             _dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(DateTimeNow.ToUniversalTime);
 
             _handlebarsContext = Handlebars.Create();
+            _handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
             HandlebarsHelpers.Register(_handlebarsContext, o =>
             {
