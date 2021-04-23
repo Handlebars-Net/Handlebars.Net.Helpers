@@ -344,16 +344,22 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string Format(object value, string format)
+        public string Format(object? value, string format)
         {
-            switch (value)
-            {
-                case DateTime dateTime:
-                    return dateTime.ToString(format, Context.Configuration.FormatProvider);
+            var formatProvider = Context.Configuration.FormatProvider;
 
-                default:
-                    throw new NotSupportedException($"The method {nameof(Format)} cannot be used on value '{value}' of Type '{value?.GetType()}'.");
-            }
+            // Attempt using a custom formatter from the format provider (if any)
+            var customFormatter = formatProvider?.GetFormat(typeof(ICustomFormatter)) as ICustomFormatter;
+            var formattedValue = customFormatter?.Format(format, value, formatProvider);
+
+            // Fallback to IFormattable
+            formattedValue ??= (value as IFormattable)?.ToString(format, formatProvider);
+
+            // Fallback to ToString
+            formattedValue ??= value?.ToString();
+
+            // Done
+            return formattedValue ?? string.Empty;
         }
 
         public StringHelpers(IHandlebars context) : base(context)
