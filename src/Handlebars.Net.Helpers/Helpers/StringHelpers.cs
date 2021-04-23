@@ -359,7 +359,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
             formattedValue ??= value?.ToString();
 
             // Done
-            return formattedValue ?? "";
+            return formattedValue ?? string.Empty;
         }
 
         public StringHelpers(IHandlebars context) : base(context)
