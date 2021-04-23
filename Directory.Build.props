@@ -5,7 +5,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
-    <VersionPrefix>2.1.5</VersionPrefix>
+    <VersionPrefix>2.1.6</VersionPrefix>
     <Copyright>Copyright © 2020-2021 Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>

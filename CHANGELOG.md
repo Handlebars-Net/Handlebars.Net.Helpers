@@ -1,3 +1,6 @@
+# 2.1.6 (23 April 2021)
+- [#31](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/31) - Fix `String.Format` to handle formatting of multiple types correctly, not only DateTime [enhancement] contributed by [DamienBraillard](https://github.com/DamienBraillard)
+
 # 2.1.5 (20 April 2021)
 - [#30](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/30) - Add compare operators to Math [enhancement] contributed by [StefH](https://github.com/StefH)
 
