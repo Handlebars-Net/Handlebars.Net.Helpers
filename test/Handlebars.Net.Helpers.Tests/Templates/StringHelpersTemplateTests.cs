@@ -78,6 +78,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
+        [InlineData("{{String.Join numbers}}", "1234")]
+        [InlineData("{{String.Join numbers \", \"}}", "1, 2, 3, 4")]
+        public void JoinArray(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action(new { numbers = new[] { 1, 2, 3, 4 } });
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("{{[String.Split] \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
         [InlineData("{{[String.Split] \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
         public void Split(string template, string expected)

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -121,14 +121,14 @@ namespace HandlebarsDotNet.Helpers.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string Join(IEnumerable<object> values, string? separator = null)
+        public string Join(IEnumerable values, string? separator = null)
         {
             if (values == null)
             {
                 throw new ArgumentNullException(nameof(values));
             }
 
-            return separator is null ? string.Join(string.Empty, values) : string.Join(separator, values);
+            return string.Join(separator ?? string.Empty, values.Cast<object>());
         }
 
         [HandlebarsWriter(WriterType.String)]
