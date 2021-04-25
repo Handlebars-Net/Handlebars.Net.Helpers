@@ -1,3 +1,6 @@
+# 2.1.7 (25 April 2021)
+- [#32](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/32) - Fix the String.Join helper for IEnumerable contributed by [0xced](https://github.com/0xced)
+
 # 2.1.6 (23 April 2021)
 - [#31](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/31) - Fix `String.Format` to handle formatting of multiple types correctly, not only DateTime [enhancement] contributed by [DamienBraillard](https://github.com/DamienBraillard)
 
