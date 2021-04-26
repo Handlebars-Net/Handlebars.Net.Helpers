@@ -22,7 +22,7 @@ steps:
 
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
-  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
+  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
   inputs:
     SonarCloud: SonarCloud
     organization: stefh-github
@@ -39,15 +39,15 @@ steps:
 
 - task: SonarCloudAnalyze@1
   displayName: 'SonarCloud: Run Code Analysis'
-  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
+  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
   
 - task: SonarCloudPublish@1
   displayName: 'SonarCloud: Publish Quality Gate Result'
-  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'))
+  condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
 
 - task: whitesource.ws-bolt.bolt.wss.WhiteSource Bolt@19
   displayName: 'WhiteSource Bolt'
-  condition: and(succeeded(), eq(variables['RUN_WHITESOURCE'], 'yes'))
+  condition: and(succeeded(), eq(variables['RUN_WHITESOURCE'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
 
 # Upload coverage to codecov.io
 - script: |
