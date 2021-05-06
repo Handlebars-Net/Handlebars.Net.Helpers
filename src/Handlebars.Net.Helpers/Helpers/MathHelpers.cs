@@ -22,7 +22,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public double Avg(object value1, object value2)
         {
-            return ExecuteUtils.Execute(value1, value2, (x1, x2) => (x1 + x2) / 2.0);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => (x1 + x2) / 2.0);
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -34,7 +34,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public double Divide(object value1, object value2)
         {
-            return ExecuteUtils.Execute(value1, value2, (x1, x2) => 1.0 * x1 / 1.0 * x2);
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 / x2);
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -46,7 +46,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public double Floor(object value1, object value2)
         {
-            return ExecuteUtils.Execute(value1, value2, (x1, x2) => Math.Floor(1.0 * x1 / 1.0 * x2));
+            return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => Math.Floor(1.0 * x1 / 1.0 * x2));
         }
 
         [HandlebarsWriter(WriterType.Value)]
@@ -118,7 +118,7 @@ namespace HandlebarsDotNet.Helpers.Helpers
         [HandlebarsWriter(WriterType.Value)]
         public object Power(object value1, object value2)
         {
-            return ExecuteUtils.Execute(value1, value2, Math.Pow);
+            return ExecuteUtils.Execute(Context, value1, value2, Math.Pow);
         }
 
         [HandlebarsWriter(WriterType.Value)]
