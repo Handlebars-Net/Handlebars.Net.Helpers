@@ -8,6 +8,8 @@ namespace HandlebarsDotNet.Helpers.Utils
 {
     internal static class ExecuteUtils
     {
+        private static Type[] SupportedTypes = new Type[] { typeof(int), typeof(long), typeof(double) };
+
         public static object Execute(IHandlebars context, object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
             switch (value)
@@ -47,8 +49,6 @@ namespace HandlebarsDotNet.Helpers.Utils
 
         public static TResult Execute<TResult>(IHandlebars context, object value1, object value2, Func<int, int, TResult> intFunc, Func<long, long, TResult> longFunc, Func<double, double, TResult> doubleFunc)
         {
-            var supported = new[] { typeof(int), typeof(long), typeof(double) };
-
             switch (value1, value2)
             {
                 case (int int1, int int2):
@@ -79,18 +79,8 @@ namespace HandlebarsDotNet.Helpers.Utils
                     return doubleFunc(double1, long2);
 
                 default:
-                    object object1 = value1;
-                    object object2 = value2;
-                    if (!supported.Contains(value1.GetType()))
-                    {
-                        object1 = StringValueParser.Parse(context, value1 is string string1 ? string1 : value1.ToString());
-                    }
-
-                    if (!supported.Contains(value2.GetType()))
-                    {
-                        object2 = StringValueParser.Parse(context, value2 is string string2 ? string2 : value2.ToString());
-                    }
-
+                    object object1 = ParseObjectValue<object>(context, value1);
+                    object object2 = ParseObjectValue<object>(context, value2);
                     return Execute(context, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }
@@ -99,7 +89,7 @@ namespace HandlebarsDotNet.Helpers.Utils
         {
             try
             {
-                double @double = (double)value;
+                double @double = Convert.ToDouble(value);
                 return doubleFunc(@double);
             }
             catch
@@ -120,18 +110,28 @@ namespace HandlebarsDotNet.Helpers.Utils
             }
         }
 
-        public static double Execute(object value1, object value2, Func<double, double, double> doubleFunc)
+        public static double Execute(IHandlebars context, object value1, object value2, Func<double, double, double> doubleFunc)
         {
             try
             {
-                double double1 = (double)value1;
-                double double2 = (double)value2;
+                var double1 = ParseObjectValue<double>(context, value1);
+                var double2 = ParseObjectValue<double>(context, value2);
                 return doubleFunc(double1, double2);
             }
             catch
             {
                 throw new NotSupportedException();
             }
+        }
+
+        private static T ParseObjectValue<T>(IHandlebars context, object value)
+        {
+            if (!SupportedTypes.Contains(value.GetType()))
+            {
+                return (T)Convert.ChangeType(StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString()), typeof(T));
+            }
+
+            return (T)(typeof(T) == typeof(object) ? value : Convert.ChangeType(value, typeof(T)));
         }
     }
 }

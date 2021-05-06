@@ -97,6 +97,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData(-1, 1, -1)]
+        [InlineData(-1.2, 1.2, -1)]
+        [InlineData(1.2, 0.5, 2.4)]
+        [InlineData("45", "22.5", 2)]
+        public void Divide(object value1, object value2, double expected)
+        {
+            // Act
+            var result = _sut.Divide(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(-1, 0, false)]
         [InlineData(-2147483649L, 0, false)]
         [InlineData(2147483649L, 0, true)]
@@ -108,6 +122,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.GreaterThan(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(-1.1, 1.1, 0)]
+        [InlineData("20", "30.0", 25)]
+        public void Avg(object value1, object value2, double expected)
+        {
+            // Act
+            var result = _sut.Avg(value1, value2);
 
             // Assert
             result.Should().Be(expected);
@@ -134,6 +160,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.Min(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(-1, 1, -1)]
+        [InlineData(-1.2, 2, -2.4)]
+        [InlineData(1.2, 0.5, 0.6)]
+        [InlineData("2", "22.5", 45)]
+        public void Multiply(object value1, object value2, double expected)
+        {
+            // Act
+            var result = _sut.Multiply(value1, value2);
 
             // Assert
             result.Should().Be(expected);
