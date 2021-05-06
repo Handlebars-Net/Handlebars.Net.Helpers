@@ -1,3 +1,8 @@
+# 2.1.8 (06 May 2021)
+- [#33](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/33) - CI Build : Don't run SonarCloud for PR [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#35](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/35) - Fix Math.Avg, Math.Divide and Math.Multiply [bug] contributed by [StefH](https://github.com/StefH)
+- [#34](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/34) - Math methods with type double [bug]
+
 # 2.1.7 (25 April 2021)
 - [#32](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/32) - Fix the String.Join helper for IEnumerable contributed by [0xced](https://github.com/0xced)
 
