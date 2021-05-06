@@ -81,16 +81,6 @@ namespace HandlebarsDotNet.Helpers.Utils
                 default:
                     object object1 = ParseObjectValue<object>(context, value1);
                     object object2 = ParseObjectValue<object>(context, value2);
-                    //if (!SupportedTypes.Contains(value1.GetType()))
-                    //{
-                    //    object1 = StringValueParser.Parse(context, value1 is string string1 ? string1 : value1.ToString());
-                    //}
-
-                    //if (!SupportedTypes.Contains(value2.GetType()))
-                    //{
-                    //    object2 = StringValueParser.Parse(context, value2 is string string2 ? string2 : value2.ToString());
-                    //}
-
                     return Execute(context, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }

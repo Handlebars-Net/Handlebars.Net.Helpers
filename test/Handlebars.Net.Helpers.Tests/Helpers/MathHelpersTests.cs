@@ -128,6 +128,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData(-1.1, 1.1, 0)]
+        [InlineData("20", "30.0", 25)]
+        public void Avg(object value1, object value2, double expected)
+        {
+            // Act
+            var result = _sut.Avg(value1, value2);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData(-1, 1, 1)]
         [InlineData(-1.2, 1, 1)]
         [InlineData(1, -1.2, 1)]
