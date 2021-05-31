@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
@@ -44,6 +45,34 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("{{Math.Subtract 100 -0}}", "100")]
+        [InlineData("{{Math.Subtract 100 0}}", "100")]
+        public void Subtract(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Subtract_With_InvalidArguments_Should_Throw()
+        {
+            // Arrange
+            var compiled = _handlebarsContext.Compile("{{Math.Subtract 100 ''}}");
+
+            // Act
+            Action action = () => compiled("");
+
+            // Assert
+            action.Should().Throw<NotSupportedException>();
         }
     }
 }

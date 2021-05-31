@@ -8,7 +8,7 @@ namespace HandlebarsDotNet.Helpers.Utils
 {
     internal static class ExecuteUtils
     {
-        private static Type[] SupportedTypes = new Type[] { typeof(int), typeof(long), typeof(double) };
+        private static readonly Type[] SupportedTypes = { typeof(int), typeof(long), typeof(double) };
 
         public static object Execute(IHandlebars context, object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
@@ -79,8 +79,8 @@ namespace HandlebarsDotNet.Helpers.Utils
                     return doubleFunc(double1, long2);
 
                 default:
-                    object object1 = ParseObjectValue<object>(context, value1);
-                    object object2 = ParseObjectValue<object>(context, value2);
+                    var object1 = ParseObjectValueToIntLongOrDouble(context, value1);
+                    var object2 = ParseObjectValueToIntLongOrDouble(context, value2);
                     return Execute(context, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }
@@ -89,7 +89,7 @@ namespace HandlebarsDotNet.Helpers.Utils
         {
             try
             {
-                double @double = Convert.ToDouble(value);
+                var @double = Convert.ToDouble(value);
                 return doubleFunc(@double);
             }
             catch
@@ -114,24 +114,26 @@ namespace HandlebarsDotNet.Helpers.Utils
         {
             try
             {
-                var double1 = ParseObjectValue<double>(context, value1);
-                var double2 = ParseObjectValue<double>(context, value2);
+                var double1 = Convert.ToDouble(value1);
+                var double2 = Convert.ToDouble(value2);
                 return doubleFunc(double1, double2);
             }
             catch
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException($"The value '{value1}' cannot not be converted to a double.");
             }
         }
 
-        private static T ParseObjectValue<T>(IHandlebars context, object value)
+        private static object ParseObjectValueToIntLongOrDouble(IHandlebars context, object value)
         {
-            if (!SupportedTypes.Contains(value.GetType()))
+            var parsedValue = StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString());
+
+            if (SupportedTypes.Contains(parsedValue.GetType()))
             {
-                return (T)Convert.ChangeType(StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString()), typeof(T));
+                return parsedValue;
             }
 
-            return (T)(typeof(T) == typeof(object) ? value : Convert.ChangeType(value, typeof(T)));
+            throw new NotSupportedException($"The value '{value}' cannot not be converted to an int, long or double.");
         }
     }
 }
