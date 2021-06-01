@@ -1,3 +1,7 @@
+# 2.1.9 (01 June 2021)
+- [#37](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/37) - Fix StackOverflow problem when providing invalid arguments to Math methods [bug] contributed by [StefH](https://github.com/StefH)
+- [#36](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/36) - Stack Overflow on Math.Subtract and empty string [bug]
+
 # 2.1.8 (06 May 2021)
 - [#33](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/33) - CI Build : Don't run SonarCloud for PR [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#35](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/35) - Fix Math.Avg, Math.Divide and Math.Multiply [bug] contributed by [StefH](https://github.com/StefH)
