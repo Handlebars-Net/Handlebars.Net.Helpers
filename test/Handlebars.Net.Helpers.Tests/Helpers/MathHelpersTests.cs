@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Moq;
@@ -14,9 +16,11 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public MathHelpersTests()
         {
             _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
             _sut = new MathHelpers(_contextMock.Object);
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
         [Theory]

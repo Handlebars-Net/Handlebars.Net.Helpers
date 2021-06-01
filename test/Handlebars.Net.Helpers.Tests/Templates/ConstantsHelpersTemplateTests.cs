@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Globalization;
+using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
@@ -11,6 +12,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         public ConstantsHelpersTemplateTests()
         {
             _handlebarsContext = Handlebars.Create();
+            _handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
             HandlebarsHelpers.Register(_handlebarsContext, Category.Constants);
         }
