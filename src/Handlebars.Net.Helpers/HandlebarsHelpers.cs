@@ -58,7 +58,8 @@ namespace HandlebarsDotNet.Helpers
                 { Category.Xeger, "XegerHelpers" },
                 { Category.Random, "RandomHelpers" },
                 { Category.JsonPath, "JsonPathHelpers" },
-                { Category.DynamicLinq, "DynamicLinqHelpers" }
+                { Category.DynamicLinq, "DynamicLinqHelpers" },
+                { Category.Humanizer, "HumanizerHelpers" }
             };
 
             var paths = options.CustomHelperPaths ?? new List<string> { Directory.GetCurrentDirectory() };

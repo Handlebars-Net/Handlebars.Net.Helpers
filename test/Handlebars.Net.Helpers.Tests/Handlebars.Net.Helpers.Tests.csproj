@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.DynamicLinq\Handlebars.Net.Helpers.DynamicLinq.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Humanizer\Handlebars.Net.Helpers.Humanizer.csproj" />
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Json\Handlebars.Net.Helpers.Json.csproj" />
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Random\Handlebars.Net.Helpers.Random.csproj" />
     <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xeger\Handlebars.Net.Helpers.Xeger.csproj" />

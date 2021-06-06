@@ -13,6 +13,7 @@
         Xeger,
         Random,
         JsonPath,
-        DynamicLinq
+        DynamicLinq,
+        Humanizer
     }
 }
