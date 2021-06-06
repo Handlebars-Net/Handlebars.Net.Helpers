@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using FluentAssertions;
 using Moq;
@@ -19,16 +20,42 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             _sut = new HumanizerHelpers(_contextMock.Object);
         }
 
+        [Fact]
+        public void FormatWith()
+        {
+            // Arrange
+            var value = "To be formatted -> {0}/{1}.";
+
+            // Act
+            var result = _sut.FormatWith(value, 1, "A");
+
+            // Assert
+            result.Should().Be("To be formatted -> 1/A.");
+        }
+
         [Theory]
         [InlineData("HTML", "HTML")]
         [InlineData("Pascal case input string is turned into sentence", "PascalCaseInputStringIsTurnedIntoSentence")]
-        public void DehumanizeString(string value, string expected)
+        public void Dehumanize(string value, string expected)
         {
             // Act
             var result = _sut.Dehumanize(value);
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void HumanizeDateTime()
+        {
+            // Arrange
+            var value = DateTime.UtcNow.AddHours(-30);
+
+            // Act
+            var result = _sut.Humanize(value);
+
+            // Assert
+            result.Should().Be("yesterday");
         }
 
         [Theory]
@@ -42,13 +69,13 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             // Assert
             result.Should().Be(expected);
         }
-
+        
         [Theory]
         [InlineData("Sentence casing", "LowerCase", "sentence casing")]
         [InlineData("Sentence casing", "SentenceCase", "Sentence casing")]
         [InlineData("Sentence casing", "TitleCase", "Sentence Casing")]
         [InlineData("Sentence casing", "UpperCase", "SENTENCE CASING")]
-        public void TransformString(string value, string transformer, string expected)
+        public void Transform(string value, string transformer, string expected)
         {
             // Act
             var result = _sut.Transform(value, transformer);
@@ -66,7 +93,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [InlineData(2, null, "FixedNumberOfWords", null, "Long text…")]
         [InlineData(2, "---", "FixedNumberOfWords", null, "Long text---")]
         [InlineData(10, null, "FixedLength", "Left", "… truncate")]
-        public void TruncateString(int length, string? separator, string? truncator, string? truncateFrom, string expected)
+        public void Truncate(int length, string? separator, string? truncator, string? truncateFrom, string expected)
         {
             // Arrange
             string value = "Long text to truncate";

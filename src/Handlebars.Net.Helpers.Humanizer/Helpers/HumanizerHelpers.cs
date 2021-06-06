@@ -13,15 +13,37 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string Humanize(string value)
+        public string Humanize(object value)
         {
-            return value.Humanize();
+            switch (value)
+            {
+                case string stringValue:
+                    if (DateTime.TryParse(stringValue, out var parsedAsDateTime))
+                    {
+                        return parsedAsDateTime.Humanize();
+                    }
+
+                    return stringValue.Humanize();
+
+                case DateTime dateTimeValue:
+                    return dateTimeValue.Humanize();
+
+                default:
+                    throw new ArgumentOutOfRangeException($"The value '{value}' is not supported in the Humanize(...) method.");
+            }
+
         }
 
         [HandlebarsWriter(WriterType.String)]
         public string Dehumanize(string value)
         {
             return value.Dehumanize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string FormatWith(string value, params object[] args)
+        {
+            return value.FormatWith(args);
         }
 
         [HandlebarsWriter(WriterType.String)]

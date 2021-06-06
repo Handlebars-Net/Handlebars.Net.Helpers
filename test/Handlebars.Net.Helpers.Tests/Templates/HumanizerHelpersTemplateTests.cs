@@ -30,6 +30,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             });
         }
 
+        [Fact]
+        public void HumanizeDateTime()
+        {
+            var template = string.Format("{{{{[Humanizer.Humanize] \"{0}\" }}}}", DateTime.UtcNow.AddHours(-30).ToString("O"));
+
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("yesterday");
+        }
+
         [Theory]
         [InlineData("{{[Humanizer.Humanize] \"HTML\"}}", "HTML")]
         [InlineData("{{[Humanizer.Humanize] \"PascalCaseInputStringIsTurnedIntoSentence\"}}", "Pascal case input string is turned into sentence")]
