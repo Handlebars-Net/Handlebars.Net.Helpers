@@ -21,6 +21,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
         [Theory]
         [InlineData("HTML", "HTML")]
+        [InlineData("Pascal case input string is turned into sentence", "PascalCaseInputStringIsTurnedIntoSentence")]
+        public void DehumanizeString(string value, string expected)
+        {
+            // Act
+            var result = _sut.Dehumanize(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("HTML", "HTML")]
         [InlineData("PascalCaseInputStringIsTurnedIntoSentence", "Pascal case input string is turned into sentence")]
         public void HumanizeString(string value, string expected)
         {
@@ -43,6 +55,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void TruncateString()
+        {
+            // Arrange
+            string value = "Long text to truncate";
+
+            // Act
+            var result = _sut.Truncate(value, 10);
+
+            // Assert
+            result.Should().Be("Long text…");
         }
     }
 }
