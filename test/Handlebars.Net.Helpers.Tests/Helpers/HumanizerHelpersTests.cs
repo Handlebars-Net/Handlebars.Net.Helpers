@@ -30,5 +30,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             // Assert
             result.Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData("Sentence casing", "LowerCase", "sentence casing")]
+        [InlineData("Sentence casing", "SentenceCase", "Sentence casing")]
+        [InlineData("Sentence casing", "TitleCase", "Sentence Casing")]
+        [InlineData("Sentence casing", "UpperCase", "SENTENCE CASING")]
+        public void TransformString(string value, string transformer, string expected)
+        {
+            // Act
+            var result = _sut.Transform(value, transformer);
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
