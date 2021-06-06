@@ -2,6 +2,8 @@
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Utils;
 using Humanizer;
 
 namespace HandlebarsDotNet.Helpers
@@ -23,10 +25,18 @@ namespace HandlebarsDotNet.Helpers
                         return parsedAsDateTime.Humanize();
                     }
 
+                    if (TimeSpan.TryParse(stringValue, out var parsedAsTimeSpan))
+                    {
+                        return parsedAsTimeSpan.Humanize();
+                    }
+
                     return stringValue.Humanize();
 
                 case DateTime dateTimeValue:
                     return dateTimeValue.Humanize();
+
+                case TimeSpan timeSpanValue:
+                    return timeSpanValue.Humanize();
 
                 default:
                     throw new ArgumentOutOfRangeException($"The value '{value}' is not supported in the Humanize(...) method.");
@@ -58,6 +68,44 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
+        public string Ordinalize(object value)
+        {
+            switch (value)
+            {
+                case int intValue:
+                    return intValue.Ordinalize();
+
+                case string stringValue:
+                    return stringValue.Ordinalize();
+
+                default:
+                    throw new NotSupportedException($"The value '{value}' must be an int or string.");
+            }
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Pluralize(string value, bool inputIsKnownToBeSingular = false)
+        {
+            return value.Pluralize(inputIsKnownToBeSingular);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Singularize(string value, bool inputIsKnownToBePlural = false, bool skipSimpleWords = false)
+        {
+            return value.Singularize(inputIsKnownToBePlural, skipSimpleWords);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string ToQuantity(string value, object quantity)
+        {
+            return ExecuteUtils.Execute(Context, quantity,
+                (quantityAsInt) => value.ToQuantity(quantityAsInt),
+                (quantityAsLong) => value.ToQuantity(quantityAsLong),
+                (quantityAsInt) => value.ToQuantity(quantityAsInt)
+            );
+        }
+
+        [HandlebarsWriter(WriterType.String)]
         public string Truncate(string value, int length, string? separator = null, string? truncator = null, string? truncateFrom = null)
         {
             if (string.IsNullOrWhiteSpace(separator))
@@ -77,7 +125,7 @@ namespace HandlebarsDotNet.Helpers
 
             if (!Enum.TryParse<TruncateFrom>(truncateFrom, out var truncateFromAsEnum))
             {
-                throw new ArgumentOutOfRangeException($"The value '{truncateFrom}' cannot be converted to a '{typeof(TruncateFrom).FullName}'.");
+                throw new NotSupportedException($"The value '{truncateFrom}' cannot be converted to a '{typeof(TruncateFrom).FullName}'.");
             }
 
             return value.Truncate(length, separator, MapToTruncator(truncator), truncateFromAsEnum);
@@ -97,7 +145,7 @@ namespace HandlebarsDotNet.Helpers
                     return Truncator.FixedNumberOfWords;
 
                 default:
-                    throw new ArgumentOutOfRangeException($"The value '{value}' cannot be converted to a '{typeof(ITruncator).FullName}'.");
+                    throw new NotSupportedException($"The value '{value}' cannot be converted to a '{typeof(ITruncator).FullName}'.");
             }
         }
 
@@ -118,7 +166,7 @@ namespace HandlebarsDotNet.Helpers
                     return To.UpperCase;
 
                 default:
-                    throw new ArgumentOutOfRangeException($"The value '{value}' cannot be converted to a '{typeof(IStringTransformer).FullName}'.");
+                    throw new NotSupportedException($"The value '{value}' cannot be converted to a '{typeof(IStringTransformer).FullName}'.");
             }
         }
     }

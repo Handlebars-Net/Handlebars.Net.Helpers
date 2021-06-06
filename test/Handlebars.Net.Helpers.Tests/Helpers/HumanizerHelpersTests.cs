@@ -58,6 +58,45 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be("yesterday");
         }
 
+        [Fact]
+        public void HumanizeDateTimeAsString()
+        {
+            // Arrange
+            var value = DateTime.UtcNow.AddHours(-30).ToString("O");
+
+            // Act
+            var result = _sut.Humanize(value);
+
+            // Assert
+            result.Should().Be("yesterday");
+        }
+
+        [Fact]
+        public void HumanizeTimeSpan()
+        {
+            // Arrange
+            var value = TimeSpan.FromDays(16);
+
+            // Act
+            var result = _sut.Humanize(value);
+
+            // Assert
+            result.Should().Be("2 weeks");
+        }
+
+        [Fact]
+        public void HumanizeTimeSpanAsString()
+        {
+            // Arrange
+            var value = TimeSpan.FromDays(16).ToString();
+
+            // Act
+            var result = _sut.Humanize(value);
+
+            // Assert
+            result.Should().Be("2 weeks");
+        }
+
         [Theory]
         [InlineData("HTML", "HTML")]
         [InlineData("PascalCaseInputStringIsTurnedIntoSentence", "Pascal case input string is turned into sentence")]
@@ -69,7 +108,60 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             // Assert
             result.Should().Be(expected);
         }
-        
+
+        [Theory]
+        [InlineData("1", "1st")]
+        [InlineData("2", "2nd")]
+        [InlineData(3, "3rd")]
+        public void Ordinalize(object value, string expected)
+        {
+            // Act
+            var result = _sut.Ordinalize(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("Man", "Men")]
+        [InlineData("string", "strings")]
+        [InlineData("Sheep", "Sheep")]
+        public void Pluralize(string value, string expected)
+        {
+            // Act
+            var result = _sut.Pluralize(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("Men", "Man")]
+        [InlineData("strings", "string")]
+        [InlineData("Sheep", "Sheep")]
+        public void Singularize(string value, string expected)
+        {
+            // Act
+            var result = _sut.Singularize(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("Man", "1", "1 Man")]
+        [InlineData("Man", "2", "2 Men")]
+        [InlineData("Man", 3, "3 Men")]
+        [InlineData("string", 3, "3 strings")]
+        public void ToQuantity(string value, object quantity, string expected)
+        {
+            // Act
+            var result = _sut.ToQuantity(value, quantity);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
         [Theory]
         [InlineData("Sentence casing", "LowerCase", "sentence casing")]
         [InlineData("Sentence casing", "SentenceCase", "Sentence casing")]
