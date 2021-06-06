@@ -40,17 +40,17 @@ namespace HandlebarsDotNet.Helpers
         {
             if (string.IsNullOrWhiteSpace(separator))
             {
-                return value.Truncate(length);
+                separator = "…";
             }
 
             if (string.IsNullOrWhiteSpace(truncator))
             {
-                return value.Truncate(length, separator);
+                truncator = "FixedLength";
             }
 
             if (string.IsNullOrWhiteSpace(truncateFrom))
             {
-                return value.Truncate(length, separator, MapToTruncator(truncator));
+                truncateFrom = "Right";
             }
 
             if (!Enum.TryParse<TruncateFrom>(truncateFrom, out var truncateFromAsEnum))
