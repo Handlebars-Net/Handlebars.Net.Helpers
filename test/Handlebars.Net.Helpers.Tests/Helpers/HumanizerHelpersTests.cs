@@ -21,16 +21,29 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Fact]
-        public void FormatWith()
+        public void Camelize()
         {
             // Arrange
-            var value = "To be formatted -> {0}/{1}.";
+            var value = "some_title for something";
 
             // Act
-            var result = _sut.FormatWith(value, 1, "A");
+            var result = _sut.Camelize(value);
 
             // Assert
-            result.Should().Be("To be formatted -> 1/A.");
+            result.Should().Be("someTitleForSomething");
+        }
+
+        [Fact]
+        public void Dasherize()
+        {
+            // Arrange
+            var value = "some_title";
+
+            // Act
+            var result = _sut.Dasherize(value);
+
+            // Assert
+            result.Should().Be("some-title");
         }
 
         [Theory]
@@ -43,6 +56,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void FormatWith()
+        {
+            // Arrange
+            var value = "To be formatted -> {0}/{1}.";
+
+            // Act
+            var result = _sut.FormatWith(value, 1, "A");
+
+            // Assert
+            result.Should().Be("To be formatted -> 1/A.");
         }
 
         [Fact]
@@ -109,6 +135,32 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be(expected);
         }
 
+        [Fact]
+        public void Hyphenate()
+        {
+            // Arrange
+            var value = "some_title";
+
+            // Act
+            var result = _sut.Hyphenate(value);
+
+            // Assert
+            result.Should().Be("some-title");
+        }
+
+        [Fact]
+        public void Kebaberize()
+        {
+            // Arrange
+            var value = "SomeText";
+
+            // Act
+            var result = _sut.Kebaberize(value);
+
+            // Assert
+            result.Should().Be("some-text");
+        }
+
         [Theory]
         [InlineData("1", "1st")]
         [InlineData("2", "2nd")]
@@ -120,6 +172,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Pascalize()
+        {
+            // Arrange
+            var value = "some_title for something";
+
+            // Act
+            var result = _sut.Pascalize(value);
+
+            // Assert
+            result.Should().Be("SomeTitleForSomething");
         }
 
         [Theory]
@@ -146,6 +211,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Titleize()
+        {
+            // Arrange
+            var value = "some title";
+
+            // Act
+            var result = _sut.Titleize(value);
+
+            // Assert
+            result.Should().Be("Some Title");
         }
 
         [Theory]
@@ -195,6 +273,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Underscore()
+        {
+            // Arrange
+            var value = "SomeTitle";
+
+            // Act
+            var result = _sut.Underscore(value);
+
+            // Assert
+            result.Should().Be("some_title");
         }
     }
 }

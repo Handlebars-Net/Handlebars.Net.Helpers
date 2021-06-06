@@ -2,7 +2,6 @@
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
-using HandlebarsDotNet.Helpers.Parsers;
 using HandlebarsDotNet.Helpers.Utils;
 using Humanizer;
 
@@ -12,6 +11,30 @@ namespace HandlebarsDotNet.Helpers
     {
         public HumanizerHelpers(IHandlebars context) : base(context)
         {
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Camelize(string value)
+        {
+            return value.Camelize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Dasherize(string value)
+        {
+            return value.Dasherize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Dehumanize(string value)
+        {
+            return value.Dehumanize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string FormatWith(string value, params object[] args)
+        {
+            return value.FormatWith(args);
         }
 
         [HandlebarsWriter(WriterType.String)]
@@ -41,30 +64,18 @@ namespace HandlebarsDotNet.Helpers
                 default:
                     throw new ArgumentOutOfRangeException($"The value '{value}' is not supported in the Humanize(...) method.");
             }
-
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string Dehumanize(string value)
+        public string Hyphenate(string value)
         {
-            return value.Dehumanize();
+            return value.Hyphenate();
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string FormatWith(string value, params object[] args)
+        public string Kebaberize(string value)
         {
-            return value.FormatWith(args);
-        }
-
-        [HandlebarsWriter(WriterType.String)]
-        public string Transform(string value, string transformer)
-        {
-            if (transformer == null)
-            {
-                return value.Transform();
-            }
-
-            return value.Transform(MapToStringTransformer(transformer));
+            return value.Kebaberize();
         }
 
         [HandlebarsWriter(WriterType.String)]
@@ -84,6 +95,12 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
+        public string Pascalize(string value)
+        {
+            return value.Pascalize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
         public string Pluralize(string value, bool inputIsKnownToBeSingular = false)
         {
             return value.Pluralize(inputIsKnownToBeSingular);
@@ -93,6 +110,29 @@ namespace HandlebarsDotNet.Helpers
         public string Singularize(string value, bool inputIsKnownToBePlural = false, bool skipSimpleWords = false)
         {
             return value.Singularize(inputIsKnownToBePlural, skipSimpleWords);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Titleize(string value)
+        {
+            return value.Titleize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Transform(string value, string transformer)
+        {
+            if (transformer == null)
+            {
+                return value.Transform();
+            }
+
+            return value.Transform(MapToStringTransformer(transformer));
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Underscore(string value)
+        {
+            return value.Underscore();
         }
 
         [HandlebarsWriter(WriterType.String)]
