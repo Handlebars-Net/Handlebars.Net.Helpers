@@ -9,6 +9,8 @@ namespace HandlebarsDotNet.Helpers
 {
     internal class HumanizerHelpers : BaseHelpers, IHelpers
     {
+        private const string Separator = "…";
+
         public HumanizerHelpers(IHandlebars context) : base(context)
         {
         }
@@ -35,6 +37,12 @@ namespace HandlebarsDotNet.Helpers
         public string FormatWith(string value, params object[] args)
         {
             return value.FormatWith(args);
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public int FromRoman(string value)
+        {
+            return value.FromRoman();
         }
 
         [HandlebarsWriter(WriterType.String)]
@@ -119,6 +127,72 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
+        public string ToOrdinalWords(object value, string? grammaticalGender = nameof(GrammaticalGender.Masculine))
+        {
+            if (!Enum.TryParse<GrammaticalGender>(grammaticalGender, out var grammaticalGenderAsEnum))
+            {
+                throw new NotSupportedException($"The value '{grammaticalGender}' cannot be converted to a '{typeof(GrammaticalGender).FullName}'.");
+            }
+
+            switch (value)
+            {
+                case string stringValue:
+                    if (DateTime.TryParse(stringValue, out var parsedAsDateTime))
+                    {
+                        return parsedAsDateTime.ToOrdinalWords();
+                    }
+
+                    throw new NotSupportedException($"The value '{value}' is not a valid DateTime.");
+
+                case DateTime dateTimeValue:
+                    return dateTimeValue.ToOrdinalWords();
+
+                case int intValue:
+                    return intValue.ToOrdinalWords(grammaticalGenderAsEnum);
+
+                default:
+                    throw new NotSupportedException($"The value '{value}' must be an int, string or DateTime.");
+            }
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string ToQuantity(string value, object quantity)
+        {
+            return ExecuteUtils.Execute(Context, quantity,
+                (quantityAsInt) => value.ToQuantity(quantityAsInt),
+                (quantityAsLong) => value.ToQuantity(quantityAsLong),
+                (quantityAsInt) => value.ToQuantity(quantityAsInt)
+            );
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string ToRoman(int value)
+        {
+            return value.ToRoman();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string ToWords(object number, string? grammaticalGender = "Masculine")
+        {
+            if (!Enum.TryParse<GrammaticalGender>(grammaticalGender, out var grammaticalGenderAsEnum))
+            {
+                throw new NotSupportedException($"The value '{grammaticalGender}' cannot be converted to a '{typeof(GrammaticalGender).FullName}'.");
+            }
+
+            switch (number)
+            {
+                case int intValue:
+                    return intValue.ToWords(grammaticalGenderAsEnum);
+
+                case long longValue:
+                    return longValue.ToWords(grammaticalGenderAsEnum);
+
+                default:
+                    throw new NotSupportedException($"The value '{number}' must be an int or long.");
+            }
+        }
+
+        [HandlebarsWriter(WriterType.String)]
         public string Transform(string value, string transformer)
         {
             if (transformer == null)
@@ -136,31 +210,21 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string ToQuantity(string value, object quantity)
-        {
-            return ExecuteUtils.Execute(Context, quantity,
-                (quantityAsInt) => value.ToQuantity(quantityAsInt),
-                (quantityAsLong) => value.ToQuantity(quantityAsLong),
-                (quantityAsInt) => value.ToQuantity(quantityAsInt)
-            );
-        }
-
-        [HandlebarsWriter(WriterType.String)]
         public string Truncate(string value, int length, string? separator = null, string? truncator = null, string? truncateFrom = null)
         {
             if (string.IsNullOrWhiteSpace(separator))
             {
-                separator = "…";
+                separator = Separator;
             }
 
             if (string.IsNullOrWhiteSpace(truncator))
             {
-                truncator = "FixedLength";
+                truncator = nameof(Truncator.FixedLength);
             }
 
             if (string.IsNullOrWhiteSpace(truncateFrom))
             {
-                truncateFrom = "Right";
+                truncateFrom = nameof(TruncateFrom.Right);
             }
 
             if (!Enum.TryParse<TruncateFrom>(truncateFrom, out var truncateFromAsEnum))

@@ -71,6 +71,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be("To be formatted -> 1/A.");
         }
 
+        [Theory]
+        [InlineData("I", 1)]
+        [InlineData("XLII", 42)]
+        public void FromRoman(string value, int expected)
+        {
+            // Act
+            var result = _sut.FromRoman(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
         [Fact]
         public void HumanizeDateTime()
         {
@@ -227,6 +239,44 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData(1, "first")]
+        [InlineData(2, "second")]
+        [InlineData("2021-06-07T15:21:39Z", "June 7th, 2021")]
+        public void ToOrdinalWords(object value, string expected)
+        {
+            // Act
+            var result = _sut.ToOrdinalWords(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void ToOrdinalWordsWithDateTime()
+        {
+            // Arrange
+            var value = new DateTime(2021, 6, 7);
+
+            // Act
+            var result = _sut.ToOrdinalWords(value);
+
+            // Assert
+            result.Should().Be("June 7th, 2021");
+        }
+
+        [Theory]
+        [InlineData(1, "one")]
+        [InlineData(long.MaxValue, "nine quintillion two hundred and twenty-three quadrillion three hundred and seventy-two trillion thirty-six billion eight hundred and fifty-four million seven hundred and seventy-five thousand eight hundred and seven")]
+        public void ToWords(object value, string expected)
+        {
+            // Act
+            var result = _sut.ToWords(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("Man", "1", "1 Man")]
         [InlineData("Man", "2", "2 Men")]
         [InlineData("Man", 3, "3 Men")]
@@ -235,6 +285,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.ToQuantity(value, quantity);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(1, "I")]
+        [InlineData(42, "XLII")]
+        public void ToRoman(int value, string expected)
+        {
+            // Act
+            var result = _sut.ToRoman(value);
 
             // Assert
             result.Should().Be(expected);
