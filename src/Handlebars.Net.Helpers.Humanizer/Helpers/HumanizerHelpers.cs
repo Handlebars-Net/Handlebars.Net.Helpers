@@ -226,12 +226,6 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string Underscore(string value)
-        {
-            return value.Underscore();
-        }
-
-        [HandlebarsWriter(WriterType.String)]
         public string Truncate(string value, int length, string? separator = null, string? truncator = null, string? truncateFrom = null)
         {
             if (string.IsNullOrWhiteSpace(separator))
@@ -255,6 +249,12 @@ namespace HandlebarsDotNet.Helpers
             }
 
             return value.Truncate(length, separator, MapToTruncator(truncator), truncateFromAsEnum);
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string Underscore(string value)
+        {
+            return value.Underscore();
         }
 
         private static ITruncator MapToTruncator(string? value)
