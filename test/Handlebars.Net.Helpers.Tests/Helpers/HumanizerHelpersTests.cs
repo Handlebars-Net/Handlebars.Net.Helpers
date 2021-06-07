@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Threading;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -8,6 +9,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class HumanizerHelpersTests
     {
+        private readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-us");
+
         private readonly Mock<IHandlebars> _contextMock;
 
         private readonly HumanizerHelpers _sut;
@@ -15,9 +18,11 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public HumanizerHelpersTests()
         {
             _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.CreateSpecificCulture("en-us") });
+            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = Culture });
 
             _sut = new HumanizerHelpers(_contextMock.Object);
+
+            Thread.CurrentThread.CurrentCulture = Culture;
         }
 
         [Fact]
@@ -236,6 +241,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             // Assert
             result.Should().Be("Some Title");
+        }
+
+        [Theory]
+        [InlineData(1, "1")]
+        [InlineData(1230d, "1.23k")]
+        [InlineData(0.1d, "100m")]
+        public void ToMetric(object value, string expected)
+        {
+            // Act
+            var result = _sut.ToMetric(value);
+
+            // Assert
+            result.Should().Be(expected);
         }
 
         [Theory]

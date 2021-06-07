@@ -39,6 +39,12 @@ namespace HandlebarsDotNet.Helpers
             return value.FormatWith(args);
         }
 
+        [HandlebarsWriter(WriterType.String)]
+        public double FromMetric(string value)
+        {
+            return value.FromMetric();
+        }
+
         [HandlebarsWriter(WriterType.Value)]
         public int FromRoman(string value)
         {
@@ -124,6 +130,22 @@ namespace HandlebarsDotNet.Helpers
         public string Titleize(string value)
         {
             return value.Titleize();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string ToMetric(object value)
+        {
+            switch (value)
+            {
+                case int intValue:
+                    return intValue.ToMetric();
+
+                case double doubleValue:
+                    return doubleValue.ToMetric();
+
+                default:
+                    throw new NotSupportedException($"The value '{value}' must be an int or double.");
+            }
         }
 
         [HandlebarsWriter(WriterType.String)]
