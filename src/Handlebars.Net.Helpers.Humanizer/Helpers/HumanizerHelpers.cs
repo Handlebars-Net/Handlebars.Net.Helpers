@@ -194,7 +194,7 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string ToWords(object number, string? grammaticalGender = "Masculine")
+        public string ToWords(object number, string? grammaticalGender = nameof(GrammaticalGender.Masculine))
         {
             if (!Enum.TryParse<GrammaticalGender>(grammaticalGender, out var grammaticalGenderAsEnum))
             {
