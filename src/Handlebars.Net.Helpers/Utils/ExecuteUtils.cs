@@ -6,10 +6,8 @@ using HandlebarsDotNet.Helpers.Parsers;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
-    internal static class ExecuteUtils
+    public static class ExecuteUtils
     {
-        private static readonly Type[] SupportedTypes = { typeof(int), typeof(long), typeof(double) };
-
         public static object Execute(IHandlebars context, object value, Func<int, int> intFunc, Func<long, long> longFunc, Func<double, double> doubleFunc)
         {
             switch (value)
@@ -39,7 +37,44 @@ namespace HandlebarsDotNet.Helpers.Utils
                         return doubleFunc(valueParsedAsDouble);
                     }
 
-                    return valueAsString;
+                    throw new NotSupportedException($"The value '{valueAsString}' cannot not be converted to an int, long or double.");
+
+                default:
+                    // Just call ToString()
+                    return Execute(context, value.ToString(), intFunc, longFunc, doubleFunc);
+            }
+        }
+
+        public static string Execute(IHandlebars context, object value, Func<int, string> intFunc, Func<long, string> longFunc, Func<double, string> doubleFunc)
+        {
+            switch (value)
+            {
+                case int valueAsInt:
+                    return intFunc(valueAsInt);
+
+                case long valueAsLong:
+                    return longFunc(valueAsLong);
+
+                case double valueAsDouble:
+                    return doubleFunc(valueAsDouble);
+
+                case string valueAsString:
+                    if (int.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out int valueParsedAsInt))
+                    {
+                        return intFunc(valueParsedAsInt);
+                    }
+
+                    if (long.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out long valueParsedAsLong))
+                    {
+                        return longFunc(valueParsedAsLong);
+                    }
+
+                    if (double.TryParse(valueAsString, NumberStyles.Any, context.Configuration.FormatProvider, out double valueParsedAsDouble))
+                    {
+                        return doubleFunc(valueParsedAsDouble);
+                    }
+
+                    throw new NotSupportedException($"The value '{valueAsString}' cannot not be converted to an int, long or double.");
 
                 default:
                     // Just call ToString()
@@ -79,8 +114,8 @@ namespace HandlebarsDotNet.Helpers.Utils
                     return doubleFunc(double1, long2);
 
                 default:
-                    var object1 = ParseObjectValueToIntLongOrDouble(context, value1);
-                    var object2 = ParseObjectValueToIntLongOrDouble(context, value2);
+                    var object1 = ArgumentsParser.ParseAsIntLongOrDouble(context, value1);
+                    var object2 = ArgumentsParser.ParseAsIntLongOrDouble(context, value2);
                     return Execute(context, object1, object2, intFunc, longFunc, doubleFunc);
             }
         }
@@ -122,18 +157,6 @@ namespace HandlebarsDotNet.Helpers.Utils
             {
                 throw new NotSupportedException($"The value '{value1}' cannot not be converted to a double.");
             }
-        }
-
-        private static object ParseObjectValueToIntLongOrDouble(IHandlebars context, object value)
-        {
-            var parsedValue = StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString());
-
-            if (SupportedTypes.Contains(parsedValue.GetType()))
-            {
-                return parsedValue;
-            }
-
-            throw new NotSupportedException($"The value '{value}' cannot not be converted to an int, long or double.");
         }
     }
 }

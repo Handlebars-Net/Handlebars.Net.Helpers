@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HandlebarsDotNet.Helpers.Utils;
 
@@ -6,6 +7,8 @@ namespace HandlebarsDotNet.Helpers.Parsers
 {
     public static class ArgumentsParser
     {
+        private static readonly Type[] SupportedTypes = { typeof(int), typeof(long), typeof(double) };
+
         public static List<object?> Parse(IHandlebars context, IEnumerable<object?> arguments)
         {
             return arguments.Select(argument => Parse(context, argument)).ToList();
@@ -31,6 +34,18 @@ namespace HandlebarsDotNet.Helpers.Parsers
                 default:
                     return argument;
             }
+        }
+
+        public static object ParseAsIntLongOrDouble(IHandlebars context, object value)
+        {
+            var parsedValue = StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString());
+
+            if (SupportedTypes.Contains(parsedValue.GetType()))
+            {
+                return parsedValue;
+            }
+
+            throw new NotSupportedException($"The value '{value}' cannot not be converted to an int, long or double.");
         }
 
         /// <summary>

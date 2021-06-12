@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <AssemblyName>HandlebarsDotNet.Helpers.Humanizer</AssemblyName>
+    <PackageId>Handlebars.Net.Helpers.Humanizer</PackageId>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Description>Handlebars.Net.Helpers Humanizer meets all your .NET needs for manipulating and displaying strings, enums, dates, times, timespans, numbers and quantities.</Description>
+    <PackageTags>handlebars;helper;Humanizer</PackageTags>
+    <ProjectGuid>{181B9A96-5662-44AA-8685-E68E12631A55}</ProjectGuid>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
+    <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>

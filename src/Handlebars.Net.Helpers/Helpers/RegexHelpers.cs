@@ -39,27 +39,35 @@ namespace HandlebarsDotNet.Helpers.Helpers
                         case 'i':
                             regexOptions |= RegexOptions.IgnoreCase;
                             break;
+
                         case 'm':
                             regexOptions |= RegexOptions.Multiline;
                             break;
+
                         case 'n':
                             regexOptions |= RegexOptions.ExplicitCapture;
                             break;
+
                         case 'c':
                             regexOptions |= RegexOptions.Compiled;
                             break;
+
                         case 's':
                             regexOptions |= RegexOptions.Singleline;
                             break;
+
                         case 'x':
                             regexOptions |= RegexOptions.IgnorePatternWhitespace;
                             break;
+
                         case 'r':
                             regexOptions |= RegexOptions.RightToLeft;
                             break;
+
                         case 'e':
                             regexOptions |= RegexOptions.ECMAScript;
                             break;
+
                         case 'C':
                             regexOptions |= RegexOptions.CultureInvariant;
                             break;
