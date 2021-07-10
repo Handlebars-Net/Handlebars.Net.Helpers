@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.XPath;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -13,8 +14,18 @@ namespace HandlebarsDotNet.Helpers
 {
     internal class XPathHelpers : BaseHelpers, IHelpers
     {
+        // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
+        // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
+        private static readonly Regex removeXmlVersionRegex = new Regex("(<\\?xml.*?\\?>)", RegexOptions.Compiled);
+
         public XPathHelpers(IHandlebars context) : base(context)
         {
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectNode(string document, string xpath)
+        {
+            return SelectSingleNode(document, xpath);
         }
 
         [HandlebarsWriter(WriterType.String)]
@@ -82,7 +93,10 @@ namespace HandlebarsDotNet.Helpers
 
         private static XPathNavigator CreateNavigator(string document)
         {
-            return new XmlDocument { InnerXml = document }.CreateNavigator();
+            return new XmlDocument
+            {
+                InnerXml = removeXmlVersionRegex.Replace(document, string.Empty)
+            }.CreateNavigator();
         }
     }
 }
