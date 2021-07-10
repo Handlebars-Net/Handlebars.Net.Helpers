@@ -1,3 +1,9 @@
+# 2.2.1 (10 July 2021)
+- [#39](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/39) - XPathHelper : Remove 'xml version' from XML document [bug] contributed by [StefH](https://github.com/StefH)
+
+# 2.2.0 (12 June 2021)
+- [#38](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/38) - Humanizer [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.1.9 (01 June 2021)
 - [#37](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/37) - Fix StackOverflow problem when providing invalid arguments to Math methods [bug] contributed by [StefH](https://github.com/StefH)
 - [#36](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/36) - Stack Overflow on Math.Subtract and empty string [bug]
