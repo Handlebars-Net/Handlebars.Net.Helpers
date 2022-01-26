@@ -1,3 +1,6 @@
+# 2.3.0 (26 January 2022)
+- [#45](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/45) - Upgrade Handlebars.Net to latest (2.1.0) [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.2.1 (10 July 2021)
 - [#39](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/39) - XPathHelper : Remove 'xml version' from XML document [bug] contributed by [StefH](https://github.com/StefH)
 
