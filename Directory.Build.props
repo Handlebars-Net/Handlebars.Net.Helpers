@@ -5,8 +5,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
-    <VersionPrefix>2.2.1</VersionPrefix>
-    <Copyright>Copyright © 2020-2021 Stef Heyenrath</Copyright>
+    <VersionPrefix>2.3.0</VersionPrefix>
+    <Copyright>Copyright © 2020-2022 Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
     <PackageIconUrl>https://raw.githubusercontent.com/Handlebars-Net/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
