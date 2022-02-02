@@ -380,7 +380,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public void NotEqual(string value, string test, bool expected)
         {
             // Act
-            var result = _sut.Equal(value, test);
+            var result = _sut.NotEqual(value, test);
 
             // Assert
             result.Should().Be(expected);
