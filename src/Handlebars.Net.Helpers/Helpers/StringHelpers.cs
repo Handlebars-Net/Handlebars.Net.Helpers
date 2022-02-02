@@ -361,6 +361,22 @@ namespace HandlebarsDotNet.Helpers.Helpers
             // Done
             return formattedValue ?? string.Empty;
         }
+        
+        [HandlebarsWriter(WriterType.Value)]
+        public bool Equal(string value, string test)
+        {
+            Guard.NotNull(value, nameof(value));
+
+            return value == test;
+        }
+        
+        [HandlebarsWriter(WriterType.Value)]
+        public bool NotEqual(string value, string test)
+        {
+            Guard.NotNull(value, nameof(value));
+
+            return value != test;
+        }
 
         public StringHelpers(IHandlebars context) : base(context)
         {

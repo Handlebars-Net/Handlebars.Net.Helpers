@@ -353,5 +353,37 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             // Assert
             result.Should().BeEmpty();
         }
+        
+        [Theory]
+        [InlineData("", "bar", false)]
+        [InlineData(null, "bar", false)]
+        [InlineData("foo", "", false)]
+        [InlineData("foo", "Foo", false)]
+        [InlineData("Foo", "foo", false)]
+        [InlineData("foo", "foo", true)]
+        public void Equal(string value, string test, bool expected)
+        {
+            // Act
+            var result = _sut.Equal(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+        
+        [Theory]
+        [InlineData("", "bar", true)]
+        [InlineData(null, "bar", true)]
+        [InlineData("foo", "", true)]
+        [InlineData("foo", "Foo", true)]
+        [InlineData("Foo", "foo", true)]
+        [InlineData("foo", "foo", false)]
+        public void NotEqual(string value, string test, bool expected)
+        {
+            // Act
+            var result = _sut.Equal(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }
