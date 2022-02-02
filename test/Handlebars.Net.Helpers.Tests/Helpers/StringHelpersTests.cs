@@ -356,7 +356,6 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         
         [Theory]
         [InlineData("", "bar", false)]
-        [InlineData(null, "bar", false)]
         [InlineData("foo", "", false)]
         [InlineData("foo", "Foo", false)]
         [InlineData("Foo", "foo", false)]
@@ -372,7 +371,6 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         
         [Theory]
         [InlineData("", "bar", true)]
-        [InlineData(null, "bar", true)]
         [InlineData("foo", "", true)]
         [InlineData("foo", "Foo", true)]
         [InlineData("Foo", "foo", true)]
