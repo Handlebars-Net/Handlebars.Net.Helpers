@@ -1,3 +1,6 @@
+# 2.3.2 (20 February 2022)
+- [#48](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/48) - Upgrade System.Linq.Dynamic.Core, Humanizer, RandomDataGenerator.Net and XPath2.Extensions [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.1 (05 February 2022)
 - [#47](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/47) - Adding Equal and NotEqual for strings. contributed by [tinytownsoftware](https://github.com/tinytownsoftware)
 
