@@ -1,31 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-    <AssemblyName>HandlebarsDotNet.Helpers.XPath</AssemblyName>
-    <PackageId>Handlebars.Net.Helpers.XPath</PackageId>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <Description>Handlebars.Net.Helpers XPath</Description>
-    <PackageTags>handlebars;helper;xpath;xpath2</PackageTags>
-    <ProjectGuid>{42D47A7E-EF66-477D-A524-45EEC130EA67}</ProjectGuid>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+        <AssemblyName>HandlebarsDotNet.Helpers.XPath</AssemblyName>
+        <PackageId>Handlebars.Net.Helpers.XPath</PackageId>
+        <LangVersion>9.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>Handlebars.Net.Helpers XPath</Description>
+        <PackageTags>handlebars;helper;xpath;xpath2</PackageTags>
+        <ProjectGuid>{42D47A7E-EF66-477D-A524-45EEC130EA67}</ProjectGuid>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
 
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+        <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+        <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+    </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
-  </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.3' ">
+        <PackageReference Include="XPath2.Extensions" Version="1.1.2" />
+    </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard1.3' ">
-    <PackageReference Include="XPath2.Extensions" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
-    <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
+        <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
+    </ItemGroup>
 
 </Project>

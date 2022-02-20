@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.12" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.16" />
   </ItemGroup>
 
   <ItemGroup>

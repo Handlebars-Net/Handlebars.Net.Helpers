@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-2022'
 
 variables:
   Prerelease: 'ci'
@@ -34,8 +34,8 @@ steps:
 # Build source, tests and run tests for net452 and netcoreapp2.1 (with coverage)
 - script: |
     dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework net452
-    dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework netcoreapp3.1 --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-  displayName: 'Build source, tests and run tests for net452 and netcoreapp3.1 (with coverage)'
+    dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework net6.0 --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+  displayName: 'Build source, tests and run tests for net452 and net6.0 (with coverage)'
 
 - task: SonarCloudAnalyze@1
   displayName: 'SonarCloud: Run Code Analysis'
@@ -51,7 +51,7 @@ steps:
 
 # Upload coverage to codecov.io
 - script: |
-    %USERPROFILE%\.nuget\packages\codecov\1.10.0\tools\codecov.exe -f "./test/Handlebars.Net.Helpers.Tests/coverage.netcoreapp3.1.opencover.xml" -t $(CODECOV_TOKEN)
+    %USERPROFILE%\.nuget\packages\codecov\1.10.0\tools\codecov.exe -f "./test/Handlebars.Net.Helpers.Tests/coverage.net6.0.opencover.xml" -t $(CODECOV_TOKEN)
   displayName: Upload coverage to codecov.io
 
 # https://github.com/microsoft/azure-pipelines-tasks/issues/12212
