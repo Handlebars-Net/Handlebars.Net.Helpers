@@ -1,25 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
-    <AssemblyName>HandlebarsDotNet.Helpers.Xeger</AssemblyName>
-    <PackageId>Handlebars.Net.Helpers.Xeger</PackageId>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <Description>Handlebars.Net.Helpers Xeger (Fare)</Description>
-    <PackageTags>handlebars;helper;Regex;Xeger;Fare</PackageTags>
-    <ProjectGuid>{2278B30D-D61C-4FEB-8AEB-2EC9AE84693B}</ProjectGuid>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+        <AssemblyName>HandlebarsDotNet.Helpers.Xeger</AssemblyName>
+        <PackageId>Handlebars.Net.Helpers.Xeger</PackageId>
+        <LangVersion>9.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <Description>Handlebars.Net.Helpers Xeger (Fare)</Description>
+        <PackageTags>handlebars;helper;Regex;Xeger;Fare</PackageTags>
+        <ProjectGuid>{2278B30D-D61C-4FEB-8AEB-2EC9AE84693B}</ProjectGuid>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Fare" Version="2.1.2" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Fare" Version="2.1.2" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
-    <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
+        <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
+    </ItemGroup>
 
 </Project>
