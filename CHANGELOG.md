@@ -1,3 +1,7 @@
+# 2.3.4 (31 March 2022)
+- [#51](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/51) - Upgrade to latest Handlebars.Net [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#50](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/50) - Update to the latest Handlebars.Net version [enhancement]
+
 # 2.3.3 (21 February 2022)
 - [#49](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/49) - Update System.Linq.Dynamic.Core [enhancement] contributed by [StefH](https://github.com/StefH)
 
