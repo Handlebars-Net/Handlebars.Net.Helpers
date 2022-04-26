@@ -1,3 +1,6 @@
+# 2.3.5 (26 April 2022)
+- [#52](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/52) - Upgrade some NuGet packages [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.4 (31 March 2022)
 - [#51](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/51) - Upgrade to latest Handlebars.Net [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#50](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/50) - Update to the latest Handlebars.Net version [enhancement]
