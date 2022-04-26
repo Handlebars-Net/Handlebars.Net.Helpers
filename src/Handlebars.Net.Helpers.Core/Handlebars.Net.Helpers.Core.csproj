@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Handlebars.Net" Version="2.1.1" />
+		<PackageReference Include="Handlebars.Net" Version="2.1.2" />
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
