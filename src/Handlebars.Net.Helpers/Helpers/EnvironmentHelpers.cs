@@ -7,6 +7,7 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 
 internal class EnvironmentHelpers : BaseHelpers, IHelpers
 {
+#if NETSTANDARD1_3
     [HandlebarsWriter(WriterType.String)]
     public string? GetEnvironmentVariable(string variable)
     {
@@ -18,16 +19,17 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
     {
         return Environment.GetEnvironmentVariables();
     }
+#else
+    private const string Process = nameof(EnvironmentVariableTarget.Process);
 
-#if !NETSTANDARD1_3
     [HandlebarsWriter(WriterType.String)]
-    public string? GetEnvironmentVariable(string variable, string target)
+    public string? GetEnvironmentVariable(string variable, string target = Process)
     {
         return Environment.GetEnvironmentVariable(variable, Parse(target));
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public IDictionary GetEnvironmentVariables(string target)
+    public IDictionary GetEnvironmentVariables(string target = Process)
     {
         return Environment.GetEnvironmentVariables(Parse(target));
     }
