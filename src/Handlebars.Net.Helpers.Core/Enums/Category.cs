@@ -1,19 +1,19 @@
-﻿namespace HandlebarsDotNet.Helpers.Enums
+﻿namespace HandlebarsDotNet.Helpers.Enums;
+
+public enum Category
 {
-    public enum Category
-    {
-        Constants,
-        Enumerable,
-        Math,
-        Regex,
-        String,
-        Url,
-        DateTime,
-        XPath,
-        Xeger,
-        Random,
-        JsonPath,
-        DynamicLinq,
-        Humanizer
-    }
+    Constants,
+    Enumerable,
+    Environment,
+    Math,
+    Regex,
+    String,
+    Url,
+    DateTime,
+    XPath,
+    Xeger,
+    Random,
+    JsonPath,
+    DynamicLinq,
+    Humanizer
 }

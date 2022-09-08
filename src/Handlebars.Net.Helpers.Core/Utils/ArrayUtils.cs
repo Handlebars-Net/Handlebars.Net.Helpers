@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HandlebarsDotNet.Helpers.Json;
+using JsonConverter.SimpleJson;
 
 namespace HandlebarsDotNet.Helpers.Utils
 {
@@ -8,7 +8,7 @@ namespace HandlebarsDotNet.Helpers.Utils
     {
         public static string ToArray(IEnumerable<object?> array)
         {
-            return SimpleJson.SerializeObject(Fix(array));
+            return SimpleJson.SerializeObject(Fix(array))!;
         }
 
         public static bool TryParseAsObjectList(string value, out List<object?>? list)

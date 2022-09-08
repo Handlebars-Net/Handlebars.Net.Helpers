@@ -1,32 +1,34 @@
 <Project>
-  <PropertyGroup>
-    <MsBuildAllProjects>$(MsBuildAllProjects);$(MsBuildThisFileFullPath)</MsBuildAllProjects>
-  </PropertyGroup>
+    <PropertyGroup>
+        <MsBuildAllProjects>$(MsBuildAllProjects);$(MsBuildThisFileFullPath)</MsBuildAllProjects>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
-    <VersionPrefix>2.3.5</VersionPrefix>
-    <Copyright>Copyright © 2020-2022 Stef Heyenrath</Copyright>
-    <Authors>Stef Heyenrath</Authors>
-    <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
-    <PackageIconUrl>https://raw.githubusercontent.com/Handlebars-Net/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</RepositoryUrl>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>net451;net452;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <LangVersion>10</LangVersion>
+        <Nullable>enable</Nullable>
+        <VersionPrefix>2.3.5</VersionPrefix>
+        <Copyright>Copyright © 2020-2022 Stef Heyenrath</Copyright>
+        <Authors>Stef Heyenrath</Authors>
+        <PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
+        <PackageIconUrl>https://raw.githubusercontent.com/Handlebars-Net/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>
+        <PackageProjectUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/Handlebars-Net/Handlebars.Net.Helpers</RepositoryUrl>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
 
-  <Choose>
-    <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
-    <When Condition=" '$(Prerelease)' != '' ">
-      <PropertyGroup>
-        <!-- Set the version to x.x.x.x-{Prerelease}-1{Build_BuildId} (this is same buildId as defined in the azure-pipelines.yml file). -->
-        <VersionSuffix>$(Prerelease)-1$(BUILD_BUILDID)</VersionSuffix>
-      </PropertyGroup>
-    </When>
-  </Choose>
+    <Choose>
+        <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
+        <When Condition=" '$(Prerelease)' != '' ">
+            <PropertyGroup>
+                <!-- Set the version to x.x.x.x-{Prerelease}-1{Build_BuildId} (this is same buildId as defined in the azure-pipelines.yml file). -->
+                <VersionSuffix>$(Prerelease)-1$(BUILD_BUILDID)</VersionSuffix>
+            </PropertyGroup>
+        </When>
+    </Choose>
 </Project>
