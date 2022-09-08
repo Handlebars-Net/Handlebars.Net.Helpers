@@ -26,7 +26,7 @@ internal class RegexHelpers : BaseHelpers, IHelpers
         return MatchInternal(isBlockHelper, value, regexPattern, options);
     }
 
-    private object? MatchInternal(bool isBlockHelper, string value, string regexPattern, string? options = null)
+    private static object? MatchInternal(bool isBlockHelper, string value, string regexPattern, string? options = null)
     {
         Regex regex;
         if (!string.IsNullOrWhiteSpace(options))

@@ -19,6 +19,27 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
         return Environment.GetEnvironmentVariables();
     }
 
+#if !NETSTANDARD1_3
+    [HandlebarsWriter(WriterType.String)]
+    public string? GetEnvironmentVariable(string variable, string target)
+    {
+        return Environment.GetEnvironmentVariable(variable, Parse(target));
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public IDictionary GetEnvironmentVariables(string target)
+    {
+        return Environment.GetEnvironmentVariables(Parse(target));
+    }
+
+    private static EnvironmentVariableTarget Parse(string target)
+    {
+        return Enum.TryParse<EnvironmentVariableTarget>(target, out var @enum)
+            ? @enum
+            : EnvironmentVariableTarget.Process;
+    }
+#endif
+
     public EnvironmentHelpers(IHandlebars context) : base(context)
     {
     }
