@@ -13,22 +13,30 @@ namespace HandlebarsDotNet.Helpers.Plugin
         public static IDictionary<Category, IHelpers> Load(IEnumerable<string> paths, IDictionary<Category, string> items, params object[] args)
         {
             var pluginTypes = new List<Type>();
-            foreach (var file in paths.SelectMany(path => Directory.GetFiles(path, "*.dll")))
+            try
             {
-                try
+                foreach (var file in paths.SelectMany(path => Directory.GetFiles(path, "*.dll")))
                 {
-                    var assembly = Assembly.Load(new AssemblyName
+                    try
                     {
-                        Name = Path.GetFileNameWithoutExtension(file)
-                    });
+                        var assembly = Assembly.Load(new AssemblyName
+                        {
+                            Name = Path.GetFileNameWithoutExtension(file)
+                        });
 
-                    pluginTypes.AddRange(GetImplementationTypeByInterface(assembly));
-                }
-                catch
-                {
-                    // no-op: just try next .dll
+                        pluginTypes.AddRange(GetImplementationTypeByInterface(assembly));
+                    }
+                    catch
+                    {
+                        // no-op: just try next .dll
+                    }
                 }
             }
+            catch
+            {
+                // no-op: file system access possibly denied, don't search for files
+            }
+
 
             var helpers = new Dictionary<Category, IHelpers>();
             foreach (var item in items)
