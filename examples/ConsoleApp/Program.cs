@@ -71,7 +71,8 @@ namespace ConsoleApp
                 "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
                 "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
                 "{{GetEnvironmentVariable \"x\"}}",
-                "{{GetEnvironmentVariable \"x\" \"User\"}}"
+                "{{GetEnvironmentVariable \"x\" \"User\"}}",
+                "{{GetEnvironmentVariables}}",
             };
 
             foreach (string test in tests)

@@ -36,9 +36,7 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
 
     private static EnvironmentVariableTarget Parse(string target)
     {
-        return Enum.TryParse<EnvironmentVariableTarget>(target, out var @enum)
-            ? @enum
-            : EnvironmentVariableTarget.Process;
+        return Enum.TryParse<EnvironmentVariableTarget>(target, out var @enum) ? @enum : EnvironmentVariableTarget.Process;
     }
 #endif
 
