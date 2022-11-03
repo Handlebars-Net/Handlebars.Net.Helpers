@@ -1,3 +1,6 @@
+# 2.3.6 (03 November 2022)
+- [#55](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/55) - PluginLoader does not require file system access [enhancement] contributed by [devkev2403](https://github.com/devkev2403)
+
 # 2.3.5 (26 April 2022)
 - [#52](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/52) - Upgrade some NuGet packages [enhancement] contributed by [StefH](https://github.com/StefH)
 
