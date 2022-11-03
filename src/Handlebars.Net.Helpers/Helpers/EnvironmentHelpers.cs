@@ -28,7 +28,6 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
         return Environment.GetEnvironmentVariable(variable, Parse(target));
     }
 
-    [HandlebarsWriter(WriterType.String)]
     public IDictionary GetEnvironmentVariables(string target = Process)
     {
         return Environment.GetEnvironmentVariables(Parse(target));
