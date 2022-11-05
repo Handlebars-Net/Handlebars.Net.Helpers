@@ -26,6 +26,8 @@ namespace ConsoleApp
             //var resultX = templateX.Invoke("");
             //Console.WriteLine("ArrayTest = " + resultX);
 
+            Environment.SetEnvironmentVariable("x", DateTime.Now.ToString());
+
             var tests = new[]
             {
                 "{{Abs -1}}",
@@ -67,7 +69,10 @@ namespace ConsoleApp
                 "{{Now \"yyyy-MM-dd\"}}",
                 "{{Format (Now) \"yyyy-MM-dd\"}}",
                 "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
-                "{{Random Type=\"Integer\" Min=1000 Max=9999}}"
+                "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
+                "{{GetEnvironmentVariable \"x\"}}",
+                "{{GetEnvironmentVariable \"x\" \"User\"}}",
+                "{{GetEnvironmentVariables}}",
             };
 
             foreach (string test in tests)

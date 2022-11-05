@@ -4,8 +4,6 @@
         <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
         <AssemblyName>HandlebarsDotNet.Helpers.Random</AssemblyName>
         <PackageId>Handlebars.Net.Helpers.Random</PackageId>
-        <LangVersion>9.0</LangVersion>
-        <Nullable>enable</Nullable>
         <Description>Handlebars.Net.Helpers Random</Description>
         <PackageTags>handlebars;helper;Random</PackageTags>
         <ProjectGuid>{2A78B30D-D61C-4FEB-4567-2EC9AE84693B}</ProjectGuid>

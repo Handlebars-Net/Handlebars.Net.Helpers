@@ -2,24 +2,23 @@
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 
-namespace HandlebarsDotNet.Helpers.Helpers
+namespace HandlebarsDotNet.Helpers.Helpers;
+
+internal class UrlHelpers : BaseHelpers, IHelpers
 {
-    internal class UrlHelpers : BaseHelpers, IHelpers
+    [HandlebarsWriter(WriterType.String)]
+    public string DecodeUri(string value)
     {
-        [HandlebarsWriter(WriterType.String)]
-        public string DecodeUri(string value)
-        {
-            return WebUtility.UrlDecode(value);
-        }
+        return WebUtility.UrlDecode(value);
+    }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string EncodeUri(string value)
-        {
-            return WebUtility.UrlEncode(value);
-        }
+    [HandlebarsWriter(WriterType.String)]
+    public string? EncodeUri(string value)
+    {
+        return WebUtility.UrlEncode(value);
+    }
 
-        public UrlHelpers(IHandlebars context) : base(context)
-        {
-        }
+    public UrlHelpers(IHandlebars context) : base(context)
+    {
     }
 }

@@ -4,8 +4,6 @@
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <AssemblyName>HandlebarsDotNet.Helpers.Json</AssemblyName>
     <PackageId>Handlebars.Net.Helpers.Json</PackageId>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
     <Description>Handlebars.Net.Helpers Json</Description>
     <PackageTags>handlebars;helper;JsonPath;Json</PackageTags>
     <ProjectGuid>{181B9A96-5662-44AA-8685-E68E1263125A}</ProjectGuid>
