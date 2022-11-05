@@ -1,3 +1,6 @@
+# 2.3.7 (05 November 2022)
+- [#56](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/56) - Add GetEnvironmentVariable [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.6 (03 November 2022)
 - [#55](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/55) - PluginLoader does not require file system access [enhancement] contributed by [devkev2403](https://github.com/devkev2403)
 
