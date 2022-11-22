@@ -107,6 +107,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             result.Should().Be(expected);
         }
 
+        [Fact]
+        public void SplitInEachLoop()
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile("{{#each (String.Split \"a;b;c\" ';')}}\r\n{{@Key}}:{{@Index}}:{{this}}\r\n{{/each}}");
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be("expected");
+        }
+
         [Theory]
         [InlineData("{{#String.StartsWith \"Hello\" \"He\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Hi")]
         [InlineData("{{#String.StartsWith \"Hello\" \"xx\"}}Hi{{else}}Goodbye{{/String.StartsWith}}", "Goodbye")]
