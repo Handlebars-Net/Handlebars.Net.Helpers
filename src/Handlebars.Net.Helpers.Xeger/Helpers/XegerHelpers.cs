@@ -3,18 +3,18 @@ using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 
-namespace HandlebarsDotNet.Helpers
-{
-    internal class XegerHelpers : BaseHelpers, IHelpers
-    {
-        public XegerHelpers(IHandlebars context) : base(context)
-        {
-        }
+// ReSharper disable once CheckNamespace
+namespace HandlebarsDotNet.Helpers;
 
-        [HandlebarsWriter(WriterType.String, "Xeger.Generate")]
-        public string Generate(string pattern)
-        {
-            return new Xeger(pattern).Generate();
-        }
+internal class XegerHelpers : BaseHelpers, IHelpers
+{
+    public XegerHelpers(IHandlebars context) : base(context)
+    {
+    }
+
+    [HandlebarsWriter(WriterType.String, "Xeger.Generate")]
+    public string Generate(string pattern)
+    {
+        return new Xeger(pattern).Generate();
     }
 }

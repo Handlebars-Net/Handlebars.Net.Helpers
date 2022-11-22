@@ -93,8 +93,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{[String.Split] \"a,b,c\" ','}}", "[\"a\",\"b\",\"c\"]")]
-        [InlineData("{{[String.Split] \"a_;b_;c\" \"_;\"}}", "[\"a\",\"b\",\"c\"]")]
+        [InlineData("{{[String.Split] \"a,b,c\" ','}}", "a,b,c")]
+        [InlineData("{{[String.Split] \"a_;b_;c\" \"_;\"}}", "a,b,c")]
         public void Split(string template, string expected)
         {
             // Arrange
@@ -117,7 +117,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
             var result = action("");
 
             // Assert
-            result.Should().Be("expected");
+            result.Should().Be("0:0:a\r\n1:1:b\r\n2:2:c\r\n");
         }
 
         [Theory]

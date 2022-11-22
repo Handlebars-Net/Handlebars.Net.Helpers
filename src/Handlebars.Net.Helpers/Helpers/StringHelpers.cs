@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Validation;
+using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
@@ -239,18 +239,11 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return new string(value.ToCharArray().Reverse().ToArray());
     }
 
-    [HandlebarsWriter(WriterType.String)]
+    [HandlebarsWriter(WriterType.Value)]
     public string[] Split(string value, string separator)
     {
-        if (value is null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
-
-        if (separator == null)
-        {
-            throw new ArgumentNullException(nameof(separator));
-        }
+        Guard.NotNull(value);
+        Guard.NotNull(separator);
 
         return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
     }

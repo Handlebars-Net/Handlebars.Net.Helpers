@@ -18,7 +18,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Stef.Validation" Version="0.1.0" />
+		<PackageReference Include="Stef.Validation" Version="0.1.1" />
 	</ItemGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)' == 'net451'">
