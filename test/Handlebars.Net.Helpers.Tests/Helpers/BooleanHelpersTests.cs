@@ -61,5 +61,75 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             // Assert
             result.Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(false, true, false)]
+        [InlineData(true, false, false)]
+        [InlineData(false, false, false)]
+        public void And(bool value, bool test, bool expected)
+        {
+            // Act
+            var result = _sut.And(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(false, true, false)]
+        [InlineData(true, false, false)]
+        [InlineData(false, false, false)]
+        public void LogicalAnd(bool value, bool test, bool expected)
+        {
+            // Act
+            var result = _sut.LogicalAnd(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(false, true, true)]
+        [InlineData(true, false, true)]
+        [InlineData(false, false, false)]
+        public void Or(bool value, bool test, bool expected)
+        {
+            // Act
+            var result = _sut.Or(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(true, true, true)]
+        [InlineData(false, true, true)]
+        [InlineData(true, false, true)]
+        [InlineData(false, false, false)]
+        public void LogicalOr(bool value, bool test, bool expected)
+        {
+            // Act
+            var result = _sut.LogicalOr(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(true, true, false)]
+        [InlineData(false, true, true)]
+        [InlineData(true, false, true)]
+        [InlineData(false, false, false)]
+        public void LogicalXor(bool value, bool test, bool expected)
+        {
+            // Act
+            var result = _sut.LogicalXor(value, test);
+
+            // Assert
+            result.Should().Be(expected);
+        }
     }
 }

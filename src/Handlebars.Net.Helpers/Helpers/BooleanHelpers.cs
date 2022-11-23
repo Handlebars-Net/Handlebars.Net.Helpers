@@ -26,4 +26,34 @@ internal class BooleanHelpers : BaseHelpers, IHelpers
     {
         return !value;
     }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool And(bool value, bool test)
+    {
+        return value && test;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LogicalAnd(bool value, bool test)
+    {
+        return value & test;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool Or(bool value, bool test)
+    {
+        return value || test;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LogicalOr(bool value, bool test)
+    {
+        return value | test;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LogicalXor(bool value, bool test)
+    {
+        return value ^ test;
+    }
 }
