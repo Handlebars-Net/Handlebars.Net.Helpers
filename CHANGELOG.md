@@ -1,3 +1,8 @@
+# 2.3.8 (23 November 2022)
+- [#57](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/57) - Fix String.Split + update dependencies  [bug] contributed by [StefH](https://github.com/StefH)
+- [#58](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/58) - String empty helpers [enhancement] contributed by [kspearrin](https://github.com/kspearrin)
+- [#59](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/59) - Added basic boolean helpers [enhancement] contributed by [kspearrin](https://github.com/kspearrin)
+
 # 2.3.7 (05 November 2022)
 - [#56](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/56) - Add GetEnvironmentVariable [enhancement] contributed by [StefH](https://github.com/StefH)
 
