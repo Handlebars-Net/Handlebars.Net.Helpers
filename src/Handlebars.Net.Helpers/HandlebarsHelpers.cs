@@ -10,7 +10,7 @@ using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
 using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
-using HandlebarsDotNet.Helpers.Validation;
+using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers;
 
@@ -36,7 +36,7 @@ public static class HandlebarsHelpers
     /// <param name="optionsCallback">The options callback.</param>
     public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
     {
-        Guard.NotNull(optionsCallback, nameof(optionsCallback));
+        Guard.NotNull(optionsCallback);
 
         var options = new HandlebarsHelpersOptions();
         optionsCallback(options);
@@ -188,7 +188,8 @@ public static class HandlebarsHelpers
     {
         handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
         {
-            return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
+            var value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
+            return value;
         });
     }
 

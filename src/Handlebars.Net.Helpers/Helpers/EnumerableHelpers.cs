@@ -4,7 +4,7 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Utils;
-using HandlebarsDotNet.Helpers.Validation;
+using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
@@ -85,10 +85,9 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public IEnumerable<object?> Select(IEnumerable<object?> values, string propertyName, bool skipNullValues = false)
     {
-        Guard.NotNull(values, nameof(values));
-        Guard.NotNullOrEmpty(propertyName, nameof(propertyName));
+        Guard.NotNullOrEmpty(propertyName);
 
-        foreach (var value in values)
+        foreach (var value in Guard.NotNull(values))
         {
             var result = ReflectionUtils.GetPropertyOrFieldValue(value, propertyName);
             if (!skipNullValues || (skipNullValues && result != null))

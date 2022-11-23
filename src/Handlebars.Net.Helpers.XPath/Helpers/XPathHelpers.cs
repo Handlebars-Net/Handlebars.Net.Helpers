@@ -10,13 +10,14 @@ using HandlebarsDotNet.Helpers.Helpers;
 using Wmhelp.XPath2;
 #endif
 
+// ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers
 {
     internal class XPathHelpers : BaseHelpers, IHelpers
     {
         // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
         // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
-        private static readonly Regex removeXmlVersionRegex = new Regex("(<\\?xml.*?\\?>)", RegexOptions.Compiled);
+        private static readonly Regex RemoveXmlVersionRegex = new Regex("(<\\?xml.*?\\?>)", RegexOptions.Compiled);
 
         public XPathHelpers(IHandlebars context) : base(context)
         {
@@ -95,8 +96,8 @@ namespace HandlebarsDotNet.Helpers
         {
             return new XmlDocument
             {
-                InnerXml = removeXmlVersionRegex.Replace(document, string.Empty)
-            }.CreateNavigator();
+                InnerXml = RemoveXmlVersionRegex.Replace(document, string.Empty)
+            }.CreateNavigator()!;
         }
     }
 }
