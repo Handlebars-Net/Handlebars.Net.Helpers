@@ -385,9 +385,21 @@ internal class StringHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrWhiteSpace(string value)
+    {
+        return !string.IsNullOrWhiteSpace(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public bool IsNullOrEmpty(string value)
     {
         return string.IsNullOrEmpty(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrEmpty(string value)
+    {
+        return !string.IsNullOrEmpty(value);
     }
 
     public StringHelpers(IHandlebars context) : base(context)

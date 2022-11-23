@@ -400,6 +400,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
+        [InlineData("", false)]
+        [InlineData(" ", false)]
+        [InlineData("    ", false)]
+        [InlineData(null, false)]
+        [InlineData("foo", true)]
+        public void IsNotNullOrWhitespace(string value, bool expected)
+        {
+            // Act
+            var result = _sut.IsNotNullOrWhiteSpace(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("", true)]
         [InlineData(" ", false)]
         [InlineData("    ", false)]
@@ -409,6 +424,21 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Act
             var result = _sut.IsNullOrEmpty(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("", false)]
+        [InlineData(" ", true)]
+        [InlineData("    ", true)]
+        [InlineData(null, false)]
+        [InlineData("foo", true)]
+        public void IsNotNullOrEmpty(string value, bool expected)
+        {
+            // Act
+            var result = _sut.IsNotNullOrEmpty(value);
 
             // Assert
             result.Should().Be(expected);
