@@ -371,6 +371,30 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return value != test;
     }
 
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNullOrWhiteSpace(string value)
+    {
+        return string.IsNullOrWhiteSpace(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrWhiteSpace(string value)
+    {
+        return !string.IsNullOrWhiteSpace(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNullOrEmpty(string value)
+    {
+        return string.IsNullOrEmpty(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrEmpty(string value)
+    {
+        return !string.IsNullOrEmpty(value);
+    }
+
     public StringHelpers(IHandlebars context) : base(context)
     {
     }
