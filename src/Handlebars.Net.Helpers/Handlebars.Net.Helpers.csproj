@@ -4,7 +4,7 @@
     <AssemblyName>Handlebars.Net.Helpers</AssemblyName>
     <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
     <Nullable>enable</Nullable>
-    <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Environment', 'Math', 'Regex', 'String', 'DateTime' and 'Urls'.</Description>
+    <Description>Several Handlebars.Net helpers in the categories: 'Constants', 'Enumerable', 'Environment', 'Math', 'Regex', 'String', 'DateTime', 'Boolean', and 'Urls'.</Description>
     <PackageId>Handlebars.Net.Helpers</PackageId>
     <PackageTags>handlebars;mustache;helper;helpers;extensions;constants;collection;enumerable;system;environment;math;regex;datetime;string</PackageTags>
     <ProjectGuid>{fd1cf989-3f17-4f38-a5f4-edecc647d237}</ProjectGuid>
