@@ -15,5 +15,6 @@ public enum Category
     Random,
     JsonPath,
     DynamicLinq,
-    Humanizer
+    Humanizer,
+    Boolean
 }
