@@ -63,6 +63,20 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
+        [InlineData("{{String.Coalesce \"\", \" \", \"\", \"a\", \"b\", \"\", \"c\"}}", "a")]
+        public void Coalesce(string template, string expected)
+        {
+            // Arrange
+            var action = _handlebarsContext.Compile(template);
+
+            // Act
+            var result = action("");
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Theory]
         [InlineData("{{String.Join [\"a\",\"b\",\"c\"] ':'}}", "a:b:c")]
         [InlineData("{{[String.Join] [\"a\",\"b\",\"c\"] \"?\"}}", "a?b?c")]
         public void Join(string template, string expected)
