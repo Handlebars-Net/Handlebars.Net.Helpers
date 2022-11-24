@@ -96,13 +96,14 @@ Now you can access the helpers by just using the name like:
 ***
 
 The following helpers are available:
+- [Boolean](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Boolean)
+- [DateTime](https://github.com/StefH/Handlebars.Net.Helpers/wiki/DateTime)
 - [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
 - [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
 - [Url](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Url)
-- [DateTime](https://github.com/StefH/Handlebars.Net.Helpers/wiki/DateTime)
 
 ***
 ## References
