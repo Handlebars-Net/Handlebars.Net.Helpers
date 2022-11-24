@@ -63,7 +63,8 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
         }
 
         [Theory]
-        [InlineData("{{String.Coalesce \"\", \" \", \"\", \"a\", \"b\", \"\", \"c\"}}", "a")]
+        [InlineData("{{String.Coalesce null, \" \", \"\", \"a\", \"b\"}}", "a")]
+        [InlineData("{{String.Coalesce \"\", \" \", \"\", \"a\", \"b\"}}", "a")]
         public void Coalesce(string template, string expected)
         {
             // Arrange

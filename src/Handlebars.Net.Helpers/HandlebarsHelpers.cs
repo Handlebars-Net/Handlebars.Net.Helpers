@@ -163,6 +163,7 @@ public static class HandlebarsHelpers
                     RegisterValueHelper(handlebarsContext, instance, methodInfo, helperName, attribute.PassContext);
                     break;
 
+                // ReSharper disable once RedundantEmptySwitchSection
                 default:
                     break;
             }
@@ -283,7 +284,6 @@ public static class HandlebarsHelpers
 
         try
         {
-            //var methodArguments = !lastIsParam ? parsedArguments.ToArray() : new object?[] { parsedArguments.ToArray() };
             return methodInfo.Invoke(instance, parsedArguments.ToArray());
         }
         catch (Exception e)

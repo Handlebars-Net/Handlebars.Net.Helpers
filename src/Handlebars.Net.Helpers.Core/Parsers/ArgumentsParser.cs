@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Extensions;
@@ -17,15 +18,15 @@ public static class ArgumentsParser
         {
             if (parameters[i].IsParam())
             {
-                result.Add(new object?[] { arguments.Skip(i).ToArray() });
+                result.Add(arguments.Skip(i).ToArray());
             }
-            else if (arguments.Length < i)
+            else if (i < arguments.Length)
             {
                 result.Add(arguments[i]);
             }
         }
 
-        return result; //arguments.Select(argument => Parse(context, argument)).ToList();
+        return result.Select(argument => Parse(context, argument)).ToList();
     }
 
     public static object? Parse(IHandlebars context, object? argument, bool convertObjectArrayToStringList = false)
@@ -33,7 +34,7 @@ public static class ArgumentsParser
         switch (argument)
         {
             case UndefinedBindingResult valueAsUndefinedBindingResult:
-                if (TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out List<object?>? parsedAsObjectList))
+                if (TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out var parsedAsObjectList))
                 {
                     if (convertObjectArrayToStringList)
                     {
@@ -52,7 +53,7 @@ public static class ArgumentsParser
 
     public static object ParseAsIntLongOrDouble(IHandlebars context, object value)
     {
-        var parsedValue = StringValueParser.Parse(context, value is string stringValue ? stringValue : value.ToString());
+        var parsedValue = StringValueParser.Parse(context, value as string ?? value.ToString());
 
         if (SupportedTypes.Contains(parsedValue.GetType()))
         {
@@ -69,7 +70,7 @@ public static class ArgumentsParser
     /// <param name="undefinedBindingResult">The property value</param>
     /// <param name="parsedValue">The parsed value</param>
     /// <returns>true in case parsing is ok, else false</returns>
-    private static bool TryParseUndefinedBindingResult(UndefinedBindingResult undefinedBindingResult, out List<object?>? parsedValue)
+    private static bool TryParseUndefinedBindingResult(UndefinedBindingResult undefinedBindingResult, [NotNullWhen(true)] out List<object?>? parsedValue)
     {
         return ArrayUtils.TryParseAsObjectList(undefinedBindingResult.Value, out parsedValue);
     }
