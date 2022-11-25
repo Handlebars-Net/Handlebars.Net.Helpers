@@ -358,16 +358,12 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool Equal(string value, string test)
     {
-        Guard.NotNull(value, nameof(value));
-
         return value == test;
     }
         
     [HandlebarsWriter(WriterType.Value)]
     public bool NotEqual(string value, string test)
     {
-        Guard.NotNull(value, nameof(value));
-
         return value != test;
     }
 
