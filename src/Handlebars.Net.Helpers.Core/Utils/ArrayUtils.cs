@@ -1,31 +1,31 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JsonConverter.SimpleJson;
 
-namespace HandlebarsDotNet.Helpers.Utils
+namespace HandlebarsDotNet.Helpers.Utils;
+
+public static class ArrayUtils
 {
-    public static class ArrayUtils
+    public static string ToArray(IEnumerable<object?> array)
     {
-        public static string ToArray(IEnumerable<object?> array)
+        return SimpleJson.SerializeObject(Fix(array))!;
+    }
+
+    public static bool TryParseAsObjectList(string value, [NotNullWhen(true)] out List<object?>? list)
+    {
+        if (SimpleJson.TryDeserializeObject(value, out var obj))
         {
-            return SimpleJson.SerializeObject(Fix(array))!;
+            list = (List<object?>?)obj!;
+            return true;
         }
 
-        public static bool TryParseAsObjectList(string value, out List<object?>? list)
-        {
-            if (SimpleJson.TryDeserializeObject(value, out object? obj))
-            {
-                list = (List<object?>?)obj;
-                return true;
-            }
+        list = null;
+        return false;
+    }
 
-            list = null;
-            return false;
-        }
-
-        private static IEnumerable<object?> Fix(IEnumerable<object?> array)
-        {
-            return array.Select(a => a is char ? a.ToString() : a);
-        }
+    private static IEnumerable<object?> Fix(IEnumerable<object?> array)
+    {
+        return array.Select(a => a is char ? a.ToString() : a);
     }
 }

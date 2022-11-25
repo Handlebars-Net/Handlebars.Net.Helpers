@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HandlebarsDotNet.Helpers.Extensions;
 
+// ReSharper disable once CheckNamespace
 namespace System.Reflection
 {
     /// <summary>
@@ -8,6 +10,11 @@ namespace System.Reflection
     /// </summary>
     internal static class MethodBaseExtensions
     {
+        public static bool LastParameterIsParam(this MethodBase methodInfo)
+        {
+            return methodInfo.GetParameters().LastOrDefault()?.IsParam() == true;
+        }
+
         public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> namedParameters)
         {
             return self.Invoke(obj, MapParameters(self, namedParameters));

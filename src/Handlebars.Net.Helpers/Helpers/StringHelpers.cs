@@ -87,6 +87,27 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return new string(chars);
     }
 
+    [HandlebarsWriter(WriterType.Value)]
+    public object? Coalesce(params object?[] arguments)
+    {
+        foreach (var arg in arguments.Where(a => a is {} and not UndefinedBindingResult))
+        {
+            if (arg is string stringValue)
+            {
+                if (!string.IsNullOrWhiteSpace(stringValue))
+                {
+                    return stringValue;
+                }
+            }
+            else
+            {
+                return arg;
+            }
+        }
+
+        return null;
+    }
+
     [HandlebarsWriter(WriterType.String)]
     public string Concat(string value, string append)
     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
@@ -150,7 +151,7 @@ public static class HandlebarsHelpers
 
     private static void RegisterHelper(IHandlebars handlebarsContext, object instance, HandlebarsWriterAttribute attribute, MethodInfo methodInfo, string name)
     {
-        foreach (string helperName in CreateHelperNames(name))
+        foreach (var helperName in CreateHelperNames(name))
         {
             switch (attribute.Type)
             {
@@ -162,6 +163,7 @@ public static class HandlebarsHelpers
                     RegisterValueHelper(handlebarsContext, instance, methodInfo, helperName, attribute.PassContext);
                     break;
 
+                // ReSharper disable once RedundantEmptySwitchSection
                 default:
                     break;
             }
@@ -189,8 +191,7 @@ public static class HandlebarsHelpers
     {
         handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
         {
-            var value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
-            return value;
+            return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
         });
     }
 
@@ -221,8 +222,9 @@ public static class HandlebarsHelpers
         Arguments arguments,
         object instance)
     {
-        int numberOfArguments = arguments.Length;
-        int parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional);
+        var numberOfArguments = arguments.Length;
+        var lastIsParam = methodInfo.LastParameterIsParam();
+        var parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional && !pi.IsParam());
 
         if (model is { })
         {
@@ -234,23 +236,35 @@ public static class HandlebarsHelpers
             numberOfArguments += 1;
         }
 
-        int parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
-        int[] parameterCountAllowed = Enumerable.Range(parameterCountRequired, parameterCountOptional + 1).ToArray();
+        var parameterCountOptional = methodInfo.GetParameters().Count(pi => pi.IsOptional);
+        var parameterCountAllowed = Enumerable.Range(parameterCountRequired, parameterCountOptional + 1).ToArray();
 
-        if (parameterCountRequired == 0 && parameterCountOptional == 0 && numberOfArguments != 0)
+        if (lastIsParam)
         {
-            throw new HandlebarsException($"The {helperName} helper should have no arguments.");
+            if (parameterCountRequired > 0 && numberOfArguments < parameterCountRequired)
+            {
+                throw new HandlebarsException($"The {helperName} helper should have at least {parameterCountRequired} argument{(parameterCountRequired > 1 ? "s" : "")}.");
+            }
         }
-        if (parameterCountAllowed.Length == 1 && numberOfArguments != parameterCountAllowed[0])
+        else
         {
-            throw new HandlebarsException($"The {helperName} helper must have exactly {parameterCountAllowed[0]} argument{(parameterCountAllowed[0] > 1 ? "s" : "")}.");
-        }
-        if (!parameterCountAllowed.Contains(numberOfArguments))
-        {
-            throw new HandlebarsException($"The {helperName} helper must have {string.Join(" or ", parameterCountAllowed)} arguments.");
+            if (parameterCountRequired == 0 && parameterCountOptional == 0 && numberOfArguments != 0)
+            {
+                throw new HandlebarsException($"The {helperName} helper should have no arguments.");
+            }
+
+            if (parameterCountAllowed.Length == 1 && numberOfArguments != parameterCountAllowed[0])
+            {
+                throw new HandlebarsException($"The {helperName} helper must have exactly {parameterCountAllowed[0]} argument{(parameterCountAllowed[0] > 1 ? "s" : "")}.");
+            }
+
+            if (!parameterCountAllowed.Contains(numberOfArguments))
+            {
+                throw new HandlebarsException($"The {helperName} helper must have {string.Join(" or ", parameterCountAllowed)} arguments.");
+            }
         }
 
-        var parsedArguments = ArgumentsParser.Parse(context, arguments);
+        var parsedArguments = ArgumentsParser.Parse(context, methodInfo.GetParameters(), arguments);
 
         // Add null for optional arguments
         for (int i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
