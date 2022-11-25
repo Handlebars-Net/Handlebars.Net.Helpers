@@ -1,3 +1,8 @@
+# 2.3.9 (25 November 2022)
+- [#61](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/61) - Add String.Coalesce [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#62](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/62) - allow String equals checks to have null values contributed by [kspearrin](https://github.com/kspearrin)
+- [#60](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/60) - Add String.Coalesce [enhancement]
+
 # 2.3.8 (23 November 2022)
 - [#57](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/57) - Fix String.Split + update dependencies  [bug] contributed by [StefH](https://github.com/StefH)
 - [#58](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/58) - String empty helpers [enhancement] contributed by [kspearrin](https://github.com/kspearrin)
