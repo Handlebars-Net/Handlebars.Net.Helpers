@@ -360,6 +360,9 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [InlineData("foo", "Foo", false)]
         [InlineData("Foo", "foo", false)]
         [InlineData("foo", "foo", true)]
+        [InlineData(null, null, true)]
+        [InlineData(null, "foo", false)]
+        [InlineData("foo", null, false)]
         public void Equal(string value, string test, bool expected)
         {
             // Act
@@ -375,6 +378,9 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         [InlineData("foo", "Foo", true)]
         [InlineData("Foo", "foo", true)]
         [InlineData("foo", "foo", false)]
+        [InlineData(null, null, false)]
+        [InlineData(null, "foo", true)]
+        [InlineData("foo", null, true)]
         public void NotEqual(string value, string test, bool expected)
         {
             // Act
