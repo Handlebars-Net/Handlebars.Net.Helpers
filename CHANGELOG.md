@@ -1,3 +1,7 @@
+# 2.3.10 (01 December 2022)
+- [#63](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/63) - Use latest RandomDataGenerator.Net [bug] contributed by [StefH](https://github.com/StefH)
+- [#41](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/41) - Random number generation isn't very random [bug]
+
 # 2.3.9 (25 November 2022)
 - [#61](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/61) - Add String.Coalesce [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#62](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/62) - allow String equals checks to have null values contributed by [kspearrin](https://github.com/kspearrin)
