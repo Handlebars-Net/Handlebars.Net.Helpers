@@ -1,4 +1,5 @@
-﻿using HandlebarsDotNet.Helpers.Helpers;
+﻿using System.Linq;
+using HandlebarsDotNet.Helpers.Helpers;
 using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Extensions;
@@ -11,8 +12,11 @@ public static class IHandlebarsExtensions
         Guard.NotNull(handlebarsContext);
         Guard.NotNullOrEmpty(template);
 
-        var updatedTemplate = template.TrimStart('{').TrimEnd('}');
-        handlebarsContext.Compile("{{" + EvaluateHelper.HelperName + " " + updatedTemplate + "}}")(data);
+        var start = template.TakeWhile(c => c == '{').Count();
+        var end = template.Reverse().TakeWhile(c => c == '}').Count();
+        var updated = template.Substring(start, template.Length - start - end);
+
+        handlebarsContext.Compile(new string('{', start) + EvaluateHelper.HelperName + " " + updated + new string('}', end))(data);
 
         return HandlebarsHelpers.AsyncLocalResultFromEvaluate.Value;
     }
