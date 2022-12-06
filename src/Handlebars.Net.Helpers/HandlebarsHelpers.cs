@@ -12,6 +12,7 @@ using HandlebarsDotNet.Helpers.Parsers;
 using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
+using HandlebarsDotNet.Helpers.Models;
 #if NETSTANDARD1_3_OR_GREATER
 using System.Threading;
 #else
@@ -28,7 +29,7 @@ public static class HandlebarsHelpers
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1
     /// </summary>
-    internal static AsyncLocal<object?> AsyncLocalResultFromEvaluate = new();
+    internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
     /// Register all (default) or specific categories.
