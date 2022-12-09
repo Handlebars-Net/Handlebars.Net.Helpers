@@ -19,6 +19,28 @@ public class EvaluateHelperTemplateTests
     }
 
     [Theory]
+    [InlineData("")]
+    [InlineData("{")]
+    [InlineData("{{")]
+    [InlineData("}")]
+    [InlineData("}}")]
+    [InlineData("{x}")]
+    [InlineData("{{x}")]
+    [InlineData("{x}}")]
+    public void TryEvaluateInvalid(string template)
+    {
+        // Arrange
+        var data = new { x = 1 };
+
+        // Act
+        var isValid = _handlebarsContext.TryEvaluate(template, data, out var result);
+
+        // Assert
+        isValid.Should().BeFalse();
+        result.Should().BeNull();
+    }
+
+    [Theory]
     [InlineData(@"{{x}}", 'c')]
     [InlineData(@"{{x}}", "s")]
     [InlineData(@"{{x}}", 1)]
