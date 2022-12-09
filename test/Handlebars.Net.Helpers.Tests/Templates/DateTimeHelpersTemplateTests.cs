@@ -8,24 +8,22 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
 public class DateTimeHelpersTemplateTests
 {
-    private readonly DateTime DateTimeNow = new DateTime(2020, 4, 15, 23, 59, 58);
-
-    private readonly Mock<IDateTimeService> _dateTimeServiceMock;
+    private readonly DateTime _dateTimeNow = new(2020, 4, 15, 23, 59, 58);
 
     private readonly IHandlebars _handlebarsContext;
 
     public DateTimeHelpersTemplateTests()
     {
-        _dateTimeServiceMock = new Mock<IDateTimeService>();
-        _dateTimeServiceMock.Setup(d => d.Now()).Returns(DateTimeNow);
-        _dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(DateTimeNow.ToUniversalTime);
+        var dateTimeServiceMock = new Mock<IDateTimeService>();
+        dateTimeServiceMock.Setup(d => d.Now()).Returns(_dateTimeNow);
+        dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(_dateTimeNow.ToUniversalTime);
 
         _handlebarsContext = Handlebars.Create();
 
         HandlebarsHelpers.Register(_handlebarsContext, o =>
         {
             o.UseCategoryPrefix = false;
-            o.DateTimeService = _dateTimeServiceMock.Object;
+            o.DateTimeService = dateTimeServiceMock.Object;
         });
     }
 
