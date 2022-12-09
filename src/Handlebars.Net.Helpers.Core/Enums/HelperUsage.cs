@@ -1,9 +1,8 @@
-﻿namespace HandlebarsDotNet.Helpers.Enums
+﻿namespace HandlebarsDotNet.Helpers.Enums;
+
+public enum HelperUsage
 {
-    public enum HelperUsage
-    {
-        Both,
-        Normal,
-        Block
-    }
+    Both,
+    Normal,
+    Block
 }
