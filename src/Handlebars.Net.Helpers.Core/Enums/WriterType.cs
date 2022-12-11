@@ -1,9 +1,8 @@
-﻿namespace HandlebarsDotNet.Helpers.Enums
-{
-    public enum WriterType
-    {
-        Value,
+﻿namespace HandlebarsDotNet.Helpers.Enums;
 
-        String
-    }
+public enum WriterType
+{
+    Value,
+
+    String
 }

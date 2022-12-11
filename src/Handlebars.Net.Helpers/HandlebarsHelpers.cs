@@ -12,6 +12,12 @@ using HandlebarsDotNet.Helpers.Parsers;
 using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
+using HandlebarsDotNet.Helpers.Models;
+#if NETSTANDARD1_3_OR_GREATER
+using System.Threading;
+#else
+using HandlebarsDotNet.Polyfills;
+#endif
 
 namespace HandlebarsDotNet.Helpers;
 
@@ -20,6 +26,11 @@ namespace HandlebarsDotNet.Helpers;
 /// </summary>
 public static class HandlebarsHelpers
 {
+    /// <summary>
+    /// https://learn.microsoft.com/en-us/dotnet/api/system.threading.asynclocal-1
+    /// </summary>
+    internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
+
     /// <summary>
     /// Register all (default) or specific categories.
     /// </summary>
@@ -88,6 +99,14 @@ public static class HandlebarsHelpers
                 RegisterCustomHelper(handlebarsContext, options, item.Key, item.Value);
             }
         }
+
+        RegisterEvaluateHelper(handlebarsContext);
+    }
+
+    private static void RegisterEvaluateHelper(IHandlebars handlebarsContext)
+    {
+        var helper = new EvaluateHelper(AsyncLocalResultFromEvaluate);
+        handlebarsContext.RegisterHelper(helper);
     }
 
     private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
@@ -100,7 +119,8 @@ public static class HandlebarsHelpers
                 MethodInfo = methodInfo,
                 HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
             })
-            .Where(x => x.HandlebarsWriterAttribute is { });
+            .Where(x => x.HandlebarsWriterAttribute is { })
+            .ToArray();
 
         foreach (var method in methods)
         {
