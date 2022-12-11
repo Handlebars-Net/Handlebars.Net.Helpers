@@ -1,3 +1,6 @@
+# 2.3.11 (11 December 2022)
+- [#64](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/64) - Add extension method &quot;Evaluate&quot; [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.10 (01 December 2022)
 - [#63](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/63) - Use latest RandomDataGenerator.Net [bug] contributed by [StefH](https://github.com/StefH)
 - [#41](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/41) - Random number generation isn't very random [bug]
