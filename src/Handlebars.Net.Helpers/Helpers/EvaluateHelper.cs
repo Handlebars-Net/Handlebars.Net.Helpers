@@ -1,7 +1,7 @@
 ﻿using HandlebarsDotNet.PathStructure;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-#if NETSTANDARD1_3_OR_GREATER
+#if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 using System.Threading;
 #else
 using HandlebarsDotNet.Polyfills;
