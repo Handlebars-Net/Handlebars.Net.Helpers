@@ -1,3 +1,7 @@
+# 2.3.12 (19 December 2022)
+- [#66](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/66) - System.TypeLoadException : Could not load type 'HandlebarsDotNet.Poly&#8230; [bug] contributed by [caoko](https://github.com/caoko)
+- [#65](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/65) - System.TypeLoadException : Could not load type 'HandlebarsDotNet.Polyfills.AsyncLocal`1' from assembly 'Handlebars, Version=2.1.2.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661'. [bug]
+
 # 2.3.11 (11 December 2022)
 - [#64](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/64) - Add extension method &quot;Evaluate&quot; [enhancement] contributed by [StefH](https://github.com/StefH)
 
