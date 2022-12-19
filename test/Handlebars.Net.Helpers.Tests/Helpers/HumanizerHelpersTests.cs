@@ -335,14 +335,14 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
-        [InlineData(10, null, null, null, "Long text?")]
-        [InlineData(10, null, "FixedLength", null, "Long text?")]
+        [InlineData(10, null, null, null, "Long text…")]
+        [InlineData(10, null, "FixedLength", null, "Long text…")]
         [InlineData(10, "---", "FixedLength", null, "Long te---")]
-        [InlineData(6, null, "FixedNumberOfCharacters", null, "Long t?")]
+        [InlineData(6, null, "FixedNumberOfCharacters", null, "Long t…")]
         [InlineData(6, "---", "FixedNumberOfCharacters", null, "Lon---")]
-        [InlineData(2, null, "FixedNumberOfWords", null, "Long text?")]
+        [InlineData(2, null, "FixedNumberOfWords", null, "Long text…")]
         [InlineData(2, "---", "FixedNumberOfWords", null, "Long text---")]
-        [InlineData(10, null, "FixedLength", "Left", "?truncate")]
+        [InlineData(10, null, "FixedLength", "Left", "… truncate")]
         public void Truncate(int length, string? separator, string? truncator, string? truncateFrom, string expected)
         {
             // Arrange
