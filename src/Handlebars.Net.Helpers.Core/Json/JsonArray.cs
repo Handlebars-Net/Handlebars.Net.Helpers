@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 /// <summary>
 /// Represents the json array.

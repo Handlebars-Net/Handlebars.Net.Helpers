@@ -1,7 +1,7 @@
 ﻿using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 [GeneratedCode("simple-json", "1.0.0")]
 #if SIMPLE_JSON_INTERNAL

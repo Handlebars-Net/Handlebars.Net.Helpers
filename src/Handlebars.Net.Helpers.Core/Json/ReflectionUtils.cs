@@ -1,12 +1,10 @@
 ﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
-#if !SIMPLE_JSON_NO_LINQ_EXPRESSION
 using System.Linq.Expressions;
-#endif
+using System.Reflection;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 // This class is meant to be copied into other libraries. So we want to exclude it from Code Analysis rules
 // that might be in place in the target project.

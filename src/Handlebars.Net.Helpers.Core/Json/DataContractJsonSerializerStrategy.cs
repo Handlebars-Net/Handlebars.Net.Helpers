@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 #if SIMPLE_JSON_DATACONTRACT
 [GeneratedCode("simple-json", "1.0.0")]

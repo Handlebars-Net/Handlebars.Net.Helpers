@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Stef.Validation;
-#if SIMPLE_JSON_DYNAMIC
 using System.Dynamic;
-#endif
+using Stef.Validation;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 /// <summary>
 /// Represents the json object.
