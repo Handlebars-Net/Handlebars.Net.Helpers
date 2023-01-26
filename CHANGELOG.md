@@ -1,3 +1,6 @@
+# 2.3.13 (26 January 2023)
+- [#68](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/68) - Make some simple-json code internal + change the namespace [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.12 (19 December 2022)
 - [#66](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/66) - System.TypeLoadException : Could not load type 'HandlebarsDotNet.Poly&#8230; [bug] contributed by [caoko](https://github.com/caoko)
 - [#65](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/65) - System.TypeLoadException : Could not load type 'HandlebarsDotNet.Polyfills.AsyncLocal`1' from assembly 'Handlebars, Version=2.1.2.0, Culture=neutral, PublicKeyToken=22225d0bf33cd661'. [bug]
