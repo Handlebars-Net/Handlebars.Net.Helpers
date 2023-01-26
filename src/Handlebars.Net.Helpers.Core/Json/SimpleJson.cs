@@ -53,19 +53,17 @@
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
-#if !SIMPLE_JSON_NO_LINQ_EXPRESSION
-using System.Linq.Expressions;
-#endif
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-#if SIMPLE_JSON_DYNAMIC
-using System.Dynamic;
-#endif
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
+#if !SIMPLE_JSON_NO_LINQ_EXPRESSION
+#endif
+#if SIMPLE_JSON_DYNAMIC
+#endif
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 /// <summary>
 /// This class encodes and decodes JSON strings.

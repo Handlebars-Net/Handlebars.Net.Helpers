@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JsonConverter.SimpleJson;
+using HandlebarsDotNet.Helpers.Json;
 
 namespace HandlebarsDotNet.Helpers.Utils;
 

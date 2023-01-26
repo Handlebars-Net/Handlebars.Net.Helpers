@@ -10,6 +10,7 @@
 		<ProjectGuid>{7CBD113C-A754-480B-B0D0-AA9DF734F612}</ProjectGuid>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+    <DefineConstants>$(DefineConstants);SIMPLE_JSON_INTERNAL</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

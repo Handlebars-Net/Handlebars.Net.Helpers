@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using Stef.Validation;
 
-namespace JsonConverter.SimpleJson;
+namespace HandlebarsDotNet.Helpers.Json;
 
 [GeneratedCode("simple-json", "1.0.0")]
 #if SIMPLE_JSON_INTERNAL
