@@ -6,9 +6,44 @@ namespace ConsoleApp
 {
     class Program
     {
+        private static string GetArgumentValue(object argument)
+        {
+            if (argument.GetType().Name == "UndefinedBindingResult")
+            {
+                return (string)argument.GetType().GetField("Value").GetValue(argument);
+            }
+
+            return argument.ToString();
+        }
+
         static void Main(string[] args)
         {
             var handlebars = Handlebars.Create();
+
+            handlebars.RegisterHelper("ifCond", (output, context, arguments) =>
+            {
+                var value1 = GetArgumentValue(arguments[0]);
+                var operation = GetArgumentValue(arguments[1]);
+                var value2 = GetArgumentValue(arguments[2]);
+                var returnValue1 = GetArgumentValue(arguments[3]);
+                var returnValue2 = GetArgumentValue(arguments[4]);
+
+                switch (operation)
+                {
+                    case "eq":
+                        output.Write(value1 == value2 ? returnValue1 : returnValue2);
+                        break;
+                    case "ne":
+                        output.Write(value1 != value2 ? returnValue1 : returnValue2);
+                        break;
+                    default:
+                        throw new Exception("ifCond: Unrecognized operation");
+                }
+            });
+
+            var template1 = handlebars.Compile("{{ifCond MyData eq 01 X Y}}");
+            var result1 = template1.Invoke(new { MyData = "01" });
+
             HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
 
             //handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
