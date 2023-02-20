@@ -112,6 +112,11 @@ public static class HandlebarsHelpers
 
     private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
     {
+        if (categoryPrefix == "Dictionary")
+        {
+            int y = 9;
+        }
+
         Type helperClassType = helper.GetType();
 
         var methods = helperClassType.GetMethods()

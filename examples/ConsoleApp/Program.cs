@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 
@@ -65,6 +66,10 @@ namespace ConsoleApp
 
             var tests = new[]
             {
+                "{{[Dictionary.Lookup] data 1}}",
+                "{{[Dictionary.Lookup] data 2}}",
+                "{{[Dictionary.Lookup] data 4 \"n/a\"}}",
+
                 "{{Abs -1}}",
                 "{{Abs -1.1234}}",
 
@@ -107,14 +112,21 @@ namespace ConsoleApp
                 "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
                 "{{GetEnvironmentVariable \"x\"}}",
                 "{{GetEnvironmentVariable \"x\" \"User\"}}",
-                "{{GetEnvironmentVariables}}",
+                "{{GetEnvironmentVariables}}"
+            };
+
+            var dictionary = new Dictionary<string, object>
+            {
+                { "1", "one" },
+                { "2", "two" }
             };
 
             foreach (string test in tests)
             {
                 var t = new
                 {
-                    x = DateTime.Now
+                    x = DateTime.Now,
+                    data = dictionary
                 };
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(t);

@@ -8,7 +8,10 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 
 internal class DictionaryHelpers : BaseHelpers, IHelpers
 {
-    [HandlebarsWriter(WriterType.Value)]
+    /// <summary>
+    /// Note: lookup is a existing helper, so this method can only be used when prefixed with Dictionary
+    /// </summary>
+    [HandlebarsWriter(WriterType.Value, "Dictionary.Lookup")]
     public object? Lookup(object data, object key, object? valueIfNotFound = null)
     {
         Guard.NotNull(data);
