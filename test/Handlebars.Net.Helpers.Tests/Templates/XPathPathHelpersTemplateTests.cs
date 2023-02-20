@@ -2,24 +2,24 @@
 using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates;
+
+public class XPathPathHelpersTemplateTests
 {
-    public class XPathPathHelpersTemplateTests
+    private readonly IHandlebars _handlebarsContext;
+
+    public XPathPathHelpersTemplateTests()
     {
-        private readonly IHandlebars _handlebarsContext;
+        _handlebarsContext = Handlebars.Create();
 
-        public XPathPathHelpersTemplateTests()
-        {
-            _handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(_handlebarsContext, Category.XPath);
+    }
 
-            HandlebarsHelpers.Register(_handlebarsContext, Category.XPath);
-        }
-
-        [Fact]
-        public void SelectToken_With_SoapXMLMessage()
-        {
-            // Arrange
-            string soap = @"
+    [Fact]
+    public void SelectToken_With_SoapXMLMessage()
+    {
+        // Arrange
+        string soap = @"
 <?xml version='1.0' standalone='no'?>
 <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ns=""http://www.Test.nl/XMLHeader/10"" xmlns:req=""http://www.Test.nl/Betalen/COU/Services/RdplDbTknLystByOvkLyst/8/Req"">
    <soapenv:Header>
@@ -53,18 +53,17 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
    </soapenv:Body>
 </soapenv:Envelope>";
 
-            var request = new
-            {
-                body = soap
-            };
+        var request = new
+        {
+            body = soap
+        };
 
-            var action = _handlebarsContext.Compile("{{XPath.SelectNode body \"//*[local-name()='TokenIdLijst']\"}}");
+        var action = _handlebarsContext.Compile("{{XPath.SelectNode body \"//*[local-name()='TokenIdLijst']\"}}");
 
-            // Act
-            var result = action(request);
+        // Act
+        var result = action(request);
 
-            // Assert
-            result.Should().NotBeNull().And.Contain("TokenIdLijst").And.Contain("0000083256").And.Contain("0000083259");
-        }
+        // Assert
+        result.Should().NotBeNull().And.Contain("TokenIdLijst").And.Contain("0000083256").And.Contain("0000083259");
     }
 }

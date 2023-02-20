@@ -72,6 +72,7 @@ public class EvaluateHelperTemplateTests
         var isValid = _handlebarsContext.TryEvaluate(@"{{x}}", data, out var result);
 
         // Assert
+        isValid.Should().BeTrue();
         result.Should().Be(x);
     }
 

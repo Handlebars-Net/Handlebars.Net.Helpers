@@ -3,57 +3,56 @@ using HandlebarsDotNet.Helpers.Enums;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates;
+
+public class DynamicLinqHelpersTemplateTests
 {
-    public class DynamicLinqHelpersTemplateTests
+    private readonly IHandlebars _handlebarsContext;
+
+    public DynamicLinqHelpersTemplateTests()
     {
-        private readonly IHandlebars _handlebarsContext;
+        _handlebarsContext = Handlebars.Create();
 
-        public DynamicLinqHelpersTemplateTests()
+        HandlebarsHelpers.Register(_handlebarsContext, Category.DynamicLinq);
+    }
+
+    [Fact]
+    public void Linq()
+    {
+        // Arrange
+        var request = new
         {
-            _handlebarsContext = Handlebars.Create();
+            Path = "/test"
+        };
 
-            HandlebarsHelpers.Register(_handlebarsContext, Category.DynamicLinq);
-        }
+        var action = _handlebarsContext.Compile("{{Linq Path 'it'}}");
 
-        [Fact]
-        public void Linq()
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("/test");
+    }
+
+    [Fact]
+    public void Linq1()
+    {
+        // Arrange
+        var request = new
         {
-            // Arrange
-            var request = new
+            body = new JObject
             {
-                Path = "/test"
-            };
+                { "Id", new JValue(9) },
+                { "Name", new JValue("Test") }
+            }
+        };
 
-            var action = _handlebarsContext.Compile("{{Linq Path 'it'}}");
+        var action = _handlebarsContext.Compile("{{Linq body 'it.Name + \"_123\"' }}");
 
-            // Act
-            var result = action(request);
+        // Act
+        var result = action(request);
 
-            // Assert
-            result.Should().Be("/test");
-        }
-
-        [Fact]
-        public void Linq1()
-        {
-            // Arrange
-            var request = new
-            {
-                body = new JObject
-                {
-                    { "Id", new JValue(9) },
-                    { "Name", new JValue("Test") }
-                }
-            };
-
-            var action = _handlebarsContext.Compile("{{Linq body 'it.Name + \"_123\"' }}");
-
-            // Act
-            var result = action(request);
-
-            // Assert
-            result.Should().Be("Test_123");
-        }
+        // Assert
+        result.Should().Be("Test_123");
     }
 }

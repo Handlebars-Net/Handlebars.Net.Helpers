@@ -3,44 +3,44 @@ using HandlebarsDotNet.Helpers.Enums;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Templates
+namespace HandlebarsDotNet.Helpers.Tests.Templates;
+
+public class JsonPathHelpersTemplateTests
 {
-    public class JsonPathHelpersTemplateTests
+    private readonly IHandlebars _handlebarsContext;
+
+    public JsonPathHelpersTemplateTests()
     {
-        private readonly IHandlebars _handlebarsContext;
+        _handlebarsContext = Handlebars.Create();
 
-        public JsonPathHelpersTemplateTests()
+        HandlebarsHelpers.Register(_handlebarsContext, Category.JsonPath);
+    }
+
+    [Fact]
+    public void SelectToken_With_String()
+    {
+        // Arrange
+        var request = new
         {
-            _handlebarsContext = Handlebars.Create();
+            body = "{ \"Price\": 99 }"
+        };
 
-            HandlebarsHelpers.Register(_handlebarsContext, Category.JsonPath);
-        }
+        var action = _handlebarsContext.Compile("{{JsonPath.SelectToken body \"..Price\"}}");
 
-        [Fact]
-        public void SelectToken_With_String()
+        // Act
+        var result = action(request);
+
+        // Assert
+        int.Parse(result).Should().Be(99);
+    }
+
+    [Fact]
+    public void SelectTokens_With_JObject()
+    {
+        // Arrange
+        var request = new
         {
-            // Arrange
-            var request = new
-            {
-                body = "{ \"Price\": 99 }"
-            };
-
-            var action = _handlebarsContext.Compile("{{JsonPath.SelectToken body \"..Price\"}}");
-
-            // Act
-            var result = action(request);
-
-            // Assert
-            int.Parse(result).Should().Be(99);
-        }
-
-        [Fact]
-        public void SelectTokens_With_JObject()
-        {
-            // Arrange
-            var request = new
-            {
-                body = JObject.Parse(@"{
+            body = JObject.Parse(@"{
                   'Stores': [
                     'Lambton Quay',
                     'Willis Street'
@@ -70,15 +70,14 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates
                     }
                   ]
                 }")
-            };
+        };
 
-            var action = _handlebarsContext.Compile("{{#JsonPath.SelectTokens body \"$..Products[?(@.Price >= 50)].Name\"}}{{#each this}}%{{@index}}:{{this}}%{{/each}}{{/JsonPath.SelectTokens}}");
+        var action = _handlebarsContext.Compile("{{#JsonPath.SelectTokens body \"$..Products[?(@.Price >= 50)].Name\"}}{{#each this}}%{{@index}}:{{this}}%{{/each}}{{/JsonPath.SelectTokens}}");
 
-            // Act
-            var result = action(request);
+        // Act
+        var result = action(request);
 
-            // Assert
-            result.Should().Be("%0:Anvil%%1:Elbow Grease%");
-        }
+        // Assert
+        result.Should().Be("%0:Anvil%%1:Elbow Grease%");
     }
 }

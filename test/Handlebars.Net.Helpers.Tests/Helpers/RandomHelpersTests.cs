@@ -3,38 +3,35 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Helpers
+namespace HandlebarsDotNet.Helpers.Tests.Helpers;
+
+public class RandomHelpersTests
 {
-    public class RandomHelpersTests
+    private readonly RandomHelpers _sut;
+
+    public RandomHelpersTests()
     {
-        private readonly Mock<IHandlebars> _contextMock;
+        var contextMock = new Mock<IHandlebars>();
+        contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        private readonly RandomHelpers _sut;
+        _sut = new RandomHelpers(contextMock.Object);
+    }
 
-        public RandomHelpersTests()
+    [Fact]
+    public void Random()
+    {
+        // Arrange
+        var hash = new Dictionary<string, object?>
         {
-            _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+            { "Type", "Integer" },
+            { "Min", 1000 },
+            { "Max", 9999 }
+        };
 
-            _sut = new RandomHelpers(_contextMock.Object);
-        }
+        // Act
+        var result = _sut.Random(hash);
 
-        [Fact]
-        public void Random()
-        {
-            // Arrange
-            var hash = new Dictionary<string, object?>
-            {
-                { "Type", "Integer" },
-                { "Min", 1000 },
-                { "Max", 9999 }
-            };
-
-            // Act
-            var result = _sut.Random(hash);
-
-            // Assert
-            (result as int?).Should().BeInRange(1000, 9999);
-        }
+        // Assert
+        (result as int?).Should().BeInRange(1000, 9999);
     }
 }
