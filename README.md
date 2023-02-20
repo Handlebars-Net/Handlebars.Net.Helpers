@@ -98,6 +98,7 @@ Now you can access the helpers by just using the name like:
 The following helpers are available:
 - [Boolean](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Boolean)
 - [DateTime](https://github.com/StefH/Handlebars.Net.Helpers/wiki/DateTime)
+- [Dictionary](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Dictionary)
 - [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
 - [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
