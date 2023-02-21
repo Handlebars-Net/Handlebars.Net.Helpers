@@ -17,5 +17,5 @@ public enum Category
     DynamicLinq,
     Humanizer,
     Boolean,
-    Dictionary
+    Path
 }

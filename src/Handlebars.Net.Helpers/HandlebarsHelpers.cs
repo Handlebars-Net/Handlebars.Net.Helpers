@@ -13,6 +13,7 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
+using HandlebarsDotNet.Helpers.PathStructure;
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 using System.Threading;
 #else
@@ -64,7 +65,7 @@ public static class HandlebarsHelpers
             { Category.Url, new UrlHelpers(handlebarsContext) },
             { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
             { Category.Boolean, new BooleanHelpers(handlebarsContext) },
-            { Category.Dictionary, new DictionaryHelpers(handlebarsContext) }
+            { Category.Path, new PathHelpers(handlebarsContext, new PathResolverProxy()) }
         };
 
         var extra = new Dictionary<Category, string>
@@ -112,11 +113,6 @@ public static class HandlebarsHelpers
 
     private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
     {
-        if (categoryPrefix == "Dictionary")
-        {
-            int y = 9;
-        }
-
         Type helperClassType = helper.GetType();
 
         var methods = helperClassType.GetMethods()
@@ -198,9 +194,9 @@ public static class HandlebarsHelpers
 
     private static void RegisterStringHelper(IHandlebars handlebarsContext, object instance, MethodInfo methodInfo, string helperName, bool passContext)
     {
-        handlebarsContext.RegisterHelper(helperName, (writer, context, arguments) =>
+        HandlebarsHelperWithOptions helper = (in EncodedTextWriter writer, in HelperOptions options, in Context context, in Arguments arguments) =>
         {
-            object? value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
+            object? value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
 
             if (value is IEnumerable<object> array)
             {
@@ -210,22 +206,26 @@ public static class HandlebarsHelpers
             {
                 writer.WriteSafeString(value);
             }
-        });
+        };
+
+        handlebarsContext.RegisterHelper(helperName, helper);
     }
 
     private static void RegisterValueHelper(IHandlebars handlebarsContext, object instance, MethodInfo methodInfo, string helperName, bool passContext)
     {
-        handlebarsContext.RegisterHelper(helperName, (context, arguments) =>
+        HandlebarsReturnWithOptionsHelper helper = (in HelperOptions options, in Context context, in Arguments arguments) =>
         {
-            return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance);
-        });
+            return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
+        };
+
+        handlebarsContext.RegisterHelper(helperName, helper);
     }
 
     private static void RegisterBlockHelper(bool methodIsOnlyUsedInContextOfABlockHelper, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
     {
-        handlebarsContext.RegisterHelper(name, (writer, options, context, arguments) =>
+        HandlebarsBlockHelper helper = (writer, options, context, arguments) =>
         {
-            object? value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, name, methodInfo, arguments, obj);
+            var value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, name, methodInfo, arguments, obj, options);
 
             if (value is bool valueAsBool && !valueAsBool)
             {
@@ -236,7 +236,9 @@ public static class HandlebarsHelpers
             {
                 options.Template(writer, value);
             }
-        });
+        };
+
+        handlebarsContext.RegisterHelper(name, helper);
     }
 
     private static object? InvokeMethod(
@@ -246,11 +248,19 @@ public static class HandlebarsHelpers
         string helperName,
         MethodInfo methodInfo,
         Arguments arguments,
-        object instance)
+        object instance,
+        IHelperOptions options
+    )
     {
         var numberOfArguments = arguments.Length;
         var lastIsParam = methodInfo.LastParameterIsParam();
+        var firstIsHelperOptions = methodInfo.FirstParameterIsHelperOptions();
         var parameterCountRequired = methodInfo.GetParameters().Count(pi => !pi.IsOptional && !pi.IsParam());
+
+        if (firstIsHelperOptions)
+        {
+            parameterCountRequired--;
+        }
 
         if (model is { })
         {
@@ -310,6 +320,11 @@ public static class HandlebarsHelpers
 
         try
         {
+            if (firstIsHelperOptions)
+            {
+                parsedArguments.Insert(0, options);
+            }
+
             return methodInfo.Invoke(instance, parsedArguments.ToArray());
         }
         catch (Exception e)
