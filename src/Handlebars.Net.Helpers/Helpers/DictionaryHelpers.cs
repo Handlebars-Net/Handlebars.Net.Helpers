@@ -19,7 +19,7 @@ internal class DictionaryHelpers : BaseHelpers, IHelpers
 
         var keyAsString = key as string ?? key.ToString();
 
-        if (data is IDictionary<string, object> realDictionary && realDictionary.TryGetValue(keyAsString, out var valueFromRealDictionary))
+        if (data is IDictionary<string, object?> realDictionary && realDictionary.TryGetValue(keyAsString, out var valueFromRealDictionary))
         {
             return valueFromRealDictionary;
         }

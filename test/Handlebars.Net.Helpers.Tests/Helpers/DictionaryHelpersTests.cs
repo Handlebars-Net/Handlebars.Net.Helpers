@@ -30,7 +30,7 @@ public class DictionaryHelpersTests
     public void Lookup_Dictionary(string key, object? defaultValue, string? expected)
     {
         // Arrange
-        var data = new Dictionary<string, object>
+        var data = new Dictionary<string, object?>
         {
             { "1", "one" },
             { "2", "two" }

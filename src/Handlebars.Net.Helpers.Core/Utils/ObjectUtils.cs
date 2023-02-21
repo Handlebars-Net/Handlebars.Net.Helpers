@@ -6,12 +6,12 @@ namespace HandlebarsDotNet.Helpers.Utils;
 
 public static class ObjectUtils
 {
-    public static bool TryParseAsDictionary(object? data, [NotNullWhen(true)] out IDictionary<string, object>? dictionary)
+    public static bool TryParseAsDictionary(object? data, [NotNullWhen(true)] out IDictionary<string, object?>? dictionary)
     {
         try
         {
-            dictionary = SimpleJson.DeserializeObject<IDictionary<string, object>>(data?.ToString())!;
-            return true;
+            dictionary = SimpleJson.DeserializeObject<IDictionary<string, object?>>(data?.ToString());
+            return dictionary != null;
         }
         catch
         {

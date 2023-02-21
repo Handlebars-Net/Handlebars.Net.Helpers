@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
@@ -28,7 +27,7 @@ public class DictionaryHelpersTemplateTests
     public void Lookup_Dictionary(string template, string expected)
     {
         // Arrange
-        var dictionary = new Dictionary<string, object>
+        var dictionary = new Dictionary<string, object?>
         {
             { "1", "one" },
             { "2", "two" }
