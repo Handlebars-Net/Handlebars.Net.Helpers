@@ -23,7 +23,7 @@ public class PathHelpersTemplateTests
     [InlineData("{{[Path.Lookup] data '_1' }}", "one")]
     [InlineData("{{[Path.Lookup] data '_2' }}", "two")]
     [InlineData("{{[Path.Lookup] data '_3' }}", "")]
-    [InlineData("{{[Path.Lookup] data '_3' 'not found'}}", "not found")]
+    [InlineData("{{[Path.LookupWithDefault] data '_3' 'not found'}}", "not found")]
     public void Lookup_Object(string template, string expected)
     {
         // Arrange

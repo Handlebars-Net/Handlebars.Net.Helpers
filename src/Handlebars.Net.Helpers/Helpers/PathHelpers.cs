@@ -10,6 +10,12 @@ internal class PathHelpers : BaseHelpers, IHelpers
 {
     private readonly IPathResolverProxy _pathResolver;
 
+    [HandlebarsWriter(WriterType.Value)]
+    public object? LookupWithDefault(IHelperOptions helperOptions, object instance, object path, object? valueIfNotFound = null)
+    {
+        return Lookup(helperOptions, instance, path, valueIfNotFound);
+    }
+
     /// <summary>
     /// Note: lookup is a existing helper, so this method can only be used when prefixed with Path.
     /// </summary>
