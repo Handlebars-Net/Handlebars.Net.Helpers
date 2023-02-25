@@ -56,11 +56,23 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
             throw new ArgumentNullException(nameof(value));
         }
 
-        return value switch
+        switch (value)
         {
-            string valueAsString => new JValue(valueAsString),
-            JToken valueAsJToken => valueAsJToken,
-            _ => throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars Linq.")
-        };
+            case string valueAsString:
+                return new JValue(valueAsString);
+
+            case JToken valueAsJToken:
+                return valueAsJToken;
+
+            default:
+                try
+                {
+                    return new JValue(value);
+                }
+                catch (Exception innerException)
+                {
+                    throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars Linq.", innerException);
+                }
+        }
     }
 }
