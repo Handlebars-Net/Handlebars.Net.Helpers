@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Runtime.CompilerServices;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Utils;
 using Newtonsoft.Json.Linq;
+using Stef.Validation;
 
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
@@ -23,12 +25,8 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, "Linq")]
     public object Linq(object value, string linqStatement)
     {
-        return FirstOrDefault(value, linqStatement);
-    }
+        Guard.NotNull(value);
 
-    [HandlebarsWriter(WriterType.Value)]
-    public object FirstOrDefault(object value, string linqStatement)
-    {
         var jToken = ParseAsJToken(value);
 
         try
@@ -47,22 +45,43 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(FirstOrDefault), ex);
+            throw new HandlebarsException(nameof(Linq), ex);
         }
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public object FirstOrDefault(object value, string? linqStatement = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call FirstOrDefault to return first value.
+        return CallWhere(value, linqStatement).FirstOrDefault();
     }
 
     [HandlebarsWriter(WriterType.Value)]
     public object Where(object value, string linqStatement)
     {
+        Guard.NotNull(value);
+        Guard.NotNullOrEmpty(linqStatement);
+
+        // CallWhere(...) and call ToDynamicArray to return an array.
+        return CallWhere(value, linqStatement).ToDynamicArray();
+    }
+
+    private static IQueryable CallWhere(object value, string? linqStatement = null, [CallerMemberName] string callerName = "")
+    {
         if (value is not IEnumerable enumerable)
         {
-            throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars DynamicLinq 'Where'.");
+            throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars DynamicLinq '{callerName}'.");
         }
 
         try
         {
-            // Convert IEnumerable to IQueryable and execute Where(...) and call ToDynamicArray to return an array.
-            return enumerable.AsQueryable().Where(linqStatement).ToDynamicArray();
+            // Convert IEnumerable to IQueryable
+            var queryable = enumerable.AsQueryable();
+
+            // And call Where(...) if required.
+            return !string.IsNullOrEmpty(linqStatement) ? queryable.Where(linqStatement) : queryable;
         }
         catch (Exception ex)
         {
@@ -72,11 +91,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
     private static JToken ParseAsJToken(object value)
     {
-        if (value is null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
-
         switch (value)
         {
             case string valueAsString:

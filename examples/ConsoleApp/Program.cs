@@ -112,6 +112,8 @@ namespace ConsoleApp
                 "{{Linq 'test' 'SubString(0, 2)'}}",
                 "{{Linq x 'it.AddYears(1)'}}",
                 "{{Where a 'it.Contains(\"s\")'}}",
+                "{{FirstOrDefault a }}",
+                "{{FirstOrDefault a 'it.Contains(\"o\")'}}",
                 "{{Where d 'Year > 2022'}}"
             };
 
