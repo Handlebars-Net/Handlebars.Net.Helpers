@@ -50,7 +50,7 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object FirstOrDefault(object value, string? linqStatement = null)
+    public object? FirstOrDefault(object value, string? linqStatement = null)
     {
         Guard.NotNull(value);
 
