@@ -97,6 +97,15 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public int Count(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Count.
+        return CallWhere(value, linqPredicate).Count();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public IEnumerable DefaultIfEmpty(object value, string? linqPredicate = null, object? defaultValue = null)
     {
         Guard.NotNull(value);
@@ -104,8 +113,8 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
         // CallWhere(...) and call DefaultIfEmpty.
         var queryable = CallWhere(value, linqPredicate);
-        return defaultValue is null ? 
-            queryable.DefaultIfEmpty().ToDynamicArray() : 
+        return defaultValue is null ?
+            queryable.DefaultIfEmpty().ToDynamicArray() :
             queryable.DefaultIfEmpty(defaultValue).ToDynamicArray();
     }
 
@@ -134,15 +143,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
         // CallWhere(...) and call Min.
         return CallWhere(value, linqPredicate).Min();
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public int Count(object value, string? linqPredicate = null)
-    {
-        Guard.NotNull(value);
-
-        // CallWhere(...) and call Count.
-        return CallWhere(value, linqPredicate).Count();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -179,6 +179,15 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
         // CallWhere(...) and call LastOrDefault.
         return CallWhere(value, linqPredicate).LastOrDefault();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public long LongCount(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call LongCount.
+        return CallWhere(value, linqPredicate).LongCount();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -251,6 +260,16 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
         // CallWhere(...) and call PageResult.
         return CallWhere(value).PageResult(page, pageSize, rowCount);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public PagedResult PageResult(object value, string linqPredicate, int page, int pageSize, int? rowCount = null)
+    {
+        Guard.NotNull(value);
+        Guard.NotNullOrEmpty(linqPredicate);
+
+        // CallWhere(...) and call PageResult.
+        return CallWhere(value, linqPredicate).PageResult(page, pageSize, rowCount);
     }
 
     [HandlebarsWriter(WriterType.Value, "DynamicLinq.Reverse")]

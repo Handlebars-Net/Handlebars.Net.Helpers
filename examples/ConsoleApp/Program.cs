@@ -162,14 +162,23 @@ namespace ConsoleApp
             var tests2 = new[]
             {
                 "{{[Math.Abs] -42}}",
-                "{{Math.Abs -42}}"
+                "{{Math.Abs -42}}",
+                "{{DynamicLinq.Sum i}}",
+                "{{[DynamicLinq.Sum] i}}"
             };
 
             foreach (string test in tests2)
             {
-                var x = DateTime.Now;
+                var t = new
+                {
+                    x = DateTime.Now,
+                    i = new[] { 1, 2, 4 },
+                    a = new[] { "stef", "test", "other" },
+                    dup = new[] { "stef", "stef", "other" },
+                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
+                };
                 var template = handlebars2.Compile(test);
-                var result = template.Invoke(x);
+                var result = template.Invoke(t);
                 Console.WriteLine($"{test} : '{result}'");
             }
         }
