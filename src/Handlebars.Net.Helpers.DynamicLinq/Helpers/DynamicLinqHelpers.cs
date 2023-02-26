@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -17,36 +18,56 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     }
 
     /// <summary>
-    /// For backwards compatibility with WireMock.Net
+    /// "Linq" = for backwards compatibility with WireMock.Net
     /// </summary>
     [HandlebarsWriter(WriterType.Value, "Linq")]
     public object Linq(object value, string linqStatement)
     {
-        var valueToProcess = ParseAsJToken(value);
+        return FirstOrDefault(value, linqStatement);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public object FirstOrDefault(object value, string linqStatement)
+    {
+        var jToken = ParseAsJToken(value);
 
         try
         {
-            return ExecuteDynamicLinq(valueToProcess, linqStatement);
+            // Convert a single object to a Queryable JObject-list with 1 entry.
+            IQueryable queryable1 = new[] { jToken }.AsQueryable();
+
+            // Generate the DynamicLinq select statement.
+            string selector = JsonUtils.GenerateDynamicLinqStatement(jToken);
+
+            // Execute DynamicLinq Select statement.
+            var queryable2 = queryable1.Select(selector);
+
+            // Execute the Select(...) method and call FirstOrDefault
+            return queryable2.Select(linqStatement).FirstOrDefault();
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Linq), ex);
+            throw new HandlebarsException(nameof(FirstOrDefault), ex);
         }
     }
 
-    private static dynamic ExecuteDynamicLinq(JToken value, string linqStatement)
+    [HandlebarsWriter(WriterType.Value)]
+    public object Where(object value, string linqStatement)
     {
-        // Convert a single object to a Queryable JObject-list with 1 entry.
-        var queryable1 = new[] { value }.AsQueryable();
+        if (value is not IEnumerable enumerable)
+        {
+            throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars DynamicLinq 'Where'.");
+        }
 
-        // Generate the DynamicLinq select statement.
-        string dynamicSelect = JsonUtils.GenerateDynamicLinqStatement(value);
-
-        // Execute DynamicLinq Select statement.
-        var queryable2 = queryable1.Select(dynamicSelect);
-
-        // Execute the Select(...) method and get first result with FirstOrDefault().
-        return queryable2.Select(linqStatement).FirstOrDefault();
+        try
+        {
+            // Convert IEnumerable to IQueryable and execute Where(...) and call ToDynamicArray to return an array.
+            return enumerable.AsQueryable().Where(linqStatement).ToDynamicArray();
+        }
+        catch (Exception ex)
+        {
+            throw new HandlebarsException(nameof(Where), ex);
+        }
     }
 
     private static JToken ParseAsJToken(object value)
@@ -67,7 +88,7 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
             default:
                 try
                 {
-                    return new JValue(value);
+                    return JToken.FromObject(value);
                 }
                 catch (Exception innerException)
                 {

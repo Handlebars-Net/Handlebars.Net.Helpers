@@ -25,6 +25,9 @@ public static class JsonUtils
         return JsonConvert.DeserializeObject<JToken>(json, JsonSerializerSettings);
     }
 
+    /// <summary>
+    /// Based on / copied from WireMock.Net : WireMock.Util.JsonUtils
+    /// </summary>
     public static string GenerateDynamicLinqStatement(JToken jsonObject)
     {
         var lines = new List<string>();

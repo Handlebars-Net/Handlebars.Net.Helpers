@@ -108,13 +108,20 @@ namespace ConsoleApp
                 "{{GetEnvironmentVariable \"x\"}}",
                 "{{GetEnvironmentVariable \"x\" \"User\"}}",
                 "{{GetEnvironmentVariables}}",
+
+                "{{Linq 'test' 'SubString(0, 2)'}}",
+                "{{Linq x 'it.AddYears(1)'}}",
+                "{{Where a 'it.Contains(\"s\")'}}",
+                "{{Where d 'Year > 2022'}}"
             };
 
             foreach (string test in tests)
             {
                 var t = new
                 {
-                    x = DateTime.Now
+                    x = DateTime.Now,
+                    a = new[] { "stef", "test", "other" },
+                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
                 };
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(t);

@@ -86,4 +86,26 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be("2020-04-15T14:14:15.0000000");
     }
+
+    [Theory]
+    [InlineData("{{Where a 'it.Contains(\"s\")'}}", "stef,test")]
+    [InlineData("{{Where d 'Year <= 2022'}}", "2022-01-01T00:00:00.0000000")]
+    public void Linq_Where(string linqStatement, string expected)
+    {
+        // Arrange
+        var request = new
+        {
+            x = DateTime.Now,
+            a = new[] { "stef", "test", "other" },
+            d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
+        };
+
+        var action = _handlebarsContext.Compile(linqStatement);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be(expected);
+    }
 }
