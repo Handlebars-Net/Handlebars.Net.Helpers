@@ -26,6 +26,7 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     public object Linq(object value, string linqPredicate)
     {
         Guard.NotNull(value);
+        Guard.NotNullOrEmpty(linqPredicate);
 
         var jToken = ParseAsJToken(value);
 
