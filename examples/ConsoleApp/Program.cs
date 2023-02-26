@@ -124,6 +124,14 @@ namespace ConsoleApp
                 "{{DynamicLinq.Max a }}",
                 "{{DynamicLinq.Max a 'it.Contains(\"o\")'}}",
                 "{{DynamicLinq.Max a 'it.Contains(\"z\")'}}",
+                "{{Any a 'it.Contains(\"o\")'}}",
+                "{{All a 'it.Contains(\"o\")'}}",
+                "{{All a 'it.Length > 1'}}",
+                "{{Distinct dup 'it.Length > 1'}}",
+                "{{Average i}}",
+                "{{Skip a 1}}",
+                "{{Take a 2}}",
+                "{{SkipAndTake a 1 1}}",
                 "{{Where d 'Year > 2022'}}"
             };
 
@@ -132,7 +140,9 @@ namespace ConsoleApp
                 var t = new
                 {
                     x = DateTime.Now,
+                    i = new[] { 1, 2, 4 },
                     a = new[] { "stef", "test", "other" },
+                    dup = new[] { "stef", "stef", "other" },
                     d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
                 };
                 var template = handlebars.Compile(test);
