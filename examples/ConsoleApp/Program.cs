@@ -114,6 +114,16 @@ namespace ConsoleApp
                 "{{Where a 'it.Contains(\"s\")'}}",
                 "{{FirstOrDefault a }}",
                 "{{FirstOrDefault a 'it.Contains(\"o\")'}}",
+                "{{FirstOrDefault a 'it.Contains(\"z\")'}}",
+                "{{LastOrDefault a }}",
+                "{{LastOrDefault a 'it.Contains(\"o\")'}}",
+                "{{LastOrDefault a 'it.Contains(\"z\")'}}",
+                "{{Count a }}",
+                "{{Count a 'it.Contains(\"o\")'}}",
+                "{{Count a 'it.Contains(\"z\")'}}",
+                "{{DynamicLinq.Max a }}",
+                "{{DynamicLinq.Max a 'it.Contains(\"o\")'}}",
+                "{{DynamicLinq.Max a 'it.Contains(\"z\")'}}",
                 "{{Where d 'Year > 2022'}}"
             };
 
@@ -127,7 +137,7 @@ namespace ConsoleApp
                 };
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(t);
-                Console.WriteLine($"{test} : {result}");
+                Console.WriteLine($"{test} : '{result}'");
             }
 
             Console.WriteLine(new string('-', 80));
@@ -146,7 +156,7 @@ namespace ConsoleApp
                 var x = DateTime.Now;
                 var template = handlebars2.Compile(test);
                 var result = template.Invoke(x);
-                Console.WriteLine($"{test} : {result}");
+                Console.WriteLine($"{test} : '{result}'");
             }
         }
     }

@@ -49,13 +49,49 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         }
     }
 
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Max")]
+    public object? Max(object value, string? linqStatement = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Max.
+        return CallWhere(value, linqStatement).Max();
+    }
+
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Min")]
+    public object? Min(object value, string? linqStatement = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Min.
+        return CallWhere(value, linqStatement).Min();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public int Count(object value, string? linqStatement = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Count.
+        return CallWhere(value, linqStatement).Count();
+    }
+
     [HandlebarsWriter(WriterType.Value)]
     public object? FirstOrDefault(object value, string? linqStatement = null)
     {
         Guard.NotNull(value);
 
-        // CallWhere(...) and call FirstOrDefault to return first value.
+        // CallWhere(...) and call FirstOrDefault.
         return CallWhere(value, linqStatement).FirstOrDefault();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public object? LastOrDefault(object value, string? linqStatement = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call LastOrDefault.
+        return CallWhere(value, linqStatement).LastOrDefault();
     }
 
     [HandlebarsWriter(WriterType.Value)]
