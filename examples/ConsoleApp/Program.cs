@@ -132,7 +132,11 @@ namespace ConsoleApp
                 "{{Skip a 1}}",
                 "{{Take a 2}}",
                 "{{SkipAndTake a 1 1}}",
-                "{{Where d 'Year > 2022'}}"
+                "{{Where d 'Year > 2022'}}",
+                "{{OrderBy a 'it'}}",
+                "{{OrderBy a 'it desc'}}",
+                "{{OfType a 'int'}}",
+                "{{DynamicLinq.Sum i}}"
             };
 
             foreach (string test in tests)

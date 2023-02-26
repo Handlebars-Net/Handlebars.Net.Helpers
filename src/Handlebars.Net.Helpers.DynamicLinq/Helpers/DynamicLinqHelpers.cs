@@ -97,6 +97,19 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public IEnumerable DefaultIfEmpty(object value, string? linqPredicate = null, object? defaultValue = null)
+    {
+        Guard.NotNull(value);
+        Guard.NotNullOrEmpty(linqPredicate);
+
+        // CallWhere(...) and call DefaultIfEmpty.
+        var queryable = CallWhere(value, linqPredicate);
+        return defaultValue is null ? 
+            queryable.DefaultIfEmpty().ToDynamicArray() : 
+            queryable.DefaultIfEmpty(defaultValue).ToDynamicArray();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public IEnumerable Distinct(object value, string linqPredicate)
     {
         Guard.NotNull(value);
@@ -169,21 +182,84 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object Page(object value, int page, int pageSize)
+    public IEnumerable OfType(object value, string typeName)
     {
         Guard.NotNull(value);
+        Guard.NotNullOrEmpty(typeName);
 
-        // CallWhere(...) and call Page.
-        return CallWhere(value).Page(page, pageSize);
+        // CallWhere(...) and call OfType.
+        return CallWhere(value).OfType(typeName).ToDynamicArray();
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object Page(object value, string linqPredicate, int page, int pageSize)
+    public IEnumerable OrderBy(object value, string ordering)
+    {
+        return OrderByThenBy(value, ordering);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public IEnumerable OrderByThenBy(object value, string ordering, object? thenBy = null)
+    {
+        Guard.NotNull(value);
+        Guard.NotNull(ordering);
+
+        // CallWhere(...) and call OrderBy.
+        var ordered = CallWhere(value).OrderBy(ordering);
+
+        switch (thenBy)
+        {
+            case null:
+                return ordered.ToDynamicArray();
+
+            case string thenByAsString:
+                return ordered.ThenBy(thenByAsString).ToDynamicArray();
+
+            case IEnumerable thenByAsEnumerable:
+                foreach (var item in thenByAsEnumerable.OfType<string>())
+                {
+                    ordered = ordered.ThenBy(item);
+                }
+                return ordered.ToDynamicArray();
+
+            default:
+                throw new NotSupportedException($"The value for {nameof(thenBy)} cannot be parsed as a string or an IEnumerable<string> in Handlebars DynamicLinq '{nameof(OrderByThenBy)}'.");
+        }
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public IEnumerable Page(object value, int page, int pageSize)
     {
         Guard.NotNull(value);
 
         // CallWhere(...) and call Page.
-        return CallWhere(value, linqPredicate).Page(page, pageSize);
+        return CallWhere(value).Page(page, pageSize).ToDynamicArray();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public IEnumerable Page(object value, string linqPredicate, int page, int pageSize)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Page.
+        return CallWhere(value, linqPredicate).Page(page, pageSize).ToDynamicArray();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public PagedResult PageResult(object value, int page, int pageSize, int? rowCount = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call PageResult.
+        return CallWhere(value).PageResult(page, pageSize, rowCount);
+    }
+
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Reverse")]
+    public IEnumerable Reverse(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Reverse.
+        return CallWhere(value, linqPredicate).Reverse().ToDynamicArray();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -231,6 +307,15 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         return CallWhere(value).Skip(skip).Take(take).ToDynamicArray();
     }
 
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Sum")]
+    public object Sum(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Sum.
+        return CallWhere(value, linqPredicate).Sum();
+    }
+
     [HandlebarsWriter(WriterType.Value)]
     public IEnumerable Take(object value, int count)
     {
@@ -272,7 +357,7 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
             var queryable = enumerable.AsQueryable();
 
             // And call Where(...) if required.
-            return !string.IsNullOrEmpty(linqPredicate) ? queryable.Where(linqPredicate) : queryable;
+            return !string.IsNullOrEmpty(linqPredicate) ? queryable.Where(linqPredicate!) : queryable;
         }
         catch (Exception ex)
         {
