@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 
@@ -35,23 +36,43 @@ public static class JObjectExtensions
     /// </summary>
     /// <param name="src"></param>
     /// <returns></returns>
-    public static Dictionary<string, object?> ToDictionaryOrg(this JObject? src)
+    public static DynamicClass? ToDynamicClass(this JObject? src)
     {
-        var result = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
         if (src == null)
         {
-            return result;
+            return null;
         }
+
+        var dynamicPropertyWithValues = new List<DynamicPropertyWithValue>();
+        // var values = new List<object>();
 
         foreach (var prop in src.Properties())
         {
-            result[prop.Name] = Resolvers[prop.Type](prop.Value);
+            var value = Resolvers[prop.Type](prop.Value);
+            if (value != null)
+            {
+                //values.Add(value);
+
+                var dp = new DynamicPropertyWithValue(prop.Name, value);
+                dynamicPropertyWithValues.Add(dp);
+            }
+
+            //result[prop.Name] = Resolvers[prop.Type](prop.Value);
         }
 
-        return result;
+        //IList<DynamicProperty> properties, bool createParameterCtor = true
+
+        //var type = DynamicClassFactory.CreateType(dynamicPropertyWithValues.Cast<DynamicProperty>().ToList());
+        //var dynamicClass = (DynamicClass)Activator.CreateInstance(type);
+        //foreach (var dynamicPropertyWithValue in dynamicPropertyWithValues.Where(p => p.Value != null))
+        //{
+        //    dynamicClass.SetDynamicPropertyValue(dynamicPropertyWithValue.Name, dynamicPropertyWithValue.Value!);
+        //}
+
+        return DynamicClassFactory2.CreateInstance(dynamicPropertyWithValues);
     }
 
-    public static object ToObj(this JObject? src)
+    public static Dictionary<string, object?> ToDictionaryOrg(this JObject? src)
     {
         var result = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
         if (src == null)
@@ -81,7 +102,7 @@ public static class JObjectExtensions
     {
         if (arg is JObject asJObject)
         {
-            return asJObject.ToDictionary();
+            return asJObject.ToDynamicClass();
         }
 
         return GetResolverFor(arg)(arg);

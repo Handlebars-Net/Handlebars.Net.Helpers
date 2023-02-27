@@ -142,7 +142,7 @@ namespace ConsoleApp
                 //"JObject {{Count o.a }}",
                 //"JObject {{Where o.a 'it.Contains(\"s\")'}}",
                 //"JObject {{Count o.a2 }}",
-                "JObject {{Where o.a2 'Any(it.[\"X\"].Contains(\"s\"))'}}",
+                "JObject {{Where o.a2 'X.Contains(\"x\")'}}",
             };
 
             foreach (string test in tests)
