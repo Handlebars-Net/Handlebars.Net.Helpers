@@ -6,10 +6,10 @@ using System.Linq.Dynamic.Core;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 
-namespace HandlebarsDotNet.Helpers.Extensions;
+namespace HandlebarsDotNet.Helpers;
 
 /// <summary>
-/// Provides an easy extension method to convert JObjects to nested Dictionary&lt;string, object&gt; instances
+/// Based on https://github.com/fluffynuts/PeanutButter/blob/master/source/Utils/PeanutButter.JObjectExtensions/JObjectExtensions.cs
 /// </summary>
 public static class JObjectExtensions
 {
@@ -41,11 +41,6 @@ public static class JObjectExtensions
         return src.Value;
     }
 
-    /// <summary>
-    /// Generates a nested dictionary of Dictionary&lt;string, object&gt; from a JObject so you can use JObjects easily with DuckTyping.
-    /// </summary>
-    /// <param name="src"></param>
-    /// <returns></returns>
     public static DynamicClass? ToDynamicClass(this JObject? src)
     {
         if (src == null)
@@ -54,48 +49,18 @@ public static class JObjectExtensions
         }
 
         var dynamicPropertyWithValues = new List<DynamicPropertyWithValue>();
-        // var values = new List<object>();
 
         foreach (var prop in src.Properties())
         {
             var value = Resolvers[prop.Type](prop.Value);
             if (value != null)
             {
-                //values.Add(value);
-
                 var dp = new DynamicPropertyWithValue(prop.Name, value);
                 dynamicPropertyWithValues.Add(dp);
             }
-
-            //result[prop.Name] = Resolvers[prop.Type](prop.Value);
         }
 
-        //IList<DynamicProperty> properties, bool createParameterCtor = true
-
-        //var type = DynamicClassFactory.CreateType(dynamicPropertyWithValues.Cast<DynamicProperty>().ToList());
-        //var dynamicClass = (DynamicClass)Activator.CreateInstance(type);
-        //foreach (var dynamicPropertyWithValue in dynamicPropertyWithValues.Where(p => p.Value != null))
-        //{
-        //    dynamicClass.SetDynamicPropertyValue(dynamicPropertyWithValue.Name, dynamicPropertyWithValue.Value!);
-        //}
-
-        return DynamicClassFactory2.CreateInstance(dynamicPropertyWithValues);
-    }
-
-    public static Dictionary<string, object?> ToDictionaryOrg(this JObject? src)
-    {
-        var result = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
-        if (src == null)
-        {
-            return result;
-        }
-
-        foreach (var prop in src.Properties())
-        {
-            result[prop.Name] = Resolvers[prop.Type](prop.Value);
-        }
-
-        return result;
+        return CreateInstance(dynamicPropertyWithValues);
     }
 
     public static IEnumerable ToDynamicClassArray(this JArray? src)
@@ -173,6 +138,18 @@ public static class JObjectExtensions
     private static T[] ConvertToTypedArrayGeneric<T>(IEnumerable<object> src)
     {
         return src.Cast<T>().ToArray();
+    }
+
+    public static DynamicClass CreateInstance(IList<DynamicPropertyWithValue> dynamicPropertiesWithValue, bool createParameterCtor = true)
+    {
+        var type = DynamicClassFactory.CreateType(dynamicPropertiesWithValue.Cast<DynamicProperty>().ToArray(), createParameterCtor);
+        var dynamicClass = (DynamicClass)Activator.CreateInstance(type);
+        foreach (var dynamicPropertyWithValue in dynamicPropertiesWithValue.Where(p => p.Value != null))
+        {
+            dynamicClass.SetDynamicPropertyValue(dynamicPropertyWithValue.Name, dynamicPropertyWithValue.Value!);
+        }
+
+        return dynamicClass;
     }
 
     private class JTokenResolvers : Dictionary<JTokenType, Func<JToken, object?>>

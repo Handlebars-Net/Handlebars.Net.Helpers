@@ -5,9 +5,7 @@ using System.Linq.Dynamic.Core;
 using System.Runtime.CompilerServices;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
-using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Helpers;
-using HandlebarsDotNet.Helpers.Utils;
 using Newtonsoft.Json.Linq;
 using Stef.Validation;
 
@@ -34,37 +32,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
             var queryable = new JArray(new[] { value });
 
             return CallWhere(queryable).Select(selector).ToDynamicArray().FirstOrDefault();
-        }
-        catch (Exception ex)
-        {
-            throw new HandlebarsException(nameof(Linq), ex);
-        }
-    }
-
-    /// <summary>
-    /// "Linq" = for backwards compatibility with WireMock.Net
-    /// </summary>
-    [HandlebarsWriter(WriterType.Value, "LinqOrg")]
-    public object LinqOrg(object value, string linqPredicate)
-    {
-        Guard.NotNull(value);
-        Guard.NotNullOrEmpty(linqPredicate);
-
-        var jToken = ParseAsJToken(value);
-
-        try
-        {
-            // Convert a single object to a Queryable JObject-list with 1 entry.
-            IQueryable queryable1 = new[] { jToken }.AsQueryable();
-
-            // Generate the DynamicLinq select statement.
-            string selector = JsonUtils.GenerateDynamicLinqStatement(jToken);
-
-            // Execute DynamicLinq Select statement.
-            var queryable2 = queryable1.Select(selector);
-
-            // Execute the Select(...) method and call FirstOrDefault
-            return queryable2.Select(linqPredicate).FirstOrDefault();
         }
         catch (Exception ex)
         {
