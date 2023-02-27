@@ -31,7 +31,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void Linq()
+    public void LinqIt()
     {
         // Arrange
         var request = new
@@ -46,6 +46,24 @@ public class DynamicLinqHelpersTemplateTests
 
         // Assert
         result.Should().Be("/test");
+    }
+
+    [Fact]
+    public void LinqItContains()
+    {
+        // Arrange
+        var request = new
+        {
+            Path = "/test"
+        };
+
+        var action = _handlebarsContext.Compile("{{Linq Path 'it.Contains(\"e\")'}}");
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("True");
     }
 
     [Fact]

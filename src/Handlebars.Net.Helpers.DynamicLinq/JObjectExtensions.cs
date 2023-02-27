@@ -31,6 +31,16 @@ public static class JObjectExtensions
         { JTokenType.Object, TryConvertObject }
     };
 
+    public static object? ToDynamicClass(this JValue? src)
+    {
+        if (src == null)
+        {
+            return null;
+        }
+
+        return src.Value;
+    }
+
     /// <summary>
     /// Generates a nested dictionary of Dictionary&lt;string, object&gt; from a JObject so you can use JObjects easily with DuckTyping.
     /// </summary>
@@ -88,7 +98,7 @@ public static class JObjectExtensions
         return result;
     }
 
-    public static IEnumerable ToX(this JArray? src)
+    public static IEnumerable ToDynamicClassArray(this JArray? src)
     {
         if (src == null)
         {
@@ -98,7 +108,7 @@ public static class JObjectExtensions
         return ConvertJTokenArray(src);
     }
 
-    private static object? TryConvertObject(JToken arg)
+    public static object? TryConvertObject(JToken arg)
     {
         if (arg is JObject asJObject)
         {
