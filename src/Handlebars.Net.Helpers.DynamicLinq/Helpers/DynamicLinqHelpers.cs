@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Runtime.CompilerServices;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Json;
 using HandlebarsDotNet.Helpers.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stef.Validation;
 
@@ -360,6 +364,14 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNull(value);
         Guard.NotNullOrEmpty(linqPredicate);
 
+        //if (value is JArray jArray)
+        //{
+        //    var xxx = jArray.ToObject<object[]>();
+        //    var json = JsonConvert.SerializeObject(jArray);
+        //    value = JsonConvert.DeserializeAnonymousType(json, typeof(IList<string>))!;
+        //}
+
+
         // CallWhere(...) and call ToDynamicArray to return an array.
         return CallWhere(value, linqPredicate).ToDynamicArray();
     }
@@ -369,6 +381,31 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         if (value is not IEnumerable enumerable)
         {
             throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars DynamicLinq '{callerName}'.");
+        }
+
+        if (enumerable is JArray jArray)
+        {
+            enumerable = jArray.ToX();
+
+            //var json = JsonConvert.SerializeObject(jArray);
+
+            ////var nested = JsonConvert.DeserializeObject<List<IDictionary<string, object>>>(json)!;
+
+            //if (ArrayUtils.TryParseAsObjectList(json, out var objectList))
+            //{
+            //    //foreach (var obj in objectList)
+            //    //{
+            //    //    if (obj is JsonObject jsonObject)
+            //    //    {
+            //    //        var json2 = JsonConvert.SerializeObject(obj);
+                        
+            //    //    }
+            //    //}
+            //    var firstType = objectList[0]?.GetType() ?? typeof(object);
+
+            //    enumerable = (IEnumerable)jArray.ToObject(firstType.MakeArrayType())!;
+            //    //enumerable = objectList;
+            //}
         }
 
         try

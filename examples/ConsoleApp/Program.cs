@@ -1,6 +1,7 @@
 ﻿using System;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace ConsoleApp
 {
@@ -136,18 +137,40 @@ namespace ConsoleApp
                 "{{OrderBy a 'it'}}",
                 "{{OrderBy a 'it desc'}}",
                 "{{OfType a 'int'}}",
-                "{{DynamicLinq.Sum i}}"
+                "{{DynamicLinq.Sum i}}",
+
+                //"JObject {{Count o.a }}",
+                //"JObject {{Where o.a 'it.Contains(\"s\")'}}",
+                //"JObject {{Count o.a2 }}",
+                "JObject {{Where o.a2 'Any(it.[\"X\"].Contains(\"s\"))'}}",
             };
 
             foreach (string test in tests)
             {
+                var p1 = new JObject
+                {
+                    { "X", new JValue("x") }
+                };
+                var p2 = new JObject
+                {
+                    { "X", new JValue("y") }
+                };
+                var o = new JObject
+                {
+                    { "Id", new JValue(9) },
+                    { "Name", new JValue("Test") },
+                    { "a", new JArray("stef", "test", "other") },
+                    { "a2", new JArray(p1, p2) }
+                };
+
                 var t = new
                 {
                     x = DateTime.Now,
                     i = new[] { 1, 2, 4 },
                     a = new[] { "stef", "test", "other" },
                     dup = new[] { "stef", "stef", "other" },
-                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
+                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now },
+                    o = o
                 };
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(t);
