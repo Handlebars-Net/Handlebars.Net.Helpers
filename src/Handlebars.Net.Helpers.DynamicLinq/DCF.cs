@@ -82,7 +82,7 @@ namespace System.Linq.Dynamic.Core
 
         public static DynamicClass CreateInstance(IList<DynamicPropertyWithValue> dynamicPropertiesWithValue, bool createParameterCtor = true)
         {
-            var type = DynamicClassFactory.CreateType(dynamicPropertiesWithValue.Cast<DynamicProperty>().ToList(), createParameterCtor);
+            var type = CreateType(dynamicPropertiesWithValue, createParameterCtor);
             var dynamicClass = (DynamicClass)Activator.CreateInstance(type);
             foreach (var dynamicPropertyWithValue in dynamicPropertiesWithValue.Where(p => p.Value != null))
             {
