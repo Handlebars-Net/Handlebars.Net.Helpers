@@ -4,44 +4,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
+using HandlebarsDotNet.Helpers.Models;
 using Newtonsoft.Json.Linq;
 
 namespace HandlebarsDotNet.Helpers;
 
-/// <summary>
-/// Based on https://github.com/fluffynuts/PeanutButter/blob/master/source/Utils/PeanutButter.JObjectExtensions/JObjectExtensions.cs
-/// </summary>
+// Copied from https://github.com/StefH/JsonConverter
 public static class JObjectExtensions
 {
+    private class JTokenResolvers : Dictionary<JTokenType, Func<JToken, DynamicJsonClassOptions?, object?>>
+    {
+    }
+
     private static readonly JTokenResolvers Resolvers = new()
     {
-        { JTokenType.None, _ => null },
         { JTokenType.Array, ConvertJTokenArray },
+        { JTokenType.Boolean, (jToken, _) => jToken.Value<bool>() },
+        { JTokenType.Bytes, (jToken, _) => jToken.Value<byte[]>() },
+        { JTokenType.Date, (jToken, _) => jToken.Value<DateTime>() },
+        { JTokenType.Float, ConvertJTokenFloat },
+        { JTokenType.Guid, (jToken, _) => jToken.Value<Guid>() },
+        { JTokenType.Integer, ConvertJTokenInteger },
+        { JTokenType.None, (_, _) => null },
+        { JTokenType.Null, (_, _) => null },
+        { JTokenType.Object, ConvertJObject },
         { JTokenType.Property, ConvertJTokenProperty },
-        { JTokenType.Integer, o => o.Value<int>() },
-        { JTokenType.String, o => o.Value<string>() },
-        { JTokenType.Boolean, o => o.Value<bool>() },
-        { JTokenType.Null, _ => null },
-        { JTokenType.Undefined, _ => null },
-        { JTokenType.Date, o => o.Value<DateTime>() },
-        { JTokenType.Bytes, o => o.Value<byte[]>() },
-        { JTokenType.Guid, o => o.Value<Guid>() },
-        { JTokenType.Uri, o => o.Value<Uri>() },
-        { JTokenType.TimeSpan, o => o.Value<TimeSpan>() },
-        { JTokenType.Object, TryConvertObject }
+        { JTokenType.String, (jToken, _) => jToken.Value<string>() },
+        { JTokenType.TimeSpan, (jToken, _) => jToken.Value<TimeSpan>() },
+        { JTokenType.Undefined, (_, _) => null },
+        { JTokenType.Uri, (o, _) => o.Value<Uri>() },
     };
 
-    public static object? ToDynamicClass(this JValue? src)
+    internal static object? ToDynamicJsonClass(this JValue src)
     {
-        if (src == null)
-        {
-            return null;
-        }
-
         return src.Value;
     }
 
-    public static DynamicClass? ToDynamicClass(this JObject? src)
+    internal static DynamicClass? ToDynamicJsonClass(this JObject? src, DynamicJsonClassOptions? options = null)
     {
         if (src == null)
         {
@@ -52,69 +51,133 @@ public static class JObjectExtensions
 
         foreach (var prop in src.Properties())
         {
-            var value = Resolvers[prop.Type](prop.Value);
+            var value = Resolvers[prop.Type](prop.Value, options);
             if (value != null)
             {
-                var dp = new DynamicPropertyWithValue(prop.Name, value);
-                dynamicPropertyWithValues.Add(dp);
+                dynamicPropertyWithValues.Add(new DynamicPropertyWithValue(prop.Name, value));
             }
         }
 
         return CreateInstance(dynamicPropertyWithValues);
     }
 
-    public static IEnumerable ToDynamicClassArray(this JArray? src)
+    internal static IEnumerable ToDynamicClassArray(this JArray? src, DynamicJsonClassOptions? options = null)
     {
         if (src == null)
         {
             return new object?[0];
         }
 
-        return ConvertJTokenArray(src);
+        return ConvertJTokenArray(src, options);
     }
 
-    public static object? TryConvertObject(JToken arg)
+    internal static object? ToDynamicJsonClass(this JToken? src, DynamicJsonClassOptions? options = null)
+    {
+        if (src == null)
+        {
+            return null;
+        }
+
+        return GetResolverFor(src)(src, options);
+    }
+
+    private static object? ConvertJObject(JToken arg, DynamicJsonClassOptions? options = null)
     {
         if (arg is JObject asJObject)
         {
-            return asJObject.ToDynamicClass();
+            return asJObject.ToDynamicJsonClass(options);
         }
 
-        return GetResolverFor(arg)(arg);
+        return GetResolverFor(arg)(arg, options);
     }
 
-    private static object PassThrough(JToken arg)
+    private static object PassThrough(JToken arg, DynamicJsonClassOptions? options)
     {
         return arg;
     }
 
-    private static Func<JToken, object?> GetResolverFor(JToken arg)
+    private static Func<JToken, DynamicJsonClassOptions?, object?> GetResolverFor(JToken arg)
     {
         return Resolvers.TryGetValue(arg.Type, out var result) ? result : PassThrough;
     }
 
-    private static object? ConvertJTokenProperty(JToken arg)
+    private static object ConvertJTokenFloat(JToken arg, DynamicJsonClassOptions? options = null)
+    {
+        if (arg.Type != JTokenType.Float)
+        {
+            throw new InvalidOperationException($"Unable to convert {nameof(JToken)} of type: {arg.Type} to double or float.");
+        }
+
+        if (options?.FloatConvertBehavior == FloatBehavior.UseFloat)
+        {
+            try
+            {
+                return arg.Value<float>();
+            }
+            catch
+            {
+                return arg.Value<double>();
+            }
+        }
+
+        if (options?.FloatConvertBehavior == FloatBehavior.UseDecimal)
+        {
+            try
+            {
+                return arg.Value<decimal>();
+            }
+            catch
+            {
+                return arg.Value<double>();
+            }
+        }
+
+
+        return arg.Value<double>();
+    }
+
+    private static object ConvertJTokenInteger(JToken arg, DynamicJsonClassOptions? options = null)
+    {
+        if (arg.Type != JTokenType.Integer)
+        {
+            throw new InvalidOperationException($"Unable to convert {nameof(JToken)} of type: {arg.Type} to long or int.");
+        }
+
+        var longValue = arg.Value<long>();
+
+        if (options is null || options.IntegerConvertBehavior == IntegerBehavior.UseInt)
+        {
+            if (longValue is >= int.MinValue and <= int.MaxValue)
+            {
+                return Convert.ToInt32(longValue);
+            }
+        }
+
+        return longValue;
+    }
+
+    private static object? ConvertJTokenProperty(JToken arg, DynamicJsonClassOptions? options = null)
     {
         var resolver = GetResolverFor(arg);
         if (resolver is null)
         {
-            throw new InvalidOperationException($"Unable to handle JToken of type: {arg.Type}");
+            throw new InvalidOperationException($"Unable to handle {nameof(JToken)} of type: {arg.Type}.");
         }
 
-        return resolver(arg);
+        return resolver(arg, options);
     }
 
-    private static IEnumerable ConvertJTokenArray(JToken arg)
+    private static IEnumerable ConvertJTokenArray(JToken arg, DynamicJsonClassOptions? options = null)
     {
         if (arg is not JArray array)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException($"Unable to convert {nameof(JToken)} of type: {arg.Type} to {nameof(JArray)}.");
         }
 
         var result = new List<object?>();
         foreach (var item in array)
         {
-            result.Add(TryConvertObject(item));
+            result.Add(ConvertJObject(item));
         }
 
         var distinctType = FindSameTypeOf(result);
@@ -130,7 +193,7 @@ public static class JObjectExtensions
     private static IEnumerable ConvertToTypedArray(IEnumerable<object?> src, Type newType)
     {
         var method = ConvertToTypedArrayGenericMethod.MakeGenericMethod(newType);
-        return (IEnumerable)method.Invoke(null, new object[] { src });
+        return (IEnumerable)method.Invoke(null, new object[] { src })!;
     }
 
     private static readonly MethodInfo ConvertToTypedArrayGenericMethod = typeof(JObjectExtensions).GetMethod(nameof(ConvertToTypedArrayGeneric), BindingFlags.NonPublic | BindingFlags.Static)!;
@@ -150,9 +213,5 @@ public static class JObjectExtensions
         }
 
         return dynamicClass;
-    }
-
-    private class JTokenResolvers : Dictionary<JTokenType, Func<JToken, object?>>
-    {
     }
 }
