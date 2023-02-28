@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace ConsoleApp
 {
@@ -112,25 +113,74 @@ namespace ConsoleApp
                 "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
                 "{{GetEnvironmentVariable \"x\"}}",
                 "{{GetEnvironmentVariable \"x\" \"User\"}}",
-                "{{GetEnvironmentVariables}}"
-            };
+                "{{GetEnvironmentVariables}}",
 
-            var dictionary = new Dictionary<string, object>
-            {
-                { "1", "one" },
-                { "2", "two" }
+                "{{Linq 'test' 'SubString(0, 2)'}}",
+                "{{Linq x 'it.AddYears(1)'}}",
+                "{{Where a 'it.Contains(\"s\")'}}",
+                "{{FirstOrDefault a }}",
+                "{{FirstOrDefault a 'it.Contains(\"o\")'}}",
+                "{{FirstOrDefault a 'it.Contains(\"z\")'}}",
+                "{{LastOrDefault a }}",
+                "{{LastOrDefault a 'it.Contains(\"o\")'}}",
+                "{{LastOrDefault a 'it.Contains(\"z\")'}}",
+                "{{Count a }}",
+                "{{Count a 'it.Contains(\"o\")'}}",
+                "{{Count a 'it.Contains(\"z\")'}}",
+                "{{DynamicLinq.Max a }}",
+                "{{DynamicLinq.Max a 'it.Contains(\"o\")'}}",
+                "{{DynamicLinq.Max a 'it.Contains(\"z\")'}}",
+                "{{Any a 'it.Contains(\"o\")'}}",
+                "{{All a 'it.Contains(\"o\")'}}",
+                "{{All a 'it.Length > 1'}}",
+                "{{Distinct dup 'it.Length > 1'}}",
+                "{{Average i}}",
+                "{{Skip a 1}}",
+                "{{Take a 2}}",
+                "{{SkipAndTake a 1 1}}",
+                "{{Where d 'Year > 2022'}}",
+                "{{OrderBy a 'it'}}",
+                "{{OrderBy a 'it desc'}}",
+                "{{OfType a 'int'}}",
+                "{{DynamicLinq.Sum i}}",
+
+                //"JObject {{Count o.a }}",
+                //"JObject {{Where o.a 'it.Contains(\"s\")'}}",
+                //"JObject {{Count o.a2 }}",
+                "JObject {{Where o.a2 'X.Contains(\"x\")'}}",
             };
 
             foreach (string test in tests)
             {
+                var p1 = new JObject
+                {
+                    { "X", new JValue("x") }
+                };
+                var p2 = new JObject
+                {
+                    { "X", new JValue("y") }
+                };
+                var o = new JObject
+                {
+                    { "Id", new JValue(9) },
+                    { "Name", new JValue("Test") },
+                    { "a", new JArray("stef", "test", "other") },
+                    { "a2", new JArray(p1, p2) }
+                };
+
                 var t = new
                 {
                     x = DateTime.Now,
+                    i = new[] { 1, 2, 4 },
+                    a = new[] { "stef", "test", "other" },
+                    dup = new[] { "stef", "stef", "other" },
+                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now },
+                    o = o,
                     data = dictionary
                 };
                 var template = handlebars.Compile(test);
                 var result = template.Invoke(t);
-                Console.WriteLine($"{test} : {result}");
+                Console.WriteLine($"{test} : '{result}'");
             }
 
             Console.WriteLine(new string('-', 80));
@@ -141,15 +191,24 @@ namespace ConsoleApp
             var tests2 = new[]
             {
                 "{{[Math.Abs] -42}}",
-                "{{Math.Abs -42}}"
+                "{{Math.Abs -42}}",
+                "{{DynamicLinq.Sum i}}",
+                "{{[DynamicLinq.Sum] i}}"
             };
 
             foreach (string test in tests2)
             {
-                var x = DateTime.Now;
+                var t = new
+                {
+                    x = DateTime.Now,
+                    i = new[] { 1, 2, 4 },
+                    a = new[] { "stef", "test", "other" },
+                    dup = new[] { "stef", "stef", "other" },
+                    d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
+                };
                 var template = handlebars2.Compile(test);
-                var result = template.Invoke(x);
-                Console.WriteLine($"{test} : {result}");
+                var result = template.Invoke(t);
+                Console.WriteLine($"{test} : '{result}'");
             }
         }
     }
