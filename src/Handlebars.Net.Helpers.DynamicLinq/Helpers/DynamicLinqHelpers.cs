@@ -27,20 +27,17 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNull(value);
         Guard.NotNullOrEmpty(selector);
 
-        JArray jArray;
         try
         {
-            jArray = new JArray { value };
-        }
-        catch
-        {
-            var jToken = JToken.FromObject(value);
-            jArray = new JArray { jToken };
-        }
-
-        try
-        {
-            //jArray = new JArray(new[] { value });
+            JArray jArray;
+            try
+            {
+                jArray = new JArray { value };
+            }
+            catch
+            {
+                jArray = new JArray { JToken.FromObject(value) };
+            }
 
             return CallWhere(jArray).Select(selector).ToDynamicArray().FirstOrDefault();
         }
