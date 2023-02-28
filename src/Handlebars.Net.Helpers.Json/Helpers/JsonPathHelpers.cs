@@ -26,14 +26,11 @@ internal class JsonPathHelpers : BaseHelpers, IHelpers
         try
         {
             var result = valueAsJToken.SelectToken(jsonPath);
-            switch (result)
+            return result switch
             {
-                case JToken jTokenResult:
-                    return jTokenResult.ToString();
-
-                default:
-                    return result.ToString();
-            }
+                { } jTokenResult => jTokenResult.ToString(),
+                _ => result!.ToString() // In case result is null, this will throw.
+            };
         }
         catch (JsonException ex)
         {
@@ -59,8 +56,8 @@ internal class JsonPathHelpers : BaseHelpers, IHelpers
 
         try
         {
-            var jTokens = valueAsJToken.SelectTokens(jsonPath) ?? new List<JToken>();
-            return jTokens.ToDictionary(value => value.Path, value => value);
+            var jTokens = valueAsJToken?.SelectTokens(jsonPath) ?? new List<JToken>();
+            return jTokens.ToDictionary(jToken => jToken.Path, jToken => jToken);
         }
         catch (JsonException ex)
         {
