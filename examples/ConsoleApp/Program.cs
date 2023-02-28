@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 using Newtonsoft.Json.Linq;
@@ -12,10 +13,10 @@ namespace ConsoleApp
         {
             if (argument.GetType().Name == "UndefinedBindingResult")
             {
-                return (string)argument.GetType().GetField("Value").GetValue(argument);
+                return (string)argument.GetType().GetField("Value")!.GetValue(argument)!;
             }
 
-            return argument.ToString();
+            return argument.ToString()!;
         }
 
         static void Main(string[] args)
@@ -63,13 +64,13 @@ namespace ConsoleApp
             //var resultX = templateX.Invoke("");
             //Console.WriteLine("ArrayTest = " + resultX);
 
-            Environment.SetEnvironmentVariable("x", DateTime.Now.ToString());
+            Environment.SetEnvironmentVariable("x", DateTime.Now.ToString(CultureInfo.InvariantCulture));
 
             var tests = new[]
             {
-                "{{[Dictionary.Lookup] data 1}}",
-                "{{[Dictionary.Lookup] data 2}}",
-                "{{[Dictionary.Lookup] data 4 \"n/a\"}}",
+                "{{[Path.Lookup] data 1}}",
+                "{{[Path.Lookup] data 2}}",
+                "{{[Path.Lookup] data 4 \"n/a\"}}",
 
                 "{{Abs -1}}",
                 "{{Abs -1.1234}}",
@@ -117,6 +118,9 @@ namespace ConsoleApp
 
                 "{{Linq 'test' 'SubString(0, 2)'}}",
                 "{{Linq x 'it.AddYears(1)'}}",
+                "{{Linq data 'it[\"1\"] ?? \"n/a\"'}}",
+                "{{Linq data 'it[\"9\"] ?? \"n/a\"'}}",
+
                 "{{Where a 'it.Contains(\"s\")'}}",
                 "{{FirstOrDefault a }}",
                 "{{FirstOrDefault a 'it.Contains(\"o\")'}}",
@@ -166,6 +170,13 @@ namespace ConsoleApp
                     { "Name", new JValue("Test") },
                     { "a", new JArray("stef", "test", "other") },
                     { "a2", new JArray(p1, p2) }
+                };
+
+                var dictionary = new Dictionary<string, object>
+                {
+                    { "1", "one" },
+                    { "2", "two" },
+                    { "d", "ddd" }
                 };
 
                 var t = new
