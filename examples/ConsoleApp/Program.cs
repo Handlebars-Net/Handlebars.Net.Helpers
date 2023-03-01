@@ -121,6 +121,11 @@ namespace ConsoleApp
                 "{{Linq data 'it[\"1\"] ?? \"n/a\"'}}",
                 "{{Linq data 'it[\"9\"] ?? \"n/a\"'}}",
 
+                "{{Expression 'test' 'SubString(0, 2)'}}",
+                "{{Expression 'DateTime.Now'}}",
+                "{{Expression 'DateTime.Now.AddDays(99)'}}",
+                "{{Expression '1+2'}}",
+
                 "{{Where a 'it.Contains(\"s\")'}}",
                 "{{FirstOrDefault a }}",
                 "{{FirstOrDefault a 'it.Contains(\"o\")'}}",

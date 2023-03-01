@@ -18,13 +18,22 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
     {
     }
 
-    /// <summary>
-    /// "Linq" = for backwards compatibility with WireMock.Net
-    /// </summary>
-    [HandlebarsWriter(WriterType.Value, "Linq")]
-    public object? Linq(object value, string selector)
+    [HandlebarsWriter(WriterType.Value)]
+    public object? Expression(object arg0, string? arg1 = null)
     {
-        Guard.NotNull(value);
+        object value;
+        string? selector;
+        if (arg1 is null)
+        {
+            value = true;
+            selector = arg0 as string;
+        }
+        else
+        {
+            value = arg0;
+            selector = arg1;
+        }
+
         Guard.NotNullOrEmpty(selector);
 
         try
@@ -39,12 +48,21 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
                 jArray = new JArray { JToken.FromObject(value) };
             }
 
-            return CallWhere(jArray).Select(selector).ToDynamicArray().FirstOrDefault();
+            return CallWhere(jArray).Select(selector!).FirstOrDefault();
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Linq), ex);
+            throw new HandlebarsException(nameof(Expression), ex);
         }
+    }
+
+    /// <summary>
+    /// "Linq" = for backwards compatibility with WireMock.Net
+    /// </summary>
+    [HandlebarsWriter(WriterType.Value, "Linq")]
+    public object? Linq(object value, string selector)
+    {
+        return Expression(value, selector);
     }
 
     [HandlebarsWriter(WriterType.Value)]
