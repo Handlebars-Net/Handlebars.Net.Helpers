@@ -1,6 +1,6 @@
 ﻿using System.Linq.Dynamic.Core;
 
-namespace HandlebarsDotNet.Helpers;
+namespace HandlebarsDotNet.Helpers.Models;
 
 public class DynamicPropertyWithValue : DynamicProperty
 {

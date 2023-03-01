@@ -1,6 +1,7 @@
 ﻿using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Utils;
+using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
@@ -10,7 +11,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
 
     public DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : base(context)
     {
-        _dateTimeService = dateTimeService;
+        _dateTimeService = Guard.NotNull(dateTimeService);
     }
 
     [HandlebarsWriter(WriterType.Value)]

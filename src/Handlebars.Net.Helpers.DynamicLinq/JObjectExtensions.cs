@@ -35,11 +35,6 @@ public static class JObjectExtensions
         { JTokenType.Uri, (o, _) => o.Value<Uri>() },
     };
 
-    internal static object? ToDynamicJsonClass(this JValue src)
-    {
-        return src.Value;
-    }
-
     internal static DynamicClass? ToDynamicJsonClass(this JObject? src, DynamicJsonClassOptions? options = null)
     {
         if (src == null)
@@ -69,16 +64,6 @@ public static class JObjectExtensions
         }
 
         return ConvertJTokenArray(src, options);
-    }
-
-    internal static object? ToDynamicJsonClass(this JToken? src, DynamicJsonClassOptions? options = null)
-    {
-        if (src == null)
-        {
-            return null;
-        }
-
-        return GetResolverFor(src)(src, options);
     }
 
     private static object? ConvertJObject(JToken arg, DynamicJsonClassOptions? options = null)
