@@ -143,24 +143,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         return CallWhere(value, linqPredicate).Distinct().ToDynamicArray();
     }
 
-    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Max")]
-    public object? Max(object value, string? linqPredicate = null)
-    {
-        Guard.NotNull(value);
-
-        // CallWhere(...) and call Max.
-        return CallWhere(value, linqPredicate).Max();
-    }
-
-    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Min")]
-    public object? Min(object value, string? linqPredicate = null)
-    {
-        Guard.NotNull(value);
-
-        // CallWhere(...) and call Min.
-        return CallWhere(value, linqPredicate).Min();
-    }
-
     [HandlebarsWriter(WriterType.Value)]
     public object? First(object value, string? linqPredicate = null)
     {
@@ -204,6 +186,24 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 
         // CallWhere(...) and call LongCount.
         return CallWhere(value, linqPredicate).LongCount();
+    }
+
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Max")]
+    public object? Max(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Max.
+        return CallWhere(value, linqPredicate).Max();
+    }
+
+    [HandlebarsWriter(WriterType.Value, "DynamicLinq.Min")]
+    public object? Min(object value, string? linqPredicate = null)
+    {
+        Guard.NotNull(value);
+
+        // CallWhere(...) and call Min.
+        return CallWhere(value, linqPredicate).Min();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -401,28 +401,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
         catch (Exception ex)
         {
             throw new HandlebarsException(nameof(Where), ex);
-        }
-    }
-
-    private static JToken ParseAsJToken(object value)
-    {
-        switch (value)
-        {
-            case string valueAsString:
-                return new JValue(valueAsString);
-
-            case JToken valueAsJToken:
-                return valueAsJToken;
-
-            default:
-                try
-                {
-                    return JToken.FromObject(value);
-                }
-                catch (Exception innerException)
-                {
-                    throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars Linq.", innerException);
-                }
         }
     }
 }
