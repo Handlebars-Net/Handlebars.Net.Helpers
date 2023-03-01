@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Utils;
 using Newtonsoft.Json.Linq;
 using Stef.Validation;
 
@@ -14,6 +15,16 @@ namespace HandlebarsDotNet.Helpers;
 
 internal class DynamicLinqHelpers : BaseHelpers, IHelpers
 {
+    //private readonly IDateTimeService _dateTimeService;
+    //private readonly ParsingConfig _parsingConfig;
+
+    //public DynamicLinqHelpers(IHandlebars context, IDateTimeService dateTimeService) : base(context)
+    //{
+    //    _dateTimeService = Guard.NotNull(dateTimeService);
+
+    //    _parsingConfig = new ParsingConfig();
+    //}
+
     public DynamicLinqHelpers(IHandlebars context) : base(context)
     {
     }

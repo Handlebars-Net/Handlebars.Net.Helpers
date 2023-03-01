@@ -126,4 +126,21 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData("{{Expression '1 + 2'}}", "3")]
+    [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
+    public void Expression(string expression, string expected)
+    {
+        // Arrange
+        var request = true;
+
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be(expected);
+    }
 }
