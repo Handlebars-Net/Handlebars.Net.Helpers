@@ -66,16 +66,6 @@ public static class JObjectExtensions
         return ConvertJTokenArray(src, options);
     }
 
-    internal static object? ToDynamicJsonClass(this JToken? src, DynamicJsonClassOptions? options = null)
-    {
-        if (src == null)
-        {
-            return null;
-        }
-
-        return GetResolverFor(src)(src, options);
-    }
-
     private static object? ConvertJObject(JToken arg, DynamicJsonClassOptions? options = null)
     {
         if (arg is JObject asJObject)
