@@ -13,7 +13,6 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-using HandlebarsDotNet.Helpers.PathStructure;
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 using System.Threading;
 #else
