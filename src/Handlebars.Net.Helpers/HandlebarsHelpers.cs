@@ -13,7 +13,6 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-using HandlebarsDotNet.Helpers.PathStructure;
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
 using System.Threading;
 #else
@@ -64,8 +63,7 @@ public static class HandlebarsHelpers
             { Category.String, new StringHelpers(handlebarsContext) },
             { Category.Url, new UrlHelpers(handlebarsContext) },
             { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
-            { Category.Boolean, new BooleanHelpers(handlebarsContext) },
-            { Category.Path, new PathHelpers(handlebarsContext, new PathResolverProxy()) }
+            { Category.Boolean, new BooleanHelpers(handlebarsContext) }
         };
 
         var extra = new Dictionary<Category, string>

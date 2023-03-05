@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
-using HandlebarsDotNet.Helpers.Enums;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -16,14 +15,14 @@ public class PathHelpersTemplateTests
         _handlebarsContext = Handlebars.Create();
         _handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
-        HandlebarsHelpers.Register(_handlebarsContext, Category.Path);
+        HandlebarsHelpers.Register(_handlebarsContext);
     }
 
     [Theory]
-    [InlineData("{{[Path.Lookup] data '_1' }}", "one")]
-    [InlineData("{{[Path.Lookup] data '_2' }}", "two")]
-    [InlineData("{{[Path.Lookup] data '_3' }}", "")]
-    [InlineData("{{[Path.LookupWithDefault] data '_3' 'not found'}}", "not found")]
+    [InlineData("{{[Lookup] data '_1' }}", "one")]
+    [InlineData("{{[Lookup] data '_2' }}", "two")]
+    [InlineData("{{[Lookup] data '_3' }}", "")]
+    [InlineData("{{[Lookup] data '_3' 'not found'}}", "not found")]
     public void Lookup_Object(string template, string expected)
     {
         // Arrange
@@ -47,10 +46,10 @@ public class PathHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{[Path.Lookup] data '1' }}", "one")]
-    [InlineData("{{[Path.Lookup] data '2' }}", "two")]
-    [InlineData("{{[Path.Lookup] data '3' }}", "")]
-    [InlineData("{{[Path.Lookup] data '3' 'not found'}}", "not found")]
+    [InlineData("{{[Lookup] data '1' }}", "one")]
+    [InlineData("{{[Lookup] data '2' }}", "two")]
+    [InlineData("{{[Lookup] data '3' }}", "")]
+    [InlineData("{{[Lookup] data '3' 'not found'}}", "not found")]
     public void Lookup_Dictionary(string template, string expected)
     {
         // Arrange
@@ -74,10 +73,10 @@ public class PathHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{[Path.Lookup] data '1' }}", "one")]
-    [InlineData("{{[Path.Lookup] data '2' }}", "two")]
-    [InlineData("{{[Path.Lookup] data '3' }}", "")]
-    [InlineData("{{[Path.Lookup] data '3' 'not found'}}", "not found")]
+    [InlineData("{{[Lookup] data '1' }}", "one")]
+    [InlineData("{{[Lookup] data '2' }}", "two")]
+    [InlineData("{{[Lookup] data '3' }}", "")]
+    [InlineData("{{[Lookup] data '3' 'not found'}}", "not found")]
     public void Lookup_JObject(string template, string expected)
     {
         // Arrange
@@ -102,10 +101,10 @@ public class PathHelpersTemplateTests
 
 #if NET6_0_OR_GREATER
     [Theory]
-    [InlineData("{{[Path.Lookup] data '1' }}", "one")]
-    [InlineData("{{[Path.Lookup] data '2' }}", "two")]
-    [InlineData("{{[Path.Lookup] data '3' }}", "")]
-    [InlineData("{{[Path.Lookup] data '3' 'not found'}}", "not found")]
+    [InlineData("{{[Lookup] data '1' }}", "one")]
+    [InlineData("{{[Lookup] data '2' }}", "two")]
+    [InlineData("{{[Lookup] data '3' }}", "")]
+    [InlineData("{{[Lookup] data '3' 'not found'}}", "not found")]
     public void Lookup_JsonObject(string template, string expected)
     {
         // Arrange
