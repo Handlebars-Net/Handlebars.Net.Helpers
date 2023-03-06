@@ -1,5 +1,5 @@
 # 2.3.14 (01 March 2023)
-- [#70](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/70) - Add Path.Lookup [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#70](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/70) - Add lookup [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#71](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/71) - Update Handlebars.Net.Helpers.DynamicLinq [enhancement] contributed by [StefH](https://github.com/StefH)
 
 # 2.3.13 (26 January 2023)

@@ -68,9 +68,9 @@ class Program
 
         var tests = new[]
         {
-            "{{[Path.Lookup] data 1}}",
-            "{{[Path.Lookup] data 2}}",
-            "{{[Path.Lookup] data 4 \"n/a\"}}",
+            "{{[lookup] data 1}}",
+            "{{[lookup] data 2}}",
+            "{{[lookup] data 4 \"n/a\"}}",
 
             "{{Abs -1}}",
             "{{Abs -1.1234}}",
