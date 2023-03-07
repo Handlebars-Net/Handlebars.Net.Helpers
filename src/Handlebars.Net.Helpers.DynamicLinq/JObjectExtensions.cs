@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace HandlebarsDotNet.Helpers;
 
 // Copied from https://github.com/StefH/JsonConverter
-public static class JObjectExtensions
+internal static class JObjectExtensions
 {
     private class JTokenResolvers : Dictionary<JTokenType, Func<JToken, DynamicJsonClassOptions?, object?>>
     {
