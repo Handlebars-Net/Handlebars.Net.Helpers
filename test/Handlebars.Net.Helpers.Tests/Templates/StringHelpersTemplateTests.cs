@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Utils;
@@ -164,6 +165,24 @@ public class StringHelpersTemplateTests
 
         // Act and Assert
         Assert.Throws<HandlebarsException>(() => handleBarsAction(""));
+    }
+
+    [Fact]
+    public void TitleCase_Dynamic()
+    {
+        // Arrange
+        var data = new Dictionary<string, dynamic>
+        {
+            { "FirstName", "jill" }
+        };
+        var test = "{{[String.Titlecase] [FirstName]}}";
+        var action = _handlebarsContext.Compile(test);
+
+        // Act
+        var result = action(data);
+
+        // Assert
+        result.Should().Be("Jill");
     }
 
     [Theory]
