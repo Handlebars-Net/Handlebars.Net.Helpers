@@ -412,6 +412,24 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return !string.IsNullOrEmpty(value);
     }
 
+    [HandlebarsWriter(WriterType.String)]
+    public string Substring(string value, int start, int end = default)
+    {
+        Guard.NotNull(value);
+
+        if (value == string.Empty && start > 0)
+        {
+            throw new ArgumentException("When input string is empty start value cannot be higher than 0");
+        }
+
+        if (end == default)
+        {
+            return value.Substring(start);
+        }
+
+        return value.Substring(start, end);
+    }
+
     public StringHelpers(IHandlebars context) : base(context)
     {
     }
