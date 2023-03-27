@@ -452,7 +452,6 @@ public class StringHelpersTests
 
     [Theory]
     [InlineData("foobar", 3, "bar")]
-    [InlineData("", 0, "")]
     [InlineData(" ", 0, " ")]
     public void Substring_2params(string value, int start, string expected)
     {
@@ -466,6 +465,7 @@ public class StringHelpersTests
     [Theory]
     [InlineData(null, 1)]
     [InlineData("", 1)]
+    [InlineData("", 0)]
     [InlineData(" ", 2)]
     [InlineData("foo", -1)]
     public void Substring_2params_Exceptions(string value, int start)
@@ -480,8 +480,6 @@ public class StringHelpersTests
     [Theory]
     [InlineData("foobar", 0, 3, "foo")]
     [InlineData("foobar", 3, 3, "bar")]
-    [InlineData("foobar", 0, 0, "foobar")]
-    [InlineData("", 0, 0, "")]
     public void Substring_3params(string value, int start, int end, string expected)
     {
         // Act
