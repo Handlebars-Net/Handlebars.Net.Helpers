@@ -412,6 +412,13 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return !string.IsNullOrEmpty(value);
     }
 
+    [HandlebarsWriter(WriterType.String)]
+    public string Substring(string value, int start, int? end = null)
+    {
+        Guard.NotNullOrEmpty(value);
+        return end is null ? value.Substring(start) : value.Substring(start, end.Value);
+    }
+
     public StringHelpers(IHandlebars context) : base(context)
     {
     }
