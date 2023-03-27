@@ -156,6 +156,22 @@ public class StringHelpersTemplateTests
     }
 
     [Theory]
+    [InlineData("{{[String.SubString] \"foobar\" 3}}", "bar")]
+    [InlineData("{{[String.SubString] \"foobar\" 0 3}}", "foo")]
+    [InlineData("{{[String.SubString] \"foobar\" 3 3}}", "bar")]
+    public void SubString(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
     [InlineData("{{[String.Append] \"foo\"}}")]
     [InlineData("{{[String.Append] \"foo\" \"bar\" \"bar2\"}}")]
     public void InvalidNumberOfArgumentsShouldThrowHandlebarsException(string template)

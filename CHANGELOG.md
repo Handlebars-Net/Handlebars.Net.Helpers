@@ -1,3 +1,8 @@
+# 2.3.16 (27 March 2023)
+- [#75](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/75) - Add unit test for String.Titlecase on dynamic [Test] contributed by [StefH](https://github.com/StefH)
+- [#76](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/76) - String.Substring helper [enhancement] contributed by [Andras-Csanyi](https://github.com/Andras-Csanyi)
+- [#74](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/74) - Adding further String helpers [enhancement]
+
 # 2.3.15 (07 March 2023)
 - [#73](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/73) - Update System.Linq.Dynamic.Core [enhancement] contributed by [StefH](https://github.com/StefH)
 
