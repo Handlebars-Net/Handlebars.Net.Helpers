@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -119,7 +120,7 @@ public class EvaluateHelperTemplateTests
         };
 
         // Act
-        var results = new List<EvaluateResult>();
+        var results = new ConcurrentBag<EvaluateResult>();
         Parallel.ForEach(templates, template =>
         {
             var isEvaluated = _handlebarsContext.TryEvaluate(template, data, out var result);
@@ -148,7 +149,7 @@ public class EvaluateHelperTemplateTests
         };
 
         // Act
-        var results = new List<EvaluateResult>();
+        var results = new ConcurrentBag<EvaluateResult>();
         await Parallel.ForEachAsync(templates, (template, ct) =>
         {
             var isEvaluated = _handlebarsContext.TryEvaluate(template, data, out var result);
