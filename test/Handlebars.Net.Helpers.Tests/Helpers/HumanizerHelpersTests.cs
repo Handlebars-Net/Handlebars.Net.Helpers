@@ -105,7 +105,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public void HumanizeDateTimeAsString()
         {
             // Arrange
-            var value = DateTime.UtcNow.AddHours(-30).ToString("O");
+            var value = DateTime.UtcNow.AddDays(-1).ToString("O");
 
             // Act
             var result = _sut.Humanize(value);
@@ -335,14 +335,14 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Theory]
-        [InlineData(10, null, null, null, "Long text…")]
-        [InlineData(10, null, "FixedLength", null, "Long text…")]
+        [InlineData(10, null, null, null, "Long textâ€¦")]
+        [InlineData(10, null, "FixedLength", null, "Long textâ€¦")]
         [InlineData(10, "---", "FixedLength", null, "Long te---")]
-        [InlineData(6, null, "FixedNumberOfCharacters", null, "Long t…")]
+        [InlineData(6, null, "FixedNumberOfCharacters", null, "Long tâ€¦")]
         [InlineData(6, "---", "FixedNumberOfCharacters", null, "Lon---")]
-        [InlineData(2, null, "FixedNumberOfWords", null, "Long text…")]
+        [InlineData(2, null, "FixedNumberOfWords", null, "Long textâ€¦")]
         [InlineData(2, "---", "FixedNumberOfWords", null, "Long text---")]
-        [InlineData(10, null, "FixedLength", "Left", "… truncate")]
+        [InlineData(10, null, "FixedLength", "Left", "â€¦ truncate")]
         public void Truncate(int length, string? separator, string? truncator, string? truncateFrom, string expected)
         {
             // Arrange

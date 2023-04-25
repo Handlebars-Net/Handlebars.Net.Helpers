@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Utils;
@@ -33,7 +33,7 @@ public class HumanizerHelpersTemplateTests
     [Fact]
     public void HumanizeDateTime()
     {
-        var template = string.Format("{{{{[Humanizer.Humanize] \"{0}\" }}}}", DateTime.UtcNow.AddHours(-30).ToString("O"));
+        var template = $"{{{{[Humanizer.Humanize] \"{DateTime.UtcNow.AddDays(-1):O}\" }}}}";
 
         // Arrange
         var action = _handlebarsContext.Compile(template);
