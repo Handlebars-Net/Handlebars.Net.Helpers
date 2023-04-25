@@ -92,7 +92,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public void HumanizeDateTime()
         {
             // Arrange
-            var value = DateTime.UtcNow.AddHours(-30);
+            var value = DateTime.UtcNow.AddHours(-1);
 
             // Act
             var result = _sut.Humanize(value);
