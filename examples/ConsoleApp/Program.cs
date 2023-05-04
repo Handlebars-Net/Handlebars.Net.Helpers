@@ -114,7 +114,7 @@ class Program
             "{{Now \"yyyy-MM-dd\"}}",
             "{{Format (Now) \"yyyy-MM-dd\"}}",
             "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
-            "{{Xeger.Generate '\\{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]\\}'}}",
+            "{{Xeger.Generate '{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]}'}}",
             "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
             "{{GetEnvironmentVariable \"x\"}}",
             "{{GetEnvironmentVariable \"x\" \"User\"}}",
