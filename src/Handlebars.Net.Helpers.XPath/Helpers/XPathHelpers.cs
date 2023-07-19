@@ -72,6 +72,20 @@ namespace HandlebarsDotNet.Helpers
             return resultXml.ToString();
         }
 
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectNodesAsXml(string document, string xpath)
+        {
+            var listXPathNavigator = SelectNodes(document, xpath);
+
+            var resultXml = new StringBuilder();
+            foreach (var node in listXPathNavigator)
+            {
+                resultXml.Append(node.OuterXml);
+            }
+
+            return resultXml.ToString();
+        }
+
         [HandlebarsWriter(WriterType.Value)]
         public IReadOnlyList<XPathNavigator> SelectNodes(string document, string xpath)
         {

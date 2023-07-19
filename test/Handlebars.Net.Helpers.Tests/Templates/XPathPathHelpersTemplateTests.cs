@@ -125,6 +125,25 @@ public class XPathPathHelpersTemplateTests
     }
 
     [Fact]
+    public void SelectNodesAsXml()
+    {
+        // Arrange
+        var request = new
+        {
+            body = MiniTestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNodesAsXml body \"//*[local-name()='TokenId']\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("<TokenId>0000083256</TokenId><TokenId>0000083259</TokenId>");
+    }
+
+    [Fact]
     public void SelectNodeAsXml_ReturnsOuterXml()
     {
         // Arrange
