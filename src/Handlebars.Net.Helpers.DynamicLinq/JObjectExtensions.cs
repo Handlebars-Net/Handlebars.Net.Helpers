@@ -12,7 +12,7 @@ namespace HandlebarsDotNet.Helpers;
 // Copied from https://github.com/StefH/JsonConverter
 internal static class JObjectExtensions
 {
-    private class JTokenResolvers : Dictionary<JTokenType, Func<JToken, DynamicJsonClassOptions?, object?>>
+    private sealed class JTokenResolvers : Dictionary<JTokenType, Func<JToken, DynamicJsonClassOptions?, object?>>
     {
     }
 
