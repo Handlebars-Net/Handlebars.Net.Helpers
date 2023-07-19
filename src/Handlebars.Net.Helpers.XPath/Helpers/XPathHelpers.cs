@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -114,7 +116,7 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.Value)]
-        public object Evaluate(string document, string xpath)
+        public object? Evaluate(string document, string xpath)
         {
             var nav = CreateNavigator(document);
 
@@ -130,6 +132,12 @@ namespace HandlebarsDotNet.Helpers
             {
                 throw new HandlebarsException(nameof(Evaluate), ex);
             }
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string? EvaluateToString(string document, string xpath)
+        {
+            return Evaluate(document, xpath)?.ToString();
         }
 
         private static XPathNavigator CreateNavigator(string document)

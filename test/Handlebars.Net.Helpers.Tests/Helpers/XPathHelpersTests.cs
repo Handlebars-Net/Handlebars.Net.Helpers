@@ -19,7 +19,7 @@ public class XPathHelpersTests
     }
 
     [Fact]
-    public void Evaluate()
+    public void Evaluate_ToBool()
     {
         // Assign
         var xml = @"
@@ -32,5 +32,35 @@ public class XPathHelpersTests
 
         // Assert
         result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Evaluate_ToString()
+    {
+        // Act
+        var result = _sut.Evaluate("<x><a id=\"1\"></a></x>", "//a/@id")?.ToString();
+
+        // Assert
+        result.Should().Be("1");
+    }
+
+    [Fact]
+    public void EvaluateToString_ReturnString()
+    {
+        // Act
+        var result = _sut.EvaluateToString("<x><a id=\"1\"></a></x>", "//a/@id");
+
+        // Assert
+        result.Should().Be("1");
+    }
+
+    [Fact]
+    public void EvaluateToString_ReturnStringArray()
+    {
+        // Act
+        var result = _sut.EvaluateToString("<x><a id=\"1\"></a><a id=\"2\"></a></x>", "//a/@id");
+
+        // Assert
+        result.Should().Be("1, 2");
     }
 }
