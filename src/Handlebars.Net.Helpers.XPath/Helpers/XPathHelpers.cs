@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -23,24 +24,23 @@ namespace HandlebarsDotNet.Helpers
         {
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string SelectNode(string document, string xpath)
+        [HandlebarsWriter(WriterType.Value)]
+        public XPathNavigator SelectNode(string document, string xpath)
         {
             return SelectSingleNode(document, xpath);
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string SelectSingleNode(string document, string xpath)
+        [HandlebarsWriter(WriterType.Value)]
+        public XPathNavigator SelectSingleNode(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
             {
 #if NETSTANDARD1_3
-                var result = nav.SelectSingleNode(xpath);
+                return nav.SelectSingleNode(xpath);
 #else
-                var result = nav.XPath2SelectSingleNode(xpath);
+                return nav.XPath2SelectSingleNode(xpath);
 #endif
-                return result.OuterXml;
             }
             catch (Exception ex)
             {
@@ -49,7 +49,31 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string SelectNodes(string document, string xpath)
+        public string SelectNodeAsXml(string document, string xpath)
+        {
+            return SelectSingleNode(document, xpath).OuterXml;
+        }
+
+        /// <summary>
+        /// Added for backwards compatibility.
+        /// This method just returns a concatenated string from all the string values.
+        /// </summary>
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectNodesAsString(string document, string xpath)
+        {
+            var listXPathNavigator = SelectNodes(document, xpath);
+
+            var resultXml = new StringBuilder();
+            foreach (var node in listXPathNavigator)
+            {
+                resultXml.Append(node.Value);
+            }
+
+            return resultXml.ToString();
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public IReadOnlyList<XPathNavigator> SelectNodes(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
@@ -59,13 +83,13 @@ namespace HandlebarsDotNet.Helpers
 #else
                 var result = nav.XPath2SelectNodes(xpath);
 #endif
-                var resultXml = new StringBuilder();
+                var list = new List<XPathNavigator>();
                 foreach (XPathNavigator node in result)
                 {
-                    resultXml.Append(node.OuterXml);
+                    list.Add(node);
                 }
 
-                return resultXml.ToString();
+                return list.AsReadOnly();
             }
             catch (Exception ex)
             {
