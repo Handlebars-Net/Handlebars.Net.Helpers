@@ -128,7 +128,7 @@ namespace HandlebarsDotNet.Helpers
             }
             catch (Exception ex)
             {
-                throw new HandlebarsException(nameof(SelectNodes), ex);
+                throw new HandlebarsException(nameof(Evaluate), ex);
             }
         }
 

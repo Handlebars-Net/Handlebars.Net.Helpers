@@ -22,10 +22,10 @@ public class XPathHelpersTests
     public void Evaluate()
     {
         // Assign
-        string xml = @"
-                    <todo-list>
-                        <todo-item id='a1'>abc</todo-item>
-                    </todo-list>";
+        var xml = @"
+        <todo-list>
+            <todo-item id='a1'>abc</todo-item>
+        </todo-list>";
 
         // Act
         var result = _sut.Evaluate(xml, "boolean(/todo-list[count(todo-item) = 1])") as bool?;
