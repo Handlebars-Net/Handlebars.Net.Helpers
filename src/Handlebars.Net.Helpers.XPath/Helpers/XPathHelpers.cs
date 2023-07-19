@@ -16,9 +16,11 @@ namespace HandlebarsDotNet.Helpers
 {
     internal class XPathHelpers : BaseHelpers, IHelpers
     {
+        private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
+
         // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
         // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
-        private static readonly Regex RemoveXmlVersionRegex = new Regex("(<\\?xml.*?\\?>)", RegexOptions.Compiled);
+        private static readonly Regex RemoveXmlVersionRegex = new("(<\\?xml.*?\\?>)", RegexOptions.Compiled, RegexTimeout);
 
         public XPathHelpers(IHandlebars context) : base(context)
         {

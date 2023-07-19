@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
@@ -8,6 +9,8 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 
 internal class RegexHelpers : BaseHelpers, IHelpers
 {
+    private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
+
     [HandlebarsWriter(WriterType.Value)]
     public bool IsMatch(string value, string regexPattern, string? options = null)
     {
@@ -74,11 +77,11 @@ internal class RegexHelpers : BaseHelpers, IHelpers
                 }
             }
 
-            regex = new Regex(regexPattern, regexOptions);
+            regex = new Regex(regexPattern, regexOptions, RegexTimeout);
         }
         else
         {
-            regex = new Regex(regexPattern);
+            regex = new Regex(regexPattern, RegexOptions.None, RegexTimeout);
         }
 
         var namedGroups = RegexUtils.GetNamedGroups(regex, value);
