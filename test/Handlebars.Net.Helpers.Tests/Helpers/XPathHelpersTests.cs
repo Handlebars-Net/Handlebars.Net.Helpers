@@ -2,36 +2,65 @@
 using Moq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Helpers
+namespace HandlebarsDotNet.Helpers.Tests.Helpers;
+
+public class XPathHelpersTests
 {
-    public class XPathHelpersTests
+    private readonly Mock<IHandlebars> _contextMock;
+
+    private readonly XPathHelpers _sut;
+
+    public XPathHelpersTests()
     {
-        private readonly Mock<IHandlebars> _contextMock;
+        _contextMock = new Mock<IHandlebars>();
+        _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        private readonly XPathHelpers _sut;
+        _sut = new XPathHelpers(_contextMock.Object);
+    }
 
-        public XPathHelpersTests()
-        {
-            _contextMock = new Mock<IHandlebars>();
-            _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+    [Fact]
+    public void Evaluate_ToBool()
+    {
+        // Assign
+        var xml = @"
+        <todo-list>
+            <todo-item id='a1'>abc</todo-item>
+        </todo-list>";
 
-            _sut = new XPathHelpers(_contextMock.Object);
-        }
+        // Act
+        var result = _sut.Evaluate(xml, "boolean(/todo-list[count(todo-item) = 1])") as bool?;
 
-        [Fact]
-        public void Evaluate()
-        {
-            // Assign
-            string xml = @"
-                    <todo-list>
-                        <todo-item id='a1'>abc</todo-item>
-                    </todo-list>";
+        // Assert
+        result.Should().BeTrue();
+    }
 
-            // Act
-            var result = _sut.Evaluate(xml, "boolean(/todo-list[count(todo-item) = 1])") as bool?;
+    [Fact]
+    public void Evaluate_ToString()
+    {
+        // Act
+        var result = _sut.Evaluate("<x><a id=\"1\"></a></x>", "//a/@id")?.ToString();
 
-            // Assert
-            result.Should().BeTrue();
-        }
+        // Assert
+        result.Should().Be("1");
+    }
+
+    [Fact]
+    public void EvaluateToString_ReturnString()
+    {
+        // Act
+        var result = _sut.EvaluateToString("<x><a id=\"1\"></a></x>", "//a/@id");
+
+        // Assert
+        result.Should().Be("1");
+    }
+
+    [Fact]
+    public void EvaluateToString_ReturnStringArray()
+    {
+        // Act
+        var result = _sut.EvaluateToString("<x><a id=\"1\"></a><a id=\"2\"></a></x>", "//a/@id");
+
+        // Assert
+        result.Should().Be("1, 2");
     }
 }

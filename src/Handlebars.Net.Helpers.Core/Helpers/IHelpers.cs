@@ -1,6 +1,5 @@
-﻿namespace HandlebarsDotNet.Helpers.Helpers
+﻿namespace HandlebarsDotNet.Helpers.Helpers;
+
+public interface IHelpers
 {
-    public interface IHelpers
-    {
-    }
 }

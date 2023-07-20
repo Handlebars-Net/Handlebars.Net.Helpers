@@ -127,6 +127,23 @@ public class DynamicLinqHelpersTemplateTests
         result.Should().Be(expected);
     }
 
+    [Fact]
+    public void Linq_Where_InEachLoop()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("{{#each (Where a 'it.Contains(\"s\")')}}\r\n{{@Key}}:{{@Index}}:{{this}}\r\n{{/each}}");
+        var request = new
+        {
+            a = new[] { "stef", "test", "other" }
+        };
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("0:0:stef\r\n1:1:test\r\n");
+    }
+
     [Theory]
     [InlineData("{{Expression '1 + 2'}}", "3")]
     [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
@@ -143,4 +160,6 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be(expected);
     }
+
+
 }

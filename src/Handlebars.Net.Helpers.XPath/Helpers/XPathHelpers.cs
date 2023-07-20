@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -15,32 +18,33 @@ namespace HandlebarsDotNet.Helpers
 {
     internal class XPathHelpers : BaseHelpers, IHelpers
     {
+        private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
+
         // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
         // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
-        private static readonly Regex RemoveXmlVersionRegex = new Regex("(<\\?xml.*?\\?>)", RegexOptions.Compiled);
+        private static readonly Regex RemoveXmlVersionRegex = new("(<\\?xml.*?\\?>)", RegexOptions.Compiled, RegexTimeout);
 
         public XPathHelpers(IHandlebars context) : base(context)
         {
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string SelectNode(string document, string xpath)
+        [HandlebarsWriter(WriterType.Value)]
+        public XPathNavigator SelectNode(string document, string xpath)
         {
             return SelectSingleNode(document, xpath);
         }
 
-        [HandlebarsWriter(WriterType.String)]
-        public string SelectSingleNode(string document, string xpath)
+        [HandlebarsWriter(WriterType.Value)]
+        public XPathNavigator SelectSingleNode(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
             {
 #if NETSTANDARD1_3
-                var result = nav.SelectSingleNode(xpath);
+                return nav.SelectSingleNode(xpath);
 #else
-                var result = nav.XPath2SelectSingleNode(xpath);
+                return nav.XPath2SelectSingleNode(xpath);
 #endif
-                return result.OuterXml;
             }
             catch (Exception ex)
             {
@@ -49,7 +53,45 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.String)]
-        public string SelectNodes(string document, string xpath)
+        public string SelectNodeAsXml(string document, string xpath)
+        {
+            return SelectSingleNode(document, xpath).OuterXml;
+        }
+
+        /// <summary>
+        /// Added for backwards compatibility.
+        /// This method just returns a concatenated string from all the string values.
+        /// </summary>
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectNodesAsString(string document, string xpath)
+        {
+            var listXPathNavigator = SelectNodes(document, xpath);
+
+            var resultXml = new StringBuilder();
+            foreach (var node in listXPathNavigator)
+            {
+                resultXml.Append(node.Value);
+            }
+
+            return resultXml.ToString();
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string SelectNodesAsXml(string document, string xpath)
+        {
+            var listXPathNavigator = SelectNodes(document, xpath);
+
+            var resultXml = new StringBuilder();
+            foreach (var node in listXPathNavigator)
+            {
+                resultXml.Append(node.OuterXml);
+            }
+
+            return resultXml.ToString();
+        }
+
+        [HandlebarsWriter(WriterType.Value)]
+        public IReadOnlyList<XPathNavigator> SelectNodes(string document, string xpath)
         {
             var nav = CreateNavigator(document);
             try
@@ -59,13 +101,13 @@ namespace HandlebarsDotNet.Helpers
 #else
                 var result = nav.XPath2SelectNodes(xpath);
 #endif
-                var resultXml = new StringBuilder();
+                var list = new List<XPathNavigator>();
                 foreach (XPathNavigator node in result)
                 {
-                    resultXml.Append(node.OuterXml);
+                    list.Add(node);
                 }
 
-                return resultXml.ToString();
+                return list.AsReadOnly();
             }
             catch (Exception ex)
             {
@@ -74,7 +116,7 @@ namespace HandlebarsDotNet.Helpers
         }
 
         [HandlebarsWriter(WriterType.Value)]
-        public object Evaluate(string document, string xpath)
+        public object? Evaluate(string document, string xpath)
         {
             var nav = CreateNavigator(document);
 
@@ -88,8 +130,14 @@ namespace HandlebarsDotNet.Helpers
             }
             catch (Exception ex)
             {
-                throw new HandlebarsException(nameof(SelectNodes), ex);
+                throw new HandlebarsException(nameof(Evaluate), ex);
             }
+        }
+
+        [HandlebarsWriter(WriterType.String)]
+        public string? EvaluateToString(string document, string xpath)
+        {
+            return Evaluate(document, xpath)?.ToString();
         }
 
         private static XPathNavigator CreateNavigator(string document)

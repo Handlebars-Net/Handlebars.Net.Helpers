@@ -6,20 +6,25 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
 public class XPathPathHelpersTemplateTests
 {
-    private readonly IHandlebars _handlebarsContext;
+    private const string MiniTestSoapMessage = @"
+<?xml version='1.0' standalone='no'?>
+<soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ns=""http://www.Test.nl/XMLHeader/10"">
+   <soapenv:Header>
+      <ns:TestHeader>
+         <ns:HeaderVersion>10</ns:HeaderVersion>
+      </ns:TestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <req>
+         <TokenIdLijst>
+            <TokenId>0000083256</TokenId>
+            <TokenId>0000083259</TokenId>
+         </TokenIdLijst>
+      </req>
+   </soapenv:Body>
+</soapenv:Envelope>";
 
-    public XPathPathHelpersTemplateTests()
-    {
-        _handlebarsContext = Handlebars.Create();
-
-        HandlebarsHelpers.Register(_handlebarsContext, Category.XPath);
-    }
-
-    [Fact]
-    public void SelectToken_With_SoapXMLMessage()
-    {
-        // Arrange
-        string soap = @"
+    private const string TestSoapMessage = @"
 <?xml version='1.0' standalone='no'?>
 <soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ns=""http://www.Test.nl/XMLHeader/10"" xmlns:req=""http://www.Test.nl/Betalen/COU/Services/RdplDbTknLystByOvkLyst/8/Req"">
    <soapenv:Header>
@@ -53,17 +58,163 @@ public class XPathPathHelpersTemplateTests
    </soapenv:Body>
 </soapenv:Envelope>";
 
+    private readonly IHandlebars _handlebarsContext;
+
+    public XPathPathHelpersTemplateTests()
+    {
+        _handlebarsContext = Handlebars.Create();
+
+        HandlebarsHelpers.Register(_handlebarsContext, Category.XPath);
+    }
+
+    [Fact]
+    public void SelectNodes_AsCommaSeparatedString()
+    {
+        // Arrange
         var request = new
         {
-            body = soap
+            body = MiniTestSoapMessage
         };
 
-        var action = _handlebarsContext.Compile("{{XPath.SelectNode body \"//*[local-name()='TokenIdLijst']\"}}");
+        var expression = "{{XPath.SelectNodes body \"//*[local-name()='TokenId']/text()\"}}";
+        var action = _handlebarsContext.Compile(expression);
 
         // Act
         var result = action(request);
 
         // Assert
-        result.Should().NotBeNull().And.Contain("TokenIdLijst").And.Contain("0000083256").And.Contain("0000083259");
+        result.Should().Be("0000083256,0000083259");
+    }
+
+    [Fact]
+    public void SelectNodes_InEachLoop()
+    {
+        // Arrange
+        var request = new
+        {
+            body = MiniTestSoapMessage
+        };
+
+        var expression = "{{#each (XPath.SelectNodes body \"//*[local-name()='TokenId']/text()\")}}\r\n{{this}}\r\n{{/each}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("0000083256\r\n0000083259\r\n");
+    }
+
+    [Fact]
+    public void SelectNodesAsString()
+    {
+        // Arrange
+        var request = new
+        {
+            body = MiniTestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNodesAsString body \"//*[local-name()='TokenId']/text()\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("00000832560000083259");
+    }
+
+    [Fact]
+    public void SelectNodesAsXml()
+    {
+        // Arrange
+        var request = new
+        {
+            body = MiniTestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNodesAsXml body \"//*[local-name()='TokenId']\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("<TokenId>0000083256</TokenId><TokenId>0000083259</TokenId>");
+    }
+
+    [Fact]
+    public void SelectNodeAsXml_ReturnsOuterXml()
+    {
+        // Arrange
+        var request = new
+        {
+            body = TestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNodeAsXml body \"//*[local-name()='TokenId']\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("<req:TokenId xmlns:req=\"http://www.Test.nl/Betalen/COU/Services/RdplDbTknLystByOvkLyst/8/Req\">0000083256</req:TokenId>");
+    }
+
+    [Fact]
+    public void SelectNode_ReturnsXPathNavigator()
+    {
+        // Arrange
+        var request = new
+        {
+            body = TestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNode body \"//*[local-name()='TokenId']\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("0000083256");
+    }
+
+    [Fact]
+    public void SelectNode_ReturnsStringValue_Test1()
+    {
+        // Arrange
+        var request = new
+        {
+            body = TestSoapMessage
+        };
+
+        var expression = "{{XPath.SelectNode body \"//*[local-name()='TokenId']/text()\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("0000083256");
+    }
+
+    [Fact]
+    public void SelectNode_ReturnsStringValue_Test2()
+    {
+        // Arrange
+        var request = new
+        {
+            body = TestSoapMessage
+        };
+
+        var action = _handlebarsContext.Compile("{{XPath.SelectNode body \"//*[local-name()='AanleveraarCode']/text()\"}}");
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be("CRM");
     }
 }

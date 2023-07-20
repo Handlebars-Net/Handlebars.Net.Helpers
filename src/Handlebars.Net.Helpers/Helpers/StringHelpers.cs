@@ -117,7 +117,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool Contains(string value, string test)
     {
-        Guard.NotNull(value, nameof(value));
+        Guard.NotNull(value);
 
         return value.Contains(test);
     }
@@ -125,7 +125,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.String)]
     public string Ellipsis(string value, int length)
     {
-        Guard.Condition(length, l => l >= 0, nameof(length));
+        Guard.Condition(length, l => l >= 0);
 
         if (string.IsNullOrEmpty(value) || value.Length <= length)
         {
@@ -336,7 +336,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.String)]
     public string Truncate(string value, int length)
     {
-        Guard.Condition(length, l => l >= 0, nameof(length));
+        Guard.Condition(length, l => l >= 0);
 
         if (string.IsNullOrEmpty(value) || value.Length <= length)
         {

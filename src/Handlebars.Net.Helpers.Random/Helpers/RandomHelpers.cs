@@ -60,9 +60,9 @@ internal class RandomHelpers : BaseHelpers, IHelpers
                 newProperties.Add(item.Key, parsedArgumentValue);
             }
 
-            return FieldOptionsFactory.GetFieldOptions(randomType, newProperties);
+            return FieldOptionsFactory.GetFieldOptions(randomType, newProperties!);
         }
-            
-        throw new HandlebarsException($"The Type argument is missing.");
+
+        throw new HandlebarsException("The Type argument is missing.");
     }
 }
