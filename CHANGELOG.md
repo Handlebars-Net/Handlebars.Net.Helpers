@@ -1,3 +1,8 @@
+# 2.4.0 (20 July 2023)
+- [#77](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/77) - Fix some unit tests [Test] contributed by [0xced](https://github.com/0xced)
+- [#79](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/79) - Add Xeger unit-test [Test] contributed by [StefH](https://github.com/StefH)
+- [#80](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/80) - Update XPath SelectNode and SelectNodes  [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.3.16 (27 March 2023)
 - [#75](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/75) - Add unit test for String.Titlecase on dynamic [Test] contributed by [StefH](https://github.com/StefH)
 - [#76](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/76) - String.Substring helper [enhancement] contributed by [Andras-Csanyi](https://github.com/Andras-Csanyi)
