@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Utils;
