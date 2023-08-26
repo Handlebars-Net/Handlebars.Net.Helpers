@@ -1,3 +1,7 @@
+# 2.4.1 (26 August 2023)
+- [#82](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/82) - DateTime.Format contributed by [StefH](https://github.com/StefH)
+- [#81](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/81) - Add DateTime.Format [enhancement]
+
 # 2.4.0 (20 July 2023)
 - [#77](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/77) - Fix some unit tests [Test] contributed by [0xced](https://github.com/0xced)
 - [#79](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/79) - Add Xeger unit-test [Test] contributed by [StefH](https://github.com/StefH)
