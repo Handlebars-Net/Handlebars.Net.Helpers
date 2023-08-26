@@ -71,12 +71,13 @@ public class DateTimeHelpersTests
 
     [Theory]
     [InlineData("d", "04/15/2020")]
+    [InlineData("t", "23:59")]
     [InlineData("o", "2020-04-15T23:59:58.0000000")]
     [InlineData("MM-dd-yyyy", "04-15-2020")]
     public void Format_With_ValueAsString(string format, string expected)
     {
         // Arrange
-        var dateTime = DateTimeNow.ToString(FormatProvider);
+        var dateTime = "2020-04-15T23:59:58.0000000";
 
         // Act
         var result = _sut.Format(dateTime, format);
