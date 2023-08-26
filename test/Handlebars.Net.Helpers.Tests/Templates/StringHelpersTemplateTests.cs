@@ -10,7 +10,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
 public class StringHelpersTemplateTests
 {
-    private readonly DateTime DateTimeNow = new DateTime(2020, 4, 15, 23, 59, 58);
+    private static readonly DateTime DateTimeNow = new DateTime(2020, 4, 15, 23, 59, 58);
 
     private readonly Mock<IDateTimeService> _dateTimeServiceMock;
 

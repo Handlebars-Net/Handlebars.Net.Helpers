@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -19,6 +20,7 @@ public class DateTimeHelpersTemplateTests
         dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(_dateTimeNow.ToUniversalTime);
 
         _handlebarsContext = Handlebars.Create();
+        _handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
 
         HandlebarsHelpers.Register(_handlebarsContext, o =>
         {
@@ -40,5 +42,59 @@ public class DateTimeHelpersTemplateTests
 
         // Assert
         result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Format_AsDateTime_Template()
+    {
+        // Arrange
+        var model = new
+        {
+            x = _dateTimeNow
+        };
+
+        var action = _handlebarsContext.Compile("{{Format x \"yyyy-MMM-dd\"}}");
+
+        // Act
+        var result = action(model);
+
+        // Assert
+        result.Should().Be("2020-Apr-15");
+    }
+
+    [Fact]
+    public void Format_AsString_Template()
+    {
+        // Arrange
+        var model = new
+        {
+            x = "2020-04-15T11:12:13"
+        };
+
+        var action = _handlebarsContext.Compile("{{Format x \"yyyy-MMM-dd\"}}");
+
+        // Act
+        var result = action(model);
+
+        // Assert
+        result.Should().Be("2020-Apr-15");
+    }
+
+    [Fact]
+    public void Format_AsOther_Template()
+    {
+        // Arrange
+        var model = new
+        {
+            x = 42
+        };
+
+        var action = _handlebarsContext.Compile("{{Format x \"yyyy-MMM-dd\"}}");
+
+        // Act
+        var result = action(model);
+
+        // Assert
+        result.Should().Be(string.Empty);
     }
 }

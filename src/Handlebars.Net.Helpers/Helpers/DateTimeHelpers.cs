@@ -1,4 +1,5 @@
-﻿using HandlebarsDotNet.Helpers.Attributes;
+﻿using System;
+using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
@@ -26,5 +27,21 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     {
         var utc = _dateTimeService.UtcNow();
         return format is null ? utc : utc.ToString(format, Context.Configuration.FormatProvider);
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public string Format(object value, string format)
+    {
+        string FormatToString(DateTime dateTime)
+        {
+            return dateTime.ToString(format, Context.Configuration.FormatProvider);
+        }
+
+        return value switch
+        {
+            DateTime valueAsDateTime => FormatToString(valueAsDateTime),
+            string valueAsString when DateTime.TryParse(valueAsString, out var parsedAsDateTime) => FormatToString(parsedAsDateTime),
+            _ => string.Empty
+        };
     }
 }

@@ -53,7 +53,7 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public bool IsEmpty(IEnumerable<object?> value)
+    public bool IsEmpty(IEnumerable<object?>? value)
     {
         return value is null || !value.Any();
     }
