@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Models;
 using Moq;
@@ -16,6 +17,19 @@ public class RandomHelpersTests
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
         _sut = new RandomHelpers(contextMock.Object);
+    }
+
+    [Fact]
+    public void Random_TypeIsMissing_Should_Throw()
+    {
+        // Arrange
+        var hash = new Dictionary<string, object?>();
+
+        // Act
+        Action action = () => _sut.Random(hash);
+
+        // Assert
+        action.Should().Throw<HandlebarsException>().Which.Message.Should().Be("The Type argument is missing.");
     }
 
     [Fact]
