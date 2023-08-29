@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Models;
 using Moq;
 using Xunit;
 
@@ -18,7 +19,7 @@ public class RandomHelpersTests
     }
 
     [Fact]
-    public void Random()
+    public void Random_Integer()
     {
         // Arrange
         var hash = new Dictionary<string, object?>
@@ -32,6 +33,27 @@ public class RandomHelpersTests
         var result = _sut.Random(hash);
 
         // Assert
-        (result as int?).Should().BeInRange(1000, 9999);
+        result.Should().BeOfType<int>().Which.Should().BeInRange(1000, 9999);
+    }
+
+    [Fact]
+    public void RandomAsOutputWithType_Integer()
+    {
+        // Arrange
+        var hash = new Dictionary<string, object?>
+        {
+            { "Type", "Integer" },
+            { "Min", 1000 },
+            { "Max", 9999 }
+        };
+
+        // Act
+        var result = _sut.RandomAsOutputWithType(hash);
+
+        // Assert
+        var outputWithType = OutputWithType.Deserialize(result)!;
+        outputWithType.Value.Should().BeOfType<long>().Which.Should().BeInRange(1000, 9999);
+        outputWithType.Type.Should().Be("Int32");
+        outputWithType.FullType.Should().Be("System.Int32");
     }
 }
