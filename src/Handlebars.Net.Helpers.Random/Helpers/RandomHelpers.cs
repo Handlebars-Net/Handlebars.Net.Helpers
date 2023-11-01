@@ -6,6 +6,7 @@ using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Parsers;
+using HandlebarsDotNet.Helpers.Utils;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
@@ -42,6 +43,9 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         return GenerateInternal(hash, false);
     }
 
+    /// <summary>
+    /// It returns a JSON string.
+    /// </summary>
     [HandlebarsWriter(WriterType.String)]
     public string? GenerateAsOutputWithType(IDictionary<string, object?> hash)
     {
@@ -57,16 +61,19 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         if (fieldOptions is IFieldOptionsDateTime)
         {
             DateTime? date = randomizer.Generate();
-            return GetRandomValue(outputWithType, () => date?.ToString("s", Context.Configuration.FormatProvider));
+            return GetRandomValue(outputWithType, () => date?.ToString("s", Context.Configuration.FormatProvider), () => date);
         }
 
         // If the IFieldOptionsGuid defines Uppercase, use the 'GenerateAsString' method.
         if (fieldOptions is IFieldOptionsGuid fieldOptionsGuid)
         {
-            return GetRandomValue(outputWithType, () => fieldOptionsGuid.Uppercase ? randomizer.GenerateAsString() : randomizer.Generate());
+            return GetRandomValue(outputWithType, 
+                () => fieldOptionsGuid.Uppercase ? randomizer.GenerateAsString() : randomizer.Generate(),
+                () => randomizer.Generate()
+            );
         }
 
-        return GetRandomValue(outputWithType, () => randomizer.Generate());
+        return GetRandomValue(outputWithType, () => randomizer.Generate(), null);
     }
 
     private FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
@@ -88,15 +95,31 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         return FieldOptionsFactory.GetFieldOptions(randomType, newProperties!);
     }
 
-    private static object? GetRandomValue(bool outputWithType, Func<object?> func)
+    private static object? GetRandomValue(bool outputWithType, Func<object?> funcNormal, Func<object?>? funcWithType)
     {
-        var value = func();
+        object? value;
+        if (outputWithType && funcWithType != null)
+        {
+            value = funcWithType();
+        }
+        else
+        {
+            value = funcNormal();
+        }
+
+        var name = value?.GetType().Name;
+        var fullName = value?.GetType().FullName;
+
+        if (value is IEnumerable<object> array)
+        {
+            value = ArrayUtils.ToArray(array);
+        }
 
         return outputWithType ? new OutputWithType
         {
             Value = value,
-            FullType = value?.GetType().FullName,
-            Type = value?.GetType().Name
+            FullTypeName = fullName,
+            TypeName = name
         } : value;
     }
 }

@@ -66,8 +66,8 @@ public class RandomHelpersTests
 
         // Assert
         var outputWithType = OutputWithType.Deserialize(result)!;
-        outputWithType.Value.Should().BeOfType<long>().Which.Should().BeInRange(1000, 9999);
-        outputWithType.Type.Should().Be("Int32");
-        outputWithType.FullType.Should().Be("System.Int32");
+        outputWithType.Value.Should().BeOfType<int>().Which.Should().BeInRange(1000, 9999);
+        outputWithType.TypeName.Should().Be("Int32");
+        outputWithType.FullTypeName.Should().Be("System.Int32");
     }
 }
