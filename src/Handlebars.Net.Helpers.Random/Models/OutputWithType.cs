@@ -32,42 +32,99 @@ public class OutputWithType
             throw new InvalidOperationException();
         }
 
-        if (!jsonObject.TryGetValue(nameof(Value), out var value))
+        if (!TryGetValue(jsonObject, out var value))
         {
             throw new MissingMemberException($"Property '{nameof(Value)}' is not found on type '{nameof(OutputWithType)}'.");
         }
 
-        if (!jsonObject.TryGetValue(nameof(TypeName), out var typeName) || typeName is not string typeNameAsString)
+        if (!TryGetTypeName(jsonObject, out var typeName))
         {
             throw new MissingMemberException($"Property '{nameof(TypeName)}' is not found on type '{nameof(OutputWithType)}'.");
         }
 
-        if (!jsonObject.TryGetValue(nameof(FullTypeName), out var fullTypeName) || fullTypeName is not string fullTypeNameAsString)
+        if (!TryGetFullTypeName(jsonObject, out var fullTypeName))
         {
             throw new MissingMemberException($"Property '{nameof(FullTypeName)}' is not found on type '{nameof(OutputWithType)}'.");
         }
 
-        var fullType = Type.GetType(fullTypeNameAsString);
-        if (fullType == null)
-        {
-            throw new TypeLoadException($"Type '{fullTypeNameAsString}' is not found.");
-        }
-
-        if (TryConvert(value, fullType, out var convertedValue))
-        {
-            value = convertedValue;
-        }
-
         return new OutputWithType
         {
-            Value = value,
-            TypeName = typeNameAsString,
-            FullTypeName = fullTypeNameAsString
+            Value = TryConvert(value, fullTypeName, out var convertedValue) ? convertedValue : value,
+            TypeName = typeName,
+            FullTypeName = fullTypeName
         };
     }
 
-    private static bool TryConvert(object? value, Type fullType, [NotNullWhen(true)] out object? result)
+    public static bool TryDeserialize(string? json, [NotNullWhen(true)] out OutputWithType? outputWithType)
     {
+        JsonObject? jsonObject;
+        try
+        {
+            jsonObject = SimpleJsonUtils.DeserializeObject<JsonObject>(json);
+        }
+        catch
+        {
+            outputWithType = null;
+            return false;
+        }
+
+        if (jsonObject != null &&
+            TryGetValue(jsonObject, out var value) &&
+            TryGetTypeName(jsonObject, out var typeName) &&
+            TryGetFullTypeName(jsonObject, out var fullTypeName)
+           )
+        {
+            outputWithType = new OutputWithType
+            {
+                Value = TryConvert(value, fullTypeName, out var convertedValue) ? convertedValue : value,
+                TypeName = typeName,
+                FullTypeName = fullTypeName
+            };
+            return true;
+        }
+
+        outputWithType = default;
+        return false;
+    }
+
+    private static bool TryGetValue(JsonObject jsonObject, out object value)
+    {
+        return jsonObject.TryGetValue(nameof(Value), out value);
+    }
+
+    private static bool TryGetTypeName(JsonObject jsonObject, [NotNullWhen(true)] out string? value)
+    {
+        if (jsonObject.TryGetValue(nameof(TypeName), out var typeName) && typeName is string typeNameAsString)
+        {
+            value = typeNameAsString;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    private static bool TryGetFullTypeName(JsonObject jsonObject, [NotNullWhen(true)] out string? value)
+    {
+        if (jsonObject.TryGetValue(nameof(FullTypeName), out var fullTypeName) && fullTypeName is string fullTypeNameAsString)
+        {
+            value = fullTypeNameAsString;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    private static bool TryConvert(object? value, string fullTypeName, [NotNullWhen(true)] out object? result)
+    {
+        var fullType = Type.GetType(fullTypeName);
+        if (fullType == null)
+        {
+            result = default;
+            return false;
+        }
+
         try
         {
             if (fullType == typeof(Guid) && value is string guidAsString)
