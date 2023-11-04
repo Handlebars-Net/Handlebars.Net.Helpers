@@ -47,9 +47,14 @@ public class OutputWithType
             throw new MissingMemberException($"Property '{nameof(FullTypeName)}' is not found on type '{nameof(OutputWithType)}'.");
         }
 
+        if (!TryGetType(fullTypeName, out var fullType))
+        {
+            throw new TypeLoadException($"Unable to load Type with FullTypeName '{fullTypeName}'.");
+        }
+
         return new OutputWithType
         {
-            Value = TryConvert(value, fullTypeName, out var convertedValue) ? convertedValue : value,
+            Value = TryConvert(value, fullType, out var convertedValue) ? convertedValue : value,
             TypeName = typeName,
             FullTypeName = fullTypeName
         };
@@ -71,12 +76,13 @@ public class OutputWithType
         if (jsonObject != null &&
             TryGetValue(jsonObject, out var value) &&
             TryGetTypeName(jsonObject, out var typeName) &&
-            TryGetFullTypeName(jsonObject, out var fullTypeName)
-           )
+            TryGetFullTypeName(jsonObject, out var fullTypeName) &&
+            TryGetType(fullTypeName, out var fullType)
+        )
         {
             outputWithType = new OutputWithType
             {
-                Value = TryConvert(value, fullTypeName, out var convertedValue) ? convertedValue : value,
+                Value = TryConvert(value, fullType, out var convertedValue) ? convertedValue : value,
                 TypeName = typeName,
                 FullTypeName = fullTypeName
             };
@@ -116,15 +122,26 @@ public class OutputWithType
         return false;
     }
 
-    private static bool TryConvert(object? value, string fullTypeName, [NotNullWhen(true)] out object? result)
+    private static bool TryGetType(string fullTypeName, [NotNullWhen(true)] out Type? type)
+    {
+        type = Type.GetType(fullTypeName);
+        return type != null;
+    }
+
+    private static Type GetType(string fullTypeName)
     {
         var fullType = Type.GetType(fullTypeName);
+
         if (fullType == null)
         {
-            result = default;
-            return false;
+            throw new TypeLoadException($"Unable to load Type with FullTypeName '{fullTypeName}'.");
         }
 
+        return fullType;
+    }
+
+    private static bool TryConvert(object? value, Type fullType, [NotNullWhen(true)] out object? result)
+    {
         try
         {
             if (fullType == typeof(Guid) && value is string guidAsString)

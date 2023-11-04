@@ -99,6 +99,20 @@ public class OutputWithTypeTests
     }
 
     [Fact]
+    public void Deserialize_ShouldException_WhenFullTypeNameIsInvalid()
+    {
+        // Arrange
+        var json = "{\"Value\":\"test\",\"TypeName\":\"Int32\",\"FullTypeName\":\"abc\"}";
+
+        // Act
+        Action act = () => OutputWithType.Deserialize(json);
+
+        // Assert
+        act.Should().Throw<TypeLoadException>()
+            .WithMessage("Unable to load Type with FullTypeName 'abc'.");
+    }
+
+    [Fact]
     public void Deserialize_ShouldThrowInvalidOperationException_WhenJsonIsNull()
     {
         // Act
@@ -198,6 +212,20 @@ public class OutputWithTypeTests
     {
         // Arrange
         var json = "{\"Value\":\"test\",\"TypeName\":\"String\"}";
+
+        // Act
+        var result = OutputWithType.TryDeserialize(json, out var output);
+
+        // Assert
+        result.Should().BeFalse();
+        output.Should().BeNull();
+    }
+
+    [Fact]
+    public void TryDeserialize_ShouldReturnFalse_WhenFullTypeNameInvalid()
+    {
+        // Arrange
+        var json = "{\"Value\":\"test\",\"TypeName\":\"Int32\",\"FullTypeName\":\"abc\"}";
 
         // Act
         var result = OutputWithType.TryDeserialize(json, out var output);
