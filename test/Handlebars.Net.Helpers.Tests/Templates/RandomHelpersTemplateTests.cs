@@ -53,7 +53,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<string>().Which.Should().NotBeNullOrEmpty();
         outputWithType.TypeName.Should().Be("String");
         outputWithType.FullTypeName.Should().Be("System.String");
@@ -69,7 +69,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<int>().Which.Should().BeInRange(1000, 9999);
         outputWithType.TypeName.Should().Be("Int32");
         outputWithType.FullTypeName.Should().Be("System.Int32");
@@ -85,7 +85,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<Guid>();
         outputWithType.TypeName.Should().Be("Guid");
         outputWithType.FullTypeName.Should().Be("System.Guid");
@@ -101,7 +101,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<string>().Which.Should().NotBeNullOrEmpty();
         outputWithType.TypeName.Should().Be("String");
         outputWithType.FullTypeName.Should().Be("System.String");
@@ -117,7 +117,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<bool>();
         outputWithType.TypeName.Should().Be("Boolean");
         outputWithType.FullTypeName.Should().Be("System.Boolean");
@@ -133,7 +133,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<byte>().Which.Should().BeInRange(byte.MinValue, byte.MaxValue);
         outputWithType.TypeName.Should().Be("Byte");
         outputWithType.FullTypeName.Should().Be("System.Byte");
@@ -149,7 +149,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<byte[]>().Which.Should().NotBeNullOrEmpty();
         outputWithType.TypeName.Should().Be("Byte[]");
         outputWithType.FullTypeName.Should().Be("System.Byte[]");
@@ -165,7 +165,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<double>();
         outputWithType.TypeName.Should().Be("Double");
         outputWithType.FullTypeName.Should().Be("System.Double");
@@ -181,7 +181,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<float>();
         outputWithType.TypeName.Should().Be("Single");
         outputWithType.FullTypeName.Should().Be("System.Single");
@@ -197,7 +197,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<DateTime>();
         outputWithType.TypeName.Should().Be("DateTime");
         outputWithType.FullTypeName.Should().Be("System.DateTime");
@@ -213,7 +213,7 @@ public class RandomHelpersTemplateTests
         var result = action("");
 
         // Assert
-        var outputWithType = OutputWithType.Deserialize(result)!;
+        var outputWithType = OutputWithType.Deserialize(result);
         outputWithType.Value.Should().BeOfType<TimeSpan>();
         outputWithType.TypeName.Should().Be("TimeSpan");
         outputWithType.FullTypeName.Should().Be("System.TimeSpan");
