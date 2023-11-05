@@ -15,6 +15,8 @@ namespace HandlebarsDotNet.Helpers;
 
 internal class RandomHelpers : BaseHelpers, IHelpers
 {
+    // private const string KeepType = nameof(KeepType);
+
     public RandomHelpers(IHandlebars context) : base(context)
     {
     }
@@ -25,6 +27,9 @@ internal class RandomHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, "Random")]
     public object? Random(IDictionary<string, object?> hash)
     {
+        //var keepType = hash.TryGetValue(KeepType, out var keepTypeValue) && 
+        //               (keepTypeValue is true || keepTypeValue is string keepTypeAsString && string.Equals(keepTypeAsString, bool.TrueString, StringComparison.OrdinalIgnoreCase));
+        //return keepType ? RandomAsOutputWithType(hash) : Generate(hash);
         return Generate(hash);
     }
 

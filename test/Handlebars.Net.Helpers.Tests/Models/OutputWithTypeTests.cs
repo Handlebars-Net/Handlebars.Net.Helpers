@@ -164,6 +164,21 @@ public class OutputWithTypeTests
     }
 
     [Fact]
+    public void TryDeserialize_ForUri_ShouldReturnTrue()
+    {
+        // Arrange
+        var json = "{\"Value\":\"https://localhost\",\"TypeName\":\"Uri\",\"FullTypeName\":\"System.Uri\"}";
+        
+        // Act
+        var result = OutputWithType.TryDeserialize(json, out var output);
+
+        result.Should().BeTrue();
+        output!.Value.Should().BeOfType<Uri>().And.Be(new Uri("https://localhost"));
+        output.TypeName.Should().Be("Uri");
+        output.FullTypeName.Should().Be("System.Uri");
+    }
+
+    [Fact]
     public void TryDeserialize_WhenValueCannotBeConvertedToFullType_ShouldReturnTrue_And_KeepOriginalValue()
     {
         // Arrange

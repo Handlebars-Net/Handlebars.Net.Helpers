@@ -124,20 +124,8 @@ public class OutputWithType
 
     private static bool TryGetType(string fullTypeName, [NotNullWhen(true)] out Type? type)
     {
-        type = Type.GetType(fullTypeName);
+        type = Type.GetType(fullTypeName) ?? Type.GetType($"{fullTypeName}, System");
         return type != null;
-    }
-
-    private static Type GetType(string fullTypeName)
-    {
-        var fullType = Type.GetType(fullTypeName);
-
-        if (fullType == null)
-        {
-            throw new TypeLoadException($"Unable to load Type with FullTypeName '{fullTypeName}'.");
-        }
-
-        return fullType;
     }
 
     private static bool TryConvert(object? value, Type fullType, [NotNullWhen(true)] out object? result)
@@ -147,6 +135,18 @@ public class OutputWithType
             if (fullType == typeof(Guid) && value is string guidAsString)
             {
                 result = new Guid(guidAsString);
+                return true;
+            }
+
+            if (fullType == typeof(Uri) && value is string uriAsString)
+            {
+                result = new Uri(uriAsString);
+                return true;
+            }
+
+            if (fullType == typeof(TimeSpan) && value is JsonObject timeSpanAsJsonObject)
+            {
+                result = TimeSpan.FromTicks((long)timeSpanAsJsonObject["Ticks"]);
                 return true;
             }
 
@@ -160,10 +160,6 @@ public class OutputWithType
                 }
 
                 result = newArray;
-            }
-            else if (fullType == typeof(TimeSpan) && value is JsonObject timeSpanAsJsonObject)
-            {
-                result = TimeSpan.FromTicks((long)timeSpanAsJsonObject["Ticks"]);
             }
             else
             {
