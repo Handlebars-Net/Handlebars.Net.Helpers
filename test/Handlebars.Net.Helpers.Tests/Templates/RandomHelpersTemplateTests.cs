@@ -31,6 +31,38 @@ public class RandomHelpersTemplateTests
     }
 
     [Fact]
+    public void Random_ForWireMock_KeepTypeTrue()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("{{Random KeepType=true Type=\"Integer\" Min=1000 Max=9999}}");
+
+        // Act
+        var result = action("");
+
+        // Assert
+        var outputWithType = OutputWithType.Deserialize(result);
+        outputWithType.Value.Should().BeOfType<int>().Which.Should().BeInRange(1000, 9999);
+        outputWithType.TypeName.Should().Be("Int32");
+        outputWithType.FullTypeName.Should().Be("System.Int32");
+    }
+
+    [Fact]
+    public void RandomKeepType_ForWireMock()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("{{RandomKeepType Type=\"Integer\" Min=1000 Max=9999}}");
+
+        // Act
+        var result = action("");
+
+        // Assert
+        var outputWithType = OutputWithType.Deserialize(result);
+        outputWithType.Value.Should().BeOfType<int>().Which.Should().BeInRange(1000, 9999);
+        outputWithType.TypeName.Should().Be("Int32");
+        outputWithType.FullTypeName.Should().Be("System.Int32");
+    }
+
+    [Fact]
     public void Random_Integer()
     {
         // Arrange

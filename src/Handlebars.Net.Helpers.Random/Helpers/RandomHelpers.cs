@@ -15,8 +15,6 @@ namespace HandlebarsDotNet.Helpers;
 
 internal class RandomHelpers : BaseHelpers, IHelpers
 {
-    // private const string KeepType = nameof(KeepType);
-
     public RandomHelpers(IHandlebars context) : base(context)
     {
     }
@@ -24,20 +22,17 @@ internal class RandomHelpers : BaseHelpers, IHelpers
     /// <summary>
     /// For backwards compatibility with WireMock.Net
     /// </summary>
-    [HandlebarsWriter(WriterType.Value, "Random")]
-    public object? Random(IDictionary<string, object?> hash)
+    [HandlebarsWriter(WriterType.String, "Random")]
+    public string? Random(IDictionary<string, object?> hash)
     {
-        //var keepType = hash.TryGetValue(KeepType, out var keepTypeValue) && 
-        //               (keepTypeValue is true || keepTypeValue is string keepTypeAsString && string.Equals(keepTypeAsString, bool.TrueString, StringComparison.OrdinalIgnoreCase));
-        //return keepType ? RandomAsOutputWithType(hash) : Generate(hash);
         return Generate(hash);
     }
 
     /// <summary>
     /// For backwards compatibility with WireMock.Net
     /// </summary>
-    [HandlebarsWriter(WriterType.Value, "RandomAsOutputWithType")]
-    public string? RandomAsOutputWithType(IDictionary<string, object?> hash)
+    [HandlebarsWriter(WriterType.String, "RandomKeepType")]
+    public string? RandomKeepType(IDictionary<string, object?> hash)
     {
         return GenerateAsOutputWithType(hash);
     }
@@ -112,19 +107,6 @@ internal class RandomHelpers : BaseHelpers, IHelpers
             value = funcNormal();
         }
 
-        var name = value?.GetType().Name;
-        var fullName = value?.GetType().FullName;
-
-        if (value is IEnumerable<object> array)
-        {
-            value = ArrayUtils.ToArray(array);
-        }
-
-        return outputWithType ? new OutputWithType
-        {
-            Value = value,
-            FullTypeName = fullName,
-            TypeName = name
-        } : value;
+        return outputWithType ? OutputWithType.Parse(value) : value;
     }
 }

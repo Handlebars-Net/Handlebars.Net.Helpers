@@ -62,7 +62,7 @@ public class RandomHelpersTests
         };
 
         // Act
-        var result = _sut.RandomAsOutputWithType(hash);
+        var result = _sut.RandomKeepType(hash);
 
         // Assert
         var outputWithType = OutputWithType.Deserialize(result)!;

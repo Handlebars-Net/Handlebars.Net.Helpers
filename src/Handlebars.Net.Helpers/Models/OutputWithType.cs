@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using HandlebarsDotNet.Helpers.Json;
 using HandlebarsDotNet.Helpers.Utils;
@@ -13,9 +14,27 @@ public class OutputWithType
 
     public string? FullTypeName { get; set; }
 
+    public static OutputWithType Parse(object? value)
+    {
+        var typeName = value?.GetType().Name;
+        var fullTypeName = value?.GetType().FullName;
+
+        if (value is IEnumerable<object> array)
+        {
+            value = ArrayUtils.ToArray(array);
+        }
+
+        return new OutputWithType
+        {
+            Value = value,
+            FullTypeName = fullTypeName,
+            TypeName = typeName
+        };
+    }
+
     public override string ToString()
     {
-        return SimpleJsonUtils.SerializeObject(this) ?? string.Empty;
+        return Serialize() ?? string.Empty;
     }
 
     public string? Serialize()
