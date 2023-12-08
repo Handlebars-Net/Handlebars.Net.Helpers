@@ -51,13 +51,21 @@ public static class ArgumentsParser
             case HashParameterDictionary hashParameterDictionary:
                 if (hashParameterDictionary.TryGetValue("Type", out var type) && type as string == "Long")
                 {
-                    foreach (var key in hashParameterDictionary.Keys.Where(k => k != "Type"))
+                    var newHashParameterDictionary = new HashParameterDictionary();
+
+                    foreach (var kvp in hashParameterDictionary)
                     {
-                        if (hashParameterDictionary[key] is string stringValue && long.TryParse(stringValue, out var longValue))
+                        if (hashParameterDictionary[kvp.Key] is string stringValue && long.TryParse(stringValue, out var longValue))
                         {
-                            hashParameterDictionary[key] = longValue;
+                            newHashParameterDictionary.Add(kvp.Key, longValue);
+                        }
+                        else
+                        {
+                            newHashParameterDictionary.Add(kvp.Key, kvp.Value);
                         }
                     }
+
+                    return newHashParameterDictionary;
                 }
                 return argument;
 
