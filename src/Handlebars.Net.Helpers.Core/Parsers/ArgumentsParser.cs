@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using HandlebarsDotNet.Compiler;
 using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Utils;
 
@@ -43,7 +44,21 @@ public static class ArgumentsParser
 
                     return parsedAsObjectList;
                 }
+                return argument;
 
+            // https://github.com/WireMock-Net/WireMock.Net/issues/1033
+            // https://github.com/Handlebars-Net/Handlebars.Net/pull/562
+            case HashParameterDictionary hashParameterDictionary:
+                if (hashParameterDictionary.TryGetValue("Type", out var type) && type as string == "Long")
+                {
+                    foreach (var key in hashParameterDictionary.Keys.Where(k => k != "Type"))
+                    {
+                        if (hashParameterDictionary[key] is string stringValue && long.TryParse(stringValue, out var longValue))
+                        {
+                            hashParameterDictionary[key] = longValue;
+                        }
+                    }
+                }
                 return argument;
 
             default:
