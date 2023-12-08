@@ -29,6 +29,19 @@ public class RandomHelpersTemplateTests
     }
 
     [Fact]
+    public void Random_Long()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("{{Random.Generate Type=\"Long\" Min=1000000000 Max=9999999999}}");
+
+        // Act
+        var result = action("");
+
+        // Assert
+        long.Parse(result).Should().BeInRange(1000000000, 9999999999);
+    }
+
+    [Fact]
     public void Random_StringList()
     {
         // Arrange
