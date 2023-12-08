@@ -1,3 +1,6 @@
+# 2.4.1.2 (08 December 2023)
+- [#85](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/85) - Workaround for: Random.Generate Type=&quot;Long&quot; [bug] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.1.1 (08 December 2023)
 - [#84](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/84) - Workaround for: Random.Generate Type=&quot;Long&quot; [bug] contributed by [StefH](https://github.com/StefH)
 
