@@ -1,3 +1,9 @@
+# 2.4.1.2 (08 December 2023)
+- [#85](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/85) - Workaround for: Random.Generate Type=&quot;Long&quot; [bug] contributed by [StefH](https://github.com/StefH)
+
+# 2.4.1.1 (08 December 2023)
+- [#84](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/84) - Workaround for: Random.Generate Type=&quot;Long&quot; [bug] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.1 (26 August 2023)
 - [#82](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/82) - DateTime.Format contributed by [StefH](https://github.com/StefH)
 - [#81](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/81) - Add DateTime.Format [enhancement]
