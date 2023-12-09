@@ -6,7 +6,6 @@ using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Parsers;
-using HandlebarsDotNet.Helpers.Utils;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
@@ -23,7 +22,7 @@ internal class RandomHelpers : BaseHelpers, IHelpers
     /// For backwards compatibility with WireMock.Net
     /// </summary>
     [HandlebarsWriter(WriterType.String, "Random")]
-    public string? Random(IDictionary<string, object?> hash)
+    public object? Random(IDictionary<string, object?> hash)
     {
         return Generate(hash);
     }
@@ -40,7 +39,9 @@ internal class RandomHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public object? Generate(IDictionary<string, object?> hash)
     {
-        return GenerateInternal(hash, false);
+        var keepType = hash.TryGetValue("KeepType", out var value) && value is true;
+
+        return GenerateInternal(hash, keepType);
     }
 
     /// <summary>
@@ -67,7 +68,7 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         // If the IFieldOptionsGuid defines Uppercase, use the 'GenerateAsString' method.
         if (fieldOptions is IFieldOptionsGuid fieldOptionsGuid)
         {
-            return GetRandomValue(outputWithType, 
+            return GetRandomValue(outputWithType,
                 () => fieldOptionsGuid.Uppercase ? randomizer.GenerateAsString() : randomizer.Generate(),
                 () => randomizer.Generate()
             );
