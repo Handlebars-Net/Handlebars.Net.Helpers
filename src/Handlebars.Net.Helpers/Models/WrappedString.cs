@@ -31,15 +31,22 @@ public class WrappedString
     {
         Guard.NotNull(value);
 
+        static string RegexReplace(string input)
+        {
+            return Regex.Replace(input, Pattern, Replacement);
+        }
+
         if (value.Contains(Start) && value.Contains(End))
         {
-            decoded = Regex.Replace(value, Pattern, Replacement);
+            decoded = RegexReplace(value);
             return true;
         }
 
         try
         {
-            return TryDecode(HtmlUtils.HtmlDecode(value), out decoded);
+            var htmlDecoded = HtmlUtils.HtmlDecode(value);
+            decoded = RegexReplace(htmlDecoded);
+            return true;
         }
         catch
         {
