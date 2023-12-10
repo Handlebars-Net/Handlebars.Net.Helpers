@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Models;
 using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
@@ -90,7 +91,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public object? Coalesce(params object?[] arguments)
     {
-        foreach (var arg in arguments.Where(a => a is {} and not UndefinedBindingResult))
+        foreach (var arg in arguments.Where(a => a is { } and not UndefinedBindingResult))
         {
             if (arg is string stringValue)
             {
@@ -375,13 +376,19 @@ internal class StringHelpers : BaseHelpers, IHelpers
         // Done
         return formattedValue ?? string.Empty;
     }
-        
+
+    [HandlebarsWriter(WriterType.Value)]
+    public WrappedString FormatAsString(object? value, string format)
+    {
+        return new WrappedString(Format(value, format));
+    }
+
     [HandlebarsWriter(WriterType.Value)]
     public bool Equal(string value, string test)
     {
         return value == test;
     }
-        
+
     [HandlebarsWriter(WriterType.Value)]
     public bool NotEqual(string value, string test)
     {
