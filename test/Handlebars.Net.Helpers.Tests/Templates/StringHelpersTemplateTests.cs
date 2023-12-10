@@ -314,7 +314,7 @@ public class StringHelpersTemplateTests
         // Act
         var result = action("");
 
-        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+        var decodeResult = StringEncoder.TryDecode(result, out var decoded);
 
         // Assert
         decodeResult.Should().BeTrue();
@@ -354,7 +354,7 @@ public class StringHelpersTemplateTests
         var result = action(model);
 
         // Assert
-        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+        var decodeResult = StringEncoder.TryDecode(result, out var decoded);
 
         // Assert
         decodeResult.Should().BeTrue();
