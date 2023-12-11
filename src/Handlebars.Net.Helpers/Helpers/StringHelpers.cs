@@ -377,7 +377,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return formattedValue ?? string.Empty;
     }
 
-    [HandlebarsWriter(WriterType.Value)]
+    [HandlebarsWriter(WriterType.String)]
     public string FormatAsString(object? value, string format)
     {
         return StringEncoder.Encode(Format(value, format));
