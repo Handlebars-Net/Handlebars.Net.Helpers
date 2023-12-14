@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
 using Xunit;
@@ -10,7 +11,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
 public class StringHelpersTemplateTests
 {
-    private static readonly DateTime DateTimeNow = new DateTime(2020, 4, 15, 23, 59, 58);
+    private static readonly DateTime DateTimeNow = new(2020, 4, 15, 23, 59, 58);
 
     private readonly Mock<IDateTimeService> _dateTimeServiceMock;
 
@@ -305,6 +306,22 @@ public class StringHelpersTemplateTests
     }
 
     [Fact]
+    public void FormatAsString_Now()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("test {{String.FormatAsString (DateTime.Now) \"yyyy-MM-dd\"}} abc");
+
+        // Act
+        var result = action("");
+
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be("test 2020-04-15 abc");
+    }
+
+    [Fact]
     public void Format_Template_Now()
     {
         // Arrange
@@ -320,5 +337,27 @@ public class StringHelpersTemplateTests
 
         // Assert
         result.Should().Be("2020-Apr-15");
+    }
+
+    [Fact]
+    public void FormatAsString_Template_Now()
+    {
+        // Arrange
+        var model = new
+        {
+            x = DateTimeNow
+        };
+
+        var action = _handlebarsContext.Compile("test {{String.FormatAsString x \"yyyy-MMM-dd\"}} abc");
+
+        // Act
+        var result = action(model);
+
+        // Assert
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be("test 2020-Apr-15 abc");
     }
 }

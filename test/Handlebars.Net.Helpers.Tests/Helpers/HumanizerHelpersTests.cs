@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using CultureAwareTesting.xUnit;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -178,7 +179,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be("some-text");
         }
 
-        [Theory]
+        [CulturedTheory("en-us")]
         [InlineData("1", "1st")]
         [InlineData("2", "2nd")]
         [InlineData(3, "3rd")]
@@ -256,7 +257,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be(expected);
         }
 
-        [Theory]
+        [CulturedTheory("en-us")]
         [InlineData(1, "first")]
         [InlineData(2, "second")]
         [InlineData("2021-06-07T15:21:39Z", "June 7th, 2021")]
@@ -269,7 +270,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().Be(expected);
         }
 
-        [Fact]
+        [CulturedFact("en-us")]
         public void ToOrdinalWordsWithDateTime()
         {
             // Arrange
