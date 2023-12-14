@@ -13,6 +13,7 @@ public class WrappedString
     private const string Replacement = "$1"; // $1 refers to the first capture group
 
     public string Value { get; }
+
     public string WrappedValue { get; }
 
     public WrappedString(string value)
@@ -20,6 +21,7 @@ public class WrappedString
         Value = Guard.NotNull(value);
         WrappedValue = $"{Start}{Value}{End}";
     }
+
     public override string ToString()
     {
         return WrappedValue;
@@ -38,19 +40,19 @@ public class WrappedString
         {
             // Because Handlebars uses Html encoding on the Start and End tokens, try to HtmlDecode the provided text.
             var htmlDecoded = HtmlUtils.HtmlDecode(text);
-            
+
             // Check if the html decoded value contains the Start and End token and try to use regex to extract the value between the Start and End tokens.
             if (TryRegexReplace(htmlDecoded, out decoded))
             {
                 return true;
             }
-            
+
             decoded = text;
             return false;
         }
         catch
         {
-            // Ignore exceptions from HtmlUtils.HtmlDecode or TryRegexReplace
+            // Ignore exceptions from HtmlUtils.HtmlDecode
         }
 
         decoded = text;

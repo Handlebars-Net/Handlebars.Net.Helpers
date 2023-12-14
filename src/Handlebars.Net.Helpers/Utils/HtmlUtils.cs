@@ -209,17 +209,4 @@ public static class HtmlUtils
         HtmlEncode(value, output);
         return output.ToString();
     }
-
-    //public static string? UrlEncode(string? value) => value == null ? null : Uri.EscapeDataString(value);
-
-    //public static string? UrlDecode(string? value)
-    //{
-    //    if (value == null)
-    //    {
-    //        return null;
-    //    }
-
-    //    value = value.Replace('+', ' ');
-    //    return Uri.UnescapeDataString(value);
-    //}
 }
