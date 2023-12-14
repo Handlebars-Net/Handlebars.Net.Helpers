@@ -7,7 +7,7 @@ using Xunit;
 namespace HandlebarsDotNet.Helpers.Tests.Models;
 
 [ExcludeFromCodeCoverage]
-public class StringEncoderTests
+public class WrappedStringTests
 {
     [Theory]
     [InlineData("Hello, World!", "ϟЊҜߍHello, World!ߍҜЊϟ")]
@@ -16,7 +16,7 @@ public class StringEncoderTests
     public void Encode(string input, string expected)
     {
         // Act
-        var result = StringEncoder.Encode(input);
+        var result = new WrappedString(input);
 
         // Assert
         result.Should().Be(expected);
@@ -30,14 +30,14 @@ public class StringEncoderTests
     public void TryDecode(string input, bool expectedResult, string expectedOutput)
     {
         // Act
-        var result1 = StringEncoder.TryDecode(input, out var decoded1);
+        var result1 = WrappedString.TryDecode(input, out var decoded1);
 
         // Assert
         result1.Should().Be(expectedResult);
         decoded1.Should().Be(expectedOutput);
 
         // Act
-        var result2 = StringEncoder.TryDecode(HtmlUtils.HtmlEncode(input), out var decoded2);
+        var result2 = WrappedString.TryDecode(HtmlUtils.HtmlEncode(input), out var decoded2);
 
         // Assert
         result2.Should().Be(expectedResult);
