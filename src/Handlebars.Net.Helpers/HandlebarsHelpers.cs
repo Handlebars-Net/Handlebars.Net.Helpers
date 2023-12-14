@@ -63,7 +63,8 @@ public static class HandlebarsHelpers
             { Category.String, new StringHelpers(handlebarsContext) },
             { Category.Url, new UrlHelpers(handlebarsContext) },
             { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
-            { Category.Boolean, new BooleanHelpers(handlebarsContext) }
+            { Category.Boolean, new BooleanHelpers(handlebarsContext) },
+            { Category.Object, new ObjectHelpers(handlebarsContext) }
         };
 
         var extra = new Dictionary<Category, string>

@@ -377,10 +377,10 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return formattedValue ?? string.Empty;
     }
 
-    [HandlebarsWriter(WriterType.String)]
-    public string FormatAsString(object? value, string format)
+    [HandlebarsWriter(WriterType.Value)]
+    public WrappedString FormatAsString(object? value, string format)
     {
-        return StringEncoder.Encode(Format(value, format));
+        return new WrappedString(Format(value, format));
     }
 
     [HandlebarsWriter(WriterType.Value)]
