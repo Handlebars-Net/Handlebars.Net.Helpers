@@ -10,16 +10,18 @@ namespace HandlebarsDotNet.Helpers.Tests.Models;
 public class WrappedStringTests
 {
     [Theory]
-    [InlineData("Hello, World!", "ϟЊҜߍHello, World!ߍҜЊϟ")]
-    [InlineData("1234567890", "ϟЊҜߍ1234567890ߍҜЊϟ")]
-    [InlineData("", "ϟЊҜߍߍҜЊϟ")]
-    public void Encode(string input, string expected)
+    [InlineData("Hello, World!", "Hello, World!", "ϟЊҜߍHello, World!ߍҜЊϟ")]
+    [InlineData("1234567890", "1234567890", "ϟЊҜߍ1234567890ߍҜЊϟ")]
+    [InlineData("", "", "ϟЊҜߍߍҜЊϟ")]
+    public void Encode(string input, string expectedValue, string expectedEncodedValue)
     {
         // Act
         var result = new WrappedString(input);
 
         // Assert
-        result.Should().Be(expected);
+        result.Value.Should().Be(expectedValue);
+        result.WrappedValue.Should().Be(expectedEncodedValue);
+        result.ToString().Should().Be(expectedEncodedValue);
     }
 
     [Theory]
