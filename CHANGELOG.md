@@ -1,3 +1,6 @@
+# 2.4.1.4 (20 December 2023)
+- [#87](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/87) - Update FormatAsString to make the format optional [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.1.3 (14 December 2023)
 - [#86](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/86) - String.FormatAsString [enhancement] contributed by [StefH](https://github.com/StefH)
 
