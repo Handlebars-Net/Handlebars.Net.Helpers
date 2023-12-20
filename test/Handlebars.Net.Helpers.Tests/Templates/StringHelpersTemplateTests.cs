@@ -306,7 +306,7 @@ public class StringHelpersTemplateTests
     }
 
     [Fact]
-    public void FormatAsString_Now()
+    public void FormatAsString_WithFormat_Now()
     {
         // Arrange
         var action = _handlebarsContext.Compile("test {{String.FormatAsString (DateTime.Now) \"yyyy-MM-dd\"}} abc");
@@ -319,6 +319,54 @@ public class StringHelpersTemplateTests
         // Assert
         decodeResult.Should().BeTrue();
         decoded.Should().Be("test 2020-04-15 abc");
+    }
+
+    [Fact]
+    public void FormatAsString_WithoutFormat_Now()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("test {{String.FormatAsString (DateTime.Now)}} abc");
+
+        // Act
+        var result = action("");
+
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be("test 04/15/2020 23:59:58 abc");
+    }
+
+    [Fact]
+    public void ToWrappedString_Now()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("test {{String.ToWrappedString (DateTime.Now)}} abc");
+
+        // Act
+        var result = action("");
+
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be("test 04/15/2020 23:59:58 abc");
+    }
+
+    [Fact]
+    public void ToWrappedString_Null()
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile("test {{String.ToWrappedString (null)}} abc");
+
+        // Act
+        var result = action("");
+
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be("test  abc");
     }
 
     [Fact]
