@@ -378,9 +378,15 @@ internal class StringHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public WrappedString FormatAsString(object? value, string format)
+    public WrappedString FormatAsString(object? value, string? format = null)
     {
-        return new WrappedString(Format(value, format));
+        return new WrappedString(Format(value, format ?? string.Empty));
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public WrappedString ToWrappedString(object? value)
+    {
+        return FormatAsString(value);
     }
 
     [HandlebarsWriter(WriterType.Value)]
