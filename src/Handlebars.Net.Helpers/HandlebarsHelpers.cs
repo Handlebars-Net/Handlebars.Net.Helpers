@@ -214,7 +214,12 @@ public static class HandlebarsHelpers
     {
         HandlebarsReturnWithOptionsHelper helper = (in HelperOptions options, in Context context, in Arguments arguments) =>
         {
-            return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
+            var value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
+
+            var keepType = arguments.Hash.TryGetValue("KeepType", out var keepTypeValue) &&
+                           (keepTypeValue is true || keepTypeValue is string keepTypeAsString && string.Equals(keepTypeAsString, bool.TrueString, StringComparison.OrdinalIgnoreCase));
+
+            return keepType ? OutputWithType.Parse(value).Serialize() : value;
         };
 
         handlebarsContext.RegisterHelper(helperName, helper);

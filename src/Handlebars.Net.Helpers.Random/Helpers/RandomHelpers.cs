@@ -4,10 +4,12 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Parsers;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
+// ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
 internal class RandomHelpers : BaseHelpers, IHelpers
@@ -19,14 +21,39 @@ internal class RandomHelpers : BaseHelpers, IHelpers
     /// <summary>
     /// For backwards compatibility with WireMock.Net
     /// </summary>
-    [HandlebarsWriter(WriterType.Value, "Random")]
+    [HandlebarsWriter(WriterType.String, "Random")]
     public object? Random(IDictionary<string, object?> hash)
     {
         return Generate(hash);
     }
 
+    /// <summary>
+    /// For backwards compatibility with WireMock.Net
+    /// </summary>
+    [HandlebarsWriter(WriterType.String, "RandomKeepType")]
+    public string? RandomKeepType(IDictionary<string, object?> hash)
+    {
+        return GenerateAsOutputWithType(hash);
+    }
+
     [HandlebarsWriter(WriterType.Value)]
     public object? Generate(IDictionary<string, object?> hash)
+    {
+        var keepType = hash.TryGetValue("KeepType", out var value) && value is true;
+
+        return GenerateInternal(hash, keepType);
+    }
+
+    /// <summary>
+    /// It returns a JSON string.
+    /// </summary>
+    [HandlebarsWriter(WriterType.String)]
+    public string? GenerateAsOutputWithType(IDictionary<string, object?> hash)
+    {
+        return GenerateInternal(hash, true) is not OutputWithType outputWithType ? null : outputWithType.Serialize();
+    }
+
+    private object? GenerateInternal(IDictionary<string, object?> hash, bool outputWithType)
     {
         var fieldOptions = GetFieldOptionsFromHash(hash);
         dynamic randomizer = RandomizerFactory.GetRandomizerAsDynamic(fieldOptions);
@@ -35,34 +62,52 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         if (fieldOptions is IFieldOptionsDateTime)
         {
             DateTime? date = randomizer.Generate();
-            return date?.ToString("s", Context.Configuration.FormatProvider);
+            return GetRandomValue(outputWithType, () => date?.ToString("s", Context.Configuration.FormatProvider), () => date);
         }
 
         // If the IFieldOptionsGuid defines Uppercase, use the 'GenerateAsString' method.
         if (fieldOptions is IFieldOptionsGuid fieldOptionsGuid)
         {
-            return fieldOptionsGuid.Uppercase ? randomizer.GenerateAsString() : randomizer.Generate();
+            return GetRandomValue(outputWithType,
+                () => fieldOptionsGuid.Uppercase ? randomizer.GenerateAsString() : randomizer.Generate(),
+                () => randomizer.Generate()
+            );
         }
 
-        return randomizer.Generate();
+        return GetRandomValue(outputWithType, () => randomizer.Generate(), null);
     }
 
     private FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
     {
-        if (hash.TryGetValue("Type", out var value) && value is string randomType)
+        if (!hash.TryGetValue("Type", out var value) || value is not string randomType)
         {
-            var newProperties = new Dictionary<string, object?>();
-            foreach (var item in hash.Where(p => p.Key != "Type"))
-            {
-                bool convertObjectArrayToStringList = randomType == "StringList";
-                var parsedArgumentValue = ArgumentsParser.Parse(Context, item.Value, convertObjectArrayToStringList);
-
-                newProperties.Add(item.Key, parsedArgumentValue);
-            }
-
-            return FieldOptionsFactory.GetFieldOptions(randomType, newProperties!);
+            throw new HandlebarsException("The Type argument is missing.");
         }
 
-        throw new HandlebarsException("The Type argument is missing.");
+        var newProperties = new Dictionary<string, object?>();
+        foreach (var item in hash.Where(p => p.Key != "Type"))
+        {
+            var convertObjectArrayToStringList = randomType == "StringList";
+            var parsedArgumentValue = ArgumentsParser.Parse(Context, item.Value, convertObjectArrayToStringList);
+
+            newProperties.Add(item.Key, parsedArgumentValue);
+        }
+
+        return FieldOptionsFactory.GetFieldOptions(randomType, newProperties!);
+    }
+
+    private static object? GetRandomValue(bool outputWithType, Func<object?> funcNormal, Func<object?>? funcWithType)
+    {
+        object? value;
+        if (outputWithType && funcWithType != null)
+        {
+            value = funcWithType();
+        }
+        else
+        {
+            value = funcNormal();
+        }
+
+        return outputWithType ? OutputWithType.Parse(value) : value;
     }
 }
