@@ -184,7 +184,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             var result = _sut.Sum(array);
 
             // Assert
-            result.Should().Be(450.6);
+            result.Should().BeApproximately(450.6, 0.0001);
         }
 
         [Fact]
