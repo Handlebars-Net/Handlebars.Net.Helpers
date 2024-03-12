@@ -14,7 +14,7 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 internal class EnumerableHelpers : BaseHelpers, IHelpers
 {
     [HandlebarsWriter(WriterType.Value)]
-    public object Average(IEnumerable<object> values)
+    public double Average(IEnumerable<object> values)
     {
         return ExecuteUtils.Execute(values, x => x.Average());
     }
@@ -59,13 +59,13 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object Max(IEnumerable<object> values)
+    public double Max(IEnumerable<object> values)
     {
         return ExecuteUtils.Execute(values, x => x.Max());
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object Min(IEnumerable<object> values)
+    public double Min(IEnumerable<object> values)
     {
         return ExecuteUtils.Execute(values, x => x.Min());
     }
@@ -109,7 +109,7 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public object Sum(IEnumerable<object> values)
+    public double Sum(IEnumerable<object> values)
     {
         return ExecuteUtils.Execute(values, x => x.Sum());
     }
