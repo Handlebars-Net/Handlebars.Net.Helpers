@@ -1,3 +1,6 @@
+# 2.4.1.5 (12 March 2024)
+- [#88](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/88) - Fixed casting problems in ExecuteUtils breaking EnumerableHelpers [bug] contributed by [HenrikHoyer](https://github.com/HenrikHoyer)
+
 # 2.4.1.4 (20 December 2023)
 - [#87](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/87) - Update FormatAsString to make the format optional [enhancement] contributed by [StefH](https://github.com/StefH)
 
