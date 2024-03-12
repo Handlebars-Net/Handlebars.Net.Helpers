@@ -147,5 +147,70 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
             result.Should().HaveCount(2);
             result.Should().BeEquivalentTo(9, null);
         }
+
+        [Fact]
+        public void Sum_double_Property_From_Array()
+        {
+            // Arrange
+            var array = new object[] { 10.0, 20.0, 30.0 };
+
+            // Act
+            var result = _sut.Sum(array);
+
+            // Assert
+            result.Should().Be(60.0);
+        }
+
+        [Fact]
+        public void Sum_int_Property_From_Array()
+        {
+            // Arrange
+            var array = new object[]{ 10, 20, 30 };
+
+            // Act
+            var result = _sut.Sum(array);
+
+            // Assert
+            result.Should().Be(60);
+        }
+
+        [Fact]
+        public void Min_Property_From_Array()
+        {
+            // Arrange
+            var array = new object[] { 10.0, 20.0, 30.0 };
+
+            // Act
+            var result = _sut.Min(array);
+
+            // Assert
+            result.Should().Be(10.0);
+        }
+
+        [Fact]
+        public void Max_Property_From_Array()
+        {
+            // Arrange
+            var array = new object[] { 10.0, 20.0, 30.0 };
+
+            // Act
+            var result = _sut.Max(array);
+
+            // Assert
+            result.Should().Be(30.0);
+        }
+
+        [Fact]
+        public void Average_Property_From_Array()
+        {
+            // Arrange
+            var array = new object[] { 10.0, 20.0, 30.0 };
+
+            // Act
+            var result = _sut.Average(array);
+
+            // Assert
+            result.Should().Be(20.0);
+        }
     }
 }

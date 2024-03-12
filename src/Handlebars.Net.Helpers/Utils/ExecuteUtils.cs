@@ -129,7 +129,7 @@ public static class ExecuteUtils
         }
         catch
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException($"The value '{value}' cannot not be converted to a double.");
         }
     }
 
@@ -137,11 +137,12 @@ public static class ExecuteUtils
     {
         try
         {
-            return doubleFunc(values.Cast<double>());
+            var doubles = values.Select(Convert.ToDouble);
+            return doubleFunc(doubles);
         }
         catch
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException($"One of the values cannot not be converted to a double.");
         }
     }
 
@@ -155,7 +156,7 @@ public static class ExecuteUtils
         }
         catch
         {
-            throw new NotSupportedException($"The value '{value1}' cannot not be converted to a double.");
+            throw new NotSupportedException($"The value '{value1}' or '{value2}' cannot not be converted to a double.");
         }
     }
 }
