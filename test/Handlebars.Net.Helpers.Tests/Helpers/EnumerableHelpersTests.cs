@@ -175,6 +175,19 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Fact]
+        public void Sum_mixed_Properties_From_Array()
+        {
+            // Arrange
+            var array = new object[]{ 10, 20.1f, 30.2d, 40L, 50UL, (short)60, (ushort)70, 80.3m, 90U };
+
+            // Act
+            var result = _sut.Sum(array);
+
+            // Assert
+            result.Should().Be(450.6);
+        }
+
+        [Fact]
         public void Min_Property_From_Array()
         {
             // Arrange

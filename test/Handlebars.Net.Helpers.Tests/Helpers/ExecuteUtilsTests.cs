@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-
 namespace HandlebarsDotNet.Helpers.Tests.Helpers
 {
     public class ExecuteUtilsTests
@@ -27,7 +26,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         {
             // Arrange
             var array = new object[] { "invalid data" };
-            var function = new Func<IEnumerable<double> , double>(x => x.FirstOrDefault());
+            var function = new Func<IEnumerable<double>, double>(x => x.FirstOrDefault());
 
             // Act and Assert 
             array
