@@ -4,11 +4,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFrameworks>net451;net452;net46;netstandard1.3;netstandard2.0;netstandard2.1</TargetFrameworks>
-		<VersionPrefix>2.4.1.5</VersionPrefix>
+		<TargetFrameworks>net451;net452;net46;netstandard1.3;netstandard2.0;netstandard2.1;net6.0;net8.0</TargetFrameworks>
+		<VersionPrefix>2.4.2</VersionPrefix>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
-		<Copyright>Copyright © 2020-2023 Stef Heyenrath</Copyright>
+		<Copyright>Copyright © 2020-2024 Stef Heyenrath</Copyright>
 		<Authors>Stef Heyenrath</Authors>
 		<PackageReleaseNotes>See CHANGELOG.md</PackageReleaseNotes>
 		<PackageIconUrl>https://raw.githubusercontent.com/Handlebars-Net/Handlebars.Net.Helpers/master/resources/hbnet-icon.png</PackageIconUrl>

@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using HandlebarsDotNet.Compiler;
 using HandlebarsDotNet.Helpers.Extensions;
 using HandlebarsDotNet.Helpers.Utils;
 
@@ -27,56 +26,28 @@ public static class ArgumentsParser
             }
         }
 
-        return result.Select(argument => Parse(context, argument)).ToList();
+        return result.Select(argument => Parse(argument)).ToList();
     }
 
-    public static object? Parse(IHandlebars context, object? argument, bool convertObjectArrayToStringList = false)
+    public static object? Parse(object? argument, bool convertObjectArrayToStringList = false)
     {
-        switch (argument)
+        if (argument is UndefinedBindingResult valueAsUndefinedBindingResult &&
+            TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out var parsedAsObjectList))
         {
-            case UndefinedBindingResult valueAsUndefinedBindingResult:
-                if (TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out var parsedAsObjectList))
-                {
-                    if (convertObjectArrayToStringList)
-                    {
-                        return parsedAsObjectList.Cast<string?>().ToList();
-                    }
+            if (convertObjectArrayToStringList)
+            {
+                return parsedAsObjectList.Cast<string?>().ToList();
+            }
 
-                    return parsedAsObjectList;
-                }
-                return argument;
-
-            // https://github.com/WireMock-Net/WireMock.Net/issues/1033
-            // https://github.com/Handlebars-Net/Handlebars.Net/pull/562
-            case HashParameterDictionary hashParameterDictionary:
-                if (hashParameterDictionary.TryGetValue("Type", out var type) && type as string == "Long")
-                {
-                    var newHashParameterDictionary = new HashParameterDictionary();
-
-                    foreach (var kvp in hashParameterDictionary)
-                    {
-                        if (hashParameterDictionary[kvp.Key] is string stringValue && long.TryParse(stringValue, out var longValue))
-                        {
-                            newHashParameterDictionary.Add(kvp.Key, longValue);
-                        }
-                        else
-                        {
-                            newHashParameterDictionary.Add(kvp.Key, kvp.Value);
-                        }
-                    }
-
-                    return newHashParameterDictionary;
-                }
-                return argument;
-
-            default:
-                return argument;
+            return parsedAsObjectList;
         }
+
+        return argument;
     }
 
     public static object ParseAsIntLongOrDouble(IHandlebars context, object value)
     {
-        var parsedValue = StringValueParser.Parse(context, value as string ?? value.ToString());
+        var parsedValue = StringValueParser.Parse(context, value as string ?? value.ToString() ?? string.Empty);
 
         if (SupportedTypes.Contains(parsedValue.GetType()))
         {
