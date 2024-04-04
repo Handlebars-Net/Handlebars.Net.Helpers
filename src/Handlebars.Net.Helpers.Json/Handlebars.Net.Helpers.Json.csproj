@@ -12,20 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Extensions\JObjectExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
     <ProjectReference Include="..\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

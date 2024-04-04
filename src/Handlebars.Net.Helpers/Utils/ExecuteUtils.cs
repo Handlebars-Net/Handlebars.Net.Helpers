@@ -41,7 +41,7 @@ public static class ExecuteUtils
 
             default:
                 // Just call ToString()
-                return Execute(context, value.ToString(), intFunc, longFunc, doubleFunc);
+                return Execute(context, value.ToString() ?? string.Empty, intFunc, longFunc, doubleFunc);
         }
     }
 
@@ -78,7 +78,7 @@ public static class ExecuteUtils
 
             default:
                 // Just call ToString()
-                return Execute(context, value.ToString(), intFunc, longFunc, doubleFunc);
+                return Execute(context, value.ToString() ?? string.Empty, intFunc, longFunc, doubleFunc);
         }
     }
 

@@ -44,7 +44,7 @@ namespace HandlebarsDotNet.Helpers.Plugin
                 var matchingType = pluginTypes.FirstOrDefault(pt => pt.Name == item.Value);
                 if (matchingType is { })
                 {
-                    helpers.Add(item.Key, (IHelpers)Activator.CreateInstance(matchingType, args));
+                    helpers.Add(item.Key, (IHelpers)Activator.CreateInstance(matchingType, args)!);
                 }
             }
 

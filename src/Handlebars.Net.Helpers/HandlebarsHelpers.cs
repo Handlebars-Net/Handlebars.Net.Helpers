@@ -120,14 +120,14 @@ public static class HandlebarsHelpers
                 MethodInfo = methodInfo,
                 HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
             })
-            .Where(x => x.HandlebarsWriterAttribute is { })
+            .Where(x => x.HandlebarsWriterAttribute != null)
             .ToArray();
 
         foreach (var method in methods)
         {
-            var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute, options, categoryPrefix);
+            var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute!, options, categoryPrefix);
 
-            switch (method.HandlebarsWriterAttribute.Usage)
+            switch (method.HandlebarsWriterAttribute!.Usage)
             {
                 case HelperUsage.Normal:
                     RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute, method.MethodInfo, name);

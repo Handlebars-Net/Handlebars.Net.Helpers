@@ -22,10 +22,10 @@ internal static class MethodBaseExtensions
         return parameters.Length > 0 && parameters[0].ParameterType == typeof(IHelperOptions);
     }
 
-    public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> namedParameters)
-    {
-        return self.Invoke(obj, MapParameters(self, namedParameters));
-    }
+    //public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> namedParameters)
+    //{
+    //    return self.Invoke(obj, MapParameters(self, namedParameters))!;
+    //}
 
     private static object[] MapParameters(MethodBase method, IDictionary<string, object> namedParameters)
     {
@@ -38,7 +38,7 @@ internal static class MethodBaseExtensions
 
         foreach (var item in namedParameters)
         {
-            int paramIndex = Array.FindIndex(paramNames, n => n.Equals(item.Key, StringComparison.OrdinalIgnoreCase));
+            int paramIndex = Array.FindIndex(paramNames, n => n?.Equals(item.Key, StringComparison.OrdinalIgnoreCase) == true);
             if (paramIndex >= 0)
             {
                 parameters[paramIndex] = item.Value;
