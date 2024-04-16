@@ -50,9 +50,9 @@ public class StringHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{#String.IsString \"Hello\"}}yes{{else}}no{{/String.IsString}}", "yes")]
-    [InlineData("{{#String.IsString 1}}yes{{else}}no{{/String.IsString}}", "no")]
-    public void IsString(string template, string expected)
+    [InlineData("{{String.Coalesce null, \" \", \"\", \"a\", \"b\"}}", "a")]
+    [InlineData("{{String.Coalesce \"\", \" \", \"\", \"a\", \"b\"}}", "a")]
+    public void Coalesce(string template, string expected)
     {
         // Arrange
         var action = _handlebarsContext.Compile(template);
@@ -65,9 +65,30 @@ public class StringHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{String.Coalesce null, \" \", \"\", \"a\", \"b\"}}", "a")]
-    [InlineData("{{String.Coalesce \"\", \" \", \"\", \"a\", \"b\"}}", "a")]
-    public void Coalesce(string template, string expected)
+    [InlineData("{{[String.Equal] \"foo\" \"bar\"}}", "False")]
+    [InlineData("{{[String.Equal] \"foo\" 'b'}}", "False")]
+    [InlineData("{{[String.Equal] 'b' \"foo\"}}", "False")]
+    [InlineData("{{[String.Equal] \"foo\" \"foo\"}}", "True")]
+    [InlineData("{{[String.Equal] 'x' 'x'}}", "True")]
+    [InlineData("{{[String.Equal] \"ab\" ([String.Append] \"a\" \"b\")}}", "True")]
+    [InlineData("{{#String.Equal \"foo\" \"foo\"}}yes{{else}}no{{/String.Equal}}", "yes")]
+    [InlineData("{{#String.Equal \"foo\" \"bar\"}}yes{{else}}no{{/String.Equal}}", "no")]
+    public void Equal(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("{{#String.IsString \"Hello\"}}yes{{else}}no{{/String.IsString}}", "yes")]
+    [InlineData("{{#String.IsString 1}}yes{{else}}no{{/String.IsString}}", "no")]
+    public void IsString(string template, string expected)
     {
         // Arrange
         var action = _handlebarsContext.Compile(template);
@@ -104,6 +125,27 @@ public class StringHelpersTemplateTests
 
         // Act
         var result = action(new { numbers = new[] { 1, 2, 3, 4 } });
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("{{[String.NotEqual] \"foo\" \"bar\"}}", "True")]
+    [InlineData("{{[String.NotEqual] \"foo\" 'b'}}", "True")]
+    [InlineData("{{[String.NotEqual] 'b' \"foo\"}}", "True")]
+    [InlineData("{{[String.NotEqual] \"foo\" \"foo\"}}", "False")]
+    [InlineData("{{[String.NotEqual] 'x' 'x'}}", "False")]
+    [InlineData("{{[String.NotEqual] \"ab\" ([String.Append] \"a\" \"b\")}}", "False")]
+    [InlineData("{{#String.NotEqual \"foo\" \"foo\"}}yes{{else}}no{{/String.NotEqual}}", "no")]
+    [InlineData("{{#String.NotEqual \"foo\" \"bar\"}}yes{{else}}no{{/String.NotEqual}}", "yes")]
+    public void NotEqual(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
 
         // Assert
         result.Should().Be(expected);
