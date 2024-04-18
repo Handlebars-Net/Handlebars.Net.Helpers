@@ -1,3 +1,6 @@
+# 2.4.2 (18 April 2024)
+- [#90](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/90) - Upgrade some NuGets [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.1.5 (12 March 2024)
 - [#88](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/88) - Fixed casting problems in ExecuteUtils breaking EnumerableHelpers [bug] contributed by [HenrikHoyer](https://github.com/HenrikHoyer)
 
