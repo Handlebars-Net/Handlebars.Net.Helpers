@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers.Extensions;
 
@@ -22,10 +21,11 @@ internal static class MethodBaseExtensions
         return parameters.Length > 0 && parameters[0].ParameterType == typeof(IHelperOptions);
     }
 
-    //public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> namedParameters)
-    //{
-    //    return self.Invoke(obj, MapParameters(self, namedParameters))!;
-    //}
+    /* Both methods below are not used, but I keep them for future reference
+    public static object InvokeWithNamedParameters(this MethodBase self, object obj, IDictionary<string, object> namedParameters)
+    {
+        return self.Invoke(obj, MapParameters(self, namedParameters))!;
+    }
 
     private static object[] MapParameters(MethodBase method, IDictionary<string, object> namedParameters)
     {
@@ -47,4 +47,5 @@ internal static class MethodBaseExtensions
 
         return parameters;
     }
+    */
 }
