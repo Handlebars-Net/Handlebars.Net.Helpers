@@ -21,8 +21,9 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 | Handlebars.Net.Helpers.XPath |[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers.XPath)](https://www.nuget.org/packages/Handlebars.Net.Helpers.XPath) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers.XPath?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers.XPath)|
 
 ## Framework support
-- .NET Framework 4.5.1 and 4.5.2
+- .NET Framework 4.5.1 4.5.2 and 4.6
 - .NET Standard 1.3, 2.0 and 2.1
+- .NET 6.0 and .NET 8.0
 
 ## Usage
 
