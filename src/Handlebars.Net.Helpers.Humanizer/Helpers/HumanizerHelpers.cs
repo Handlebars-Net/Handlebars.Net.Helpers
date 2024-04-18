@@ -182,9 +182,9 @@ internal class HumanizerHelpers : BaseHelpers, IHelpers
     public string ToQuantity(string value, object quantity)
     {
         return ExecuteUtils.Execute(Context, quantity,
-            (quantityAsInt) => value.ToQuantity(quantityAsInt),
-            (quantityAsLong) => value.ToQuantity(quantityAsLong),
-            (quantityAsInt) => value.ToQuantity(quantityAsInt)
+            quantityAsInt => value.ToQuantity(quantityAsInt),
+            quantityAsLong => value.ToQuantity(quantityAsLong),
+            value.ToQuantity
         );
     }
 
@@ -211,7 +211,7 @@ internal class HumanizerHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public string Transform(string value, string transformer)
+    public string Transform(string value, string? transformer)
     {
         if (transformer == null)
         {

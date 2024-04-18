@@ -13,7 +13,7 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-#if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER
+#if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
 #else
 using HandlebarsDotNet.Polyfills;
@@ -120,14 +120,14 @@ public static class HandlebarsHelpers
                 MethodInfo = methodInfo,
                 HandlebarsWriterAttribute = methodInfo.GetCustomAttribute<HandlebarsWriterAttribute>()
             })
-            .Where(x => x.HandlebarsWriterAttribute is { })
+            .Where(x => x.HandlebarsWriterAttribute != null)
             .ToArray();
 
         foreach (var method in methods)
         {
-            var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute, options, categoryPrefix);
+            var name = GetName(method.MethodInfo, method.HandlebarsWriterAttribute!, options, categoryPrefix);
 
-            switch (method.HandlebarsWriterAttribute.Usage)
+            switch (method.HandlebarsWriterAttribute!.Usage)
             {
                 case HelperUsage.Normal:
                     RegisterHelper(handlebarsContext, helper, method.HandlebarsWriterAttribute, method.MethodInfo, name);

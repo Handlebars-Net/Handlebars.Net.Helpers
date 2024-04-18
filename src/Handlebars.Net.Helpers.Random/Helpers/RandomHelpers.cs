@@ -8,6 +8,7 @@ using HandlebarsDotNet.Helpers.Parsers;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 
+// ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
 internal class RandomHelpers : BaseHelpers, IHelpers
@@ -47,7 +48,7 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         return randomizer.Generate();
     }
 
-    private FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
+    private static FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
     {
         if (hash.TryGetValue("Type", out var value) && value is string randomType)
         {
@@ -55,7 +56,7 @@ internal class RandomHelpers : BaseHelpers, IHelpers
             foreach (var item in hash.Where(p => p.Key != "Type"))
             {
                 bool convertObjectArrayToStringList = randomType == "StringList";
-                var parsedArgumentValue = ArgumentsParser.Parse(Context, item.Value, convertObjectArrayToStringList);
+                var parsedArgumentValue = ArgumentsParser.Parse(item.Value, convertObjectArrayToStringList);
 
                 newProperties.Add(item.Key, parsedArgumentValue);
             }

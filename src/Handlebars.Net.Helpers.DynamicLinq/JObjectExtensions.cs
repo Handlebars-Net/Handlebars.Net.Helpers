@@ -191,7 +191,7 @@ internal static class JObjectExtensions
     public static DynamicClass CreateInstance(IList<DynamicPropertyWithValue> dynamicPropertiesWithValue, bool createParameterCtor = true)
     {
         var type = DynamicClassFactory.CreateType(dynamicPropertiesWithValue.Cast<DynamicProperty>().ToArray(), createParameterCtor);
-        var dynamicClass = (DynamicClass)Activator.CreateInstance(type);
+        var dynamicClass = (DynamicClass)Activator.CreateInstance(type)!;
         foreach (var dynamicPropertyWithValue in dynamicPropertiesWithValue.Where(p => p.Value != null))
         {
             dynamicClass.SetDynamicPropertyValue(dynamicPropertyWithValue.Name, dynamicPropertyWithValue.Value!);
