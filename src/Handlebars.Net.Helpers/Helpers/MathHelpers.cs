@@ -7,6 +7,8 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 
 internal class MathHelpers : BaseHelpers, IHelpers
 {
+    private const double Tolerance = 1e-20; // 20 Digits of precision
+
     [HandlebarsWriter(WriterType.Value)]
     public object Add(object value1, object value2)
     {
@@ -40,7 +42,7 @@ internal class MathHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool Equal(object value1, object value2)
     {
-        return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 == x2, (x1, x2) => x1 == x2, (x1, x2) => x1 == x2);
+        return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 == x2, (x1, x2) => x1 == x2, (x1, x2) => Math.Abs(x1 - x2) < Tolerance);
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -106,7 +108,7 @@ internal class MathHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool NotEqual(object value1, object value2)
     {
-        return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 != x2, (x1, x2) => x1 != x2, (x1, x2) => x1 != x2);
+        return ExecuteUtils.Execute(Context, value1, value2, (x1, x2) => x1 != x2, (x1, x2) => x1 != x2, (x1, x2) => Math.Abs(x1 - x2) > Tolerance);
     }
 
     [HandlebarsWriter(WriterType.Value)]

@@ -5,6 +5,7 @@ using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Models;
+using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
@@ -15,6 +16,10 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 /// </summary>
 internal class StringHelpers : BaseHelpers, IHelpers
 {
+    public StringHelpers(IHandlebars context) : base(context)
+    {
+    }
+
     [HandlebarsWriter(WriterType.String)]
     public string Append(string value, string append)
     {
@@ -137,6 +142,67 @@ internal class StringHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public bool Equal(string value, string test, object? stringComparisonType = null)
+    {
+        return EnumUtils.TryParse<StringComparison>(stringComparisonType, out var comparisonType) ? string.Equals(value, test, comparisonType.Value) : value == test;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool Equals(string value, string test, object? stringComparisonType = null)
+    {
+        return Equal(value, test, stringComparisonType);
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public string Format(object? value, string format)
+    {
+        var formatProvider = Context.Configuration.FormatProvider;
+
+        // Attempt using a custom formatter from the format provider (if any)
+        var customFormatter = formatProvider?.GetFormat(typeof(ICustomFormatter)) as ICustomFormatter;
+        var formattedValue = customFormatter?.Format(format, value, formatProvider);
+
+        // Fallback to IFormattable
+        formattedValue ??= (value as IFormattable)?.ToString(format, formatProvider);
+
+        // Fallback to ToString
+        formattedValue ??= value?.ToString();
+
+        // Done
+        return formattedValue ?? string.Empty;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public WrappedString FormatAsString(object? value, string? format = null)
+    {
+        return new WrappedString(Format(value, format ?? string.Empty));
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrEmpty(string value)
+    {
+        return !string.IsNullOrEmpty(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNotNullOrWhiteSpace(string value)
+    {
+        return !string.IsNullOrWhiteSpace(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNullOrEmpty(string value)
+    {
+        return string.IsNullOrEmpty(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool IsNullOrWhiteSpace(string value)
+    {
+        return string.IsNullOrWhiteSpace(value);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public bool IsString(object value)
     {
         return value is string;
@@ -162,6 +228,18 @@ internal class StringHelpers : BaseHelpers, IHelpers
         }
 
         return value.ToLower();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool NotEqual(string value, string test, object? stringComparisonType = null)
+    {
+        return !Equal(value, test, stringComparisonType);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool NotEquals(string value, string test, object? stringComparisonType = null)
+    {
+        return NotEqual(value, test, stringComparisonType);
     }
 
     [HandlebarsWriter(WriterType.String)]
@@ -270,6 +348,24 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
     }
 
+    [HandlebarsWriter(WriterType.Value)]
+    public bool StartsWith(string value, string test)
+    {
+        if (value is null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        return value.StartsWith(test);
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public string Substring(string value, int start, int? end = null)
+    {
+        Guard.NotNullOrEmpty(value);
+        return end is null ? value.Substring(start) : value.Substring(start, end.Value);
+    }
+
     [HandlebarsWriter(WriterType.String)]
     public static string Titlecase(string value)
     {
@@ -288,17 +384,6 @@ internal class StringHelpers : BaseHelpers, IHelpers
         }
 
         return string.Join(" ", tokens);
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool StartsWith(string value, string test)
-    {
-        if (value is null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
-
-        return value.StartsWith(test);
     }
 
     [HandlebarsWriter(WriterType.String)]
@@ -358,81 +443,9 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return value.ToUpper();
     }
 
-    [HandlebarsWriter(WriterType.String)]
-    public string Format(object? value, string format)
-    {
-        var formatProvider = Context.Configuration.FormatProvider;
-
-        // Attempt using a custom formatter from the format provider (if any)
-        var customFormatter = formatProvider?.GetFormat(typeof(ICustomFormatter)) as ICustomFormatter;
-        var formattedValue = customFormatter?.Format(format, value, formatProvider);
-
-        // Fallback to IFormattable
-        formattedValue ??= (value as IFormattable)?.ToString(format, formatProvider);
-
-        // Fallback to ToString
-        formattedValue ??= value?.ToString();
-
-        // Done
-        return formattedValue ?? string.Empty;
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public WrappedString FormatAsString(object? value, string? format = null)
-    {
-        return new WrappedString(Format(value, format ?? string.Empty));
-    }
-
     [HandlebarsWriter(WriterType.Value)]
     public WrappedString ToWrappedString(object? value)
     {
         return FormatAsString(value);
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool Equal(string value, string test)
-    {
-        return value == test;
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool NotEqual(string value, string test)
-    {
-        return value != test;
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool IsNullOrWhiteSpace(string value)
-    {
-        return string.IsNullOrWhiteSpace(value);
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool IsNotNullOrWhiteSpace(string value)
-    {
-        return !string.IsNullOrWhiteSpace(value);
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool IsNullOrEmpty(string value)
-    {
-        return string.IsNullOrEmpty(value);
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public bool IsNotNullOrEmpty(string value)
-    {
-        return !string.IsNullOrEmpty(value);
-    }
-
-    [HandlebarsWriter(WriterType.String)]
-    public string Substring(string value, int start, int? end = null)
-    {
-        Guard.NotNullOrEmpty(value);
-        return end is null ? value.Substring(start) : value.Substring(start, end.Value);
-    }
-
-    public StringHelpers(IHandlebars context) : base(context)
-    {
     }
 }

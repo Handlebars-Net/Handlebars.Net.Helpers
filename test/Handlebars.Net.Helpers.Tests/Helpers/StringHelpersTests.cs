@@ -366,12 +366,29 @@ public class StringHelpersTests
     public void Equal(string value, string test, bool expected)
     {
         // Act
-        var result = _sut.Equal(value, test);
+        var equal = _sut.Equal(value, test);
+        var equals = _sut.Equals(value, test);
 
         // Assert
-        result.Should().Be(expected);
+        equal.Should().Be(expected);
+        equals.Should().Be(expected);
     }
-        
+
+    [Theory]
+    [InlineData("Foo", "foo", "OrdinalIgnoreCase", true)]
+    [InlineData("Foo", "foo", "5", true)]
+    [InlineData("Foo", "foo", 5, true)]
+    public void EqualWithStringStringComparison(string value, string test, object stringComparison, bool expected)
+    {
+        // Act
+        var equal = _sut.Equal(value, test, stringComparison);
+        var equals = _sut.Equals(value, test, stringComparison);
+
+        // Assert
+        equal.Should().Be(expected);
+        equals.Should().Be(expected);
+    }
+
     [Theory]
     [InlineData("", "bar", true)]
     [InlineData("foo", "", true)]
@@ -384,10 +401,27 @@ public class StringHelpersTests
     public void NotEqual(string value, string test, bool expected)
     {
         // Act
-        var result = _sut.NotEqual(value, test);
+        var notEqual = _sut.NotEqual(value, test);
+        var notEquals = _sut.NotEquals(value, test);
 
         // Assert
-        result.Should().Be(expected);
+        notEqual.Should().Be(expected);
+        notEquals.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("Foo", "foo", "OrdinalIgnoreCase", false)]
+    [InlineData("Foo", "foo", "5", false)]
+    [InlineData("Foo", "foo", 5, false)]
+    public void NotEqualWithStringStringComparison(string value, string test, object stringComparison, bool expected)
+    {
+        // Act
+        var notEqual = _sut.NotEqual(value, test, stringComparison);
+        var notEquals = _sut.NotEquals(value, test, stringComparison);
+
+        // Assert
+        notEqual.Should().Be(expected);
+        notEquals.Should().Be(expected);
     }
 
     [Theory]

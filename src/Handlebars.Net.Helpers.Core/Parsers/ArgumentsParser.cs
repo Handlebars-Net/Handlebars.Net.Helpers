@@ -45,9 +45,9 @@ public static class ArgumentsParser
         return argument;
     }
 
-    public static object ParseAsIntLongOrDouble(IHandlebars context, object value)
+    public static object ParseAsIntLongOrDouble(IHandlebars context, object? value)
     {
-        var parsedValue = StringValueParser.Parse(context, value as string ?? value.ToString() ?? string.Empty);
+        var parsedValue = StringValueParser.Parse(context, value as string ?? value?.ToString() ?? string.Empty);
 
         if (SupportedTypes.Contains(parsedValue.GetType()))
         {
