@@ -64,6 +64,39 @@ public class StringHelpersTemplateTests
         result.Should().Be(expected);
     }
 
+    [Fact]
+    public void Equal_ThrowOnUnresolvedBindingExpression_False()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+        handlebarsContext.Configuration.ThrowOnUnresolvedBindingExpression = false;
+
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.DateTimeService = _dateTimeServiceMock.Object;
+        });
+        var action1 = handlebarsContext.Compile("x{{viewData.page}}y");
+        var action2 = handlebarsContext.Compile("{{#String.Equal viewData.page \"home\"}}yes{{else}}no{{/String.Equal}}");
+
+        var viewData = new
+        {
+            abc = "xyz"
+        };
+
+        // Act 1
+        var result1 = action1(viewData);
+
+        // Assert 1
+        result1.Should().Be("xy");
+
+        // Act 2
+        var result2 = action2(viewData);
+
+        // Assert 2
+        result2.Should().Be("no");
+    }
+
     [Theory]
     [InlineData("{{[String.Equal] \"foo\" \"bar\"}}", "False")]
     [InlineData("{{[String.Equal] \"foo\" 'b'}}", "False")]
