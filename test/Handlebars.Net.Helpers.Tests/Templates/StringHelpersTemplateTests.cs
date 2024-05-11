@@ -86,6 +86,25 @@ public class StringHelpersTemplateTests
     }
 
     [Theory]
+    [InlineData("{{[String.Equal] \"foo\" \"Foo\" \"OrdinalIgnoreCase\"}}", "True")]
+    [InlineData("{{[String.Equal] \"foo\" \"Foo\" \"5\"}}", "True")]
+    [InlineData("{{[String.Equal] \"foo\" \"Foo\" 5}}", "True")]
+    [InlineData("{{[String.Equals] \"foo\" \"Foo\" \"OrdinalIgnoreCase\"}}", "True")]
+    [InlineData("{{[String.Equals] \"foo\" \"Foo\" \"5\"}}", "True")]
+    [InlineData("{{[String.Equals] \"foo\" \"Foo\" 5}}", "True")]
+    public void EqualWithStringComparison(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
     [InlineData("{{#String.IsString \"Hello\"}}yes{{else}}no{{/String.IsString}}", "yes")]
     [InlineData("{{#String.IsString 1}}yes{{else}}no{{/String.IsString}}", "no")]
     public void IsString(string template, string expected)
@@ -140,6 +159,25 @@ public class StringHelpersTemplateTests
     [InlineData("{{#String.NotEqual \"foo\" \"foo\"}}yes{{else}}no{{/String.NotEqual}}", "no")]
     [InlineData("{{#String.NotEqual \"foo\" \"bar\"}}yes{{else}}no{{/String.NotEqual}}", "yes")]
     public void NotEqual(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("{{[String.NotEqual] \"foo\" \"Foo\" \"OrdinalIgnoreCase\"}}", "False")]
+    [InlineData("{{[String.NotEqual] \"foo\" \"Foo\" \"5\"}}", "False")]
+    [InlineData("{{[String.NotEqual] \"foo\" \"Foo\" 5}}", "False")]
+    [InlineData("{{[String.NotEquals] \"foo\" \"Foo\" \"OrdinalIgnoreCase\"}}", "False")]
+    [InlineData("{{[String.NotEquals] \"foo\" \"Foo\" \"5\"}}", "False")]
+    [InlineData("{{[String.NotEquals] \"foo\" \"Foo\" 5}}", "False")]
+    public void NotEqualWithStringComparison(string template, string expected)
     {
         // Arrange
         var action = _handlebarsContext.Compile(template);
