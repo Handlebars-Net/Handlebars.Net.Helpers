@@ -48,20 +48,20 @@ internal class RandomHelpers : BaseHelpers, IHelpers
         return randomizer.Generate();
     }
 
-    private static FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
+    private FieldOptionsAbstract GetFieldOptionsFromHash(IDictionary<string, object?> hash)
     {
-        if (hash.TryGetValue("Type", out var value) && value is string randomType)
+        if (hash.TryGetValue("Type", out var value) && value is string randomTypeAsString)
         {
             var newProperties = new Dictionary<string, object?>();
             foreach (var item in hash.Where(p => p.Key != "Type"))
             {
-                bool convertObjectArrayToStringList = randomType == "StringList";
-                var parsedArgumentValue = ArgumentsParser.Parse(item.Value, convertObjectArrayToStringList);
+                bool convertObjectArrayToStringList = randomTypeAsString == "StringList";
+                var parsedArgumentValue = ArgumentsParser.Parse(Context, item.Value, default(string), convertObjectArrayToStringList);
 
                 newProperties.Add(item.Key, parsedArgumentValue);
             }
 
-            return FieldOptionsFactory.GetFieldOptions(randomType, newProperties!);
+            return FieldOptionsFactory.GetFieldOptions(randomTypeAsString, newProperties!);
         }
 
         throw new HandlebarsException("The Type argument is missing.");

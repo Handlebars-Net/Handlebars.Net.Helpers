@@ -33,6 +33,28 @@ public class MathHelpersTemplateTests
         result.Should().StartWith(expected);
     }
 
+    [Fact]
+    public void Add_ThrowOnUnresolvedBindingExpression_False()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+        handlebarsContext.Configuration.ThrowOnUnresolvedBindingExpression = false;
+
+        HandlebarsHelpers.Register(handlebarsContext, Category.Math);
+        var action = handlebarsContext.Compile("{{[Math.Add] viewData.page 42}}");
+        var viewData = new
+        {
+            abc = "xyz"
+        };
+
+        // Act
+        var result = action(viewData);
+
+        // Assert 1
+        result.Should().Be("42");
+    }
+
     [Theory]
     [InlineData("{{[Math.LessThan] 2 1}}", "False")]
     [InlineData("{{[Math.LessThan] 1 2}}", "True")]

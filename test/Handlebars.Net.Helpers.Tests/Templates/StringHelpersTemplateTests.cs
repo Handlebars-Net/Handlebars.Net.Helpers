@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
+using HandlebarsDotNet.Compiler;
 using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -62,6 +63,72 @@ public class StringHelpersTemplateTests
 
         // Assert
         result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Equal_WhenInputIsUnresolvedBinding_And_ThrowOnUnresolvedBindingExpressionIsFalse_ShouldReturnEmpty()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+        handlebarsContext.Configuration.ThrowOnUnresolvedBindingExpression = false;
+
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.DateTimeService = _dateTimeServiceMock.Object;
+        });
+        var action0 = handlebarsContext.Compile("x{{viewData.page}}y");
+        var action1 = handlebarsContext.Compile("x{{viewData.page}}y");
+        var action2 = handlebarsContext.Compile("{{#String.Equal viewData.page \"home\"}}yes{{else}}no{{/String.Equal}}");
+
+        // Act 0
+        var result0 = action0(null);
+
+        // Assert 0
+        result0.Should().Be("xy");
+
+        var viewData = new
+        {
+            abc = "xyz"
+        };
+
+        // Act 1
+        var result1 = action1(viewData);
+
+        // Assert 1
+        result1.Should().Be("xy");
+
+        // Act 2
+        var result2 = action2(viewData);
+
+        // Assert 2
+        result2.Should().Be("no");
+    }
+
+    [Fact]
+    public void Equal_WhenInputIsUnresolvedBinding_And_ThrowOnUnresolvedBindingExpressionIsTrue_ShouldThrow()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+        handlebarsContext.Configuration.ThrowOnUnresolvedBindingExpression = true;
+
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.DateTimeService = _dateTimeServiceMock.Object;
+        });
+        var template = handlebarsContext.Compile("x{{viewData.page}}y");
+
+        var viewData = new
+        {
+            abc = "xyz"
+        };
+
+        // Act
+        Action action = () => template(viewData);
+
+        // Assert
+        action.Should().Throw<HandlebarsUndefinedBindingException>().WithMessage("viewData is undefined");
     }
 
     [Theory]

@@ -96,7 +96,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public object? Coalesce(params object?[] arguments)
     {
-        foreach (var arg in arguments.Where(a => a is { } and not UndefinedBindingResult))
+        foreach (var arg in arguments.Where(a => a is not null and not UndefinedBindingResult))
         {
             if (arg is string stringValue)
             {

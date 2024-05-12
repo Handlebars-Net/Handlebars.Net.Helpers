@@ -13,33 +13,43 @@ public static class ArgumentsParser
 
     public static List<object?> Parse(IHandlebars context, ParameterInfo[] parameters, Arguments arguments)
     {
-        var result = new List<object?>();
+        var result = new List<(object? Argument, object? DefaultValue)>();
+
         for (int i = 0; i < parameters.Length; i++)
         {
             if (parameters[i].IsParam())
             {
-                result.Add(arguments.Skip(i).ToArray());
+                result.Add((arguments.Skip(i).ToArray(), DefaultValueCache.GetDefaultValue(parameters[i].ParameterType)));
             }
             else if (i < arguments.Length)
             {
-                result.Add(arguments[i]);
+                var defaultValue = parameters[i].HasDefaultValue ? parameters[i].DefaultValue : DefaultValueCache.GetDefaultValue(parameters[i].ParameterType);
+                result.Add((arguments[i], defaultValue));
             }
         }
 
-        return result.Select(argument => Parse(argument)).ToList();
+        return result.Select(x => Parse(context, x.Argument, x.DefaultValue)).ToList();
     }
 
-    public static object? Parse(object? argument, bool convertObjectArrayToStringList = false)
+    public static object? Parse(IHandlebars context, object? argument, object? defaultValue, bool convertObjectArrayToStringList = false)
     {
-        if (argument is UndefinedBindingResult valueAsUndefinedBindingResult &&
-            TryParseUndefinedBindingResult(valueAsUndefinedBindingResult, out var parsedAsObjectList))
+        if (argument is UndefinedBindingResult argumentAsUndefinedBindingResult)
         {
-            if (convertObjectArrayToStringList)
+            if (TryParseUndefinedBindingResult(argumentAsUndefinedBindingResult, out var parsedAsObjectList))
             {
-                return parsedAsObjectList.Cast<string?>().ToList();
+                if (convertObjectArrayToStringList)
+                {
+                    return parsedAsObjectList.Cast<string?>().ToList();
+                }
+
+                return parsedAsObjectList;
             }
 
-            return parsedAsObjectList;
+            // In case it's an UndefinedBindingResult and ThrowOnUnresolvedBindingExpression is set to false, return the default value.
+            if (!context.Configuration.ThrowOnUnresolvedBindingExpression)
+            {
+                return defaultValue;
+            }
         }
 
         return argument;
@@ -47,6 +57,12 @@ public static class ArgumentsParser
 
     public static object ParseAsIntLongOrDouble(IHandlebars context, object? value)
     {
+        // In case the value is null and ThrowOnUnresolvedBindingExpression is set to false, return the default value (0).
+        if (value is null && !context.Configuration.ThrowOnUnresolvedBindingExpression)
+        {
+            return 0;
+        }
+
         var parsedValue = StringValueParser.Parse(context, value as string ?? value?.ToString() ?? string.Empty);
 
         if (SupportedTypes.Contains(parsedValue.GetType()))
