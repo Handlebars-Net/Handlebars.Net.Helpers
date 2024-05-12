@@ -76,8 +76,15 @@ public class StringHelpersTemplateTests
         {
             o.DateTimeService = _dateTimeServiceMock.Object;
         });
+        var action0 = handlebarsContext.Compile("x{{viewData.page}}y");
         var action1 = handlebarsContext.Compile("x{{viewData.page}}y");
         var action2 = handlebarsContext.Compile("{{#String.Equal viewData.page \"home\"}}yes{{else}}no{{/String.Equal}}");
+
+        // Act 0
+        var result0 = action0(null);
+
+        // Assert 0
+        result0.Should().Be("xy");
 
         var viewData = new
         {
