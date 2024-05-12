@@ -1,3 +1,8 @@
+# 2.4.3 (12 May 2024)
+- [#93](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/93) - Add String.Equals with StringComparison [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#95](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/95) - When ThrowOnUnresolvedBindingExpression is False, do not throw when UndefinedBindingResult but use default value [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#94](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/94) - UndefinedBindingResult Throws exception when using #String.Equal [bug]
+
 # 2.4.2.1 (18 April 2024)
 - [#90](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/90) - Upgrade some NuGets [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#91](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/91) - Use version 1.3.12 from System.Linq.Dynamic.Core [enhancement] contributed by [StefH](https://github.com/StefH)
