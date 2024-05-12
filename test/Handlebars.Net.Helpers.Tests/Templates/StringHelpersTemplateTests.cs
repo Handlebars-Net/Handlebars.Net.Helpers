@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
+using HandlebarsDotNet.Compiler;
 using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -65,7 +66,7 @@ public class StringHelpersTemplateTests
     }
 
     [Fact]
-    public void Equal_ThrowOnUnresolvedBindingExpression_False()
+    public void Equal_WhenInputIsUnresolvedBinding_And_ThrowOnUnresolvedBindingExpressionIsFalse_ShouldReturnEmpty()
     {
         // Arrange
         var handlebarsContext = Handlebars.Create();
@@ -102,6 +103,32 @@ public class StringHelpersTemplateTests
 
         // Assert 2
         result2.Should().Be("no");
+    }
+
+    [Fact]
+    public void Equal_WhenInputIsUnresolvedBinding_And_ThrowOnUnresolvedBindingExpressionIsTrue_ShouldThrow()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        handlebarsContext.Configuration.FormatProvider = CultureInfo.InvariantCulture;
+        handlebarsContext.Configuration.ThrowOnUnresolvedBindingExpression = true;
+
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.DateTimeService = _dateTimeServiceMock.Object;
+        });
+        var template = handlebarsContext.Compile("x{{viewData.page}}y");
+
+        var viewData = new
+        {
+            abc = "xyz"
+        };
+
+        // Act
+        Action action = () => template(viewData);
+
+        // Assert
+        action.Should().Throw<HandlebarsUndefinedBindingException>().WithMessage("viewData is undefined");
     }
 
     [Theory]
