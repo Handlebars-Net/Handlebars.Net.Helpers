@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -17,7 +18,7 @@ public class JsonPathHelpersTemplateTests
     }
 
     [Fact]
-    public void SelectToken_With_String()
+    public void SelectToken()
     {
         // Arrange
         var request = new
@@ -32,6 +33,37 @@ public class JsonPathHelpersTemplateTests
 
         // Assert
         int.Parse(result).Should().Be(99);
+    }
+
+    [Fact]
+    public void SelectToken_WithComplexTemplate()
+    {
+        // Arrange
+        const string requestAsJson = """
+        {
+          "bodyAsJson": {
+            "pricingContext": {
+              "market": "US"
+            }
+          }
+        }
+        """;
+        var request = JsonConvert.DeserializeObject(requestAsJson);
+
+        // Use single quotes for the JsonPath else it will be parsed correctly by Handlebars.Net
+        var action = _handlebarsContext.Compile("{\r\n  \"market\": \"{{JsonPath.SelectToken bodyAsJson '$.pricingContext.market'}}\",\r\n  \"languages\": \"en\"\r\n}");
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        var expected = """
+        {
+          "market": "US",
+          "languages": "en"
+        }
+        """;
+        result.Should().Be(expected);
     }
 
     [Fact]
