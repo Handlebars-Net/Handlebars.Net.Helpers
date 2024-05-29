@@ -66,6 +66,37 @@ public class JsonPathHelpersTemplateTests
         result.Should().Be(expected);
     }
 
+    [Fact(Skip = "https://github.com/Handlebars-Net/Handlebars.Net/issues/584")]
+    public void SelectToken_WithComplexTemplateFails()
+    {
+        // Arrange
+        const string requestAsJson = """
+                                     {
+                                       "bodyAsJson": {
+                                         "pricingContext": {
+                                           "market": "US"
+                                         }
+                                       }
+                                     }
+                                     """;
+        var request = JsonConvert.DeserializeObject(requestAsJson);
+
+        // Use single quotes for the JsonPath else it will be parsed correctly by Handlebars.Net
+        var action = _handlebarsContext.Compile("{\r\n  \"market\": \"{{JsonPath.SelectToken bodyAsJson \\\"$.pricingContext.market\\\"}}\",\r\n  \"languages\": \"en\"\r\n}");
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        var expected = """
+                       {
+                         "market": "US",
+                         "languages": "en"
+                       }
+                       """;
+        result.Should().Be(expected);
+    }
+
     [Fact]
     public void SelectTokens_With_JObject()
     {
