@@ -13,6 +13,10 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
+using System.Diagnostics;
+using HandlebarsDotNet.Helpers.Compatibility;
+
+
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
 #else
@@ -77,7 +81,11 @@ public static class HandlebarsHelpers
             { Category.Humanizer, "HumanizerHelpers" }
         };
 
-        var paths = options.CustomHelperPaths ?? new List<string> { Directory.GetCurrentDirectory() };
+        var paths = options.CustomHelperPaths ?? new List<string>
+        {
+            Directory.GetCurrentDirectory(),
+            AppContextHelper.GetBaseDirectory()
+        };
         var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
 
         foreach (var item in extraHelpers)
