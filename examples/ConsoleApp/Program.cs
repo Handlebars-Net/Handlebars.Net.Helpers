@@ -68,6 +68,8 @@ class Program
 
         var tests = new[]
         {
+            "{{Not true}}",
+
             "{{[lookup] data 1}}",
             "{{[lookup] data 2}}",
             "{{[lookup] data 4 \"n/a\"}}",
