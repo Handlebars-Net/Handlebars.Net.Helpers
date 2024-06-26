@@ -7,26 +7,12 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers;
 
 public class XsltHelpersTests
 {
-    private readonly XsltHelpers _sut;
-
-    public XsltHelpersTests()
-    {
-        Mock<IHandlebars> contextMock = new();
-        contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
-
-        _sut = new XsltHelpers(contextMock.Object);
-    }
-
-    [Fact]
-    public void TransformToString()
-    {
-        // Assign
-        const string xml = @"<People>
+    private static string xml = @"<People>
   <Person FirstName='John' LastName='Doe' />
   <Person FirstName='Jane' LastName='Doe' />
 </People>";
 
-        const string xslt = @"<?xml version='1.0' encoding='UTF-8'?>
+    private static string xslt = @"<?xml version='1.0' encoding='UTF-8'?>
 <xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
   <xsl:output method='xml' />
   <xsl:template match='/People'>
@@ -43,6 +29,19 @@ public class XsltHelpersTests
   </xsl:template>
 </xsl:stylesheet>";
 
+    private readonly XsltHelpers _sut;
+
+    public XsltHelpersTests()
+    {
+        Mock<IHandlebars> contextMock = new();
+        contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+
+        _sut = new XsltHelpers(contextMock.Object);
+    }
+
+    [Fact]
+    public void TransformToString()
+    {
         // Act
         var result = _sut.TransformToString(xml, xslt);
 
@@ -51,6 +50,17 @@ public class XsltHelpersTests
   <Employee FullName=""John Doe"" />
   <Employee FullName=""Jane Doe"" />
 </All>";
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void TransformToString_IndentIsFalse()
+    {
+        // Act
+        var result = _sut.TransformToString(xml, xslt, false);
+
+        // Assert
+        const string expected = @"<All><Employee FullName=""John Doe"" /><Employee FullName=""Jane Doe"" /></All>";
         result.Should().BeEquivalentTo(expected);
     }
 }
