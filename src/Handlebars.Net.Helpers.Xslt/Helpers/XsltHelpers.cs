@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Xsl;
@@ -22,36 +23,68 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public XmlDocument Transform(string document, string xslt)
+    public XmlDocument Transform(string inputXml, string xsltString)
     {
-        var inputXml = CreateXmlDocument(document);
-        var xsltCompiledTransform = CreateXslCompiledTransform(xslt);
+        var inputDoc = CreateXmlDocument(inputXml);
+        var xslt = CreateXslCompiledTransform(xsltString);
 
-        var outputXml = new XmlDocument();
-        using var writer = outputXml.CreateNavigator()!.AppendChild();
-        xsltCompiledTransform.Transform(inputXml, null, writer);
+        var outputDoc = new XmlDocument();
 
-        return outputXml;
+        // Create an XmlWriter that writes directly into the XmlDocument
+        using var xmlWriter = outputDoc.CreateNavigator()!.AppendChild();
+
+        // Apply the transformation
+        xslt.Transform(inputDoc, xmlWriter);
+
+        return outputDoc;
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public string TransformToString(string document, string xslt)
+    public string TransformToString(string document, string xslt, bool? indent = null, bool? removeXmlVersion = null)
     {
-        return Transform(document, xslt).OuterXml;
+        var outputDoc = Transform(document, xslt);
+
+        if (indent == null || indent.Value)
+        {
+            // Define the settings to use for indentation
+            var settings = new XmlWriterSettings
+            {
+                Indent = true
+            };
+
+            // Now, serialize the XmlDocument with indentation
+            var sw = new StringWriter();
+            using (var indentingWriter = XmlWriter.Create(sw, settings))
+            {
+                outputDoc.WriteTo(indentingWriter);
+            }
+
+            var result = sw.ToString();
+            return removeXmlVersion == null || removeXmlVersion.Value ? RemoveXmlVersion(result) : result;
+        }
+
+        return outputDoc.OuterXml;
     }
 
     private static XmlDocument CreateXmlDocument(string document)
     {
         return new XmlDocument
         {
-            InnerXml = RemoveXmlVersionRegex.Replace(document, string.Empty)
+            InnerXml = RemoveXmlVersion(document)
         };
     }
 
-    private static XslCompiledTransform CreateXslCompiledTransform(string document)
+    private static XslCompiledTransform CreateXslCompiledTransform(string xsltString)
     {
         var xslt = new XslCompiledTransform();
-        xslt.Load(document);
+        using var xsltReader = XmlReader.Create(new StringReader(xsltString));
+        xslt.Load(xsltReader);
+
         return xslt;
+    }
+
+    private static string RemoveXmlVersion(string xml)
+    {
+        return RemoveXmlVersionRegex.Replace(xml, string.Empty).Trim();
     }
 }

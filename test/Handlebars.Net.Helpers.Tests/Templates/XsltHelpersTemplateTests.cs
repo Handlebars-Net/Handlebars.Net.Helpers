@@ -1,20 +1,19 @@
 ﻿#if !(NET451 || NET452)
 using FluentAssertions;
-using Moq;
+using HandlebarsDotNet.Helpers.Enums;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Helpers;
+namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
-public class XsltHelpersTests
+public class XsltHelpersTemplateTests
 {
-    private readonly XsltHelpers _sut;
+    private readonly IHandlebars _handlebarsContext;
 
-    public XsltHelpersTests()
+    public XsltHelpersTemplateTests()
     {
-        Mock<IHandlebars> contextMock = new();
-        contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
+        _handlebarsContext = Handlebars.Create();
 
-        _sut = new XsltHelpers(contextMock.Object);
+        HandlebarsHelpers.Register(_handlebarsContext, Category.Xslt);
     }
 
     [Fact]
@@ -28,7 +27,7 @@ public class XsltHelpersTests
 
         const string xslt = @"<?xml version='1.0' encoding='UTF-8'?>
 <xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
-  <xsl:output method='xml' />
+  <xsl:output method='xml' indent='yes'/>
   <xsl:template match='/People'>
     <All>
       <xsl:apply-templates select='Person'/>
@@ -37,14 +36,23 @@ public class XsltHelpersTests
   <xsl:template match='Person'>
     <Employee>
       <xsl:attribute name='FullName'>
-        <xsl:value-of select='concat(@FirstName, "" "", @LastName)'/>
+        <xsl:value-of select='concat(@FirstName, &apos; &apos;, @LastName)'/>
       </xsl:attribute>
     </Employee>
   </xsl:template>
 </xsl:stylesheet>";
 
+        // Arrange
+        var request = new
+        {
+            body = xml
+        };
+
+        const string expression = "{{Xslt.TransformToString body \"" + xslt + "\"}}";
+        var action = _handlebarsContext.Compile(expression);
+
         // Act
-        var result = _sut.TransformToString(xml, xslt);
+        var result = action(request);
 
         // Assert
         const string expected = @"<All>
