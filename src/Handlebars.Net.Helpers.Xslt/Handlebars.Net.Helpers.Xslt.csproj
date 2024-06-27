@@ -5,7 +5,7 @@
         <AssemblyName>HandlebarsDotNet.Helpers.Xslt</AssemblyName>
         <PackageId>Handlebars.Net.Helpers.Xslt</PackageId>
         <Description>Handlebars.Net.Helpers Xslt</Description>
-        <PackageTags>handlebars;helper;xml;xslt</PackageTags>
+        <PackageTags>handlebars;helper;xml;xslt;transform</PackageTags>
         <ProjectGuid>{E9A5CF6C-544C-4D1C-8AAD-EF4144FF710A}</ProjectGuid>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
