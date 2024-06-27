@@ -74,7 +74,8 @@ public static class HandlebarsHelpers
             { Category.Random, "RandomHelpers" },
             { Category.JsonPath, "JsonPathHelpers" },
             { Category.DynamicLinq, "DynamicLinqHelpers" },
-            { Category.Humanizer, "HumanizerHelpers" }
+            { Category.Humanizer, "HumanizerHelpers" },
+            { Category.Xslt, "XsltHelpers" }
         };
 
         var paths = options.CustomHelperPaths ?? new List<string> { Directory.GetCurrentDirectory() };

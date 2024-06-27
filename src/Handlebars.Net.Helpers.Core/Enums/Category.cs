@@ -17,5 +17,6 @@ public enum Category
     DynamicLinq,
     Humanizer,
     Boolean,
-    Object
+    Object,
+    Xslt
 }
