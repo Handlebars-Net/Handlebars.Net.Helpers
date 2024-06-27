@@ -6,6 +6,7 @@ using System.Xml.Xsl;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using Stef.Validation;
 
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
@@ -25,6 +26,9 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public XmlDocument Transform(string inputXml, string xsltString)
     {
+        Guard.NotNullOrEmpty(inputXml);
+        Guard.NotNullOrEmpty(xsltString);
+
         var inputDoc = CreateXmlDocument(inputXml);
         var xslt = CreateXslCompiledTransform(xsltString);
 
