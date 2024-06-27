@@ -44,7 +44,7 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public string TransformToString(string document, string xslt, bool? indent = null, bool? removeXmlVersion = null)
+    public string TransformToString(string document, string xslt, bool? indent = true, bool? removeXmlVersion = true)
     {
         var outputDoc = Transform(document, xslt);
 
