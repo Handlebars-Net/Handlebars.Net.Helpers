@@ -115,6 +115,7 @@ And the following additonal helpers are available
 - [Random](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Random)
 - [Xeger](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xeger)
 - [XPath](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/XPath)
+- [Xslt](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xslt)
 
 ***
 ## References
