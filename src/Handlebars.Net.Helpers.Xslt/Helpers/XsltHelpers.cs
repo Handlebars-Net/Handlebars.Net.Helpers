@@ -17,7 +17,7 @@ internal class XsltHelpers : BaseHelpers, IHelpers
 
     // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
     // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
-    private static readonly Regex RemoveXmlVersionRegex = new("(<\\?xml.*?\\?>)", RegexOptions.Compiled, RegexTimeout);
+    private static readonly Regex RemoveXmlVersionRegex = new(@"(<\?xml.*?\?>)", RegexOptions.Compiled, RegexTimeout);
 
     public XsltHelpers(IHandlebars context) : base(context)
     {
@@ -48,9 +48,11 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     {
         var outputDoc = Transform(document, xslt);
 
+        string result;
         if (indent == false)
         {
-            return outputDoc.OuterXml;
+            result = outputDoc.OuterXml;
+            return removeXmlVersion == false ? result : RemoveXmlVersion(result);
         }
 
         // Define the settings to use for indentation
@@ -66,9 +68,8 @@ internal class XsltHelpers : BaseHelpers, IHelpers
             outputDoc.WriteTo(indentingWriter);
         }
 
-        var result = stringWriter.ToString();
+        result = stringWriter.ToString();
         return removeXmlVersion == false ? result : RemoveXmlVersion(result);
-
     }
 
     private static XmlDocument CreateXmlDocument(string document)

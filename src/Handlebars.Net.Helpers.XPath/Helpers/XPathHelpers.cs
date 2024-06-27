@@ -20,7 +20,7 @@ internal class XPathHelpers : BaseHelpers, IHelpers
 
     // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
     // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
-    private static readonly Regex RemoveXmlVersionRegex = new("(<\\?xml.*?\\?>)", RegexOptions.Compiled, RegexTimeout);
+    private static readonly Regex RemoveXmlVersionRegex = new(@"(<\?xml.*?\?>)", RegexOptions.Compiled, RegexTimeout);
 
     public XPathHelpers(IHandlebars context) : base(context)
     {
