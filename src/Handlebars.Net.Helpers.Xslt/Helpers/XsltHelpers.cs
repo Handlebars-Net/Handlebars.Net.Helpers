@@ -56,14 +56,14 @@ internal class XsltHelpers : BaseHelpers, IHelpers
         };
 
         // Now, serialize the XmlDocument with indentation
-        var sw = new StringWriter();
-        using (var indentingWriter = XmlWriter.Create(sw, settings))
+        var stringWriter = new StringWriter();
+        using (var indentingWriter = XmlWriter.Create(stringWriter, settings))
         {
             outputDoc.WriteTo(indentingWriter);
         }
 
-        var result = sw.ToString();
-        return removeXmlVersion == null || removeXmlVersion.Value ? RemoveXmlVersion(result) : result;
+        var result = stringWriter.ToString();
+        return removeXmlVersion == false ? result : RemoveXmlVersion(result);
 
     }
 
