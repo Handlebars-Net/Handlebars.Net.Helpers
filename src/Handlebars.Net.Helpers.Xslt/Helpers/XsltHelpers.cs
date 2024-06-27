@@ -44,26 +44,27 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     {
         var outputDoc = Transform(document, xslt);
 
-        if (indent == null || indent.Value)
+        if (indent == false)
         {
-            // Define the settings to use for indentation
-            var settings = new XmlWriterSettings
-            {
-                Indent = true
-            };
-
-            // Now, serialize the XmlDocument with indentation
-            var sw = new StringWriter();
-            using (var indentingWriter = XmlWriter.Create(sw, settings))
-            {
-                outputDoc.WriteTo(indentingWriter);
-            }
-
-            var result = sw.ToString();
-            return removeXmlVersion == null || removeXmlVersion.Value ? RemoveXmlVersion(result) : result;
+            return outputDoc.OuterXml;
         }
 
-        return outputDoc.OuterXml;
+        // Define the settings to use for indentation
+        var settings = new XmlWriterSettings
+        {
+            Indent = true
+        };
+
+        // Now, serialize the XmlDocument with indentation
+        var sw = new StringWriter();
+        using (var indentingWriter = XmlWriter.Create(sw, settings))
+        {
+            outputDoc.WriteTo(indentingWriter);
+        }
+
+        var result = sw.ToString();
+        return removeXmlVersion == null || removeXmlVersion.Value ? RemoveXmlVersion(result) : result;
+
     }
 
     private static XmlDocument CreateXmlDocument(string document)
