@@ -5,7 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net451;net452;net46;netstandard1.3;netstandard2.0;netstandard2.1;net6.0;net8.0</TargetFrameworks>
-		<VersionPrefix>2.4.3</VersionPrefix>
+		<VersionPrefix>2.4.4</VersionPrefix>
 		<LangVersion>11</LangVersion>
 		<Nullable>enable</Nullable>
 		<Copyright>Copyright © 2020-2024 Stef Heyenrath</Copyright>
