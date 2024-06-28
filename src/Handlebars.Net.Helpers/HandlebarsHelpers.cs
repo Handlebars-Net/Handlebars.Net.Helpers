@@ -85,7 +85,12 @@ public static class HandlebarsHelpers
         var paths = options.CustomHelperPaths ?? new List<string>
         {
             Directory.GetCurrentDirectory(),
-            AppContextHelper.GetBaseDirectory()
+            AppContextHelper.GetBaseDirectory(),
+#if !NETSTANDARD1_3_OR_GREATER
+            Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!,
+            Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)!,
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!
+#endif
         };
         var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
 
