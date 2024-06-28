@@ -19,6 +19,7 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 | Handlebars.Net.Helpers.Random |[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers.Random)](https://www.nuget.org/packages/Handlebars.Net.Helpers.Random) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers.Random?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers.Random)|
 | Handlebars.Net.Helpers.Xeger |[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers.Xeger)](https://www.nuget.org/packages/Handlebars.Net.Helpers.Xeger) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers.Xeger?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers.Xeger)|
 | Handlebars.Net.Helpers.XPath |[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers.XPath)](https://www.nuget.org/packages/Handlebars.Net.Helpers.XPath) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers.XPath?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers.XPath)|
+| Handlebars.Net.Helpers.Xslt |[![NuGet](https://buildstats.info/nuget/Handlebars.Net.Helpers.Xslt)](https://www.nuget.org/packages/Handlebars.Net.Helpers.Xslt) | [![MyGet](https://buildstats.info/myget/handlebars_net_helpers/Handlebars.Net.Helpers.Xslt?includePreReleases=true)](https://www.myget.org/feed/handlebars_net_helpers/package/nuget/Handlebars.Net.Helpers.Xslt)|
 
 ## Framework support
 - .NET Framework 4.5.1 4.5.2 and 4.6
@@ -114,6 +115,7 @@ And the following additonal helpers are available
 - [Random](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Random)
 - [Xeger](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xeger)
 - [XPath](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/XPath)
+- [Xslt](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xslt)
 
 ***
 ## References

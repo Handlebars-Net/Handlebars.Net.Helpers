@@ -1,3 +1,6 @@
+# 2.4.4 (27 June 2024)
+- [#99](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/99) - Add Handlebars.Net.Helpers.Xslt [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.3 (12 May 2024)
 - [#93](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/93) - Add String.Equals with StringComparison [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#95](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/95) - When ThrowOnUnresolvedBindingExpression is False, do not throw when UndefinedBindingResult but use default value [enhancement] contributed by [StefH](https://github.com/StefH)

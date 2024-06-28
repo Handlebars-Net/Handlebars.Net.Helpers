@@ -4,7 +4,7 @@ using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Templates;
 
-public class XPathPathHelpersTemplateTests
+public class XPathHelpersTemplateTests
 {
     private const string MiniTestSoapMessage = @"
 <?xml version='1.0' standalone='no'?>
@@ -60,7 +60,7 @@ public class XPathPathHelpersTemplateTests
 
     private readonly IHandlebars _handlebarsContext;
 
-    public XPathPathHelpersTemplateTests()
+    public XPathHelpersTemplateTests()
     {
         _handlebarsContext = Handlebars.Create();
 
