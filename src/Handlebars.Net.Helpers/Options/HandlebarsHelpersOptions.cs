@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
 using HandlebarsDotNet.Helpers.Utils;
@@ -36,20 +35,20 @@ public class HandlebarsHelpersOptions
     /// <summary>
     /// The categories to register. By default all categories are registered. See the WIKI for details.
     /// </summary>
-    public Category[]? Categories { get; set; } = null;
+    public Category[]? Categories { get; set; }
 
     /// <summary>
     /// Used for unit-testing DateTime related functionality.
     /// </summary>
-    public IDateTimeService? DateTimeService { get; set; } = null;
+    public IDateTimeService? DateTimeService { get; set; }
 
     /// <summary>
     /// A Dictionary with additional Custom Helpers (Key = CategoryPrefix, Value = IHelpers)
     /// </summary>
-    public IDictionary<string, IHelpers>? CustomHelpers { get; set; } = null;
+    public IDictionary<string, IHelpers>? CustomHelpers { get; set; }
 
     /// <summary>
-    /// The paths to search for additional helpers. If null, the CurrentDirectory is used.
+    /// The paths to search for additional helpers. If null, the CurrentDirectory and BaseDirectory are used.
     /// </summary>
-    public IReadOnlyList<string>? CustomHelperPaths = new List<string> { Directory.GetCurrentDirectory() };
+    public IReadOnlyList<string>? CustomHelperPaths;
 }
