@@ -17,7 +17,7 @@ internal static class PluginLoader
         var pluginTypes = new List<Type>();
         try
         {
-            foreach (var file in paths.Distinct().SelectMany(path => Directory.GetFiles(path, "*.dll")).Distinct())
+            foreach (var file in paths.Distinct().SelectMany(path => Directory.GetFiles(path, "Handlebars*dll")).Distinct())
             {
                 try
                 {
