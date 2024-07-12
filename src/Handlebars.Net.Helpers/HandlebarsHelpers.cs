@@ -100,7 +100,7 @@ public static class HandlebarsHelpers
 #if !NETSTANDARD1_3_OR_GREATER
             void Add(string? path, ICollection<string> customHelperPaths)
             {
-                if (string.IsNullOrEmpty(path))
+                if (!string.IsNullOrEmpty(path))
                 {
                     customHelperPaths.Add(path!);
                 }
