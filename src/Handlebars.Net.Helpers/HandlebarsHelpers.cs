@@ -13,6 +13,10 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
+using System.Diagnostics;
+using HandlebarsDotNet.Helpers.Compatibility;
+
+
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
 #else
@@ -78,7 +82,36 @@ public static class HandlebarsHelpers
             { Category.Xslt, "XsltHelpers" }
         };
 
-        var paths = options.CustomHelperPaths ?? new List<string> { Directory.GetCurrentDirectory() };
+
+
+        List<string> paths;
+        if (options.CustomHelperPaths != null)
+        {
+            paths = options.CustomHelperPaths.ToList();
+        }
+        else
+        {
+            paths = new List<string>
+            {
+                Directory.GetCurrentDirectory(),
+                AppContextHelper.GetBaseDirectory(),
+            };
+
+#if !NETSTANDARD1_3_OR_GREATER
+            void Add(string? path, ICollection<string> customHelperPaths)
+            {
+                if (!string.IsNullOrEmpty(path))
+                {
+                    customHelperPaths.Add(path!);
+                }
+            }
+            Add(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location), paths);
+            Add(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), paths);
+            Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), paths);
+            Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+#endif
+        }
+
         var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
 
         foreach (var item in extraHelpers)
