@@ -12,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="RandomDataGenerator.Net" Version="1.0.17" />
+        <PackageReference Include="RandomDataGenerator.Net" Version="1.0.18" />
     </ItemGroup>
 
     <ItemGroup>
