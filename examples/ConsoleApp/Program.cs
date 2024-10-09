@@ -118,6 +118,7 @@ class Program
             "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
             "{{Xeger.Generate '{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]}'}}",
             "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
+            "{{Replace (Random Type=\"Guid\") '-' ''}}",
             "{{GetEnvironmentVariable \"x\"}}",
             "{{GetEnvironmentVariable \"x\" \"User\"}}",
             "{{GetEnvironmentVariables}}",
