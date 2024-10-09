@@ -1,3 +1,6 @@
+# 2.4.6 (09 October 2024)
+- [#101](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/101) - Upgrade System.Text.RegularExpressions to 4.3.1 to solve CVE [bug] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.5 (12 July 2024)
 - [#97](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/97) - Fix loading additional Handlebars.Net.Helpers dll's when running application from commandline using 'dotnet run' [bug] contributed by [StefH](https://github.com/StefH)
 - [#96](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/96) - DynamicLinq Helpers Not Registering Correctly in .NET 8.0 WebAPI Project running in Docker [bug]
