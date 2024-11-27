@@ -108,7 +108,11 @@ public static class HandlebarsHelpers
             Add(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location), paths);
             Add(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), paths);
             Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), paths);
-            Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+
+            if (!RuntimeInformationUtils.IsBlazorWASM)
+            {
+                Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+            }
 #endif
         }
 
