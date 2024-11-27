@@ -1,10 +1,8 @@
-using System;
-
 namespace HandlebarsDotNet.Helpers.Utils;
 
 internal static class RuntimeInformationUtils
 {
-    public static bool IsBlazorWASM;
+    public static readonly bool IsBlazorWASM;
 
     static RuntimeInformationUtils()
     {
@@ -13,11 +11,11 @@ internal static class RuntimeInformationUtils
 #else
         IsBlazorWASM =
             // Used for Blazor WebAssembly .NET Core 3.x / .NET Standard 2.x
-            Type.GetType("Mono.Runtime") != null ||
+            System.Type.GetType("Mono.Runtime") != null ||
 
             // Use for Blazor WebAssembly .NET
             // See also https://github.com/mono/mono/pull/19568/files
-            Runtime.InteropServices.RuntimeInformation.IsOSPlatform(Runtime.InteropServices.OSPlatform.Create("BROWSER"));
+            System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Create("BROWSER"));
 #endif
     }
 }
