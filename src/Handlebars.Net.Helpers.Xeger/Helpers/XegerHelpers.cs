@@ -6,7 +6,7 @@ using HandlebarsDotNet.Helpers.Helpers;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class XegerHelpers : BaseHelpers, IHelpers
+public class XegerHelpers : BaseHelpers, IHelpers
 {
     public XegerHelpers(IHandlebars context) : base(context)
     {
@@ -17,4 +17,6 @@ internal class XegerHelpers : BaseHelpers, IHelpers
     {
         return new Xeger(pattern).Generate();
     }
+
+    public Category Category => Category.Xeger;
 }

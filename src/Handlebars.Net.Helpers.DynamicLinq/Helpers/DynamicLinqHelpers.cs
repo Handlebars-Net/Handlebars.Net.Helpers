@@ -12,7 +12,7 @@ using Stef.Validation;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class DynamicLinqHelpers : BaseHelpers, IHelpers
+public class DynamicLinqHelpers : BaseHelpers, IHelpers
 {
     public DynamicLinqHelpers(IHandlebars context) : base(context)
     {
@@ -403,4 +403,6 @@ internal class DynamicLinqHelpers : BaseHelpers, IHelpers
             throw new HandlebarsException(nameof(Where), ex);
         }
     }
+
+    public Category Category => Category.DynamicLinq;
 }

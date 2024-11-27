@@ -102,4 +102,6 @@ internal class RegexHelpers : BaseHelpers, IHelpers
     public RegexHelpers(IHandlebars context) : base(context)
     {
     }
+
+    public Category Category => Category.Regex;
 }

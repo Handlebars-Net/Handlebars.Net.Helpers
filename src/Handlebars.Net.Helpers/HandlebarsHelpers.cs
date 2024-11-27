@@ -46,6 +46,16 @@ public static class HandlebarsHelpers
     }
 
     /// <summary>
+    /// Register specific helpers.
+    /// </summary>
+    /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+    /// <param name="helpers">The helpers to register.</param>
+    public static void Register(IHandlebars handlebarsContext, params IHelpers[] helpers)
+    {
+        Register(handlebarsContext, o => { o.Helpers = helpers; });
+    }
+
+    /// <summary>
     /// Register all (default) or specific categories and use the prefix from the categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
@@ -71,7 +81,7 @@ public static class HandlebarsHelpers
             { Category.Object, new ObjectHelpers(handlebarsContext) }
         };
 
-        var extra = new Dictionary<Category, string>
+        var dynamicLoadedHelpers = new Dictionary<Category, string>
         {
             { Category.XPath, "XPathHelpers" },
             { Category.Xeger, "XegerHelpers" },
@@ -81,8 +91,6 @@ public static class HandlebarsHelpers
             { Category.Humanizer, "HumanizerHelpers" },
             { Category.Xslt, "XsltHelpers" }
         };
-
-
 
         List<string> paths;
         if (options.CustomHelperPaths != null)
@@ -116,11 +124,22 @@ public static class HandlebarsHelpers
 #endif
         }
 
-        var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
 
-        foreach (var item in extraHelpers)
+        foreach (var item in additionalLoadedHelpers)
         {
             helpers.Add(item.Key, item.Value);
+        }
+
+        if (options.Helpers != null)
+        {
+            foreach (var helper in options.Helpers)
+            {
+                if (!helpers.ContainsKey(helper.Category))
+                {
+                    helpers.Add(helper.Category, helper);
+                }
+            }
         }
 
         // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming

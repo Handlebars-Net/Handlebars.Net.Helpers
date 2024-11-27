@@ -21,4 +21,6 @@ internal class ConstantsHelpers : BaseHelpers, IHelpers
     {
         return Math.PI;
     }
+
+    public Category Category => Category.Constants;
 }

@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class JsonPathHelpers : BaseHelpers, IHelpers
+public class JsonPathHelpers : BaseHelpers, IHelpers
 {
     public JsonPathHelpers(IHandlebars context) : base(context)
     {
@@ -80,4 +80,6 @@ internal class JsonPathHelpers : BaseHelpers, IHelpers
             _ => throw new NotSupportedException($"The value '{value}' with type '{value?.GetType()}' cannot be used in Handlebars JsonPath {methodName}.")
         };
     }
+
+    public Category Category => Category.JsonPath;
 }

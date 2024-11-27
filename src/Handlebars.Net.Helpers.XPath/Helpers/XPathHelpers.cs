@@ -14,7 +14,7 @@ using Wmhelp.XPath2;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class XPathHelpers : BaseHelpers, IHelpers
+public class XPathHelpers : BaseHelpers, IHelpers
 {
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
 
@@ -145,4 +145,6 @@ internal class XPathHelpers : BaseHelpers, IHelpers
             InnerXml = RemoveXmlVersionRegex.Replace(document, string.Empty)
         }.CreateNavigator()!;
     }
+
+    public Category Category => Category.XPath;
 }

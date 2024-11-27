@@ -21,4 +21,6 @@ internal class UrlHelpers : BaseHelpers, IHelpers
     public UrlHelpers(IHandlebars context) : base(context)
     {
     }
+
+    public Category Category => Category.Url;
 }
