@@ -1,3 +1,5 @@
+using System;
+
 namespace HandlebarsDotNet.Helpers.Utils;
 
 internal static class RuntimeInformationUtils
