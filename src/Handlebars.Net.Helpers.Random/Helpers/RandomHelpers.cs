@@ -11,7 +11,7 @@ using RandomDataGenerator.Randomizers;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class RandomHelpers : BaseHelpers, IHelpers
+public class RandomHelpers : BaseHelpers, IHelpers
 {
     public RandomHelpers(IHandlebars context) : base(context)
     {
@@ -66,4 +66,6 @@ internal class RandomHelpers : BaseHelpers, IHelpers
 
         throw new HandlebarsException("The Type argument is missing.");
     }
+
+    public Category Category => Category.Random;
 }

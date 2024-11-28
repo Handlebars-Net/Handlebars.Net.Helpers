@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BA564CB5-1908-41F9-A32A-3535BBE0E8C6}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A86EFFD3-A604-4591-B5CA-4E778CCFC081}"
 EndProject
@@ -18,7 +21,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01DFE66D-E850-4ADC-A0FC-A3A13B896CDA}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
-		Directory.Build.props = Directory.Build.props
 		Generate-ReleaseNotes.cmd = Generate-ReleaseNotes.cmd
 		README.md = README.md
 	EndProjectSection
@@ -44,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure DevOps", "Azure DevOp
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlebars.Net.Helpers.Xslt", "src\Handlebars.Net.Helpers.Xslt\Handlebars.Net.Helpers.Xslt.csproj", "{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppWebAssembly", "examples\BlazorAppWebAssembly\BlazorAppWebAssembly.csproj", "{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +99,10 @@ Global
 		{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +120,7 @@ Global
 		{181B9A96-5662-44AA-8685-E68E12631A55} = {BA564CB5-1908-41F9-A32A-3535BBE0E8C6}
 		{CD74732D-97D6-4FC4-A7E5-B446D64814DF} = {01DFE66D-E850-4ADC-A0FC-A3A13B896CDA}
 		{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D} = {BA564CB5-1908-41F9-A32A-3535BBE0E8C6}
+		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD} = {845A8FA6-E56E-4BB4-AD92-29093BB2CA09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC1E6DF8-EC39-439B-ABF0-EE3786C5C0F6}

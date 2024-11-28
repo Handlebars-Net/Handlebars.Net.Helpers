@@ -36,13 +36,32 @@ public static class HandlebarsHelpers
     internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
+    /// Register all (default) categories. See the WIKI for details.
+    /// </summary>
+    /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+    public static void Register(IHandlebars handlebarsContext)
+    {
+        Register(handlebarsContext, o => { });
+    }
+
+    /// <summary>
     /// Register all (default) or specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
-    /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
+    /// <param name="categories">The categories to register. By default, all categories are registered. See the WIKI for details.</param>
     public static void Register(IHandlebars handlebarsContext, params Category[] categories)
     {
         Register(handlebarsContext, o => { o.Categories = categories; });
+    }
+
+    /// <summary>
+    /// Register specific helpers.
+    /// </summary>
+    /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+    /// <param name="helpers">The helpers to register.</param>
+    public static void Register(IHandlebars handlebarsContext, params IHelpers[] helpers)
+    {
+        Register(handlebarsContext, o => { o.Helpers = helpers; });
     }
 
     /// <summary>
@@ -71,7 +90,7 @@ public static class HandlebarsHelpers
             { Category.Object, new ObjectHelpers(handlebarsContext) }
         };
 
-        var extra = new Dictionary<Category, string>
+        var dynamicLoadedHelpers = new Dictionary<Category, string>
         {
             { Category.XPath, "XPathHelpers" },
             { Category.Xeger, "XegerHelpers" },
@@ -81,8 +100,6 @@ public static class HandlebarsHelpers
             { Category.Humanizer, "HumanizerHelpers" },
             { Category.Xslt, "XsltHelpers" }
         };
-
-
 
         List<string> paths;
         if (options.CustomHelperPaths != null)
@@ -108,15 +125,30 @@ public static class HandlebarsHelpers
             Add(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location), paths);
             Add(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), paths);
             Add(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), paths);
-            Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+
+            if (!RuntimeInformationUtils.IsBlazorWASM)
+            {
+                Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+            }
 #endif
         }
 
-        var extraHelpers = PluginLoader.Load(paths, extra, handlebarsContext);
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
 
-        foreach (var item in extraHelpers)
+        foreach (var item in additionalLoadedHelpers)
         {
             helpers.Add(item.Key, item.Value);
+        }
+
+        if (options.Helpers != null)
+        {
+            foreach (var helper in options.Helpers)
+            {
+                if (!helpers.ContainsKey(helper.Category))
+                {
+                    helpers.Add(helper.Category, helper);
+                }
+            }
         }
 
         // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
@@ -127,7 +159,7 @@ public static class HandlebarsHelpers
             RegisterCustomHelper(handlebarsContext, options, item.Key.ToString(), item.Value);
         }
 
-        if (options.CustomHelpers is { })
+        if (options.CustomHelpers != null)
         {
             foreach (var item in options.CustomHelpers)
             {

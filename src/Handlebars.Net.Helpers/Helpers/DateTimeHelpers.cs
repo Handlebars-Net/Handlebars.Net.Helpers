@@ -44,4 +44,6 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
             _ => string.Empty
         };
     }
+
+    public Category Category => Category.DateTime;
 }

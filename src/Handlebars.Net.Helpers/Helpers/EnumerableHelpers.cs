@@ -128,4 +128,6 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     public EnumerableHelpers(IHandlebars context) : base(context)
     {
     }
+
+    public Category Category => Category.Enumerable;
 }

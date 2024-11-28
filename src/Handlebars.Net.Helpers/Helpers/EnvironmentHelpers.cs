@@ -42,4 +42,6 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
     public EnvironmentHelpers(IHandlebars context) : base(context)
     {
     }
+
+    public Category Category => Category.Environment;
 }

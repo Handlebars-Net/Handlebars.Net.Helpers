@@ -448,4 +448,6 @@ internal class StringHelpers : BaseHelpers, IHelpers
     {
         return FormatAsString(value);
     }
+
+    public Category Category => Category.String;
 }

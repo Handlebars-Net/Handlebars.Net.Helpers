@@ -38,6 +38,11 @@ public class HandlebarsHelpersOptions
     public Category[]? Categories { get; set; }
 
     /// <summary>
+    /// The helpers to register.
+    /// </summary>
+    public IHelpers[]? Helpers { get; set; }
+
+    /// <summary>
     /// Used for unit-testing DateTime related functionality.
     /// </summary>
     public IDateTimeService? DateTimeService { get; set; }

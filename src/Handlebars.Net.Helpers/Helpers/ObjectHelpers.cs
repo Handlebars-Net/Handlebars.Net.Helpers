@@ -14,4 +14,6 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     {
         return value;
     }
+
+    public Category Category => Category.Object;
 }

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.DynamicLinq\Handlebars.Net.Helpers.DynamicLinq.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Humanizer\Handlebars.Net.Helpers.Humanizer.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Json\Handlebars.Net.Helpers.Json.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Random\Handlebars.Net.Helpers.Random.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xeger\Handlebars.Net.Helpers.Xeger.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.XPath\Handlebars.Net.Helpers.XPath.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xslt\Handlebars.Net.Helpers.Xslt.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -8,7 +8,7 @@ using Humanizer;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class HumanizerHelpers : BaseHelpers, IHelpers
+public class HumanizerHelpers : BaseHelpers, IHelpers
 {
     private const string Separator = "…";
 
@@ -275,4 +275,6 @@ internal class HumanizerHelpers : BaseHelpers, IHelpers
             _ => throw new NotSupportedException($"The value '{value}' cannot be converted to a '{typeof(IStringTransformer).FullName}'.")
         };
     }
+
+    public Category Category => Category.Humanizer;
 }

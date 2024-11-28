@@ -156,4 +156,6 @@ internal class MathHelpers : BaseHelpers, IHelpers
     public MathHelpers(IHandlebars context) : base(context)
     {
     }
+
+    public Category Category => Category.Math;
 }

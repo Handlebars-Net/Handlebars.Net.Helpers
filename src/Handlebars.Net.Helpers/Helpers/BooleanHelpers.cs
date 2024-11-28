@@ -56,4 +56,6 @@ internal class BooleanHelpers : BaseHelpers, IHelpers
     {
         return value ^ test;
     }
+
+    public Category Category => Category.Boolean;
 }

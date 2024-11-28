@@ -11,7 +11,7 @@ using Stef.Validation;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-internal class XsltHelpers : BaseHelpers, IHelpers
+public class XsltHelpers : BaseHelpers, IHelpers
 {
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
 
@@ -93,4 +93,6 @@ internal class XsltHelpers : BaseHelpers, IHelpers
     {
         return RemoveXmlVersionRegex.Replace(xml, string.Empty).Trim();
     }
+
+    public Category Category => Category.Xslt;
 }
