@@ -1,3 +1,7 @@
+# 2.4.7 (28 November 2024)
+- [#106](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/106) - Exclude some code when running in Blazor Webassembly [bug] contributed by [StefH](https://github.com/StefH)
+- [#105](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/105) - System.Diagnostic not supported in net8.0-browser [bug]
+
 # 2.4.6 (09 October 2024)
 - [#101](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/101) - Upgrade System.Text.RegularExpressions to 4.3.1 to solve CVE [bug] contributed by [StefH](https://github.com/StefH)
 
