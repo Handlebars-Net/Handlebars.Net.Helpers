@@ -36,6 +36,15 @@ public static class HandlebarsHelpers
     internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
+    /// Register all (default) categories.
+    /// </summary>
+    /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
+    public static void Register(IHandlebars handlebarsContext)
+    {
+        Register(handlebarsContext, o => { });
+    }
+
+    /// <summary>
     /// Register all (default) or specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
