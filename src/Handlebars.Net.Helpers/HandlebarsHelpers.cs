@@ -36,7 +36,7 @@ public static class HandlebarsHelpers
     internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
-    /// Register all (default) categories.
+    /// Register all (default) categories. See the WIKI for details.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
     public static void Register(IHandlebars handlebarsContext)
@@ -48,7 +48,7 @@ public static class HandlebarsHelpers
     /// Register all (default) or specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
-    /// <param name="categories">The categories to register. By default all categories are registered. See the WIKI for details.</param>
+    /// <param name="categories">The categories to register. By default, all categories are registered. See the WIKI for details.</param>
     public static void Register(IHandlebars handlebarsContext, params Category[] categories)
     {
         Register(handlebarsContext, o => { o.Categories = categories; });
@@ -159,7 +159,7 @@ public static class HandlebarsHelpers
             RegisterCustomHelper(handlebarsContext, options, item.Key.ToString(), item.Value);
         }
 
-        if (options.CustomHelpers is { })
+        if (options.CustomHelpers != null)
         {
             foreach (var item in options.CustomHelpers)
             {
