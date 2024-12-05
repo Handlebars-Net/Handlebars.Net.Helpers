@@ -140,6 +140,8 @@ public class StringHelpersTemplateTests
     [InlineData("{{[String.Equal] \"ab\" ([String.Append] \"a\" \"b\")}}", "True")]
     [InlineData("{{#String.Equal \"foo\" \"foo\"}}yes{{else}}no{{/String.Equal}}", "yes")]
     [InlineData("{{#String.Equal \"foo\" \"bar\"}}yes{{else}}no{{/String.Equal}}", "no")]
+    [InlineData("{{#String.Equal \"foo\" \"foo\"}}<td>yes</td>{{else}}<td>no</td>{{/String.Equal}}", "<td>yes</td>")]
+    [InlineData("{{#String.Equal \"foo\" \"bar\"}}<td>yes</td>{{else}}<td>no</td>{{/String.Equal}}", "<td>no</td>")]
     public void Equal(string template, string expected)
     {
         // Arrange
