@@ -36,6 +36,9 @@ public class PassthroughTextEncoder : ITextEncoder
     /// <param name="target">The TextWriter to write the text to.</param>
     public void Encode<T>(T text, TextWriter target) where T : IEnumerator<char>
     {
-        target.Write(text);
+        while (text.MoveNext())
+        {
+            target.Write(text.Current);
+        }
     }
 }
