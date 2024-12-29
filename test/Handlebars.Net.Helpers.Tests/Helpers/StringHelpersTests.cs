@@ -9,16 +9,14 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers;
 
 public class StringHelpersTests
 {
-    private readonly Mock<IHandlebars> _contextMock;
-
     private readonly StringHelpers _sut;
 
     public StringHelpersTests()
     {
-        _contextMock = new Mock<IHandlebars>();
-        _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
+        var contextMock = new Mock<IHandlebars>();
+        contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
-        _sut = new StringHelpers(_contextMock.Object);
+        _sut = new StringHelpers(contextMock.Object);
     }
 
     [Theory]
@@ -28,6 +26,32 @@ public class StringHelpersTests
     {
         // Act
         var result = _sut.Append(value, append);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("Hello, World!", "SGVsbG8sIFdvcmxkIQ==")]
+    [InlineData("Test", "VGVzdA==")]
+    [InlineData("", "")]
+    public void Base64Encode(string input, string expected)
+    {
+        // Act
+        var result = StringHelpers.Base64Encode(input);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("SGVsbG8sIFdvcmxkIQ==", "Hello, World!")]
+    [InlineData("VGVzdA==", "Test")]
+    [InlineData("", "")]
+    public void Base64Decode(string input, string expected)
+    {
+        // Act
+        var result = StringHelpers.Base64Decode(input);
 
         // Assert
         result.Should().Be(expected);
@@ -97,6 +121,40 @@ public class StringHelpersTests
     {
         // Act
         var result = _sut.Ellipsis(value, length);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("Hello &amp; World", "Hello & World")]
+    [InlineData("1 &lt; 2 &gt; 0", "1 < 2 > 0")]
+    [InlineData("Use &quot;quotes&quot;", "Use \"quotes\"")]
+    [InlineData("&#39;single quotes&#39;", "'single quotes'")]
+    [InlineData("&#65;", "A")]
+    [InlineData(null, "")]
+    [InlineData("", "")]
+    public void HtmlDecode(string input, string expected)
+    {
+        // Act
+        var result = _sut.HtmlDecode(input);
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("Hello & World", "Hello &amp; World")]
+    [InlineData("1 < 2 > 0", "1 &lt; 2 &gt; 0")]
+    [InlineData("Use \"quotes\"", "Use &quot;quotes&quot;")]
+    [InlineData("'single quotes'", "&#39;single quotes&#39;")]
+    [InlineData("A", "A")]
+    [InlineData(null, "")]
+    [InlineData("", "")]
+    public void HtmlEncode(string input, string expected)
+    {
+        // Act
+        var result = _sut.HtmlEncode(input);
 
         // Assert
         result.Should().Be(expected);
@@ -312,7 +370,7 @@ public class StringHelpersTests
         result1.Should().Be(expected);
         result2.Should().Be(expected);
     }
-        
+
     [Theory]
     [InlineData("N0", "1")]
     [InlineData("N1", "1.2")]
@@ -336,7 +394,7 @@ public class StringHelpersTests
     {
         // Arrange
         var value = new Version(1, 2, 3, 4);
-            
+
         // Act
         var result = _sut.Format(value, "should-be-ignored");
 
@@ -353,7 +411,7 @@ public class StringHelpersTests
         // Assert
         result.Should().BeEmpty();
     }
-        
+
     [Theory]
     [InlineData("", "bar", false)]
     [InlineData("foo", "", false)]
@@ -522,7 +580,7 @@ public class StringHelpersTests
         // Assert
         result.Should().Be(expected);
     }
-    
+
     [Theory]
     [InlineData(null, 1, 0)]
     [InlineData("", 1, 0)]

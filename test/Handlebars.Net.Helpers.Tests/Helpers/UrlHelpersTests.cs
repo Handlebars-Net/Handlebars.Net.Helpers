@@ -3,47 +3,44 @@ using HandlebarsDotNet.Helpers.Helpers;
 using Moq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Helpers
+namespace HandlebarsDotNet.Helpers.Tests.Helpers;
+
+public class UrlHelpersTests
 {
-    public class UrlHelpersTests
+    private readonly UrlHelpers _sut;
+
+    public UrlHelpersTests()
     {
-        private readonly Mock<IHandlebars> _contextMock;
+        var contextMock = new Mock<IHandlebars>();
 
-        private readonly UrlHelpers _sut;
+        _sut = new UrlHelpers(contextMock.Object);
+    }
 
-        public UrlHelpersTests()
-        {
-            _contextMock = new Mock<IHandlebars>();
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("", "")]
+    [InlineData("arinet%2FHandlebarDocs%2Fblob%2Fmaster%2FcustomHelpers%2Furl.md%23decodeuri", "arinet/HandlebarDocs/blob/master/customHelpers/url.md#decodeuri")]
+    [InlineData("%2Fsearch%2Finventory%2Fbrand%2FPolaris+Industries%2Fsort%2Fbest-match", "/search/inventory/brand/Polaris Industries/sort/best-match")]
+    public void DecodeUri(string value, string expected)
+    {
+        // Act
+        var result = _sut.DecodeUri(value);
 
-            _sut = new UrlHelpers(_contextMock.Object);
-        }
+        // Assert
+        result.Should().Be(expected);
+    }
 
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
-        [InlineData("arinet%2FHandlebarDocs%2Fblob%2Fmaster%2FcustomHelpers%2Furl.md%23decodeuri", "arinet/HandlebarDocs/blob/master/customHelpers/url.md#decodeuri")]
-        [InlineData("%2Fsearch%2Finventory%2Fbrand%2FPolaris+Industries%2Fsort%2Fbest-match", "/search/inventory/brand/Polaris Industries/sort/best-match")]
-        public void DecodeUri(string value, string expected)
-        {
-            // Act
-            var result = _sut.DecodeUri(value);
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("", "")]
+    [InlineData("arinet/HandlebarDocs/blob/master/customHelpers/url.md#decodeuri", "arinet%2FHandlebarDocs%2Fblob%2Fmaster%2FcustomHelpers%2Furl.md%23decodeuri")]
+    [InlineData("/search/inventory/brand/Polaris Industries/sort/best-match", "%2Fsearch%2Finventory%2Fbrand%2FPolaris+Industries%2Fsort%2Fbest-match")]
+    public void EncodeUri(string value, string expected)
+    {
+        // Act
+        var result = _sut.EncodeUri(value);
 
-            // Assert
-            result.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData(null, null)]
-        [InlineData("", "")]
-        [InlineData("arinet/HandlebarDocs/blob/master/customHelpers/url.md#decodeuri", "arinet%2FHandlebarDocs%2Fblob%2Fmaster%2FcustomHelpers%2Furl.md%23decodeuri")]
-        [InlineData("/search/inventory/brand/Polaris Industries/sort/best-match", "%2Fsearch%2Finventory%2Fbrand%2FPolaris+Industries%2Fsort%2Fbest-match")]
-        public void EncodeUri(string value, string expected)
-        {
-            // Act
-            var result = _sut.EncodeUri(value);
-
-            // Assert
-            result.Should().Be(expected);
-        }
+        // Assert
+        result.Should().Be(expected);
     }
 }

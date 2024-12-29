@@ -39,10 +39,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.String)]
     public static string Base64Decode(string value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        Guard.NotNull(value);
 
         var base64EncodedBytes = Convert.FromBase64String(value);
         return Encoding.UTF8.GetString(base64EncodedBytes);
@@ -51,10 +48,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.String)]
     public static string Base64Encode(string value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        Guard.NotNull(value);
 
         var plainTextBytes = Encoding.UTF8.GetBytes(value);
         return Convert.ToBase64String(plainTextBytes);
@@ -176,6 +170,18 @@ internal class StringHelpers : BaseHelpers, IHelpers
     public WrappedString FormatAsString(object? value, string? format = null)
     {
         return new WrappedString(Format(value, format ?? string.Empty));
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public string HtmlDecode(string? value)
+    {
+        return HtmlUtils.HtmlDecode(value);
+    }
+
+    [HandlebarsWriter(WriterType.String)]
+    public string HtmlEncode(string? value)
+    {
+        return HtmlUtils.HtmlEncode(value);
     }
 
     [HandlebarsWriter(WriterType.Value)]
