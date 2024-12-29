@@ -139,11 +139,11 @@ public static class HtmlUtils
         }
     }
 
-    public static string HtmlDecode(string value)
+    public static string HtmlDecode(string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
-            return value;
+            return string.Empty;
         }
 
         var output = new StringWriter(CultureInfo.InvariantCulture);
@@ -198,11 +198,11 @@ public static class HtmlUtils
         }
     }
 
-    public static string HtmlEncode(string value)
+    public static string HtmlEncode(string? value)
     {
         if (string.IsNullOrEmpty(value))
         {
-            return value;
+            return string.Empty;
         }
 
         var output = new StringWriter(CultureInfo.InvariantCulture);

@@ -484,6 +484,28 @@ public class StringHelpersTemplateTests
         decoded.Should().Be("test 04/15/2020 23:59:58 abc");
     }
 
+    [Theory]
+    [InlineData("foo", "test foo abc")]
+    [InlineData("あ", "test あ abc")]
+    public void ToWrappedString(string value, string expected)
+    {
+        // Arrange
+        var model = new
+        {
+            x = value
+        };
+        var action = _handlebarsContext.Compile("test {{String.ToWrappedString (x)}} abc");
+
+        // Act
+        var result = action(model);
+
+        var decodeResult = WrappedString.TryDecode(result, out var decoded);
+
+        // Assert
+        decodeResult.Should().BeTrue();
+        decoded.Should().Be(expected);
+    }
+
     [Fact]
     public void ToWrappedString_Now()
     {
