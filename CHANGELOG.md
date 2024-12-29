@@ -1,3 +1,6 @@
+# 2.4.8 (29 December 2024)
+- [#109](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/109) - Add PassthroughTextEncoder [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.7 (28 November 2024)
 - [#106](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/106) - Exclude some code when running in Blazor Webassembly [bug] contributed by [StefH](https://github.com/StefH)
 - [#105](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/105) - System.Diagnostic not supported in net8.0-browser [bug]
