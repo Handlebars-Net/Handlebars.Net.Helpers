@@ -18,5 +18,6 @@ public enum Category
     Humanizer,
     Boolean,
     Object,
-    Xslt
+    Xslt,
+    Custom // Custom helpers. Not used by the library itself.
 }
