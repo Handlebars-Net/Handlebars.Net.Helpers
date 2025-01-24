@@ -59,6 +59,12 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public int Count(IEnumerable<object?>? value)
+    {
+        return value?.Count() ?? 0;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public double Max(IEnumerable<object> values)
     {
         return ExecuteUtils.Execute(values, x => x.Max());

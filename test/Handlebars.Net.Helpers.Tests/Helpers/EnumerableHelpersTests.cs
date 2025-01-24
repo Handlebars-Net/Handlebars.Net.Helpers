@@ -65,6 +65,16 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         }
 
         [Fact]
+        public void Count()
+        {
+            // Act
+            var result = _sut.Count(_array);
+
+            // Assert
+            result.Should().Be(3);
+        }
+
+        [Fact]
         public void Select_NestedProperty_From_Array()
         {
             // Act
