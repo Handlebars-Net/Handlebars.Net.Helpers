@@ -29,7 +29,7 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 ## :exclamation: Breaking changes
 
 ### 2.5.0
-A breaking change is introduced in version 2.5.0 which is related to System.Linq.Dynamic.Core DynamicLinq ([CVE](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867)).
+A breaking change is introduced which is related to System.Linq.Dynamic.Core DynamicLinq ([CVE](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867)).
 
 The NuGet Handlebars.Net.Helpers.DynamicLinq will not be loaded automatically anymore.
 You need to allow this via the configuration.
