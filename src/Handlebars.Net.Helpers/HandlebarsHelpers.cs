@@ -95,10 +95,14 @@ public static class HandlebarsHelpers
             { Category.Xeger, "XegerHelpers" },
             { Category.Random, "RandomHelpers" },
             { Category.JsonPath, "JsonPathHelpers" },
-            { Category.DynamicLinq, "DynamicLinqHelpers" },
             { Category.Humanizer, "HumanizerHelpers" },
             { Category.Xslt, "XsltHelpers" }
         };
+
+        if (options.DynamicLinqHelperOptions?.Allow == true)
+        {
+            dynamicLoadedHelpers.Add(Category.DynamicLinq, "DynamicLinqHelpers");
+        }
 
         List<string> paths;
         if (options.CustomHelperPaths != null)

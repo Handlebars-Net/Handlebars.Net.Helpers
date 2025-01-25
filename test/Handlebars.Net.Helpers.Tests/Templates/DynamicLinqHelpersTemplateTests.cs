@@ -16,8 +16,6 @@ public class DynamicLinqHelpersTemplateTests
 
     public DynamicLinqHelpersTemplateTests()
     {
-        _handlebarsContext = Handlebars.Create();
-
         var dateTimeServiceMock = new Mock<IDateTimeService>();
         dateTimeServiceMock.Setup(d => d.Now()).Returns(_dateTimeNow);
         dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(_dateTimeNow.ToUniversalTime);
@@ -30,9 +28,33 @@ public class DynamicLinqHelpersTemplateTests
             o.DateTimeService = dateTimeServiceMock.Object;
             o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
             {
+                Allow = true,
                 AllowEqualsAndToStringMethodsOnObject = true
             };
         });
+    }
+
+    [Fact]
+    public void NotAllowed()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext);
+
+        var request = new
+        {
+            Path = "/test"
+        };
+
+        // Act
+        var action = () =>
+        {
+            var template = handlebarsContext.Compile("{{Linq 'it' 'it'}}");
+            _ = template(request);
+        };
+
+        // Assert
+        action.Should().Throw<HandlebarsRuntimeException>().WithMessage("Template references a helper that cannot be resolved. Helper 'Linq'");
     }
 
     [Fact]

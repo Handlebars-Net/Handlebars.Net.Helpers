@@ -26,6 +26,28 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 - .NET Standard 1.3, 2.0 and 2.1
 - .NET 6.0 and .NET 8.0
 
+## :exclamation: Breaking changes
+
+### 2.5.0
+A breaking change is introduced in version 2.5.0 which is related to System.Linq.Dynamic.Core DynamicLinq ([CVE](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867)).
+
+The NuGet Handlebars.Net.Helpers.DynamicLinq will not be loaded automatically anymore.
+You need to allow this via the configuration.
+In addition, an extra configuration setting is added to allow the use of `ToString` and `Equals` on an `object`.
+
+Example:
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandlebarsHelpers.Register(handlebarsContext, o =>
+{
+    o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+    {
+        Allow = true,
+        AllowEqualsAndToStringMethodsOnObject = true
+    };
+});
+```
+
 ## Usage
 
 ### Register
@@ -95,7 +117,7 @@ Now you can access the helpers by just using the name like:
 {{Append "foobar" "bar"}}
 ```
 
-***
+---
 
 The following default built-in helpers are available:
 - [Boolean](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Boolean)
@@ -117,7 +139,7 @@ And the following additonal helpers are available
 - [XPath](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/XPath)
 - [Xslt](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xslt)
 
-***
+---
 ## References
 - Thanks to https://github.com/rexm/Handlebars.Net
 - Some ideas based on https://github.com/helpers/handlebars-helpers
