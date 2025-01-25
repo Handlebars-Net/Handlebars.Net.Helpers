@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
 using Xunit;
@@ -27,7 +28,12 @@ public class DateTimeHelpersTests
         _contextMock = new Mock<IHandlebars>();
         _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = FormatProvider });
 
-        _sut = new DateTimeHelpers(_contextMock.Object, _dateTimeServiceMock.Object);
+        var options = new HandlebarsHelpersOptions
+        {
+            DateTimeService = _dateTimeServiceMock.Object
+        };
+
+        _sut = new DateTimeHelpers(_contextMock.Object, options);
     }
 
     [Fact]

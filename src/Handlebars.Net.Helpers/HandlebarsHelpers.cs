@@ -16,7 +16,6 @@ using HandlebarsDotNet.Helpers.Models;
 using System.Diagnostics;
 using HandlebarsDotNet.Helpers.Compatibility;
 
-
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
 #else
@@ -41,7 +40,7 @@ public static class HandlebarsHelpers
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
     public static void Register(IHandlebars handlebarsContext)
     {
-        Register(handlebarsContext, o => { });
+        Register(handlebarsContext, _ => { });
     }
 
     /// <summary>
@@ -78,16 +77,16 @@ public static class HandlebarsHelpers
 
         var helpers = new Dictionary<Category, IHelpers>
         {
-            { Category.Regex, new RegexHelpers(handlebarsContext) },
-            { Category.Constants, new ConstantsHelpers(handlebarsContext) },
-            { Category.Enumerable, new EnumerableHelpers(handlebarsContext) },
-            { Category.Environment, new EnvironmentHelpers(handlebarsContext) },
-            { Category.Math, new MathHelpers(handlebarsContext) },
-            { Category.String, new StringHelpers(handlebarsContext) },
-            { Category.Url, new UrlHelpers(handlebarsContext) },
-            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
-            { Category.Boolean, new BooleanHelpers(handlebarsContext) },
-            { Category.Object, new ObjectHelpers(handlebarsContext) }
+            { Category.Regex, new RegexHelpers(handlebarsContext, options) },
+            { Category.Constants, new ConstantsHelpers(handlebarsContext, options) },
+            { Category.Enumerable, new EnumerableHelpers(handlebarsContext, options) },
+            { Category.Environment, new EnvironmentHelpers(handlebarsContext, options) },
+            { Category.Math, new MathHelpers(handlebarsContext, options) },
+            { Category.String, new StringHelpers(handlebarsContext, options) },
+            { Category.Url, new UrlHelpers(handlebarsContext, options) },
+            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options) },
+            { Category.Boolean, new BooleanHelpers(handlebarsContext, options) },
+            { Category.Object, new ObjectHelpers(handlebarsContext, options) }
         };
 
         var dynamicLoadedHelpers = new Dictionary<Category, string>
@@ -108,11 +107,11 @@ public static class HandlebarsHelpers
         }
         else
         {
-            paths = new List<string>
-            {
+            paths =
+            [
                 Directory.GetCurrentDirectory(),
-                AppContextHelper.GetBaseDirectory(),
-            };
+                AppContextHelper.GetBaseDirectory()
+            ];
 
 #if !NETSTANDARD1_3_OR_GREATER
             void Add(string? path, ICollection<string> customHelperPaths)
@@ -133,7 +132,7 @@ public static class HandlebarsHelpers
 #endif
         }
 
-        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext, options);
 
         foreach (var item in additionalLoadedHelpers)
         {

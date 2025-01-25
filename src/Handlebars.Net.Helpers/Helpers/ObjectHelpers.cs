@@ -1,13 +1,11 @@
 ﻿using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class ObjectHelpers : BaseHelpers, IHelpers
+internal class ObjectHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public ObjectHelpers(IHandlebars context) : base(context)
-    {
-    }
 
     [HandlebarsWriter(WriterType.Value)]
     public object? FormatAsObject(object? value)

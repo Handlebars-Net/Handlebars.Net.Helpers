@@ -140,13 +140,13 @@ else
             options.UseCategoryPrefix = false;
             options.Helpers =
             [
-                new DynamicLinqHelpers(handlebars),
-                new HumanizerHelpers(handlebars),
-                new JsonPathHelpers(handlebars),
-                new RandomHelpers(handlebars),
-                new XegerHelpers(handlebars),
-                new XPathHelpers(handlebars),
-                new XsltHelpers(handlebars)
+                new DynamicLinqHelpers(handlebars, options),
+                new HumanizerHelpers(handlebars, options),
+                new JsonPathHelpers(handlebars, options),
+                new RandomHelpers(handlebars, options),
+                new XegerHelpers(handlebars, options),
+                new XPathHelpers(handlebars, options),
+                new XsltHelpers(handlebars, options)
             ];
         });
 

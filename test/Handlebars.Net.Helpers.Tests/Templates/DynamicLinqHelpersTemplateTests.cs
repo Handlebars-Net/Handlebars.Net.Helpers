@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
 using Newtonsoft.Json.Linq;
@@ -27,11 +28,15 @@ public class DynamicLinqHelpersTemplateTests
         {
             o.UseCategoryPrefix = false;
             o.DateTimeService = dateTimeServiceMock.Object;
+            o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = true
+            };
         });
     }
 
     [Fact]
-    public void LinqIt()
+    public void Linq_It()
     {
         // Arrange
         var request = new
@@ -49,7 +54,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void LinqItContains()
+    public void Linq_It_Contains()
     {
         // Arrange
         var request = new
@@ -67,7 +72,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void Linq1()
+    public void Linq()
     {
         // Arrange
         var request = new
@@ -103,6 +108,23 @@ public class DynamicLinqHelpersTemplateTests
 
         // Assert
         result.Should().Be("2020-04-15T14:14:15.0000000");
+    }
+
+    [Theory]
+    [InlineData("{{Expression '1 + 2'}}", "3")]
+    [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
+    public void Linq_Expression(string expression, string expected)
+    {
+        // Arrange
+        var request = true;
+
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -143,23 +165,4 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be("0:0:stef\r\n1:1:test\r\n");
     }
-
-    [Theory]
-    [InlineData("{{Expression '1 + 2'}}", "3")]
-    [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
-    public void Expression(string expression, string expected)
-    {
-        // Arrange
-        var request = true;
-
-        var action = _handlebarsContext.Compile(expression);
-
-        // Act
-        var result = action(request);
-
-        // Assert
-        result.Should().Be(expected);
-    }
-
-
 }
