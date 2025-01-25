@@ -1,3 +1,6 @@
+# 2.4.10 (25 January 2025)
+- [#113](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/113) - Added Enumerable helper Count [enhancement] contributed by [epDugas](https://github.com/epDugas)
+
 # 2.4.9 (21 January 2025)
 - [#110](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/110) - Add Category.Custom [enhancement] contributed by [StefH](https://github.com/StefH)
 
