@@ -21,6 +21,12 @@ internal class EnumerableHelpers(IHandlebars context, HandlebarsHelpersOptions o
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public int Count(IEnumerable<object?>? value)
+    {
+        return value?.Count() ?? 0;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public IEnumerable<object?> Distinct(IEnumerable<object?> values)
     {
         if (values is null)
