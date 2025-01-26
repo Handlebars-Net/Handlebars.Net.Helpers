@@ -162,7 +162,9 @@ class Program
             "JObject {{Count o.a }}",
             "JObject {{Where o.a 'it.Contains(\"s\")'}}",
             "JObject {{Count o.a2 }}",
-            "JObject {{Where o.a2 'X.Contains(\"x\")'}}"
+            "JObject {{Where o.a2 'X.Contains(\"x\")'}}",
+
+            "{{a.length}}"
         };
 
         foreach (string test in tests)
