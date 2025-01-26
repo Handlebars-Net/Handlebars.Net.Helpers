@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0-preview-02" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0-preview-03" />
   </ItemGroup>
 
   <ItemGroup>
