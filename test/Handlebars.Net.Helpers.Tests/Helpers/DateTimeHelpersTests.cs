@@ -233,6 +233,9 @@ public class DateTimeHelpersTests
     [InlineData("minute", 1, 2000, 1, 1, 12, 1, 0, 0)]
     [InlineData("second", 1, 2000, 1, 1, 12, 0, 1, 0)]
     [InlineData("millisecond", 1, 2000, 1, 1, 12, 0, 0, 1)]
+    [InlineData("day", -1, 1999, 12, 31, 12, 0, 0, 0)]
+    [InlineData("minute", -1, 2000, 1, 1, 11, 59, 0, 0)]
+    [InlineData("second", -1, 2000, 1, 1, 11, 59, 59, 0)]
     public void Add_With_ValuesAsString(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMiliseconds)
     {
         // Act
@@ -282,6 +285,9 @@ public class DateTimeHelpersTests
     [InlineData("minute", 1, 2000, 1, 1, 12, 1, 0, 0)]
     [InlineData("second", 1, 2000, 1, 1, 12, 0, 1, 0)]
     [InlineData("millisecond", 1, 2000, 1, 1, 12, 0, 0, 1)]
+    [InlineData("day", -1, 1999, 12, 31, 12, 0, 0, 0)]
+    [InlineData("minute", -1, 2000, 1, 1, 11, 59, 0, 0)]
+    [InlineData("second", -1, 2000, 1, 1, 11, 59, 59, 0)]
     public void Add_With_ValuesAsNullableDateTime(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMiliseconds)
     {
         // Act
