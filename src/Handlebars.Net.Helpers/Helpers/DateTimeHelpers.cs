@@ -70,24 +70,27 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public DateTime Add(object value, int increment, string datePart, string? format = null)
     {
-        if(string.IsNullOrEmpty(datePart)) throw new ArgumentNullException(nameof(datePart));
+        if (value is null) throw new ArgumentNullException(nameof(value));
+
+        if (string.IsNullOrEmpty(datePart)) throw new ArgumentNullException(nameof(datePart));
 
         var dateTime = GetDatetime(value, format);
 
        var datepartLowerCase = datePart?.ToLower() ?? string.Empty;
 
-        switch(datepartLowerCase)
+        DateTime result = datepartLowerCase switch
         {
-                case "year": return dateTime.AddYears(increment);
-                case "month": return dateTime.AddMonths(increment);
-                case "day": return dateTime.AddDays(increment);
-                case "hour": return dateTime.AddHours(increment);
-                case "minute": return dateTime.AddMinutes(increment);
-                case "second": return dateTime.AddSeconds(increment);
-                case "millisecond": return dateTime.AddMilliseconds(increment);                
-        }
+            "year" => dateTime.AddYears(increment),
+            "month" => dateTime.AddMonths(increment),
+            "day" => dateTime.AddDays(increment),
+            "hour" => dateTime.AddHours(increment),
+            "minute" => dateTime.AddMinutes(increment),
+            "second" => dateTime.AddSeconds(increment),
+            "millisecond" => dateTime.AddMilliseconds(increment),
+            _ => throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].")
+        };
 
-        return dateTime;
+        return result;
     }
 
     [HandlebarsWriter(WriterType.Value)]
