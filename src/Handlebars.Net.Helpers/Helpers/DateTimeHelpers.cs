@@ -53,18 +53,16 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
         var dateTime1 = GetDatetime(value1, format);
         var dateTime2 = GetDatetime(value2, format);
 
-        bool result = operation switch
+        switch(operation)
         {
-            ">" => dateTime1 > dateTime2,
-            "<" => dateTime1 < dateTime2,
-            "==" => dateTime1 == dateTime2,
-            "!=" => dateTime1 != dateTime2,
-            ">=" => dateTime1 >= dateTime2,
-            "<=" => dateTime1 <= dateTime2,
-            _ => throw new ArgumentException("Invalid comparison operator.")
+            case ">": return dateTime1 > dateTime2;
+            case "<": return dateTime1 < dateTime2;
+            case "==": return dateTime1 == dateTime2;
+            case "!=": return dateTime1 != dateTime2;
+            case ">=": return dateTime1 >= dateTime2;
+            case "<=": return dateTime1 <= dateTime2;
+            default: throw new ArgumentException("Invalid comparison operator.");
         };
-
-        return result;
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -76,21 +74,17 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
 
         var dateTime = GetDatetime(value, format);
 
-       var datepartLowerCase = datePart?.ToLower() ?? string.Empty;
-
-        DateTime result = datepartLowerCase switch
+        switch(datePart)
         {
-            "year" => dateTime.AddYears(increment),
-            "month" => dateTime.AddMonths(increment),
-            "day" => dateTime.AddDays(increment),
-            "hour" => dateTime.AddHours(increment),
-            "minute" => dateTime.AddMinutes(increment),
-            "second" => dateTime.AddSeconds(increment),
-            "millisecond" => dateTime.AddMilliseconds(increment),
-            _ => throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].")
+            case "year": return dateTime.AddYears(increment);
+            case "month": return dateTime.AddMonths(increment);
+            case "day": return dateTime.AddDays(increment);
+            case "hour": return dateTime.AddHours(increment);
+            case "minute": return dateTime.AddMinutes(increment);
+            case "second": return dateTime.AddSeconds(increment);
+            case "millisecond": return dateTime.AddMilliseconds(increment);
+            default: throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].");
         };
-
-        return result;
     }
 
     [HandlebarsWriter(WriterType.Value)]
