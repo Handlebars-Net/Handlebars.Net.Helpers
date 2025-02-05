@@ -45,5 +45,69 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
         };
     }
 
+    [HandlebarsWriter(WriterType.Value)]
+    public bool Compare(object value1, string operation, object value2, string? format = null)
+    {
+        if (value1 is null || value2 is null) return false;
+        
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+
+        bool result = operation switch
+        {
+            ">" => dateTime1 > dateTime2,
+            "<" => dateTime1 < dateTime2,
+            "==" => dateTime1 == dateTime2,
+            "!=" => dateTime1 != dateTime2,
+            ">=" => dateTime1 >= dateTime2,
+            "<=" => dateTime1 <= dateTime2,
+            _ => throw new ArgumentException("Invalid comparison operator.")
+        };
+
+        return result;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime Add(object value, int increment, string datePart, string? format = null)
+    {
+        if(string.IsNullOrEmpty(datePart)) throw new ArgumentNullException(nameof(datePart));
+
+        var dateTime = GetDatetime(value, format);
+
+       var datepartLowerCase = datePart?.ToLower() ?? string.Empty;
+
+        switch(datepartLowerCase)
+        {
+                case "year": return dateTime.AddYears(increment);
+                case "month": return dateTime.AddMonths(increment);
+                case "day": return dateTime.AddDays(increment);
+                case "hour": return dateTime.AddHours(increment);
+                case "minute": return dateTime.AddMinutes(increment);
+                case "second": return dateTime.AddSeconds(increment);
+                case "millisecond": return dateTime.AddMilliseconds(increment);                
+        }
+
+        return dateTime;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime Parse(string value)
+    {
+        return DateTime.Parse(value, Context.Configuration.FormatProvider);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime ParseExact(string value, string? format)
+    {
+        return DateTime.ParseExact(value, format, Context.Configuration.FormatProvider);
+    }
+
+    private DateTime GetDatetime(object value, string? format)
+    {
+        if (value.GetType().Equals(typeof(DateTime))) return (DateTime)value;
+        else if (value.GetType().Equals(typeof(DateTime?))) return ((DateTime?)value).Value;
+        else return string.IsNullOrEmpty(format) ? Parse(value.ToString()) : ParseExact(value.ToString(), format);
+    }
+
     public Category Category => Category.DateTime;
 }

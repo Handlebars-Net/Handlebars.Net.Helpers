@@ -15,5 +15,11 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
         return value;
     }
 
+    [HandlebarsWriter(WriterType.String)]
+    public string ToString(object? value)
+    {
+        return value?.ToString() ?? string.Empty;
+    }
+
     public Category Category => Category.Object;
 }
