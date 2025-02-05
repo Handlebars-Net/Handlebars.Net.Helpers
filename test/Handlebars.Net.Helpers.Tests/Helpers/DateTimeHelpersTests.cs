@@ -138,6 +138,9 @@ public class DateTimeHelpersTests
     [InlineData("2000-01-01 1:00:00", "<", "2000-01-01 1:10:00", true)]
     [InlineData("2000-01-01 1:10:00", ">", "2000-01-01 1:00:00", true)]
     [InlineData("2000-01-01 1:00:00", "==", "2000-01-01 1:00:00", true)]
+    [InlineData("2000-01-02 1:00:00", "!=", "2000-01-01 1:00:00", true)]
+    [InlineData("2000-01-02 1:00:00", ">=", "2000-01-01 1:00:00", true)]
+    [InlineData("2000-01-01 1:00:00", "<=", "2000-01-02 1:00:00", true)]
     [InlineData("2000-01-01 1:00:00", "!=", "2000-01-01 1:00:00", false)]
     public void Compare_With_ValuesAsString(string value1, string op, string value2, bool expected)
     {
@@ -152,6 +155,9 @@ public class DateTimeHelpersTests
     [InlineData("1:00:00 2000-01-01", "<", "1:10:00 2000-01-01", true)]
     [InlineData("1:10:00 2000-01-01", ">", "1:00:00 2000-01-01", true)]
     [InlineData("1:00:00 2000-01-01", "==", "1:00:00 2000-01-01", true)]
+    [InlineData("1:00:00 2000-01-02", "!=", "1:00:00 2000-01-01", true)]
+    [InlineData("1:00:00 2000-01-02", ">=", "1:00:00 2000-01-01", true)]
+    [InlineData("1:00:00 2000-01-01", "<=", "1:00:00 2000-01-02", true)]
     [InlineData("1:00:00 2000-01-01", "!=", "1:00:00 2000-01-01", false)]
     public void Compare_With_ValuesAsFormattedString(string value1, string op, string value2, bool expected)
     {
@@ -173,6 +179,13 @@ public class DateTimeHelpersTests
 
         // Assert
         result.Should().Be(false);
+    }
+
+    [Fact]
+    public void Compare_With_InvalidOperator()
+    {
+        // act & assert
+        Assert.Throws<ArgumentException>(() => _sut.Compare(DateTimeNow, "|", DateTimeNow));
     }
 
     [Theory]
@@ -282,5 +295,12 @@ public class DateTimeHelpersTests
         result.Minute.Should().Be(expectedMinute);
         result.Second.Should().Be(expectedSeconds);
         result.Millisecond.Should().Be(expectedMiliseconds);
+    }
+
+    [Fact]
+    public void Add_With_InvalidDatepart()
+    {
+        // act & assert
+        Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, "century"));
     }
 }
