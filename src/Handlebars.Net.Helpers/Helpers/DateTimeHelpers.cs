@@ -52,6 +52,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
 
         if (value1 is null || value2 is null) {
             if ("!=".Equals(operation)) return value1 is not null || value2 is not null;
+            if ("==".Equals(operation)) return value1 is null && value2 is null;
             else return false;
         } 
         

@@ -171,24 +171,26 @@ public class DateTimeHelpersTests
         result.Should().Be(expected);
     }
 
-    [Fact]
-    public void Compare_With_NullValues()
+    [Theory]
+    [InlineData(null, "!=", "2000-01-01", true)]
+    [InlineData(null, "!=", null, false)]
+    [InlineData(null, "==", null, true)]
+    [InlineData(null, "==", "2000-01-01", false)]
+    [InlineData(null, ">=", "2000-01-01", false)]
+    [InlineData(null, ">=", null, false)]
+    [InlineData(null, ">", null, false)]
+    [InlineData(null, ">", "2000-01-01", false)]
+    [InlineData(null, "<=", "2000-01-01", false)]
+    [InlineData(null, "<=", null, false)]
+    [InlineData(null, "<", null, false)]
+    [InlineData(null, "<", "2000-01-01", false)]
+    public void Compare_With_NullValues(object? value1, string op, object? value2, bool expected)
     {
         // Act
-        var result = _sut.Compare(null, "==", null);
+        var result = _sut.Compare(value1, op, value2);
 
         // Assert
-        result.Should().Be(false);
-    }
-
-    [Fact]
-    public void Compare_With_OneOfNullValuesAndDiffOperator()
-    {
-        // Act
-        var result = _sut.Compare(DateTimeNow, "!=", null);
-
-        // Assert
-        result.Should().Be(true);
+        result.Should().Be(expected);
     }
 
     [Fact]
