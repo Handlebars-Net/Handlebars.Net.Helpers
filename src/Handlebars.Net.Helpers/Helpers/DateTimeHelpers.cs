@@ -46,7 +46,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public bool Compare(object value1, string operation, object value2, string? format = null)
+    public bool Compare(object? value1, string operation, object? value2, string? format = null)
     {
         if (value1 is null || value2 is null) return false;
         
