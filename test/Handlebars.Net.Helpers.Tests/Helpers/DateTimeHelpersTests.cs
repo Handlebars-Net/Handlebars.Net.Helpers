@@ -182,6 +182,16 @@ public class DateTimeHelpersTests
     }
 
     [Fact]
+    public void Compare_With_OneOfNullValuesAndDiffOperator()
+    {
+        // Act
+        var result = _sut.Compare(DateTimeNow, "!=", null);
+
+        // Assert
+        result.Should().Be(true);
+    }
+
+    [Fact]
     public void Compare_With_InvalidOperator()
     {
         // act & assert

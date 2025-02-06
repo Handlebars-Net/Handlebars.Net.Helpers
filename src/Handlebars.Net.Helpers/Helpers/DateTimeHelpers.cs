@@ -48,7 +48,12 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool Compare(object? value1, string operation, object? value2, string? format = null)
     {
-        if (value1 is null || value2 is null) return false;
+        if (string.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
+
+        if (value1 is null || value2 is null) {
+            if ("!=".Equals(operation)) return value1 is not null || value2 is not null;
+            else return false;
+        } 
         
         var dateTime1 = GetDatetime(value1, format);
         var dateTime2 = GetDatetime(value2, format);
@@ -66,7 +71,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public DateTime Add(object value, int increment, string datePart, string? format = null)
+    public DateTime Add(object? value, int increment, string datePart, string? format = null)
     {
         if (value is null) throw new ArgumentNullException(nameof(value));
 
