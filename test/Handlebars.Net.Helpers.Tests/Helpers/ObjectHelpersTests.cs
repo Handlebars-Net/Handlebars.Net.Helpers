@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using CultureAwareTesting.xUnit;
+using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Moq;
 using Xunit;
@@ -17,7 +18,7 @@ public class ObjectHelpersTests
         _sut = new ObjectHelpers(contextMock.Object);
     }
 
-    [Theory]
+    [CulturedTheory("en-US")]
     [InlineData(123456, "123456")]
     [InlineData(123.456, "123.456")]
     public void ToStringWithValues(object value, string expected)
@@ -30,7 +31,7 @@ public class ObjectHelpersTests
     }
 
     [Fact]
-    public void ToStringWitNullhValue()
+    public void ToStringWithNullValue()
     {
         // Act
         var result = _sut.ToString(null);

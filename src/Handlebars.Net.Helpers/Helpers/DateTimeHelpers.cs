@@ -48,13 +48,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public bool Compare(object? value1, string operation, object? value2, string? format = null)
     {
-        if (string.IsNullOrEmpty(operation)) throw new ArgumentNullException(nameof(operation));
-
-        if (value1 is null || value2 is null) {
-            if ("!=".Equals(operation)) return value1 is not null || value2 is not null;
-            if ("==".Equals(operation)) return value1 is null && value2 is null;
-            else return false;
-        } 
+        Guard.NotNullOrEmpty(operation);
         
         var dateTime1 = GetDatetime(value1, format);
         var dateTime2 = GetDatetime(value2, format);
@@ -74,21 +68,23 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value)]
     public DateTime Add(object? value, int increment, string datePart, string? format = null)
     {
-        if (value is null) throw new ArgumentNullException(nameof(value));
+        Guard.NotNullOrEmpty(datePart);
 
-        if (string.IsNullOrEmpty(datePart)) throw new ArgumentNullException(nameof(datePart));
+        if (value is null) throw new ArgumentException(nameof(value));
 
         var dateTime = GetDatetime(value, format);
 
-        switch(datePart)
+        if (dateTime is null) throw new NullReferenceException(nameof(dateTime));
+
+        switch (datePart)
         {
-            case "year": return dateTime.AddYears(increment);
-            case "month": return dateTime.AddMonths(increment);
-            case "day": return dateTime.AddDays(increment);
-            case "hour": return dateTime.AddHours(increment);
-            case "minute": return dateTime.AddMinutes(increment);
-            case "second": return dateTime.AddSeconds(increment);
-            case "millisecond": return dateTime.AddMilliseconds(increment);
+            case "year": return dateTime.Value.AddYears(increment);
+            case "month": return dateTime.Value.AddMonths(increment);
+            case "day": return dateTime.Value.AddDays(increment);
+            case "hour": return dateTime.Value.AddHours(increment);
+            case "minute": return dateTime.Value.AddMinutes(increment);
+            case "second": return dateTime.Value.AddSeconds(increment);
+            case "millisecond": return dateTime.Value.AddMilliseconds(increment);
             default: throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].");
         };
     }
@@ -100,16 +96,23 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public DateTime ParseExact(string value, string? format)
+    public DateTime ParseExact(string value, string format)
     {
+        Guard.NotNullOrEmpty(format);
+
         return DateTime.ParseExact(value, format, Context.Configuration.FormatProvider);
     }
 
-    private DateTime GetDatetime(object value, string? format)
+    private DateTime? GetDatetime(object? value, string? format = null)
     {
-        if (value.GetType().Equals(typeof(DateTime))) return (DateTime)value;
-        else if (value.GetType().Equals(typeof(DateTime?))) return ((DateTime?)value).Value;
-        else return string.IsNullOrEmpty(format) ? Parse(value.ToString()) : ParseExact(value.ToString(), format);
+        if (value == null) return null;
+        
+        if (value is DateTime dateTimeValue) return dateTimeValue;
+        
+        if (value is string stringValue)
+            return string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format);
+        
+        return GetDatetime(value.ToString(), format);
     }
 
     public Category Category => Category.DateTime;
