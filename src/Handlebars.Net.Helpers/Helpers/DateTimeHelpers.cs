@@ -70,7 +70,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     {
         Guard.NotNullOrEmpty(datePart);
 
-        if (value is null) throw new ArgumentException(nameof(value));
+        if (value is null) throw new ArgumentNullException(nameof(value));
 
         var dateTime = GetDatetime(value, format);
 

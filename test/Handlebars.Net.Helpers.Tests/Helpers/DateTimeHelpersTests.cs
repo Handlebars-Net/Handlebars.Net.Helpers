@@ -316,9 +316,24 @@ public class DateTimeHelpersTests
     }
 
     [Fact]
+    public void Add_With_NullValue()
+    {
+        // act & assert
+        Assert.Throws<ArgumentNullException>(() => _sut.Add(null, 1, "year"));
+    }
+
+    [Fact]
     public void Add_With_InvalidDatepart()
     {
         // act & assert
         Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, "century"));
+    }
+
+    [Fact]
+    public void Add_With_NullOrEmptyDatePart()
+    {
+        // act & assert
+        Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, string.Empty));
+        Assert.Throws<ArgumentNullException>(() => _sut.Add(DateTimeNow, 1, null));
     }
 }
