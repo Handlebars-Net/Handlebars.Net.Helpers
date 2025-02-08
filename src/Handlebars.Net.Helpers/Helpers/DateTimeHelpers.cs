@@ -66,13 +66,13 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public DateTime Add(object? value, int increment, string datePart, string? format = null)
+    public DateTime Add(object value, int increment, string datePart, string? format = null)
     {
         Guard.NotNullOrEmpty(datePart);
 
         if (value is null) throw new ArgumentNullException(nameof(value));
 
-        var dateTime = GetDatetime(value, format);
+        var dateTime = Guard.NotNull(GetDatetime(value, format));
 
         if (dateTime is null) throw new NullReferenceException(nameof(dateTime));
 
