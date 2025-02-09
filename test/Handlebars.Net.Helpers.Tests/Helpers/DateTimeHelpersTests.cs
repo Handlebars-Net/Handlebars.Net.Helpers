@@ -87,25 +87,25 @@ public class DateTimeHelpersTests
     }
 
     [Theory]
-    [InlineData("==", 1, 0, false)]
-    [InlineData("==", 0, 0, true)]
-    [InlineData("==", 0, 1, false)]
-    [InlineData("!=", 1, 0, true)]
-    [InlineData("!=", 0, 0, false)]
-    [InlineData("!=", 0, 1, true)]
-    [InlineData("<", 1, 0, false)]
-    [InlineData("<", 0, 0, false)]
-    [InlineData("<", 0, 1, true)]
-    [InlineData("<=", 1, 0, false)]
-    [InlineData("<=", 0, 0, true)]
-    [InlineData("<=", 0, 1, true)]
-    [InlineData(">", 1, 0, true)]
-    [InlineData(">", 0, 0, false)]
-    [InlineData(">", 0, 1, false)]
-    [InlineData(">=", 1, 0, true)]
-    [InlineData(">=", 0, 0, true)]
-    [InlineData(">=", 0, 1, false)]
-    public void Compare_WithValuesAsDateTime(string op, int incrementDate1, int incrementDate2, bool expected)
+    [InlineData(nameof(DateTimeHelpers.Equal), 1, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.Equal), 0, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.Equal), 0, 1, false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), 1, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), 0, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), 0, 1, true)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), 1, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), 0, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), 0, 1, true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), 1, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), 0, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), 0, 1, true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), 1, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), 0, 0, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), 0, 1, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), 1, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), 0, 0, true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), 0, 1, false)]
+    public void Compare_WithValuesAsDateTime(string method, int incrementDate1, int incrementDate2, bool expected)
     {
         // Arrange
         var dateTime1 = DateTimeNow.AddMinutes(incrementDate1);
@@ -113,106 +113,106 @@ public class DateTimeHelpersTests
         string? format = null;
 
         // Act
-        var result = _sut.Compare(dateTime1, op, dateTime2, format);
+        var result = ActTestCompare(method, dateTime1, dateTime2, format);
 
         // Assert
         result.Should().Be(expected);
 
         // Act
-        result = _sut.Compare(dateTime1, op, dateTime2, format);
+        result = ActTestCompare(method, (DateTime?)dateTime1, (DateTime?)dateTime2, format);
 
         // Assert
         result.Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("==", "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData("==", "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData("==", "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
-    [InlineData("!=", "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData("!=", "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData("!=", "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
-    [InlineData("<", "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData("<", "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData("<", "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
-    [InlineData("<=", "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData("<=", "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData("<=", "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
-    [InlineData(">", "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData(">", "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
-    [InlineData(">", "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
-    [InlineData(">=", "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData(">=", "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
-    [InlineData(">=", "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
-    public void Compare_WithValuesAsString(string op, string dateTime1, string dateTime2, bool expected)
+    [InlineData(nameof(DateTimeHelpers.Equal), "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.Equal), "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.Equal), "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2001-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2000-01-01 00:00:00", "2001-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2000-01-01 00:00:00", "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2001-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2000-01-01 00:00:00", "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2000-01-01 00:00:00", "2001-01-01 00:00:00", false)]
+    public void Compare_WithValuesAsString(string method, string dateTime1, string dateTime2, bool expected)
     {
         // Arrange 
         string? format = null;
 
         // Act
-        var result = _sut.Compare(dateTime1, op, dateTime2, format);
+        var result = ActTestCompare(method, dateTime1, dateTime2, format);
 
         // Assert
         result.Should().Be(expected);       
     }
 
     [Theory]
-    [InlineData("==", "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData("==", "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData("==", "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
-    [InlineData("!=", "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData("!=", "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData("!=", "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
-    [InlineData("<", "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData("<", "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData("<", "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
-    [InlineData("<=", "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData("<=", "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData("<=", "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
-    [InlineData(">", "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData(">", "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
-    [InlineData(">", "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
-    [InlineData(">=", "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData(">=", "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
-    [InlineData(">=", "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
-    public void Compare_WithValuesAsStringAndFormat(string op, string dateTime1, string dateTime2, bool expected)
+    [InlineData(nameof(DateTimeHelpers.Equal), "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.Equal), "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.Equal), "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2001||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2000||01||01 00-00-00", "2001||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2000||01||01 00-00-00", "2000||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2001||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2000||01||01 00-00-00", "2000||01||01 00-00-00", true)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2000||01||01 00-00-00", "2001||01||01 00-00-00", false)]
+    public void Compare_WithValuesAsStringAndFormat(string method, string dateTime1, string dateTime2, bool expected)
     {
         // Arrange 
         string? format = "yyyy||MM||dd hh-mm-ss";
 
         // Act
-        var result = _sut.Compare(dateTime1, op, dateTime2, format);
+        var result = ActTestCompare(method, dateTime1, dateTime2, format);
 
         // Assert
         result.Should().Be(expected);
     }
 
     [Theory]
-    [InlineData("==", null, "2000-01-01 00:00:00", false)]
-    [InlineData("==", null, null, true)]
-    [InlineData("==", "2000-01-01 00:00:00", null, false)]
-    [InlineData("!=", null, "2000-01-01 00:00:00", true)]
-    [InlineData("!=", null, null, false)]
-    [InlineData("!=", "2000-01-01 00:00:00", null, true)]
-    [InlineData("<", null, "2000-01-01 00:00:00", false)]
-    [InlineData("<", null, null, false)]
-    [InlineData("<", "2000-01-01 00:00:00", null, false)]
-    [InlineData("<=", null, "2000-01-01 00:00:00", false)]
-    [InlineData("<=", null, null, false)]
-    [InlineData("<=", "2000-01-01 00:00:00", null, false)]
-    [InlineData(">", null, "2000-01-01 00:00:00", false)]
-    [InlineData(">", null, null, false)]
-    [InlineData(">", "2000-01-01 00:00:00", null, false)]
-    [InlineData(">=", null, "2000-01-01 00:00:00", false)]
-    [InlineData(">=", null, null, false)]
-    [InlineData(">=", "2000-01-01 00:00:00", null, false)]
-    public void Compare_WithNullValues(string op, string dateTime1, string dateTime2, bool expected)
+    [InlineData(nameof(DateTimeHelpers.Equal), null, "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.Equal), null, null, true)]
+    [InlineData(nameof(DateTimeHelpers.Equal), "2000-01-01 00:00:00", null, false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), null, "2000-01-01 00:00:00", true)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), null, null, false)]
+    [InlineData(nameof(DateTimeHelpers.NotEqual), "2000-01-01 00:00:00", null, true)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), null, "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), null, null, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThan), "2000-01-01 00:00:00", null, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), null, "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), null, null, false)]
+    [InlineData(nameof(DateTimeHelpers.LessThanEqual), "2000-01-01 00:00:00", null, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), null, "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), null, null, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThan), "2000-01-01 00:00:00", null, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), null, "2000-01-01 00:00:00", false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), null, null, false)]
+    [InlineData(nameof(DateTimeHelpers.GreaterThanEqual), "2000-01-01 00:00:00", null, false)]
+    public void Compare_WithNullValues(string method, string dateTime1, string dateTime2, bool expected)
     {
         // Arrange 
         string? format = null;
 
         // Act
-        var result = _sut.Compare(dateTime1, op, dateTime2, format);
+        var result = ActTestCompare(method, dateTime1, dateTime2, format);
 
         // Assert
         result.Should().Be(expected);
@@ -368,6 +368,21 @@ public class DateTimeHelpersTests
             nameof(DateTimeHelpers.AddMinutes) => _sut.AddMinutes(value, increment, format),
             nameof(DateTimeHelpers.AddSeconds) => _sut.AddSeconds(value, increment, format),
             nameof(DateTimeHelpers.AddMilliseconds) => _sut.AddMilliseconds(value, increment, format),
+
+            _ => throw new ArgumentException("Invalid method name.")
+        };
+    }
+
+    private bool ActTestCompare(string method, object? value1, object? value2, string? format)
+    {
+        return method switch
+        {
+            nameof(DateTimeHelpers.Equal) => _sut.Equal(value1, value2, format),
+            nameof(DateTimeHelpers.NotEqual) => _sut.NotEqual(value1, value2, format),
+            nameof(DateTimeHelpers.LessThan) => _sut.LessThan(value1, value2, format),
+            nameof(DateTimeHelpers.LessThanEqual) => _sut.LessThanEqual(value1, value2, format),
+            nameof(DateTimeHelpers.GreaterThan) => _sut.GreaterThan(value1, value2, format),
+            nameof(DateTimeHelpers.GreaterThanEqual) => _sut.GreaterThanEqual(value1, value2, format),
 
             _ => throw new ArgumentException("Invalid method name.")
         };

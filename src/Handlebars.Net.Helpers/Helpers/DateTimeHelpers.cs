@@ -46,23 +46,51 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public bool Compare(object? value1, string operation, object? value2, string? format = null)
+    public bool GreaterThan(object? value1, object? value2, string? format = null)
     {
-        Guard.NotNullOrEmpty(operation);
-
         var dateTime1 = GetDatetime(value1, format);
         var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 > dateTime2;
+    }
 
-        switch (operation)
-        {
-            case ">": return dateTime1 > dateTime2;
-            case "<": return dateTime1 < dateTime2;
-            case "==": return dateTime1 == dateTime2;
-            case "!=": return dateTime1 != dateTime2;
-            case ">=": return dateTime1 >= dateTime2;
-            case "<=": return dateTime1 <= dateTime2;
-            default: throw new ArgumentException("Invalid comparison operator.");
-        };
+    [HandlebarsWriter(WriterType.Value)]
+    public bool GreaterThanEqual(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 >= dateTime2;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LessThan(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 < dateTime2;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LessThanEqual(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 <= dateTime2; 
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool NotEqual(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 != dateTime2; 
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public bool Equal(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 == dateTime2;
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -138,12 +166,12 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     private DateTime? GetDatetime(object? value, string? format = null)
     {
         if (value == null) return null;
-
+        
         if (value is DateTime dateTimeValue) return dateTimeValue;
-
+        
         if (value is string stringValue)
             return string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format);
-
+        
         return GetDatetime(value.ToString(), format);
     }
 

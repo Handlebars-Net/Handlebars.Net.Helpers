@@ -100,8 +100,8 @@ public class DateTimeHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{Compare \"2000-01-02\" \">\" \"2000-01-01\"}}", "True")]
-    [InlineData("{{Compare \"2000-01-01\" \"!=\" \"2000-01-01\"}}", "False")]
+    [InlineData("{{GreaterThan \"2000-01-02\" \"2000-01-01\"}}", "True")]
+    [InlineData("{{NotEqual \"2000-01-01\" \"2000-01-01\"}}", "False")]
     public void Compare(string template, string expected)
     {
         // Arrange
@@ -115,8 +115,8 @@ public class DateTimeHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{Compare \"02/01/2000\" \">\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "True")]
-    [InlineData("{{Compare \"01/01/2000\" \"!=\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "False")]
+    [InlineData("{{GreaterThan \"02/01/2000\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "True")]
+    [InlineData("{{NotEqual \"01/01/2000\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "False")]
     public void Compare_Formatted(string template, string expected)
     {
         // Arrange
