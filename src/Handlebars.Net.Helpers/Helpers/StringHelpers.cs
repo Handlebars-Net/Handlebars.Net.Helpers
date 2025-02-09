@@ -5,6 +5,7 @@ using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Models;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 
@@ -14,12 +15,8 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 /// Some code copied from https://www.30secondsofcode.org/c-sharp/t/string/p/1
 /// and based on https://github.com/helpers/handlebars-helpers#string
 /// </summary>
-internal class StringHelpers : BaseHelpers, IHelpers
+internal class StringHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public StringHelpers(IHandlebars context) : base(context)
-    {
-    }
-
     [HandlebarsWriter(WriterType.String)]
     public string Append(string value, string append)
     {

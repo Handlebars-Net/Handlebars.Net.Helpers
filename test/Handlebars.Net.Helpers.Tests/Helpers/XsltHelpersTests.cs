@@ -1,5 +1,6 @@
 ﻿#if !(NET451 || NET452)
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -36,7 +37,7 @@ public class XsltHelpersTests
         Mock<IHandlebars> contextMock = new();
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        _sut = new XsltHelpers(contextMock.Object);
+        _sut = new XsltHelpers(contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [Fact]

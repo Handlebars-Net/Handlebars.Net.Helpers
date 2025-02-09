@@ -6,22 +6,19 @@ using System.Xml.Xsl;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Stef.Validation;
 
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class XsltHelpers : BaseHelpers, IHelpers
+public class XsltHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
 
     // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
     // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
     private static readonly Regex RemoveXmlVersionRegex = new(@"(<\?xml.*?\?>)", RegexOptions.Compiled, RegexTimeout);
-
-    public XsltHelpers(IHandlebars context) : base(context)
-    {
-    }
 
     [HandlebarsWriter(WriterType.Value)]
     public XmlDocument Transform(string inputXml, string xsltString)

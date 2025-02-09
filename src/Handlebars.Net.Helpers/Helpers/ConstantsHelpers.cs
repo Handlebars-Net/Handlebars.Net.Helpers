@@ -1,15 +1,12 @@
 ﻿using System;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class ConstantsHelpers : BaseHelpers, IHelpers
+internal class ConstantsHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public ConstantsHelpers(IHandlebars context) : base(context)
-    {
-    }
-
     [HandlebarsWriter(WriterType.Value, "Constants.Math.E")]
     public double E()
     {

@@ -1,5 +1,6 @@
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -13,7 +14,7 @@ public class UrlHelpersTests
     {
         var contextMock = new Mock<IHandlebars>();
 
-        _sut = new UrlHelpers(contextMock.Object);
+        _sut = new UrlHelpers(contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [Theory]

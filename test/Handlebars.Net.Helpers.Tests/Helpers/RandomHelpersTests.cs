@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -14,7 +15,7 @@ public class RandomHelpersTests
         var contextMock = new Mock<IHandlebars>();
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        _sut = new RandomHelpers(contextMock.Object);
+        _sut = new RandomHelpers(contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [Fact]

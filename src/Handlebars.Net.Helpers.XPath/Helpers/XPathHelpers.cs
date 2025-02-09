@@ -7,6 +7,7 @@ using System.Xml.XPath;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 #if !NETSTANDARD1_3
 using Wmhelp.XPath2;
 #endif
@@ -14,17 +15,13 @@ using Wmhelp.XPath2;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class XPathHelpers : BaseHelpers, IHelpers
+public class XPathHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
 
     // Remove the "<?xml version='1.0' standalone='no'?>" from a XML document.
     // (https://github.com/WireMock-Net/WireMock.Net/issues/618)
     private static readonly Regex RemoveXmlVersionRegex = new(@"(<\?xml.*?\?>)", RegexOptions.Compiled, RegexTimeout);
-
-    public XPathHelpers(IHandlebars context) : base(context)
-    {
-    }
 
     [HandlebarsWriter(WriterType.Value)]
     public XPathNavigator SelectNode(string document, string xpath)
