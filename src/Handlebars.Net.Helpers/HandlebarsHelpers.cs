@@ -15,6 +15,8 @@ using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
 using System.Diagnostics;
 using HandlebarsDotNet.Helpers.Compatibility;
+using Microsoft.Win32;
+
 
 
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
@@ -108,11 +110,11 @@ public static class HandlebarsHelpers
         }
         else
         {
-            paths = new List<string>
-            {
+            paths =
+            [
                 Directory.GetCurrentDirectory(),
-                AppContextHelper.GetBaseDirectory(),
-            };
+                AppContextHelper.GetBaseDirectory()
+            ];
 
 #if !NETSTANDARD1_3_OR_GREATER
             void Add(string? path, ICollection<string> customHelperPaths)
@@ -178,7 +180,7 @@ public static class HandlebarsHelpers
 
     private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
     {
-        Type helperClassType = helper.GetType();
+        var helperClassType = helper.GetType();
 
         var methods = helperClassType.GetMethods()
             .Select(methodInfo => new
@@ -214,13 +216,13 @@ public static class HandlebarsHelpers
     private static string GetName(MethodInfo methodInfo, HandlebarsWriterAttribute attribute, HandlebarsHelpersOptions options, string categoryPrefix)
     {
         var names = new List<string>();
-        if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
+        if (attribute.Name is not null && !string.IsNullOrWhiteSpace(attribute.Name))
         {
             names.Add(attribute.Name);
         }
         else
         {
-            if (options.Prefix is { } && !string.IsNullOrWhiteSpace(options.Prefix))
+            if (options.Prefix is not null && !string.IsNullOrWhiteSpace(options.Prefix))
             {
                 names.Add(options.Prefix);
             }
@@ -261,7 +263,7 @@ public static class HandlebarsHelpers
     {
         HandlebarsHelperWithOptions helper = (in EncodedTextWriter writer, in HelperOptions options, in Context context, in Arguments arguments) =>
         {
-            object? value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
+            var value = InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
 
             if (value is IEnumerable<object> array)
             {
@@ -283,6 +285,8 @@ public static class HandlebarsHelpers
             return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
         };
 
+        var existing = handlebarsContext.GetHelpers()[in helperName];
+
         handlebarsContext.RegisterHelper(helperName, helper);
     }
 
@@ -292,7 +296,7 @@ public static class HandlebarsHelpers
         {
             var value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, name, methodInfo, arguments, obj, options);
 
-            if (value is bool valueAsBool && !valueAsBool)
+            if (value is false)
             {
                 // If it's a boolean value, and if this is 'False', execute the Inverse.
                 options.Inverse(writer, value);
@@ -327,7 +331,7 @@ public static class HandlebarsHelpers
             parameterCountRequired--;
         }
 
-        if (model is { })
+        if (model is not null)
         {
             numberOfArguments += 1;
         }
@@ -378,7 +382,7 @@ public static class HandlebarsHelpers
             parsedArguments.Insert(0, true);
         }
 
-        if (model is { })
+        if (model is not null)
         {
             parsedArguments.Insert(0, model);
         }
@@ -410,6 +414,6 @@ public static class HandlebarsHelpers
     /// </summary>
     private static string[] CreateHelperNames(string helperName)
     {
-        return new[] { helperName, $"[{helperName}]" };
+        return [helperName, $"[{helperName}]"];
     }
 }

@@ -168,7 +168,7 @@ public class DateTimeHelpersTemplateTests
             x = "2000-01-01 4PM"
         };
 
-        var action = _handlebarsContext.Compile("{{Parse x}}");
+        var action = _handlebarsContext.Compile("{{DateTime.Parse x}}");
 
         // Act
         var result = action(model);
@@ -186,7 +186,7 @@ public class DateTimeHelpersTemplateTests
             x = "2000 01 01"
         };
 
-        var action = _handlebarsContext.Compile("{{ParseExact x \"yyyy MM dd\"}}");
+        var action = _handlebarsContext.Compile("{{DateTime.ParseExact x \"yyyy MM dd\"}}");
 
         // Act
         var result = action(model);
