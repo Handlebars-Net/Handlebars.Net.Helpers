@@ -117,6 +117,7 @@ class Program
             "{{Format (Now) \"yyyy-MM-dd\"}}",
             "{{Compare \"2000-01-02\" \">\" \"2000-01-01\"}}",
             "{{Add \"2000-01-01\" 1 \"year\"}}",
+            "{{#Add \"2000-01-01\" 1 \"year\"}}?{{else}}?{{/Add}}",
             //"{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
             //"{{Xeger.Generate '{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]}'}}",
             "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
@@ -216,11 +217,11 @@ class Program
 
         var tests2 = new[]
         {
-            //"{{[Math.Abs] -42}}",
-            //"{{Math.Abs -42}}",
+            "{{[Math.Abs] -42}}",
+            "{{Math.Abs -42}}",
             //"{{DynamicLinq.Sum i}}",
             //"{{[DynamicLinq.Sum] i}}",
-            "{{DateTime.Add \"2000-01-01\" 1 \"year\"}}"
+            "{{DateTime.Add \"2024-06-07\" 1 \"year\"}}"
         };
 
         foreach (var test in tests2)

@@ -29,7 +29,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
         return format is null ? utc : utc.ToString(format, Context.Configuration.FormatProvider);
     }
 
-    [HandlebarsWriter(WriterType.String)]
+    [HandlebarsWriter(WriterType.String, "DateTimeFormat")]
     public string Format(object value, string format)
     {
         return value switch

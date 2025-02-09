@@ -15,9 +15,6 @@ using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
 using System.Diagnostics;
 using HandlebarsDotNet.Helpers.Compatibility;
-using Microsoft.Win32;
-
-
 
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
@@ -275,7 +272,15 @@ public static class HandlebarsHelpers
             }
         };
 
-        handlebarsContext.RegisterHelper(helperName, helper);
+        if (handlebarsContext.GetHelpers()[in helperName] is MultiHandlebarsWithOptionsHelper multi)
+        {
+            multi.Helpers.Add(helper);
+        }
+        else
+        {
+            multi = new MultiHandlebarsWithOptionsHelper(helperName, helper);
+            handlebarsContext.RegisterHelper(multi);
+        }
     }
 
     private static void RegisterValueHelper(IHandlebars handlebarsContext, object instance, MethodInfo methodInfo, string helperName, bool passContext)
@@ -285,16 +290,22 @@ public static class HandlebarsHelpers
             return InvokeMethod(passContext ? context : null, false, handlebarsContext, helperName, methodInfo, arguments, instance, options);
         };
 
-        var existing = handlebarsContext.GetHelpers()[in helperName];
-
-        handlebarsContext.RegisterHelper(helperName, helper);
+        if (handlebarsContext.GetHelpers()[in helperName] is MultiHandlebarsReturnWithOptionsHelper multi)
+        {
+            multi.Helpers.Add(helper);
+        }
+        else
+        {
+            multi = new MultiHandlebarsReturnWithOptionsHelper(helperName, helper);
+            handlebarsContext.RegisterHelper(multi);
+        }
     }
 
-    private static void RegisterBlockHelper(bool methodIsOnlyUsedInContextOfABlockHelper, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string name)
+    private static void RegisterBlockHelper(bool methodIsOnlyUsedInContextOfABlockHelper, IHandlebars handlebarsContext, object obj, MethodInfo methodInfo, string helperName)
     {
         HandlebarsBlockHelper helper = (writer, options, context, arguments) =>
         {
-            var value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, name, methodInfo, arguments, obj, options);
+            var value = InvokeMethod(null, methodIsOnlyUsedInContextOfABlockHelper, handlebarsContext, helperName, methodInfo, arguments, obj, options);
 
             if (value is false)
             {
@@ -307,7 +318,15 @@ public static class HandlebarsHelpers
             }
         };
 
-        handlebarsContext.RegisterHelper(name, helper);
+        if (handlebarsContext.GetBlockHelpers()[in helperName] is MultiHandlebarsBlockHelper multi)
+        {
+            multi.Helpers.Add(helper);
+        }
+        else
+        {
+            multi = new MultiHandlebarsBlockHelper(helperName, helper);
+            handlebarsContext.RegisterHelper(multi);
+        }
     }
 
     private static object? InvokeMethod(
