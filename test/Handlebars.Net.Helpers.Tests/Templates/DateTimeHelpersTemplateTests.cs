@@ -100,8 +100,8 @@ public class DateTimeHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{Compare \"2000-01-02\" \">\" \"2000-01-01\"}}", "True")]
-    [InlineData("{{Compare \"2000-01-01\" \"!=\" \"2000-01-01\"}}", "False")]
+    [InlineData("{{GreaterThan \"2000-01-02\" \"2000-01-01\"}}", "True")]
+    [InlineData("{{NotEqual \"2000-01-01\" \"2000-01-01\"}}", "False")]
     public void Compare(string template, string expected)
     {
         // Arrange
@@ -115,8 +115,8 @@ public class DateTimeHelpersTemplateTests
     }
 
     [Theory]
-    [InlineData("{{Compare \"02/01/2000\" \">\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "True")]
-    [InlineData("{{Compare \"01/01/2000\" \"!=\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "False")]
+    [InlineData("{{GreaterThan \"02/01/2000\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "True")]
+    [InlineData("{{NotEqual \"01/01/2000\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "False")]
     public void Compare_Formatted(string template, string expected)
     {
         // Arrange
@@ -130,8 +130,9 @@ public class DateTimeHelpersTemplateTests
     }
 
     [CulturedTheory("en-us")]
-    [InlineData("{{Add \"2000-01-01\" 1 \"year\"}}", "2001-01-01")]
-    [InlineData("{{Add \"2000-01-01\" 1 \"day\"}}", "2000-01-02")]
+    [InlineData("{{AddYears \"2000-01-01\" 1}}", "2001-01-01")]
+    [InlineData("{{AddMonths \"2000-01-01\" 1}}", "2000-02-01")]
+    [InlineData("{{AddDays \"2000-01-01\" 1}}", "2000-01-02")]
     public void Add(string template, string expected)
     {
         // Arrange
@@ -145,8 +146,9 @@ public class DateTimeHelpersTemplateTests
     }
 
     [CulturedTheory("en-us")]
-    [InlineData("{{Add \"01/01/2000\" 1 \"year\" \"dd/MM/yyyy\"}}", "2001-01-01")]
-    [InlineData("{{Add \"01/01/2000\" 1 \"day\" \"dd/MM/yyyy\"}}", "2000-01-02")]
+    [InlineData("{{AddYears \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2001-01-01")]
+    [InlineData("{{AddMonths \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2000-02-01")]
+    [InlineData("{{AddDays \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2000-01-02")]
     public void Add_Formatted(string template, string expected)
     {
         // Arrange

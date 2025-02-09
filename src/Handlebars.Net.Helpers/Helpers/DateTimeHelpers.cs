@@ -46,47 +46,107 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public bool Compare(object? value1, string operation, object? value2, string? format = null)
+    public bool GreaterThan(object? value1, object? value2, string? format = null)
     {
-        Guard.NotNullOrEmpty(operation);
-        
         var dateTime1 = GetDatetime(value1, format);
         var dateTime2 = GetDatetime(value2, format);
-
-        switch(operation)
-        {
-            case ">": return dateTime1 > dateTime2;
-            case "<": return dateTime1 < dateTime2;
-            case "==": return dateTime1 == dateTime2;
-            case "!=": return dateTime1 != dateTime2;
-            case ">=": return dateTime1 >= dateTime2;
-            case "<=": return dateTime1 <= dateTime2;
-            default: throw new ArgumentException("Invalid comparison operator.");
-        };
+        return dateTime1 > dateTime2;
     }
 
     [HandlebarsWriter(WriterType.Value)]
-    public DateTime Add(object value, int increment, string datePart, string? format = null)
+    public bool GreaterThanEqual(object? value1, object? value2, string? format = null)
     {
-        Guard.NotNullOrEmpty(datePart);
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 >= dateTime2;
+    }
 
-        if (value is null) throw new ArgumentNullException(nameof(value));
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LessThan(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 < dateTime2;
+    }
 
-        var dateTime = Guard.NotNull(GetDatetime(value, format));
+    [HandlebarsWriter(WriterType.Value)]
+    public bool LessThanEqual(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 <= dateTime2; 
+    }
 
-        if (dateTime is null) throw new NullReferenceException(nameof(dateTime));
+    [HandlebarsWriter(WriterType.Value)]
+    public bool NotEqual(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 != dateTime2; 
+    }
 
-        switch (datePart)
-        {
-            case "year": return dateTime.Value.AddYears(increment);
-            case "month": return dateTime.Value.AddMonths(increment);
-            case "day": return dateTime.Value.AddDays(increment);
-            case "hour": return dateTime.Value.AddHours(increment);
-            case "minute": return dateTime.Value.AddMinutes(increment);
-            case "second": return dateTime.Value.AddSeconds(increment);
-            case "millisecond": return dateTime.Value.AddMilliseconds(increment);
-            default: throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].");
-        };
+    [HandlebarsWriter(WriterType.Value)]
+    public bool Equal(object? value1, object? value2, string? format = null)
+    {
+        var dateTime1 = GetDatetime(value1, format);
+        var dateTime2 = GetDatetime(value2, format);
+        return dateTime1 == dateTime2;
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddYears(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddYears(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddMonths(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMonths(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddDays(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddDays(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddHours(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddHours(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddMinutes(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMinutes(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddSeconds(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddSeconds(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public DateTime AddMilliseconds(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMilliseconds(increment);
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -113,6 +173,15 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
             return string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format);
         
         return GetDatetime(value.ToString(), format);
+    }
+
+    private DateTime GetDateTimeNonNullabe(object value, string? format)
+    {
+        if (value is null) throw new ArgumentNullException(nameof(value));
+
+        var dateTime = Guard.NotNull(GetDatetime(value, format));
+
+        return dateTime.GetValueOrDefault();
     }
 
     public Category Category => Category.DateTime;
