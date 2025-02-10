@@ -177,9 +177,7 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
 
     private DateTime GetDateTimeNonNullabe(object value, string? format)
     {
-        if (value is null) throw new ArgumentNullException(nameof(value));
-
-        var dateTime = Guard.NotNull(GetDatetime(value, format));
+        var dateTime = Guard.NotNull(GetDatetime(Guard.NotNull(value), format));
 
         return dateTime.GetValueOrDefault();
     }
