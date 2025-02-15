@@ -148,7 +148,7 @@ internal class StringHelpers : BaseHelpers, IHelpers
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public string Format(object? value, string format)
+    public virtual string Format(object? value, string format)
     {
         var formatProvider = Context.Configuration.FormatProvider;
 
@@ -455,5 +455,5 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return FormatAsString(value);
     }
 
-    public Category Category => Category.String;
+    public virtual Category Category => Category.String;
 }
