@@ -238,16 +238,16 @@ public class DateTimeHelpersTests
     }
 
     [Theory]
-    [InlineData("year", 1, 2001, 1, 1, 12, 0, 0, 0)]
-    [InlineData("month", 1, 2000, 2, 1, 12, 0, 0, 0)]
-    [InlineData("day", 1, 2000, 1, 2, 12, 0, 0, 0)]
-    [InlineData("hour", 1, 2000, 1, 1, 13, 0, 0, 0)]
-    [InlineData("minute", 1, 2000, 1, 1, 12, 1, 0, 0)]
-    [InlineData("second", 1, 2000, 1, 1, 12, 0, 1, 0)]
-    [InlineData("millisecond", 1, 2000, 1, 1, 12, 0, 0, 1)]
-    [InlineData("day", -1, 1999, 12, 31, 12, 0, 0, 0)]
-    [InlineData("minute", -1, 2000, 1, 1, 11, 59, 0, 0)]
-    [InlineData("second", -1, 2000, 1, 1, 11, 59, 59, 0)]
+    [InlineData("years", 1, 2001, 1, 1, 12, 0, 0, 0)]
+    [InlineData("months", 1, 2000, 2, 1, 12, 0, 0, 0)]
+    [InlineData("days", 1, 2000, 1, 2, 12, 0, 0, 0)]
+    [InlineData("hours", 1, 2000, 1, 1, 13, 0, 0, 0)]
+    [InlineData("minutes", 1, 2000, 1, 1, 12, 1, 0, 0)]
+    [InlineData("seconds", 1, 2000, 1, 1, 12, 0, 1, 0)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 12, 0, 0, 1)]
+    [InlineData("days", -1, 1999, 12, 31, 12, 0, 0, 0)]
+    [InlineData("minutes", -1, 2000, 1, 1, 11, 59, 0, 0)]
+    [InlineData("seconds", -1, 2000, 1, 1, 11, 59, 59, 0)]
     public void Add_With_ValuesAsString(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMilliseconds)
     {
         // Act
@@ -264,16 +264,16 @@ public class DateTimeHelpersTests
     }
 
     [Theory]
-    [InlineData("year", 1, 2001, 1, 1, 12, 0, 0, 0)]
-    [InlineData("month", 1, 2000, 2, 1, 12, 0, 0, 0)]
-    [InlineData("day", 1, 2000, 1, 2, 12, 0, 0, 0)]
-    [InlineData("hour", 1, 2000, 1, 1, 13, 0, 0, 0)]
-    [InlineData("minute", 1, 2000, 1, 1, 12, 1, 0, 0)]
-    [InlineData("second", 1, 2000, 1, 1, 12, 0, 1, 0)]
-    [InlineData("millisecond", 1, 2000, 1, 1, 12, 0, 0, 1)]
-    [InlineData("day", -1, 1999, 12, 31, 12, 0, 0, 0)]
-    [InlineData("minute", -1, 2000, 1, 1, 11, 59, 0, 0)]
-    [InlineData("second", -1, 2000, 1, 1, 11, 59, 59, 0)]
+    [InlineData("years", 1, 2001, 1, 1, 12, 0, 0, 0)]
+    [InlineData("months", 1, 2000, 2, 1, 12, 0, 0, 0)]
+    [InlineData("days", 1, 2000, 1, 2, 12, 0, 0, 0)]
+    [InlineData("hours", 1, 2000, 1, 1, 13, 0, 0, 0)]
+    [InlineData("minutes", 1, 2000, 1, 1, 12, 1, 0, 0)]
+    [InlineData("seconds", 1, 2000, 1, 1, 12, 0, 1, 0)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 12, 0, 0, 1)]
+    [InlineData("days", -1, 1999, 12, 31, 12, 0, 0, 0)]
+    [InlineData("minutes", -1, 2000, 1, 1, 11, 59, 0, 0)]
+    [InlineData("seconds", -1, 2000, 1, 1, 11, 59, 59, 0)]
     public void Add_With_ValuesAsDateTime(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMilliseconds)
     {
         // Act
@@ -290,16 +290,16 @@ public class DateTimeHelpersTests
     }
 
     [Theory]
-    [InlineData("year", 1, 2001, 1, 1, 12, 0, 0, 0)]
-    [InlineData("month", 1, 2000, 2, 1, 12, 0, 0, 0)]
-    [InlineData("day", 1, 2000, 1, 2, 12, 0, 0, 0)]
-    [InlineData("hour", 1, 2000, 1, 1, 13, 0, 0, 0)]
-    [InlineData("minute", 1, 2000, 1, 1, 12, 1, 0, 0)]
-    [InlineData("second", 1, 2000, 1, 1, 12, 0, 1, 0)]
-    [InlineData("millisecond", 1, 2000, 1, 1, 12, 0, 0, 1)]
-    [InlineData("day", -1, 1999, 12, 31, 12, 0, 0, 0)]
-    [InlineData("minute", -1, 2000, 1, 1, 11, 59, 0, 0)]
-    [InlineData("second", -1, 2000, 1, 1, 11, 59, 59, 0)]
+    [InlineData("years", 1, 2001, 1, 1, 12, 0, 0, 0)]
+    [InlineData("months", 1, 2000, 2, 1, 12, 0, 0, 0)]
+    [InlineData("days", 1, 2000, 1, 2, 12, 0, 0, 0)]
+    [InlineData("hours", 1, 2000, 1, 1, 13, 0, 0, 0)]
+    [InlineData("minutes", 1, 2000, 1, 1, 12, 1, 0, 0)]
+    [InlineData("seconds", 1, 2000, 1, 1, 12, 0, 1, 0)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 12, 0, 0, 1)]
+    [InlineData("days", -1, 1999, 12, 31, 12, 0, 0, 0)]
+    [InlineData("minutes", -1, 2000, 1, 1, 11, 59, 0, 0)]
+    [InlineData("seconds", -1, 2000, 1, 1, 11, 59, 59, 0)]
     public void Add_With_ValuesAsNullableDateTime(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMilliseconds)
     {
         // Act

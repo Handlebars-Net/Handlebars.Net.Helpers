@@ -57,15 +57,15 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
 
         return datePart switch
         {
-            "year" => dateTime.Value.AddYears(increment),
-            "month" => dateTime.Value.AddMonths(increment),
-            "day" => dateTime.Value.AddDays(increment),
-            "hour" => dateTime.Value.AddHours(increment),
-            "minute" => dateTime.Value.AddMinutes(increment),
-            "second" => dateTime.Value.AddSeconds(increment),
-            "millisecond" => dateTime.Value.AddMilliseconds(increment),
+            "years" => dateTime.Value.AddYears(increment),
+            "months" => dateTime.Value.AddMonths(increment),
+            "days" => dateTime.Value.AddDays(increment),
+            "hours" => dateTime.Value.AddHours(increment),
+            "minutes" => dateTime.Value.AddMinutes(increment),
+            "seconds" => dateTime.Value.AddSeconds(increment),
+            "milliseconds" => dateTime.Value.AddMilliseconds(increment),
             "ticks" => dateTime.Value.AddTicks(increment),
-            _ => throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].")
+            _ => throw new ArgumentException("Invalid date part. It must be one of: [years, months, days, hours, minutes, seconds, milliseconds or ticks].")
         };
     }
 

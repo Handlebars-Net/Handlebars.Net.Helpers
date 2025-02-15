@@ -132,8 +132,8 @@ public class DateTimeHelpersTemplateTests
     //}
 
     [CulturedTheory("en-us")]
-    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"year\"}}", "2001-01-01")]
-    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"day\"}}", "2000-01-02")]
+    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"years\"}}", "2001-01-01")]
+    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"days\"}}", "2000-01-02")]
     public void Add(string template, string expected)
     {
         // Arrange
@@ -147,8 +147,8 @@ public class DateTimeHelpersTemplateTests
     }
 
     [CulturedTheory("en-us")]
-    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"year\" \"dd/MM/yyyy\"}}", "2001-01-01")]
-    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"day\" \"dd/MM/yyyy\"}}", "2000-01-02")]
+    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"years\" \"dd/MM/yyyy\"}}", "2001-01-01")]
+    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"days\" \"dd/MM/yyyy\"}}", "2000-01-02")]
     public void Add_Formatted(string template, string expected)
     {
         // Arrange
@@ -188,7 +188,7 @@ public class DateTimeHelpersTemplateTests
             x = "2000 01 01"
         };
 
-        var action = _handlebarsContext.Compile("{{ParseExact x \"yyyy MM dd\"}}");
+        var action = _handlebarsContext.Compile("{{DateTime.ParseExact x \"yyyy MM dd\"}}");
 
         // Act
         var result = action(model);
