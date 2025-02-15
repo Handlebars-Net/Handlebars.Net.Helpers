@@ -329,7 +329,7 @@ public static class HandlebarsHelpers
         }
     }
 
-    private static object? InvokeMethod(
+    private static object?[] ParseArguments(
         Context? model,
         bool methodIsOnlyUsedInContextOfABlockHelper,
         IHandlebars context,
@@ -391,7 +391,7 @@ public static class HandlebarsHelpers
         var parsedArguments = ArgumentsParser.Parse(context, methodInfo.GetParameters(), arguments);
 
         // Add null for optional arguments
-        for (int i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
+        for (var i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
         {
             parsedArguments.Add(null);
         }
@@ -406,13 +406,29 @@ public static class HandlebarsHelpers
             parsedArguments.Insert(0, model);
         }
 
+        if (firstIsHelperOptions)
+        {
+            parsedArguments.Insert(0, options);
+        }
+
+        return parsedArguments.ToArray();
+    }
+
+    private static object? InvokeMethod(
+        Context? model,
+        bool methodIsOnlyUsedInContextOfABlockHelper,
+        IHandlebars context,
+        string helperName,
+        MethodInfo methodInfo,
+        Arguments arguments,
+        object instance,
+        IHelperOptions options
+    )
+    {
+        var parsedArguments = ParseArguments(model, methodIsOnlyUsedInContextOfABlockHelper, context, helperName, methodInfo, arguments, instance, options);
+
         try
         {
-            if (firstIsHelperOptions)
-            {
-                parsedArguments.Insert(0, options);
-            }
-
             return methodInfo.Invoke(instance, parsedArguments.ToArray());
         }
         catch (Exception e)
