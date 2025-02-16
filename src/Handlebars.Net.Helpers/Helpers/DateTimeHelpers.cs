@@ -47,26 +47,68 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
         return DateTime.ParseExact(value, format, Context.Configuration.FormatProvider);
     }
 
-    [HandlebarsWriter(WriterType.Value, Name = "DateTime.Add")]
-    public DateTime Add(object value, int increment, string datePart, string? format = null)
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddYears")]
+    public DateTime AddYears(object value, int increment, string? format = null)
     {
-        Guard.NotNull(value);
-        Guard.NotNullOrEmpty(datePart);
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
 
-        var dateTime = Guard.NotNull(GetDatetime(value, format))!;
+        return dateTime.AddYears(increment);
+    }
 
-        return datePart switch
-        {
-            "years" => dateTime.Value.AddYears(increment),
-            "months" => dateTime.Value.AddMonths(increment),
-            "days" => dateTime.Value.AddDays(increment),
-            "hours" => dateTime.Value.AddHours(increment),
-            "minutes" => dateTime.Value.AddMinutes(increment),
-            "seconds" => dateTime.Value.AddSeconds(increment),
-            "milliseconds" => dateTime.Value.AddMilliseconds(increment),
-            "ticks" => dateTime.Value.AddTicks(increment),
-            _ => throw new ArgumentException("Invalid date part. It must be one of: [years, months, days, hours, minutes, seconds, milliseconds or ticks].")
-        };
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMonths")]
+    public DateTime AddMonths(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMonths(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddDays")]
+    public DateTime AddDays(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddDays(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddHours")]
+    public DateTime AddHours(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddHours(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMinutes")]
+    public DateTime AddMinutes(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMinutes(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddSeconds")]
+    public DateTime AddSeconds(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddSeconds(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMilliseconds")]
+    public DateTime AddMilliseconds(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddMilliseconds(increment);
+    }
+
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddTicks")]
+    public DateTime AddTicks(object value, int increment, string? format = null)
+    {
+        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+
+        return dateTime.AddTicks(increment);
     }
 
     private DateTime? GetDatetime(object? value, string? format)
@@ -79,6 +121,14 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
             _ => GetDatetime(value.ToString(), format)
         };
     }
+
+    private DateTime GetDateTimeNonNullabe(object value, string? format)
+    {
+        var dateTime = Guard.NotNull(GetDatetime(Guard.NotNull(value), format));
+
+        return dateTime.GetValueOrDefault();
+    }
+
 
     public override Category Category => Category.DateTime;
 }

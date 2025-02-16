@@ -101,39 +101,13 @@ public class DateTimeHelpersTemplateTests
         result.Should().Be(string.Empty);
     }
 
-    //[Theory]
-    //[InlineData("{{Compare \"2000-01-02\" \">\" \"2000-01-01\"}}", "True")]
-    //[InlineData("{{Compare \"2000-01-01\" \"!=\" \"2000-01-01\"}}", "False")]
-    //public void Compare(string template, string expected)
-    //{
-    //    // Arrange
-    //    var action = _handlebarsContext.Compile(template);
-
-    //    // Act
-    //    var result = action("");
-
-    //    // Assert
-    //    result.Should().Be(expected);
-    //}
-
-    //[Theory]
-    //[InlineData("{{Compare \"02/01/2000\" \">\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "True")]
-    //[InlineData("{{Compare \"01/01/2000\" \"!=\" \"01/01/2000\" \"dd/MM/yyyy\"}}", "False")]
-    //public void Compare_Formatted(string template, string expected)
-    //{
-    //    // Arrange
-    //    var action = _handlebarsContext.Compile(template);
-
-    //    // Act
-    //    var result = action("");
-
-    //    // Assert
-    //    result.Should().Be(expected);
-    //}
-
     [CulturedTheory("en-us")]
-    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"years\"}}", "2001-01-01")]
-    [InlineData("{{DateTime.Add \"2000-01-01\" 1 \"days\"}}", "2000-01-02")]
+    [InlineData("{{DateTime.AddYears \"2000-01-01\" 1}}", "2001-01-01")]
+    [InlineData("{{DateTime.AddMonths \"2000-01-01\" 1}}", "2000-02-01")]
+    [InlineData("{{DateTime.AddDays \"2000-01-01\" 1}}", "2000-01-02")]
+    [InlineData("{{DateTime.AddHours \"2000-01-01 00:00:00\" 1}}", "1:00:00")]
+    [InlineData("{{DateTime.AddMinutes \"2000-01-01 00:00:00\" 1}}", "0:01:00")]
+    [InlineData("{{DateTime.AddSeconds \"2000-01-01 00:00:00\" 1}}", "0:00:01")]
     public void Add(string template, string expected)
     {
         // Arrange
@@ -147,8 +121,12 @@ public class DateTimeHelpersTemplateTests
     }
 
     [CulturedTheory("en-us")]
-    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"years\" \"dd/MM/yyyy\"}}", "2001-01-01")]
-    [InlineData("{{DateTime.Add \"01/01/2000\" 1 \"days\" \"dd/MM/yyyy\"}}", "2000-01-02")]
+    [InlineData("{{DateTime.AddYears \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2001-01-01")]
+    [InlineData("{{DateTime.AddMonths \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2000-02-01")]
+    [InlineData("{{DateTime.AddDays \"01/01/2000\" 1 \"dd/MM/yyyy\"}}", "2000-01-02")]
+    [InlineData("{{DateTime.AddHours \"01/01/2000 00:00:00\" 1 \"dd/MM/yyyy hh:mm:ss\"}}", "1:00:00")]
+    [InlineData("{{DateTime.AddMinutes \"01/01/2000 00:00:00\" 1 \"dd/MM/yyyy hh:mm:ss\"}}", "0:01:00")]
+    [InlineData("{{DateTime.AddSeconds \"01/01/2000 00:00:00\" 1 \"dd/MM/yyyy hh:mm:ss\"}}", "0:00:01")]
     public void Add_Formatted(string template, string expected)
     {
         // Arrange
