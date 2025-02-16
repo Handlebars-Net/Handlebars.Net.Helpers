@@ -6,14 +6,9 @@ using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class DateTimeHelpers : BaseHelpers, IHelpers
+internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : StringHelpers(context)
 {
-    private readonly IDateTimeService _dateTimeService;
-
-    public DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : base(context)
-    {
-        _dateTimeService = Guard.NotNull(dateTimeService);
-    }
+    private readonly IDateTimeService _dateTimeService = Guard.NotNull(dateTimeService);
 
     [HandlebarsWriter(WriterType.Value)]
     public object Now(string? format = null)
@@ -29,91 +24,61 @@ internal class DateTimeHelpers : BaseHelpers, IHelpers
         return format is null ? utc : utc.ToString(format, Context.Configuration.FormatProvider);
     }
 
-    [HandlebarsWriter(WriterType.String)]
-    public string Format(object value, string format)
+    [HandlebarsWriter(WriterType.String, Name = "DateTime.Format")]
+    public override string Format(object? value, string format)
     {
-        string FormatToString(DateTime dateTime)
-        {
-            return dateTime.ToString(format, Context.Configuration.FormatProvider);
-        }
-
         return value switch
         {
-            DateTime valueAsDateTime => FormatToString(valueAsDateTime),
-            string valueAsString when DateTime.TryParse(valueAsString, out var parsedAsDateTime) => FormatToString(parsedAsDateTime),
+            DateTime valueAsDateTime => base.Format(valueAsDateTime, format),
+            string valueAsString when DateTime.TryParse(valueAsString, out var parsedAsDateTime) => base.Format(parsedAsDateTime, format),
             _ => string.Empty
         };
     }
 
-    [HandlebarsWriter(WriterType.Value)]
-    public bool Compare(object? value1, string operation, object? value2, string? format = null)
-    {
-        Guard.NotNullOrEmpty(operation);
-        
-        var dateTime1 = GetDatetime(value1, format);
-        var dateTime2 = GetDatetime(value2, format);
-
-        switch(operation)
-        {
-            case ">": return dateTime1 > dateTime2;
-            case "<": return dateTime1 < dateTime2;
-            case "==": return dateTime1 == dateTime2;
-            case "!=": return dateTime1 != dateTime2;
-            case ">=": return dateTime1 >= dateTime2;
-            case "<=": return dateTime1 <= dateTime2;
-            default: throw new ArgumentException("Invalid comparison operator.");
-        };
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
-    public DateTime Add(object value, int increment, string datePart, string? format = null)
-    {
-        Guard.NotNullOrEmpty(datePart);
-
-        if (value is null) throw new ArgumentNullException(nameof(value));
-
-        var dateTime = Guard.NotNull(GetDatetime(value, format));
-
-        if (dateTime is null) throw new NullReferenceException(nameof(dateTime));
-
-        switch (datePart)
-        {
-            case "year": return dateTime.Value.AddYears(increment);
-            case "month": return dateTime.Value.AddMonths(increment);
-            case "day": return dateTime.Value.AddDays(increment);
-            case "hour": return dateTime.Value.AddHours(increment);
-            case "minute": return dateTime.Value.AddMinutes(increment);
-            case "second": return dateTime.Value.AddSeconds(increment);
-            case "millisecond": return dateTime.Value.AddMilliseconds(increment);
-            default: throw new ArgumentException("Invalid date part. It must be one of: [year, month, day, hour, minute, second, millisecond].");
-        };
-    }
-
-    [HandlebarsWriter(WriterType.Value)]
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.Parse")]
     public DateTime Parse(string value)
     {
         return DateTime.Parse(value, Context.Configuration.FormatProvider);
     }
 
-    [HandlebarsWriter(WriterType.Value)]
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.ParseExact")]
     public DateTime ParseExact(string value, string format)
     {
-        Guard.NotNullOrEmpty(format);
-
         return DateTime.ParseExact(value, format, Context.Configuration.FormatProvider);
     }
 
-    private DateTime? GetDatetime(object? value, string? format = null)
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.Add")]
+    public DateTime Add(object value, int increment, string datePart, string? format = null)
     {
-        if (value == null) return null;
-        
-        if (value is DateTime dateTimeValue) return dateTimeValue;
-        
-        if (value is string stringValue)
-            return string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format);
-        
-        return GetDatetime(value.ToString(), format);
+        Guard.NotNull(value);
+        Guard.NotNullOrEmpty(datePart);
+
+        var dateTime = Guard.NotNull(GetDatetime(value, format))!;
+
+        return datePart switch
+        {
+            "years" => dateTime.Value.AddYears(increment),
+            "months" => dateTime.Value.AddMonths(increment),
+            "days" => dateTime.Value.AddDays(increment),
+            "hours" => dateTime.Value.AddHours(increment),
+            "minutes" => dateTime.Value.AddMinutes(increment),
+            "seconds" => dateTime.Value.AddSeconds(increment),
+            "milliseconds" => dateTime.Value.AddMilliseconds(increment),
+            "ticks" => dateTime.Value.AddTicks(increment),
+            _ => throw new ArgumentException("Invalid date part. It must be one of: [years, months, days, hours, minutes, seconds, milliseconds or ticks].")
+        };
     }
 
-    public Category Category => Category.DateTime;
+    private DateTime? GetDatetime(object? value, string? format)
+    {
+        return value switch
+        {
+            null => null,
+            DateTime dateTimeValue => dateTimeValue,
+            string stringValue => string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format),
+            _ => GetDatetime(value.ToString(), format)
+        };
+    }
+
+    public override Category Category => Category.DateTime;
 }
