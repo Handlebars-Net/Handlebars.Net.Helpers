@@ -50,65 +50,68 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddYears")]
     public DateTime AddYears(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddYears(increment);
+        return GetDateTimeNonNullabe(value, format).AddYears(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMonths")]
     public DateTime AddMonths(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddMonths(increment);
+        return GetDateTimeNonNullabe(value, format).AddMonths(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddDays")]
     public DateTime AddDays(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddDays(increment);
+        return GetDateTimeNonNullabe(value, format).AddDays(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddHours")]
     public DateTime AddHours(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddHours(increment);
+        return GetDateTimeNonNullabe(value, format).AddHours(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMinutes")]
     public DateTime AddMinutes(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddMinutes(increment);
+        return GetDateTimeNonNullabe(value, format).AddMinutes(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddSeconds")]
     public DateTime AddSeconds(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddSeconds(increment);
+        return GetDateTimeNonNullabe(value, format).AddSeconds(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddMilliseconds")]
     public DateTime AddMilliseconds(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
-
-        return dateTime.AddMilliseconds(increment);
+        return GetDateTimeNonNullabe(value, format).AddMilliseconds(increment);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "DateTime.AddTicks")]
     public DateTime AddTicks(object value, int increment, string? format = null)
     {
-        DateTime dateTime = GetDateTimeNonNullabe(value, format);
+        return GetDateTimeNonNullabe(value, format).AddTicks(increment);
+    }
 
-        return dateTime.AddTicks(increment);
+    [HandlebarsWriter(WriterType.Value, Name = "DateTime.Add")]
+    public DateTime Add(object value, int increment, string datePart, string? format = null)
+    {
+        var dateTime = GetDateTimeNonNullabe(value, format)!;
+
+        return datePart switch
+        {
+            "years" => dateTime.AddYears(increment),
+            "months" => dateTime.AddMonths(increment),
+            "days" => dateTime.AddDays(increment),
+            "hours" => dateTime.AddHours(increment),
+            "minutes" => dateTime.AddMinutes(increment),
+            "seconds" => dateTime.AddSeconds(increment),
+            "milliseconds" => dateTime.AddMilliseconds(increment),
+            "ticks" => dateTime.AddTicks(increment),
+            _ => throw new ArgumentException("Invalid date part. It must be one of: [years, months, days, hours, minutes, seconds, milliseconds or ticks].")
+        };
     }
 
     private DateTime? GetDatetime(object? value, string? format)
@@ -124,11 +127,8 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
 
     private DateTime GetDateTimeNonNullabe(object value, string? format)
     {
-        var dateTime = Guard.NotNull(GetDatetime(Guard.NotNull(value), format));
-
-        return dateTime.GetValueOrDefault();
+        return Guard.NotNull(GetDatetime(Guard.NotNull(value), format)).GetValueOrDefault();
     }
-
 
     public override Category Category => Category.DateTime;
 }

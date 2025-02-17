@@ -218,6 +218,123 @@ public class DateTimeHelpersTests
         AssertTestAdd(result, expectedYear, expectedMonth, expectedDay, expectedHour, expectedMinute, expectedSeconds, expectedMiliseconds, expectedTicks);
     }
 
+    [Theory]
+    [InlineData("years", -1, 1999, 1, 1, 0, 0, 0, 0, 630507456000000000L)]
+    [InlineData("years", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("years", 1, 2001, 1, 1, 0, 0, 0, 0, 631139040000000000L)]
+    [InlineData("months", -1, 1999, 12, 1, 0, 0, 0, 0, 630796032000000000L)]
+    [InlineData("months", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("months", 1, 2000, 2, 1, 0, 0, 0, 0, 630849600000000000L)]
+    [InlineData("days", -1, 1999, 12, 31, 0, 0, 0, 0, 630821952000000000L)]
+    [InlineData("days", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("days", 1, 2000, 1, 2, 0, 0, 0, 0, 630823680000000000L)]
+    [InlineData("hours", -1, 1999, 12, 31, 23, 0, 0, 0, 630822780000000000L)]
+    [InlineData("hours", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("hours", 1, 2000, 1, 1, 1, 0, 0, 0, 630822852000000000L)]
+    [InlineData("minutes", -1, 1999, 12, 31, 23, 59, 0, 0, 630822815400000000L)]
+    [InlineData("minutes", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("minutes", 1, 2000, 1, 1, 0, 1, 0, 0, 630822816600000000L)]
+    [InlineData("seconds", -1, 1999, 12, 31, 23, 59, 59, 0, 630822815990000000L)]
+    [InlineData("seconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("seconds", 1, 2000, 1, 1, 0, 0, 1, 0, 630822816010000000L)]
+    [InlineData("milliseconds", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999990000L)]
+    [InlineData("milliseconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 0, 0, 0, 1, 630822816000010000L)]
+    [InlineData("ticks", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999999999L)]
+    [InlineData("ticks", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("ticks", 1, 2000, 1, 1, 0, 0, 0, 0, 630822816000000001L)]
+    public void Add_With_DatePart_With_ValuesAsString(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMiliseconds, long expectedTicks)
+    {
+        // Act
+        var result = _sut.Add("2000-01-01 00:00:00", increment, datePart);
+
+        // Assert
+        AssertTestAdd(result, expectedYear, expectedMonth, expectedDay, expectedHour, expectedMinute, expectedSeconds, expectedMiliseconds, expectedTicks);
+    }
+
+    [Theory]
+    [InlineData("years", -1, 1999, 1, 1, 0, 0, 0, 0, 630507456000000000L)]
+    [InlineData("years", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("years", 1, 2001, 1, 1, 0, 0, 0, 0, 631139040000000000L)]
+    [InlineData("months", -1, 1999, 12, 1, 0, 0, 0, 0, 630796032000000000L)]
+    [InlineData("months", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("months", 1, 2000, 2, 1, 0, 0, 0, 0, 630849600000000000L)]
+    [InlineData("days", -1, 1999, 12, 31, 0, 0, 0, 0, 630821952000000000L)]
+    [InlineData("days", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("days", 1, 2000, 1, 2, 0, 0, 0, 0, 630823680000000000L)]
+    [InlineData("hours", -1, 1999, 12, 31, 23, 0, 0, 0, 630822780000000000L)]
+    [InlineData("hours", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("hours", 1, 2000, 1, 1, 1, 0, 0, 0, 630822852000000000L)]
+    [InlineData("minutes", -1, 1999, 12, 31, 23, 59, 0, 0, 630822815400000000L)]
+    [InlineData("minutes", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("minutes", 1, 2000, 1, 1, 0, 1, 0, 0, 630822816600000000L)]
+    [InlineData("seconds", -1, 1999, 12, 31, 23, 59, 59, 0, 630822815990000000L)]
+    [InlineData("seconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("seconds", 1, 2000, 1, 1, 0, 0, 1, 0, 630822816010000000L)]
+    [InlineData("milliseconds", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999990000L)]
+    [InlineData("milliseconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 0, 0, 0, 1, 630822816000010000L)]
+    [InlineData("ticks", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999999999L)]
+    [InlineData("ticks", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("ticks", 1, 2000, 1, 1, 0, 0, 0, 0, 630822816000000001L)]
+    public void Add_With_DatePart_With_ValuesAsDateTime(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMiliseconds, long expectedTicks)
+    {
+        // Act
+        var result = _sut.Add(DateTime.Parse("2000-01-01 00:00:00"), increment, datePart);
+
+        // Assert
+        AssertTestAdd(result, expectedYear, expectedMonth, expectedDay, expectedHour, expectedMinute, expectedSeconds, expectedMiliseconds, expectedTicks);
+    }
+
+    [Theory]
+    [InlineData("years", -1, 1999, 1, 1, 0, 0, 0, 0, 630507456000000000L)]
+    [InlineData("years", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("years", 1, 2001, 1, 1, 0, 0, 0, 0, 631139040000000000L)]
+    [InlineData("months", -1, 1999, 12, 1, 0, 0, 0, 0, 630796032000000000L)]
+    [InlineData("months", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("months", 1, 2000, 2, 1, 0, 0, 0, 0, 630849600000000000L)]
+    [InlineData("days", -1, 1999, 12, 31, 0, 0, 0, 0, 630821952000000000L)]
+    [InlineData("days", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("days", 1, 2000, 1, 2, 0, 0, 0, 0, 630823680000000000L)]
+    [InlineData("hours", -1, 1999, 12, 31, 23, 0, 0, 0, 630822780000000000L)]
+    [InlineData("hours", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("hours", 1, 2000, 1, 1, 1, 0, 0, 0, 630822852000000000L)]
+    [InlineData("minutes", -1, 1999, 12, 31, 23, 59, 0, 0, 630822815400000000L)]
+    [InlineData("minutes", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("minutes", 1, 2000, 1, 1, 0, 1, 0, 0, 630822816600000000L)]
+    [InlineData("seconds", -1, 1999, 12, 31, 23, 59, 59, 0, 630822815990000000L)]
+    [InlineData("seconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("seconds", 1, 2000, 1, 1, 0, 0, 1, 0, 630822816010000000L)]
+    [InlineData("milliseconds", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999990000L)]
+    [InlineData("milliseconds", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("milliseconds", 1, 2000, 1, 1, 0, 0, 0, 1, 630822816000010000L)]
+    [InlineData("ticks", -1, 1999, 12, 31, 23, 59, 59, 999, 630822815999999999L)]
+    [InlineData("ticks", 0, 2000, 1, 1, 0, 0, 0, 0, 630822816000000000L)]
+    [InlineData("ticks", 1, 2000, 1, 1, 0, 0, 0, 0, 630822816000000001L)]
+    public void Add_With_DatePart_With_ValuesAsNullableDateTime(string datePart, int increment, int expectedYear, int expectedMonth, int expectedDay, int expectedHour, int expectedMinute, int expectedSeconds, int expectedMiliseconds, long expectedTicks)
+    {
+        // Act
+        var result = _sut.Add((DateTime?)DateTime.Parse("2000-01-01 00:00:00"), increment, datePart);
+
+        // Assert
+        AssertTestAdd(result, expectedYear, expectedMonth, expectedDay, expectedHour, expectedMinute, expectedSeconds, expectedMiliseconds, expectedTicks);
+    }
+
+    [Fact]
+    public void Add_With_InvalidDatepart()
+    {
+        // act & assert
+        Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, "century"));
+    }
+
+    [Fact]
+    public void Add_With_NullOrEmptyDatePart()
+    {
+        // act & assert
+        Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, string.Empty));
+        Assert.Throws<ArgumentException>(() => _sut.Add(DateTimeNow, 1, null));
+    }
+
     [Fact]
     public void Add_With_NullValue()
     {
@@ -230,8 +347,10 @@ public class DateTimeHelpersTests
         Assert.Throws<ArgumentNullException>(() => _sut.AddSeconds(null, 1));
         Assert.Throws<ArgumentNullException>(() => _sut.AddMilliseconds(null, 1));
         Assert.Throws<ArgumentNullException>(() => _sut.AddTicks(null, 1));
+        Assert.Throws<ArgumentNullException>(() => _sut.Add(null, 1, "year"));
     }
 
+    // Aux TestAdd methods
     private DateTime ActTestAdd(string method, int increment, object value, string? format)
     {
         return method switch
