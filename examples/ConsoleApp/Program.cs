@@ -115,6 +115,7 @@ class Program
             "{{UtcNow}}",
             "{{Now \"yyyy-MM-dd\"}}",
             "{{Format (Now) \"yyyy-MM-dd\"}}",
+            "{{DateTime.Add (Now) 1 \"years\"}}",
             "{{DateTime.Format (Now) \"yyyy-MM-dd\"}}",
             "{{DateTime.Format \"2020-04-15T11:12:13\" \"yyyy-MM-dd\"}}",
             "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",

@@ -1,3 +1,9 @@
+# 2.4.11 (18 February 2025)
+- [#115](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/115) - Add New Features to Object and DateTime Helpers contributed by [fabianosuet](https://github.com/fabianosuet)
+- [#117](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/117) - Update DateTimeHelper [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#118](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/118) - Refactoring DateTime &quot;Add&quot; Helpers and unit tests [enhancement] contributed by [fabianosuet](https://github.com/fabianosuet)
+- [#114](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/114) - Add New Features to Object and DateTime Helpers [enhancement]
+
 # 2.4.10 (25 January 2025)
 - [#113](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/113) - Added Enumerable helper Count [enhancement] contributed by [epDugas](https://github.com/epDugas)
 
