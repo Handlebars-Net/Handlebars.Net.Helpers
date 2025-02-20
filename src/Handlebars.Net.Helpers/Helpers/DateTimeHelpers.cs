@@ -6,9 +6,10 @@ using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : StringHelpers(context)
+internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : BaseHelpers(context), IHelpers
 {
     private readonly IDateTimeService _dateTimeService = Guard.NotNull(dateTimeService);
+    private readonly StringHelpers _stringHelpers = new(context);
 
     [HandlebarsWriter(WriterType.Value)]
     public object Now(string? format = null)
@@ -25,12 +26,12 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
     }
 
     [HandlebarsWriter(WriterType.String, Name = "DateTime.Format")]
-    public override string Format(object? value, string format)
+    public string Format(object? value, string format)
     {
         return value switch
         {
-            DateTime valueAsDateTime => base.Format(valueAsDateTime, format),
-            string valueAsString when DateTime.TryParse(valueAsString, out var parsedAsDateTime) => base.Format(parsedAsDateTime, format),
+            DateTime valueAsDateTime => _stringHelpers.Format(valueAsDateTime, format),
+            string valueAsString when DateTime.TryParse(valueAsString, out var parsedAsDateTime) => _stringHelpers.Format(parsedAsDateTime, format),
             _ => string.Empty
         };
     }
@@ -130,5 +131,5 @@ internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeSer
         return Guard.NotNull(GetDatetime(Guard.NotNull(value), format)).GetValueOrDefault();
     }
 
-    public override Category Category => Category.DateTime;
+    public Category Category => Category.DateTime;
 }
