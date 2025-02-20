@@ -455,5 +455,5 @@ internal class StringHelpers : BaseHelpers, IHelpers
         return FormatAsString(value);
     }
 
-    public virtual Category Category => Category.String;
+    public Category Category => Category.String;
 }
