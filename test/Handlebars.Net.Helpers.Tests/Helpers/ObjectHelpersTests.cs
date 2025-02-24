@@ -99,6 +99,60 @@ public class ObjectHelpersTests
     }
 
     [Theory]
+    [InlineData(nameof(ObjectHelpers.Equal), 0, 0, true)]
+    [InlineData(nameof(ObjectHelpers.Equal), 1, 0, false)]
+    [InlineData(nameof(ObjectHelpers.Equal), 0, 1, false)]
+    [InlineData(nameof(ObjectHelpers.NotEqual), 0, 0, false)]
+    [InlineData(nameof(ObjectHelpers.NotEqual), 1, 0, true)]
+    [InlineData(nameof(ObjectHelpers.NotEqual), 0, 1, true)]
+    [InlineData(nameof(ObjectHelpers.GreaterThan), 0, 0, false)]
+    [InlineData(nameof(ObjectHelpers.GreaterThan), 1, 0, true)]
+    [InlineData(nameof(ObjectHelpers.GreaterThan), 0, 1, false)]
+    [InlineData(nameof(ObjectHelpers.GreaterThanEqual), 0, 0, true)]
+    [InlineData(nameof(ObjectHelpers.GreaterThanEqual), 1, 0, true)]
+    [InlineData(nameof(ObjectHelpers.GreaterThanEqual), 0, 1, false)]
+    [InlineData(nameof(ObjectHelpers.LowerThan), 0, 0, false)]
+    [InlineData(nameof(ObjectHelpers.LowerThan), 1, 0, false)]
+    [InlineData(nameof(ObjectHelpers.LowerThan), 0, 1, true)]
+    [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 0, true)]
+    [InlineData(nameof(ObjectHelpers.LowerThanEqual), 1, 0, false)]
+    [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 1, true)]
+    public void Compare_Using_Custom_Object(string method, int value1, int value2, bool expected)
+    {
+        // Act
+        var result = ActTestCompare(method, new CustomObject(value1), new CustomObject(value2));
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    private class CustomObject : IComparable
+    {
+        public CustomObject(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; set; }
+
+        public int CompareTo(object other)
+        {
+            var otherCast = other as CustomObject;
+            
+            if (Value > otherCast.Value) return 1;
+            if (Value < otherCast.Value) return -1;
+
+            return 0;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CustomObject @object &&
+                   Value == @object.Value;
+        }
+    }
+
+    [Theory]
     [InlineData(nameof(ObjectHelpers.Equal), "a", "a", true)]
     [InlineData(nameof(ObjectHelpers.Equal), "a", "b", false)]
     [InlineData(nameof(ObjectHelpers.Equal), "b", "a", false)]
