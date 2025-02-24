@@ -38,10 +38,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     public bool Equal(object value1, object value2)
     {
         if (value1 is null && value2 is null) return true;
-
-        if (value1 is null && value2 is not null) return false;
-
-        if (value1 is not null && value2 is null) return false;
+        if (value1 is null ^ value2 is null) return false;
 
         return value1.Equals(value2);
     }
@@ -50,10 +47,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     public bool NotEqual(object value1, object value2)
     {
         if (value1 is null && value2 is null) return false;
-
-        if (value1 is null && value2 is not null) return true;
-
-        if (value1 is not null && value2 is null) return true;
+        if (value1 is null ^ value2 is null) return true;
 
         return !value1.Equals(value2);
     }
