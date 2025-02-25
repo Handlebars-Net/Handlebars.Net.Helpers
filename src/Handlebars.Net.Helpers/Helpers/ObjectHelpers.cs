@@ -47,7 +47,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
         } 
         else
         {
-            return value1.Equals(value2);
+            return value1!.Equals(value2);
         }
     }
 
@@ -63,7 +63,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
             return true;
         }
         else {
-            return !value1.Equals(value2);
+            return !value1!.Equals(value2);
         }
     }
 
@@ -103,9 +103,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
         } 
         else
         {
-            var comparable1 = value1 as IComparable;
-            var comparable2 = value2 as IComparable;
-            return comparable1!.CompareTo(comparable2);
+            return (value1 as IComparable)!.CompareTo(value2 as IComparable);
         }
     }
 
