@@ -37,19 +37,34 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, Name = "Object.Equal")]
     public bool Equal(object value1, object value2)
     {
-        if (value1 is null && value2 is null) return true;
-        if (value1 is null ^ value2 is null) return false;
-
-        return value1.Equals(value2);
+        if (value1 is null && value2 is null)
+        {
+            return true;
+        } 
+        else if (value1 is null ^ value2 is null)
+        {
+            return false;
+        } 
+        else
+        {
+            return value1.Equals(value2);
+        }
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.NotEqual")]
     public bool NotEqual(object value1, object value2)
     {
-        if (value1 is null && value2 is null) return false;
-        if (value1 is null ^ value2 is null) return true;
-
-        return !value1.Equals(value2);
+        if (value1 is null && value2 is null)
+        {
+            return false;
+        }
+        else if (value1 is null ^ value2 is null)
+        {
+            return true;
+        }
+        else {
+            return !value1.Equals(value2);
+        }
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.GreaterThan")]
@@ -78,16 +93,20 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
 
     private int? Compare(object value1, object value2)
     {
-        if (value1 is null || value2 is null)
+        if((value1 is null || value2 is null))
+        {
             return null;
-
-        if (!(value1 is IComparable) || !(value2 is IComparable)) 
+        }
+        else if (!(value1 is IComparable) || !(value2 is IComparable))
+        {
             throw new ArgumentException("Values should implement IComparable");
-        
-        var comparable1 = value1 as IComparable;
-        var comparable2 = value2 as IComparable;
-
-        return comparable1!.CompareTo(comparable2);
+        } 
+        else
+        {
+            var comparable1 = value1 as IComparable;
+            var comparable2 = value2 as IComparable;
+            return comparable1!.CompareTo(comparable2);
+        }
     }
 
     public Category Category => Category.Object;
