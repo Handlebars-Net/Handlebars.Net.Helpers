@@ -135,20 +135,19 @@ public class ObjectHelpersTests
 
         public int Value { get; set; }
 
-        public int CompareTo(object other)
+        public int CompareTo(object? other)
         {
-            var otherCast = other as CustomObject;
+            if (other is null || other is not CustomObject comparable)
+            {
+                return 0;
+            }   
             
-            if (Value > otherCast.Value) return 1;
-            if (Value < otherCast.Value) return -1;
-
-            return 0;
+            return Value == comparable?.Value ? 0 : Value > comparable?.Value ? 1 : -1; 
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is CustomObject @object &&
-                   Value == @object.Value;
+            return obj is CustomObject @object && Value == @object.Value;
         }
     }
 

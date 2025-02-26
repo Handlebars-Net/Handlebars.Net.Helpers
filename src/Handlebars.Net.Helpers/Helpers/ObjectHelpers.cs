@@ -41,14 +41,13 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
         {
             return true;
         } 
-        else if (value1 is null ^ value2 is null)
+        
+        if (value1 is null ^ value2 is null)
         {
             return false;
-        } 
-        else
-        {
-            return value1!.Equals(value2);
         }
+        
+        return value1!.Equals(value2);
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.NotEqual")]
@@ -58,53 +57,53 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
         {
             return false;
         }
-        else if (value1 is null ^ value2 is null)
+        
+        if (value1 is null ^ value2 is null)
         {
             return true;
         }
-        else {
-            return !value1!.Equals(value2);
-        }
+
+        return !value1!.Equals(value2);        
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.GreaterThan")]
     public bool GreaterThan(object value1, object value2)
     {
-       return Compare(value1, value2) > 0;
+       return CompareTo(value1, value2) > 0;
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.GreaterThanEqual")]
     public bool GreaterThanEqual(object value1, object value2)
     {
-        return Compare(value1, value2) >= 0;
+        return CompareTo(value1, value2) >= 0;
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.LowerThan")]
     public bool LowerThan(object value1, object value2)
     {
-        return Compare(value1, value2) < 0;
+        return CompareTo(value1, value2) < 0;
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.LowerThanEqual")]
     public bool LowerThanEqual(object value1, object value2)
     {
-        return Compare(value1, value2) <= 0;
+        return CompareTo(value1, value2) <= 0;
     }
 
-    private int? Compare(object value1, object value2)
+    [HandlebarsWriter(WriterType.Value, Name = "Object.CompareTo")]
+    public int? CompareTo(object value1, object value2)
     {
-        if((value1 is null || value2 is null))
+        if (value1 is null || value2 is null)
         {
             return null;
         }
-        else if (!(value1 is IComparable) || !(value2 is IComparable))
+
+        if (value1 is not IComparable comparable1 || value2 is not IComparable comparable2)
         {
-            throw new ArgumentException("Values should implement IComparable");
-        } 
-        else
-        {
-            return (value1 as IComparable)!.CompareTo(value2 as IComparable);
+            throw new ArgumentException("Both values should implement IComparable.");
         }
+
+        return comparable1.CompareTo(comparable2);
     }
 
     public Category Category => Category.Object;
