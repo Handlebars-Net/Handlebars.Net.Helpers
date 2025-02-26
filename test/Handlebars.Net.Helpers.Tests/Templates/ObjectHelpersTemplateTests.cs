@@ -47,7 +47,8 @@ public class ObjectHelpersTemplateTests
     [InlineData("{{[Object].GreaterThanEqual value1 value2 }}", true)]
     [InlineData("{{[Object].LowerThan value1 value2 }}", false)]
     [InlineData("{{[Object].LowerThanEqual value1 value2 }}", false)]
-    public void Compare(string template, bool expected)
+    [InlineData("{{[Object].CompareTo value1 value2}}", 1)]
+    public void Compare(string template, object expected)
     {
         // Arrange
         var model = new

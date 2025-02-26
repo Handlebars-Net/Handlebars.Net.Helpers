@@ -61,7 +61,7 @@ public class ObjectHelpersTests
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "2000-01-01 0:00:00", "2000-01-01 0:00:00", true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "1999-01-01 0:00:00", "2000-01-01 0:00:00", true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "2000-01-01 0:00:00", "1999-01-01 0:00:00", false)]
-    public void Compare_Using_DateTime(string method, string value1, string value2, bool expected)
+    public void All_Compare_Using_DateTime(string method, string value1, string value2, bool expected)
     {
         // Act
         var result = ActTestCompare(method, DateTime.Parse(value1), DateTime.Parse(value2));
@@ -89,7 +89,7 @@ public class ObjectHelpersTests
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 0, true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 1, 0, false)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 1, true)]
-    public void Compare_Using_Int(string method, object value1, object value2, bool expected)
+    public void All_Compare_Using_Int(string method, object value1, object value2, bool expected)
     {
         // Act
         var result = ActTestCompare(method, value1, value2);
@@ -117,38 +117,13 @@ public class ObjectHelpersTests
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 0, true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 1, 0, false)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), 0, 1, true)]
-    public void Compare_Using_Custom_Object(string method, int value1, int value2, bool expected)
+    public void All_Compare_Using_Custom_Object(string method, int value1, int value2, bool expected)
     {
         // Act
         var result = ActTestCompare(method, new CustomObject(value1), new CustomObject(value2));
 
         // Assert
         result.Should().Be(expected);
-    }
-
-    private class CustomObject : IComparable
-    {
-        public CustomObject(int value)
-        {
-            Value = value;
-        }
-
-        public int Value { get; set; }
-
-        public int CompareTo(object? other)
-        {
-            if (other is null || other is not CustomObject comparable)
-            {
-                return 0;
-            }   
-            
-            return Value == comparable?.Value ? 0 : Value > comparable?.Value ? 1 : -1; 
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is CustomObject @object && Value == @object.Value;
-        }
     }
 
     [Theory]
@@ -170,7 +145,7 @@ public class ObjectHelpersTests
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "a", "a", true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "a", "b", true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "b", "a", false)]
-    public void Compare_Using_String(string method, object value1, object value2, bool expected)
+    public void All_Compare_Using_String(string method, object value1, object value2, bool expected)
     {
         // Act
         var result = ActTestCompare(method, value1, value2);
@@ -198,7 +173,7 @@ public class ObjectHelpersTests
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), null, null, true)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), "a", null, false)]
     [InlineData(nameof(ObjectHelpers.LowerThanEqual), null, "a", false)]
-    public void Compare_Using_Null(string method, object value1, object value2, bool expected)
+    public void All_Compare_Using_Null(string method, object value1, object value2, bool expected)
     {
         // Act
         var result = ActTestCompare(method, value1, value2);
@@ -207,13 +182,29 @@ public class ObjectHelpersTests
         result.Should().Be(expected);
     }
 
-    [Fact]
-    public void Compare_Using_Uncomparable_Obj()
+    [Theory]
+    [InlineData(0, 0, 0)]
+    [InlineData(1, 0, 1)]
+    [InlineData(0, 1, -1)]
+    [InlineData(null, null, 0)]
+    [InlineData(1, null, null)]
+    [InlineData(null, 1, null)]
+    public void CompareTo(object value1, object value2, int? expected)
     {
-        Assert.Throws<ArgumentException>(() => _sut.GreaterThan(new { }, new { }));
+        // Act
+        var result = _sut.CompareTo(value1, value2);
+
+        // Assert
+        result.Should().Be(expected);
     }
 
-    // Aux Test Compare methods
+    [Fact]
+    public void CompareTo_Using_Uncomparable_Obj()
+    {
+        Assert.Throws<ArgumentException>(() => _sut.CompareTo(new { }, new { }));
+    }
+
+    // Aux Methods / Classes
     private bool ActTestCompare(string method, object value1, object value2)
     {
         return method switch
@@ -227,5 +218,30 @@ public class ObjectHelpersTests
 
             _ => throw new ArgumentException("Invalid method name.")
         };
+    }
+
+    private class CustomObject : IComparable
+    {
+        public CustomObject(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; set; }
+
+        public int CompareTo(object? other)
+        {
+            if (other is null || other is not CustomObject comparable)
+            {
+                return 0;
+            }
+
+            return Value == comparable?.Value ? 0 : Value > comparable?.Value ? 1 : -1;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CustomObject @object && Value == @object.Value;
+        }
     }
 }
