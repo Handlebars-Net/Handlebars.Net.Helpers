@@ -75,7 +75,7 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, Name = "Object.GreaterThanEqual")]
     public bool GreaterThanEqual(object value1, object value2)
     {
-        return CompareTo(value1, value2) >= 0;
+        return Equal(value1, value2) || CompareTo(value1, value2) > 0;
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.LowerThan")]
@@ -87,20 +87,15 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, Name = "Object.LowerThanEqual")]
     public bool LowerThanEqual(object value1, object value2)
     {
-        return CompareTo(value1, value2) <= 0;
+        return Equal(value1, value2) || CompareTo(value1, value2) < 0;
     }
 
     [HandlebarsWriter(WriterType.Value, Name = "Object.CompareTo")]
-    public int? CompareTo(object value1, object value2)
+    public int CompareTo(object value1, object value2)
     {
-        if (value1 is null && value2 is null)
-        {
-            return 0;
-        }
-
         if (value1 is null || value2 is null)
         {
-            return null;
+            return 0;
         }
 
         if (value1 is not IComparable comparable1 || value2 is not IComparable comparable2)

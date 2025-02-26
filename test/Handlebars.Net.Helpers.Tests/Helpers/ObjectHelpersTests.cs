@@ -187,8 +187,8 @@ public class ObjectHelpersTests
     [InlineData(1, 0, 1)]
     [InlineData(0, 1, -1)]
     [InlineData(null, null, 0)]
-    [InlineData(1, null, null)]
-    [InlineData(null, 1, null)]
+    [InlineData(1, null, 0)]
+    [InlineData(null, 1, 0)]
     public void CompareTo(object value1, object value2, int? expected)
     {
         // Act
