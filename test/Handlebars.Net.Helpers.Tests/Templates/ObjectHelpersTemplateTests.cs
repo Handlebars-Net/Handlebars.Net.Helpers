@@ -29,7 +29,7 @@ public class ObjectHelpersTemplateTests
             x = 123.456
         };
 
-        var template = $"{{{{[Object].ToString x }}}}";
+        var template = "{{[Object].ToString x }}";
 
         var action = _handlebarsContext.Compile(template);
 
