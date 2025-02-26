@@ -93,6 +93,11 @@ internal class ObjectHelpers : BaseHelpers, IHelpers
     [HandlebarsWriter(WriterType.Value, Name = "Object.CompareTo")]
     public int? CompareTo(object value1, object value2)
     {
+        if (value1 is null && value2 is null)
+        {
+            return 0;
+        }
+
         if (value1 is null || value2 is null)
         {
             return null;
