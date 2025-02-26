@@ -40,8 +40,14 @@ public class ObjectHelpersTemplateTests
         result.Should().Be("123.456");
     }
 
-    [CulturedFact("en-us")]
-    public void Compare()
+    [CulturedTheory("en-us")]
+    [InlineData("{{[Object].Equal value1 value2 }}", false)]
+    [InlineData("{{[Object].NotEqual value1 value2 }}", true)]
+    [InlineData("{{[Object].GreaterThan value1 value2 }}", true)]
+    [InlineData("{{[Object].GreaterThanEqual value1 value2 }}", true)]
+    [InlineData("{{[Object].LowerThan value1 value2 }}", false)]
+    [InlineData("{{[Object].LowerThanEqual value1 value2 }}", false)]
+    public void Compare(string template, bool expected)
     {
         // Arrange
         var model = new
@@ -50,15 +56,13 @@ public class ObjectHelpersTemplateTests
             value2 = DateTime.Parse("1999-01-01"),
         };
 
-        var template = $"{{{{[Object].GreaterThan value1 value2 }}}}";
-
         var action = _handlebarsContext.Compile(template);
 
         // Act
         var result = action(model);
 
         // Assert
-        result.Should().Be("True");
+        result.Should().Be(expected.ToString());
     }
 
     [Fact]

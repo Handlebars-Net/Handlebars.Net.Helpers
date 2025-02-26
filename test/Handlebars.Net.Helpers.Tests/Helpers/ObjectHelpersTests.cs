@@ -42,7 +42,7 @@ public class ObjectHelpersTests
         result.Should().Be(string.Empty);
     }
 
-    [Theory]
+    [CulturedTheory("en-us")]
     [InlineData(nameof(ObjectHelpers.Equal), "2000-01-01 0:00:00", "2000-01-01 0:00:00", true)]
     [InlineData(nameof(ObjectHelpers.Equal), "1999-01-01 0:00:00", "2000-01-01 0:00:00", false)]
     [InlineData(nameof(ObjectHelpers.Equal), "2000-01-01 0:00:00", "1999-01-01 0:00:00", false)]
