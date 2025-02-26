@@ -75,7 +75,7 @@ public class ObjectHelpersTemplateTests
             value = default(object)
         };
 
-        var template = $"{{{{[Object].IsNull value}}}}";
+        var template = "{{[Object].IsNull value}}";
 
         var action = _handlebarsContext.Compile(template);
 
@@ -95,7 +95,7 @@ public class ObjectHelpersTemplateTests
             value = default(object)
         };
 
-        var template = $"{{{{[Object].IsNotNull value}}}}";
+        var template = "{{[Object].IsNotNull value}}";
 
         var action = _handlebarsContext.Compile(template);
 
