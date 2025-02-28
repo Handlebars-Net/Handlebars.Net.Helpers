@@ -145,7 +145,7 @@ internal class StringHelpers(IHandlebars context, HandlebarsHelpersOptions optio
     }
 
     [HandlebarsWriter(WriterType.String)]
-    public string Format(object? value, string format)
+    public virtual string Format(object? value, string format)
     {
         var formatProvider = Context.Configuration.FormatProvider;
 

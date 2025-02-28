@@ -100,7 +100,7 @@ class Program
             "{{StartsWith \"abc\" \"!def\"}}",
             "{{Append \"abc\" \"!def\"}}",
             "{{Capitalize \"abc def\"}}",
-            "{{Ellipsis \"abcfskdagdghsjfjd\" 5}}",
+            "{{Ellipsis \"a very long text\" 5}}",
             "{{Reverse \"abc def\"}}",
             "{{Truncate \"abc def\" 166}}",
             "{{Camelcase \"abc def\"}}",
@@ -115,8 +115,11 @@ class Program
             "{{UtcNow}}",
             "{{Now \"yyyy-MM-dd\"}}",
             "{{Format (Now) \"yyyy-MM-dd\"}}",
-            //"{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
-            //"{{Xeger.Generate '{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]}'}}",
+            "{{DateTime.Add (Now) 1 \"years\"}}",
+            "{{DateTime.Format (Now) \"yyyy-MM-dd\"}}",
+            "{{DateTime.Format \"2020-04-15T11:12:13\" \"yyyy-MM-dd\"}}",
+            "{{Xeger.Generate \"[1-9]{1}\\d{3}\"}}",
+            "{{Xeger.Generate '{[\"]A[\"]:[\"]A[0-9]{3}[1-9][\"]}'}}",
             "{{Random Type=\"Integer\" Min=1000 Max=9999}}",
             "{{GetEnvironmentVariable \"x\"}}",
             "{{GetEnvironmentVariable \"x\" \"User\"}}",
@@ -162,7 +165,9 @@ class Program
             "JObject {{Count o.a }}",
             "JObject {{Where o.a 'it.Contains(\"s\")'}}",
             "JObject {{Count o.a2 }}",
-            "JObject {{Where o.a2 'X.Contains(\"x\")'}}"
+            "JObject {{Where o.a2 'X.Contains(\"x\")'}}",
+
+            "{{a.length}}"
         };
 
         foreach (string test in tests)

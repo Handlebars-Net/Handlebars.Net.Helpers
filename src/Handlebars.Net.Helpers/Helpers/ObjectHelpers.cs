@@ -13,5 +13,11 @@ internal class ObjectHelpers(IHandlebars context, HandlebarsHelpersOptions optio
         return value;
     }
 
+    [HandlebarsWriter(WriterType.String)]
+    public string ToString(object? value)
+    {
+        return value?.ToString() ?? string.Empty;
+    }
+
     public Category Category => Category.Object;
 }
