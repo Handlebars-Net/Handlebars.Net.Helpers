@@ -1,9 +1,8 @@
-﻿using CultureAwareTesting.xUnit;
+﻿using System;
+using CultureAwareTesting.xUnit;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
 using Moq;
-using Newtonsoft.Json.Linq;
-using System;
 using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.Helpers;
@@ -212,9 +211,9 @@ public class ObjectHelpersTests
             nameof(ObjectHelpers.Equal) => _sut.Equal(value1, value2),
             nameof(ObjectHelpers.NotEqual) => _sut.NotEqual(value1, value2),
             nameof(ObjectHelpers.GreaterThan) => _sut.GreaterThan(value1, value2),
-            nameof (ObjectHelpers.GreaterThanEqual) => _sut.GreaterThanEqual(value1, value2),
-            nameof (ObjectHelpers.LowerThan) => _sut.LowerThan(value1, value2),
-            nameof (ObjectHelpers.LowerThanEqual) => _sut.LowerThanEqual(value1, value2),
+            nameof(ObjectHelpers.GreaterThanEqual) => _sut.GreaterThanEqual(value1, value2),
+            nameof(ObjectHelpers.LowerThan) => _sut.LowerThan(value1, value2),
+            nameof(ObjectHelpers.LowerThanEqual) => _sut.LowerThanEqual(value1, value2),
 
             _ => throw new ArgumentException("Invalid method name.")
         };
@@ -231,7 +230,7 @@ public class ObjectHelpersTests
 
         public int CompareTo(object? other)
         {
-            if (other is null || other is not CustomObject comparable)
+            if (other is not CustomObject comparable)
             {
                 return 0;
             }

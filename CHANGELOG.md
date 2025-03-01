@@ -1,3 +1,7 @@
+# 2.4.13 (01 March 2025)
+- [#122](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/122) - Adding compare helpers to the Object helpers [enhancement] contributed by [fabianosuet](https://github.com/fabianosuet)
+- [#121](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/121) - Add generic object compare helpers to the ObjectHelpers [enhancement]
+
 # 2.4.12 (20 February 2025)
 - [#115](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/115) - Add New Features to Object and DateTime Helpers contributed by [fabianosuet](https://github.com/fabianosuet)
 - [#117](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/117) - Update DateTimeHelper [enhancement] contributed by [StefH](https://github.com/StefH)

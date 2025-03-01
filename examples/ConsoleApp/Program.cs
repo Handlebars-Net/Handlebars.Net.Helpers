@@ -124,6 +124,7 @@ class Program
             "{{GetEnvironmentVariable \"x\"}}",
             "{{GetEnvironmentVariable \"x\" \"User\"}}",
             "{{GetEnvironmentVariables}}",
+            "{{Object.Equal 1 2}}",
 
             "{{Linq 'test' 'SubString(0, 2)'}}",
             "{{Linq x 'it.AddYears(1)'}}",
