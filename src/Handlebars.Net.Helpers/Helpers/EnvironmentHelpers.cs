@@ -2,10 +2,11 @@
 using System.Collections;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class EnvironmentHelpers : BaseHelpers, IHelpers
+internal class EnvironmentHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
 #if NETSTANDARD1_3
     [HandlebarsWriter(WriterType.String)]
@@ -38,10 +39,6 @@ internal class EnvironmentHelpers : BaseHelpers, IHelpers
         return Enum.TryParse<EnvironmentVariableTarget>(target, out var @enum) ? @enum : EnvironmentVariableTarget.Process;
     }
 #endif
-
-    public EnvironmentHelpers(IHandlebars context) : base(context)
-    {
-    }
 
     public Category Category => Category.Environment;
 }

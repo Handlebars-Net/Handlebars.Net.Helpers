@@ -3,11 +3,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class RegexHelpers : BaseHelpers, IHelpers
+internal class RegexHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(1);
 
@@ -97,10 +98,6 @@ internal class RegexHelpers : BaseHelpers, IHelpers
         }
 
         return null;
-    }
-
-    public RegexHelpers(IHandlebars context) : base(context)
-    {
     }
 
     public Category Category => Category.Regex;

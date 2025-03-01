@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -15,7 +16,7 @@ public class XPathHelpersTests
         _contextMock = new Mock<IHandlebars>();
         _contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        _sut = new XPathHelpers(_contextMock.Object);
+        _sut = new XPathHelpers(_contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [Fact]

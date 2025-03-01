@@ -2,16 +2,13 @@
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class XegerHelpers : BaseHelpers, IHelpers
+public class XegerHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public XegerHelpers(IHandlebars context) : base(context)
-    {
-    }
-
     [HandlebarsWriter(WriterType.String, "Xeger.Generate")]
     public string Generate(string pattern)
     {

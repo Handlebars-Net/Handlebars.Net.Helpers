@@ -2,19 +2,16 @@
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Humanizer;
 
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class HumanizerHelpers : BaseHelpers, IHelpers
+public class HumanizerHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     private const string Separator = "…";
-
-    public HumanizerHelpers(IHandlebars context) : base(context)
-    {
-    }
 
     [HandlebarsWriter(WriterType.String)]
     public string Camelize(string value)

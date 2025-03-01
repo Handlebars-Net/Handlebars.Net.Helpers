@@ -1,6 +1,7 @@
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -15,7 +16,7 @@ public class BooleanHelpersTests
         var contextMock = new Mock<IHandlebars>();
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
-        _sut = new BooleanHelpers(contextMock.Object);
+        _sut = new BooleanHelpers(contextMock.Object, new HandlebarsHelpersOptions());
     }
 
 

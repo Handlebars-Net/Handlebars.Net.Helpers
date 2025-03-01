@@ -4,6 +4,7 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Parsers;
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
@@ -11,12 +12,8 @@ using RandomDataGenerator.Randomizers;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class RandomHelpers : BaseHelpers, IHelpers
+public class RandomHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public RandomHelpers(IHandlebars context) : base(context)
-    {
-    }
-
     /// <summary>
     /// For backwards compatibility with WireMock.Net
     /// </summary>

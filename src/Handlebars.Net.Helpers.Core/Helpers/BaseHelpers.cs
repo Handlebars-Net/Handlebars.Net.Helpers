@@ -1,12 +1,10 @@
-﻿namespace HandlebarsDotNet.Helpers.Helpers
-{
-    public abstract class BaseHelpers
-    {
-        protected IHandlebars Context;
+﻿using HandlebarsDotNet.Helpers.Options;
+using Stef.Validation;
 
-        protected BaseHelpers(IHandlebars context)
-        {
-            Context = context;
-        }
-    }
+namespace HandlebarsDotNet.Helpers.Helpers;
+
+public abstract class BaseHelpers(IHandlebars context, HandlebarsHelpersOptions options)
+{
+    protected readonly IHandlebars Context = Guard.NotNull(context);
+    protected readonly HandlebarsHelpersOptions Options = Guard.NotNull(options);
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
         public EnvironmentHelpersTests()
         {
             var handlebarsContext = new Mock<IHandlebars>();
-            _sut = new EnvironmentHelpers(handlebarsContext.Object);
+            _sut = new EnvironmentHelpers(handlebarsContext.Object, new HandlebarsHelpersOptions());
         }
 
         [Fact]
