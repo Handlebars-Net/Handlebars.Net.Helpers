@@ -3,14 +3,8 @@ using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-public abstract class BaseHelpers
+public abstract class BaseHelpers(IHandlebars context, HandlebarsHelpersOptions options)
 {
-    protected readonly IHandlebars Context;
-    protected readonly HandlebarsHelpersOptions Options;
-
-    protected BaseHelpers(IHandlebars context, HandlebarsHelpersOptions options)
-    {
-        Context = Guard.NotNull(context);
-        Options = Guard.NotNull(options);
-    }
+    protected readonly IHandlebars Context = Guard.NotNull(context);
+    protected readonly HandlebarsHelpersOptions Options = Guard.NotNull(options);
 }
