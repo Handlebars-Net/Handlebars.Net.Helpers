@@ -49,6 +49,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Handlebars.Net.Helpers.Xslt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppWebAssembly", "examples\BlazorAppWebAssembly\BlazorAppWebAssembly.csproj", "{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\CreateRelease.yml = .github\workflows\CreateRelease.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +126,7 @@ Global
 		{CD74732D-97D6-4FC4-A7E5-B446D64814DF} = {01DFE66D-E850-4ADC-A0FC-A3A13B896CDA}
 		{E9A5CF6C-544C-4D1C-8AAD-EF4144FF7E9D} = {BA564CB5-1908-41F9-A32A-3535BBE0E8C6}
 		{F3AD9D4E-CA0D-4FFE-87D3-27974BECC5BD} = {845A8FA6-E56E-4BB4-AD92-29093BB2CA09}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {01DFE66D-E850-4ADC-A0FC-A3A13B896CDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC1E6DF8-EC39-439B-ABF0-EE3786C5C0F6}
