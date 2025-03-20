@@ -13,9 +13,7 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-using System.Diagnostics;
 using HandlebarsDotNet.Helpers.Compatibility;
-
 
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
 using System.Threading;
@@ -36,19 +34,19 @@ public static class HandlebarsHelpers
     internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
-    /// Register all (default) categories. See the WIKI for details.
+    /// By default, all categories except <see cref="Category.DynamicLinq"/> and <see cref="Category.Environment"/> are registered. See the WIKI for details.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
     public static void Register(IHandlebars handlebarsContext)
     {
-        Register(handlebarsContext, o => { });
+        Register(handlebarsContext, _ => { });
     }
 
     /// <summary>
     /// Register all (default) or specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
-    /// <param name="categories">The categories to register. By default, all categories are registered. See the WIKI for details.</param>
+    /// <param name="categories">The categories to register.</param>
     public static void Register(IHandlebars handlebarsContext, params Category[] categories)
     {
         Register(handlebarsContext, o => { o.Categories = categories; });
@@ -128,7 +126,7 @@ public static class HandlebarsHelpers
 
             if (!RuntimeInformationUtils.IsBlazorWASM)
             {
-                Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+                Add(Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName), paths);
             }
 #endif
         }
@@ -154,7 +152,7 @@ public static class HandlebarsHelpers
         // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
         handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
 
-        foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
+        foreach (var item in helpers.Where(h => options.Categories.Contains(h.Key)))
         {
             RegisterCustomHelper(handlebarsContext, options, item.Key.ToString(), item.Value);
         }

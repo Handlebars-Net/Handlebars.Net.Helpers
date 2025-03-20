@@ -11,6 +11,24 @@ namespace HandlebarsDotNet.Helpers.Options;
 public class HandlebarsHelpersOptions
 {
     private const string Dot = ".";
+    private static readonly Category[] DefaultAllowedInternalHandlebarsHelpers =
+    [
+        Category.Boolean,
+        Category.Constants,
+        Category.DateTime,
+        Category.Enumerable,
+        Category.Humanizer,
+        Category.JsonPath,
+        Category.Math,
+        Category.Object,
+        Category.Random,
+        Category.Regex,
+        Category.String,
+        Category.Url,
+        Category.Xeger,
+        Category.XPath,
+        Category.Xslt
+    ];
 
     /// <summary>
     /// Set to false if you don't want to add the prefix from the category to the helper name. (Default is set to true).
@@ -33,9 +51,11 @@ public class HandlebarsHelpersOptions
     public string? Prefix { get; set; }
 
     /// <summary>
-    /// The categories to register. By default all categories are registered. See the WIKI for details.
+    /// The categories to register.
+    ///
+    /// By default, all categories except <see cref="Category.DynamicLinq"/> and <see cref="Category.Environment"/> are registered. See the WIKI for details.
     /// </summary>
-    public Category[]? Categories { get; set; }
+    public Category[] Categories { get; set; } = DefaultAllowedInternalHandlebarsHelpers;
 
     /// <summary>
     /// The helpers to register.
