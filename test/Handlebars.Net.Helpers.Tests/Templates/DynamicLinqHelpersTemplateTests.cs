@@ -17,8 +17,6 @@ public class DynamicLinqHelpersTemplateTests
 
     public DynamicLinqHelpersTemplateTests()
     {
-        _handlebarsContext = Handlebars.Create();
-
         var dateTimeServiceMock = new Mock<IDateTimeService>();
         dateTimeServiceMock.Setup(d => d.Now()).Returns(_dateTimeNow);
         dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(_dateTimeNow.ToUniversalTime);
