@@ -26,6 +26,20 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 - .NET Standard 1.3, 2.0 and 2.1
 - .NET 6.0 and .NET 8.0
 
+## :exclamation: Breaking changes
+
+### 2.5.0
+Some breaking changes are introduced in this version:
+
+#### A. EnvironmentHelpers
+By default, the category `Environment` is not automatically registered due to potential security issues.
+You need to allow this via the HandlebarsHelpersOptions.
+
+#### B. System.Linq.Dynamic.Core
+By default, the category `DynamicLinq` is not automatically registered due to [a CVE in System.Linq.Dynamic.Core DynamicLinq](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867).
+This means that the NuGet *Handlebars.Net.Helpers.DynamicLinq* will not be loaded and registred automatically anymore. 
+You need to allow this via the HandlebarsHelpersOptions.
+
 ## Usage
 
 ### Register
