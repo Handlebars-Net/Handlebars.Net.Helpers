@@ -43,7 +43,7 @@ public static class HandlebarsHelpers
     }
 
     /// <summary>
-    /// Register all (default) or specific categories.
+    /// Register specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
     /// <param name="categories">The categories to register.</param>
@@ -69,12 +69,13 @@ public static class HandlebarsHelpers
     /// <param name="optionsCallback">The options callback.</param>
     public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
     {
+        Guard.NotNull(handlebarsContext);
         Guard.NotNull(optionsCallback);
 
         var options = new HandlebarsHelpersOptions();
         optionsCallback(options);
 
-        var helpers = new Dictionary<Category, IHelpers>
+        var helpersMapping = new Dictionary<Category, IHelpers>
         {
             { Category.Regex, new RegexHelpers(handlebarsContext) },
             { Category.Constants, new ConstantsHelpers(handlebarsContext) },
@@ -88,7 +89,7 @@ public static class HandlebarsHelpers
             { Category.Object, new ObjectHelpers(handlebarsContext) }
         };
 
-        var dynamicLoadedHelpers = new Dictionary<Category, string>
+        var dynamicLoadedHelpersMapping = new Dictionary<Category, string>
         {
             { Category.XPath, "XPathHelpers" },
             { Category.Xeger, "XegerHelpers" },
@@ -131,8 +132,15 @@ public static class HandlebarsHelpers
 #endif
         }
 
-        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
+        var helpers = helpersMapping
+            .Where(kvp => options.Categories.Contains(kvp.Key))
+            .ToDictionary(k => k.Key, v => v.Value);
 
+        var dynamicLoadedHelpers = dynamicLoadedHelpersMapping
+            .Where(kvp => options.Categories.Contains(kvp.Key))
+            .ToDictionary(k => k.Key, v => v.Value);
+
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
         foreach (var item in additionalLoadedHelpers)
         {
             helpers.Add(item.Key, item.Value);

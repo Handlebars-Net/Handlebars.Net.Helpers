@@ -37,7 +37,7 @@ You need to allow this via the HandlebarsHelpersOptions.
 
 #### B. System.Linq.Dynamic.Core
 By default, the category `DynamicLinq` is not automatically registered due to [a CVE in System.Linq.Dynamic.Core DynamicLinq](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867).
-This means that the NuGet *Handlebars.Net.Helpers.DynamicLinq* will not be loaded and registred automatically anymore. 
+This means that the NuGet *Handlebars.Net.Helpers.DynamicLinq* will not be loaded and registered automatically anymore. 
 You need to allow this via the HandlebarsHelpersOptions.
 
 ## Usage

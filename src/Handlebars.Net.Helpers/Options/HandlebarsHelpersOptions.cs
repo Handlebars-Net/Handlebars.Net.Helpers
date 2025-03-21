@@ -62,7 +62,7 @@ public class HandlebarsHelpersOptions
     public Category[] Categories { get; set; } = DefaultAllowedHandlebarsHelpers;
 
     /// <summary>
-    /// The helpers to register.
+    /// The additional helpers to register.
     /// </summary>
     public IHelpers[]? Helpers { get; set; }
 
