@@ -63,4 +63,26 @@ public class EnvironmentHelpersTemplateTests
             Environment.SetEnvironmentVariable(variable, null);
         }
     }
+
+    [Fact]
+    public void GetEnvironmentVariable_CategoryNotDefined_ShouldThrowException()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.UseCategoryPrefix = false;
+        });
+
+        var variable = Guid.NewGuid().ToString();
+        var template = $"{{{{GetEnvironmentVariable \"{variable}\"}}}}";
+        var compiled = handlebarsContext.Compile(template);
+        var data = new { };
+
+        // Act
+        Action act = () => compiled(data);
+
+        // Assert
+        act.Should().Throw<HandlebarsRuntimeException>();
+    }
 }

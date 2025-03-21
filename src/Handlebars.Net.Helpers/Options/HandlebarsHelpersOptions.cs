@@ -11,7 +11,11 @@ namespace HandlebarsDotNet.Helpers.Options;
 public class HandlebarsHelpersOptions
 {
     private const string Dot = ".";
-    private static readonly Category[] DefaultAllowedInternalHandlebarsHelpers =
+
+    /// <summary>
+    /// An array of the default allowed HandlebarsHelpers.
+    /// </summary>
+    public static readonly Category[] DefaultAllowedHandlebarsHelpers =
     [
         Category.Boolean,
         Category.Constants,
@@ -55,7 +59,7 @@ public class HandlebarsHelpersOptions
     ///
     /// By default, all categories except <see cref="Category.DynamicLinq"/> and <see cref="Category.Environment"/> are registered. See the WIKI for details.
     /// </summary>
-    public Category[] Categories { get; set; } = DefaultAllowedInternalHandlebarsHelpers;
+    public Category[] Categories { get; set; } = DefaultAllowedHandlebarsHelpers;
 
     /// <summary>
     /// The helpers to register.
