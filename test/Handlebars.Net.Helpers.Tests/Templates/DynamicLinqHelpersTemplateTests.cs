@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
 using Newtonsoft.Json.Linq;
@@ -15,8 +17,6 @@ public class DynamicLinqHelpersTemplateTests
 
     public DynamicLinqHelpersTemplateTests()
     {
-        _handlebarsContext = Handlebars.Create();
-
         var dateTimeServiceMock = new Mock<IDateTimeService>();
         dateTimeServiceMock.Setup(d => d.Now()).Returns(_dateTimeNow);
         dateTimeServiceMock.Setup(d => d.UtcNow()).Returns(_dateTimeNow.ToUniversalTime);
@@ -27,6 +27,7 @@ public class DynamicLinqHelpersTemplateTests
         {
             o.UseCategoryPrefix = false;
             o.DateTimeService = dateTimeServiceMock.Object;
+            o.Categories = o.Categories.Concat([Category.DynamicLinq]).ToArray();
         });
     }
 
