@@ -8,7 +8,7 @@ namespace HandlebarsDotNet.Helpers.Models;
 internal enum IntegerBehavior
 {
     /// <summary>
-    /// Convert all Integer types in the Json Object to a int (unless overflow).
+    /// Convert all Integer types in the Json Object to an int (unless overflow).
     /// (default)
     /// </summary>
     UseInt = 0,

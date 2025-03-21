@@ -5,6 +5,7 @@ using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,12 +13,8 @@ using Newtonsoft.Json.Linq;
 // ReSharper disable once CheckNamespace
 namespace HandlebarsDotNet.Helpers;
 
-public class JsonPathHelpers : BaseHelpers, IHelpers
+public class JsonPathHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    public JsonPathHelpers(IHandlebars context) : base(context)
-    {
-    }
-
     [HandlebarsWriter(WriterType.String)]
     public string SelectToken(object value, string jsonPath)
     {

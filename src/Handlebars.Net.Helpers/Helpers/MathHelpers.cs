@@ -1,11 +1,12 @@
 ﻿using System;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class MathHelpers : BaseHelpers, IHelpers
+internal class MathHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     private const double Tolerance = 1e-20; // 20 Digits of precision
 
@@ -151,10 +152,6 @@ internal class MathHelpers : BaseHelpers, IHelpers
     public object Times(object value1, object value2)
     {
         return Multiply(value1, value2);
-    }
-
-    public MathHelpers(IHandlebars context) : base(context)
-    {
     }
 
     public Category Category => Category.Math;

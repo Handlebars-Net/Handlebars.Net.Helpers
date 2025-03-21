@@ -77,16 +77,16 @@ public static class HandlebarsHelpers
 
         var helpersMapping = new Dictionary<Category, IHelpers>
         {
-            { Category.Regex, new RegexHelpers(handlebarsContext) },
-            { Category.Constants, new ConstantsHelpers(handlebarsContext) },
-            { Category.Enumerable, new EnumerableHelpers(handlebarsContext) },
-            { Category.Environment, new EnvironmentHelpers(handlebarsContext) },
-            { Category.Math, new MathHelpers(handlebarsContext) },
-            { Category.String, new StringHelpers(handlebarsContext) },
-            { Category.Url, new UrlHelpers(handlebarsContext) },
-            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options.DateTimeService ?? new DateTimeService()) },
-            { Category.Boolean, new BooleanHelpers(handlebarsContext) },
-            { Category.Object, new ObjectHelpers(handlebarsContext) }
+            { Category.Boolean, new BooleanHelpers(handlebarsContext, options) },
+            { Category.Constants, new ConstantsHelpers(handlebarsContext, options) },
+            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options) },
+            { Category.Enumerable, new EnumerableHelpers(handlebarsContext, options) },
+            { Category.Environment, new EnvironmentHelpers(handlebarsContext, options) },
+            { Category.Math, new MathHelpers(handlebarsContext, options) },
+            { Category.Object, new ObjectHelpers(handlebarsContext, options) },
+            { Category.Regex, new RegexHelpers(handlebarsContext, options) },
+            { Category.String, new StringHelpers(handlebarsContext, options) },
+            { Category.Url, new UrlHelpers(handlebarsContext, options) }
         };
 
         var dynamicLoadedHelpersMapping = new Dictionary<Category, string>
@@ -94,8 +94,8 @@ public static class HandlebarsHelpers
             { Category.XPath, "XPathHelpers" },
             { Category.Xeger, "XegerHelpers" },
             { Category.Random, "RandomHelpers" },
-            { Category.JsonPath, "JsonPathHelpers" },
             { Category.DynamicLinq, "DynamicLinqHelpers" },
+            { Category.JsonPath, "JsonPathHelpers" },
             { Category.Humanizer, "HumanizerHelpers" },
             { Category.Xslt, "XsltHelpers" }
         };
@@ -107,11 +107,11 @@ public static class HandlebarsHelpers
         }
         else
         {
-            paths = new List<string>
-            {
+            paths =
+            [
                 Directory.GetCurrentDirectory(),
-                AppContextHelper.GetBaseDirectory(),
-            };
+                AppContextHelper.GetBaseDirectory()
+            ];
 
 #if !NETSTANDARD1_3_OR_GREATER
             void Add(string? path, ICollection<string> customHelperPaths)
@@ -140,7 +140,7 @@ public static class HandlebarsHelpers
             .Where(kvp => options.Categories.Contains(kvp.Key))
             .ToDictionary(k => k.Key, v => v.Value);
 
-        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext);
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext, options);
         foreach (var item in additionalLoadedHelpers)
         {
             helpers.Add(item.Key, item.Value);

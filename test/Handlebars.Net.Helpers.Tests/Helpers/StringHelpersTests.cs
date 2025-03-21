@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -16,7 +17,7 @@ public class StringHelpersTests
         var contextMock = new Mock<IHandlebars>();
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration { FormatProvider = CultureInfo.InvariantCulture });
 
-        _sut = new StringHelpers(contextMock.Object);
+        _sut = new StringHelpers(contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [Theory]

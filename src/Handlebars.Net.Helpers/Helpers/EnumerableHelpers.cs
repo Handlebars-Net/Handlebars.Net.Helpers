@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 
@@ -11,7 +12,7 @@ namespace HandlebarsDotNet.Helpers.Helpers;
 /// <summary>
 /// Some ideas based on https://github.com/helpers/handlebars-helpers#array
 /// </summary>
-internal class EnumerableHelpers : BaseHelpers, IHelpers
+internal class EnumerableHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
     [HandlebarsWriter(WriterType.Value)]
     public double Average(IEnumerable<object> values)
@@ -129,10 +130,6 @@ internal class EnumerableHelpers : BaseHelpers, IHelpers
         }
 
         return values.Take(count).ToList();
-    }
-
-    public EnumerableHelpers(IHandlebars context) : base(context)
-    {
     }
 
     public Category Category => Category.Enumerable;

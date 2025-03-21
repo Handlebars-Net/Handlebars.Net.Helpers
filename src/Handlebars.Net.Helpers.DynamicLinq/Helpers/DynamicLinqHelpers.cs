@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Newtonsoft.Json.Linq;
 using Stef.Validation;
 
@@ -14,8 +15,14 @@ namespace HandlebarsDotNet.Helpers;
 
 public class DynamicLinqHelpers : BaseHelpers, IHelpers
 {
-    public DynamicLinqHelpers(IHandlebars context) : base(context)
+    private readonly ParsingConfig _config;
+
+    public DynamicLinqHelpers(IHandlebars context, HandlebarsHelpersOptions options) : base(context, options)
     {
+        _config = new ParsingConfig
+        {
+            AllowEqualsAndToStringMethodsOnObject = options.DynamicLinqHelperOptions?.AllowEqualsAndToStringMethodsOnObject ?? false,
+        };
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -45,14 +52,14 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
             }
             catch
             {
-                jArray = new JArray { JToken.FromObject(value) };
+                jArray = [JToken.FromObject(value)];
             }
 
-            return CallWhere(jArray).Select(selector!).FirstOrDefault();
+            return CallWhere(jArray).Select(_config, selector!).FirstOrDefault();
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Expression), ex);
+            throw new HandlebarsException(ex.Message, ex);
         }
     }
 
@@ -72,7 +79,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNullOrEmpty(linqPredicate);
 
         // CallWhere(...) and call All.
-        return CallWhere(value).All(linqPredicate);
+        return CallWhere(value).All(_config, linqPredicate);
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -109,7 +116,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNullOrEmpty(typeName);
 
         // CallWhere(...) and call Cast.
-        return CallWhere(value).Cast(typeName).ToDynamicArray();
+        return CallWhere(value).Cast(_config, typeName).ToDynamicArray();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -229,7 +236,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNull(ordering);
 
         // CallWhere(...) and call OrderBy.
-        var ordered = CallWhere(value).OrderBy(ordering);
+        var ordered = CallWhere(value).OrderBy(_config, ordering);
 
         switch (thenBy)
         {
@@ -237,12 +244,12 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
                 return ordered.ToDynamicArray();
 
             case string thenByAsString:
-                return ordered.ThenBy(thenByAsString).ToDynamicArray();
+                return ordered.ThenBy(_config, thenByAsString).ToDynamicArray();
 
             case IEnumerable thenByAsEnumerable:
                 foreach (var item in thenByAsEnumerable.OfType<string>())
                 {
-                    ordered = ordered.ThenBy(item);
+                    ordered = ordered.ThenBy(_config, item);
                 }
                 return ordered.ToDynamicArray();
 
@@ -330,7 +337,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNull(value);
 
         // CallWhere(...) and call Skip.
-        return CallWhere(value).SkipWhile(linqPredicate).ToDynamicArray();
+        return CallWhere(value).SkipWhile(_config, linqPredicate).ToDynamicArray();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -366,7 +373,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         Guard.NotNull(value);
 
         // CallWhere(...) and call TakeWhile.
-        return CallWhere(value).TakeWhile(linqPredicate).ToDynamicArray();
+        return CallWhere(value).TakeWhile(_config, linqPredicate).ToDynamicArray();
     }
 
     [HandlebarsWriter(WriterType.Value)]
@@ -378,7 +385,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         return CallWhere(value, linqPredicate).ToDynamicArray();
     }
 
-    private static IQueryable CallWhere(object value, string? linqPredicate = null, [CallerMemberName] string callerName = "")
+    private IQueryable CallWhere(object value, string? linqPredicate = null, [CallerMemberName] string callerName = "")
     {
         if (value is not IEnumerable enumerable)
         {
@@ -396,11 +403,11 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
             var queryable = enumerable.AsQueryable();
 
             // And call Where(...) if required.
-            return !string.IsNullOrEmpty(linqPredicate) ? queryable.Where(linqPredicate!) : queryable;
+            return !string.IsNullOrEmpty(linqPredicate) ? queryable.Where(_config, linqPredicate!) : queryable;
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Where), ex);
+            throw new HandlebarsException(ex.Message, ex);
         }
     }
 

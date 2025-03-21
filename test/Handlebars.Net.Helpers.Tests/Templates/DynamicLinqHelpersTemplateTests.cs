@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Dynamic.Core.Exceptions;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
 using Newtonsoft.Json.Linq;
@@ -28,11 +30,72 @@ public class DynamicLinqHelpersTemplateTests
             o.UseCategoryPrefix = false;
             o.DateTimeService = dateTimeServiceMock.Object;
             o.Categories = o.Categories.Concat([Category.DynamicLinq]).ToArray();
+            o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = true
+            };
         });
     }
 
     [Fact]
-    public void LinqIt()
+    public void Linq_CategoryNotDefined_ShouldThrowException()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext);
+
+        var request = new
+        {
+            Path = "/test"
+        };
+
+        // Act
+        var action = () =>
+        {
+            var template = handlebarsContext.Compile("{{Linq Path 'it'}}");
+            _ = template(request);
+        };
+
+        // Assert
+        action.Should().Throw<HandlebarsRuntimeException>().WithMessage("Template references a helper that cannot be resolved. Helper 'Linq'");
+    }
+
+    [Fact]
+    public void Linq_AllowEqualsAndToStringMethodsOnObjectIsFalse_ShouldThrowException()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.UseCategoryPrefix = false;
+            o.Categories = o.Categories.Concat([Category.DynamicLinq]).ToArray();
+            o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = false
+            };
+        });
+
+        var request = new
+        {
+            Path = "/test"
+        };
+
+        // Act
+        var action = () =>
+        {
+            var template = handlebarsContext.Compile("{{Linq Path 'it.ToString()'}}");
+            _ = template(request);
+        };
+
+        // Assert
+        action.Should()
+            .Throw<HandlebarsException>()
+            .WithMessage("Method 'ToString' on type 'Object' is not accessible.")
+            .WithInnerException<ParseException>();
+    }
+
+    [Fact]
+    public void Linq_It()
     {
         // Arrange
         var request = new
@@ -50,7 +113,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void LinqItContains()
+    public void Linq_It_Contains()
     {
         // Arrange
         var request = new
@@ -68,7 +131,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void Linq1()
+    public void Linq()
     {
         // Arrange
         var request = new
@@ -104,6 +167,23 @@ public class DynamicLinqHelpersTemplateTests
 
         // Assert
         result.Should().Be("2020-04-15T14:14:15.0000000");
+    }
+
+    [Theory]
+    [InlineData("{{Expression '1 + 2'}}", "3")]
+    [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
+    public void Linq_Expression(string expression, string expected)
+    {
+        // Arrange
+        var request = true;
+
+        var action = _handlebarsContext.Compile(expression);
+
+        // Act
+        var result = action(request);
+
+        // Assert
+        result.Should().Be(expected);
     }
 
     [Theory]
@@ -144,23 +224,4 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be("0:0:stef\r\n1:1:test\r\n");
     }
-
-    [Theory]
-    [InlineData("{{Expression '1 + 2'}}", "3")]
-    [InlineData("{{Expression '(1 > 2).ToString().ToLower()'}}", "false")]
-    public void Expression(string expression, string expected)
-    {
-        // Arrange
-        var request = true;
-
-        var action = _handlebarsContext.Compile(expression);
-
-        // Act
-        var result = action(request);
-
-        // Assert
-        result.Should().Be(expected);
-    }
-
-
 }

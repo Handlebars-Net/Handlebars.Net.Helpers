@@ -38,7 +38,19 @@ You need to allow this via the HandlebarsHelpersOptions.
 #### B. System.Linq.Dynamic.Core
 By default, the category `DynamicLinq` is not automatically registered due to [a CVE in System.Linq.Dynamic.Core DynamicLinq](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867).
 This means that the NuGet *Handlebars.Net.Helpers.DynamicLinq* will not be loaded and registered automatically anymore. 
-You need to allow this via the HandlebarsHelpersOptions.
+You need to allow this via the HandlebarsHelpersOptions. In addition, an extra configuration setting is added to allow the use of `ToString` and `Equals` on an `object`.
+
+Example:
+``` c#
+var handlebarsContext = HandlebarsDotNet.Handlebars.Create();
+HandlebarsHelpers.Register(handlebarsContext, o =>
+{
+    o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+    {
+        AllowEqualsAndToStringMethodsOnObject = true
+    };
+});
+```
 
 ## Usage
 

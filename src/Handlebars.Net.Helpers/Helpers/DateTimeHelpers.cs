@@ -1,15 +1,16 @@
 ﻿using System;
 using HandlebarsDotNet.Helpers.Attributes;
 using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 
 namespace HandlebarsDotNet.Helpers.Helpers;
 
-internal class DateTimeHelpers(IHandlebars context, IDateTimeService dateTimeService) : BaseHelpers(context), IHelpers
+internal class DateTimeHelpers(IHandlebars context, HandlebarsHelpersOptions options) : BaseHelpers(context, options), IHelpers
 {
-    private readonly IDateTimeService _dateTimeService = Guard.NotNull(dateTimeService);
-    private readonly StringHelpers _stringHelpers = new(context);
+    private readonly IDateTimeService _dateTimeService = options.DateTimeService ?? new DateTimeService();
+    private readonly StringHelpers _stringHelpers = new(context, options);
 
     [HandlebarsWriter(WriterType.Value)]
     public object Now(string? format = null)

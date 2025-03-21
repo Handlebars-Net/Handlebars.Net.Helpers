@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -37,7 +38,7 @@ namespace HandlebarsDotNet.Helpers.Tests.Helpers
 
             _contextMock = new Mock<IHandlebars>();
 
-            _sut = new EnumerableHelpers(_contextMock.Object);
+            _sut = new EnumerableHelpers(_contextMock.Object, new HandlebarsHelpersOptions());
         }
 
         private class A

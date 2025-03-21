@@ -2,6 +2,7 @@
 using CultureAwareTesting.xUnit;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Helpers;
+using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
@@ -16,7 +17,7 @@ public class ObjectHelpersTests
         var contextMock = new Mock<IHandlebars>();
         contextMock.SetupGet(c => c.Configuration).Returns(new HandlebarsConfiguration());
 
-        _sut = new ObjectHelpers(contextMock.Object);
+        _sut = new ObjectHelpers(contextMock.Object, HandlebarsHelpersOptions.Default);
     }
 
     [CulturedTheory("en-US")]
