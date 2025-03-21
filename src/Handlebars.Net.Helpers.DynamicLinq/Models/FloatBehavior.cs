@@ -3,7 +3,7 @@
 namespace HandlebarsDotNet.Helpers.Models;
 
 /// <summary>
-/// Enum to define how to convert an Float in the Json Object.
+/// Enum to define how to convert a Float in the Json Object.
 /// </summary>
 internal enum FloatBehavior
 {
