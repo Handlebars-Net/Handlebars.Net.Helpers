@@ -5,52 +5,51 @@ using HandlebarsDotNet.Helpers.Options;
 using Moq;
 using Xunit;
 
-namespace HandlebarsDotNet.Helpers.Tests.Helpers
+namespace HandlebarsDotNet.Helpers.Tests.Helpers;
+
+public class EnvironmentHelpersTests
 {
-    public class EnvironmentHelpersTests
+    private readonly EnvironmentHelpers _sut;
+
+    public EnvironmentHelpersTests()
     {
-        private readonly EnvironmentHelpers _sut;
+        var handlebarsContext = new Mock<IHandlebars>();
+        _sut = new EnvironmentHelpers(handlebarsContext.Object, HandlebarsHelpersOptions.Default);
+    }
 
-        public EnvironmentHelpersTests()
-        {
-            var handlebarsContext = new Mock<IHandlebars>();
-            _sut = new EnvironmentHelpers(handlebarsContext.Object, new HandlebarsHelpersOptions());
-        }
+    [Fact]
+    public void GetEnvironmentVariable_NonExisting()
+    {
+        // Arrange
+        var value = Guid.NewGuid().ToString();
 
-        [Fact]
-        public void GetEnvironmentVariable_NonExisting()
+        // Act
+        var result = _sut.GetEnvironmentVariable(value);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void GetEnvironmentVariable_Existing()
+    {
+        // Arrange
+        var variable = Guid.NewGuid().ToString();
+        var value = Guid.NewGuid().ToString();
+        try
         {
-            // Arrange
-            var value = Guid.NewGuid().ToString();
+            Environment.SetEnvironmentVariable(variable, value);
 
             // Act
-            var result = _sut.GetEnvironmentVariable(value);
+            var result = _sut.GetEnvironmentVariable(variable);
 
             // Assert
-            result.Should().BeNull();
+            result.Should().Be(value);
+
         }
-
-        [Fact]
-        public void GetEnvironmentVariable_Existing()
+        finally
         {
-            // Arrange
-            var variable = Guid.NewGuid().ToString();
-            var value = Guid.NewGuid().ToString();
-            try
-            {
-                Environment.SetEnvironmentVariable(variable, value);
-
-                // Act
-                var result = _sut.GetEnvironmentVariable(variable);
-
-                // Assert
-                result.Should().Be(value);
-
-            }
-            finally
-            {
-                Environment.SetEnvironmentVariable(variable, null);
-            }
+            Environment.SetEnvironmentVariable(variable, null);
         }
     }
 }

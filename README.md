@@ -29,11 +29,16 @@ Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/H
 ## :exclamation: Breaking changes
 
 ### 2.5.0
-A breaking change is introduced which is related to System.Linq.Dynamic.Core DynamicLinq ([CVE](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867)).
+Some breaking changes are introduced in this version:
 
-The NuGet Handlebars.Net.Helpers.DynamicLinq will not be loaded automatically anymore.
-You need to allow this via the configuration.
-In addition, an extra configuration setting is added to allow the use of `ToString` and `Equals` on an `object`.
+#### A. EnvironmentHelpers
+By default, the category `Environment` is not automatically registered due to potential security issues.
+You need to allow this via the HandlebarsHelpersOptions.
+
+#### B. System.Linq.Dynamic.Core
+By default, the category `DynamicLinq` is not automatically registered due to [a CVE in System.Linq.Dynamic.Core DynamicLinq](https://github.com/zzzprojects/System.Linq.Dynamic.Core/issues/867).
+This means that the NuGet *Handlebars.Net.Helpers.DynamicLinq* will not be loaded and registered automatically anymore. 
+You need to allow this via the HandlebarsHelpersOptions. In addition, an extra configuration setting is added to allow the use of `ToString` and `Equals` on an `object`.
 
 Example:
 ``` c#
@@ -42,7 +47,6 @@ HandlebarsHelpers.Register(handlebarsContext, o =>
 {
     o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
     {
-        Allow = true,
         AllowEqualsAndToStringMethodsOnObject = true
     };
 });
@@ -117,13 +121,13 @@ Now you can access the helpers by just using the name like:
 {{Append "foobar" "bar"}}
 ```
 
----
+***
 
 The following default built-in helpers are available:
 - [Boolean](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Boolean)
 - [DateTime](https://github.com/StefH/Handlebars.Net.Helpers/wiki/DateTime)
-- [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants) 
 - [Dictionary](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Dictionary)
+- [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
 - [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
@@ -139,7 +143,7 @@ And the following additonal helpers are available
 - [XPath](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/XPath)
 - [Xslt](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Xslt)
 
----
+***
 ## References
 - Thanks to https://github.com/rexm/Handlebars.Net
 - Some ideas based on https://github.com/helpers/handlebars-helpers

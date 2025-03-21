@@ -13,7 +13,6 @@ using HandlebarsDotNet.Helpers.Plugin;
 using HandlebarsDotNet.Helpers.Utils;
 using Stef.Validation;
 using HandlebarsDotNet.Helpers.Models;
-using System.Diagnostics;
 using HandlebarsDotNet.Helpers.Compatibility;
 
 #if NETSTANDARD1_3_OR_GREATER || NET46_OR_GREATER || NET6_0_OR_GREATER
@@ -35,7 +34,7 @@ public static class HandlebarsHelpers
     internal static AsyncLocal<EvaluateResult> AsyncLocalResultFromEvaluate = new();
 
     /// <summary>
-    /// Register all (default) categories. See the WIKI for details.
+    /// By default, all categories except <see cref="Category.DynamicLinq"/> and <see cref="Category.Environment"/> are registered. See the WIKI for details.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
     public static void Register(IHandlebars handlebarsContext)
@@ -44,10 +43,10 @@ public static class HandlebarsHelpers
     }
 
     /// <summary>
-    /// Register all (default) or specific categories.
+    /// Register specific categories.
     /// </summary>
     /// <param name="handlebarsContext">The <see cref="IHandlebars"/>-context.</param>
-    /// <param name="categories">The categories to register. By default, all categories are registered. See the WIKI for details.</param>
+    /// <param name="categories">The categories to register.</param>
     public static void Register(IHandlebars handlebarsContext, params Category[] categories)
     {
         Register(handlebarsContext, o => { o.Categories = categories; });
@@ -70,39 +69,36 @@ public static class HandlebarsHelpers
     /// <param name="optionsCallback">The options callback.</param>
     public static void Register(IHandlebars handlebarsContext, Action<HandlebarsHelpersOptions> optionsCallback)
     {
+        Guard.NotNull(handlebarsContext);
         Guard.NotNull(optionsCallback);
 
         var options = new HandlebarsHelpersOptions();
         optionsCallback(options);
 
-        var helpers = new Dictionary<Category, IHelpers>
+        var helpersMapping = new Dictionary<Category, IHelpers>
         {
-            { Category.Regex, new RegexHelpers(handlebarsContext, options) },
+            { Category.Boolean, new BooleanHelpers(handlebarsContext, options) },
             { Category.Constants, new ConstantsHelpers(handlebarsContext, options) },
+            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options) },
             { Category.Enumerable, new EnumerableHelpers(handlebarsContext, options) },
             { Category.Environment, new EnvironmentHelpers(handlebarsContext, options) },
             { Category.Math, new MathHelpers(handlebarsContext, options) },
+            { Category.Object, new ObjectHelpers(handlebarsContext, options) },
+            { Category.Regex, new RegexHelpers(handlebarsContext, options) },
             { Category.String, new StringHelpers(handlebarsContext, options) },
-            { Category.Url, new UrlHelpers(handlebarsContext, options) },
-            { Category.DateTime, new DateTimeHelpers(handlebarsContext, options) },
-            { Category.Boolean, new BooleanHelpers(handlebarsContext, options) },
-            { Category.Object, new ObjectHelpers(handlebarsContext, options) }
+            { Category.Url, new UrlHelpers(handlebarsContext, options) }
         };
 
-        var dynamicLoadedHelpers = new Dictionary<Category, string>
+        var dynamicLoadedHelpersMapping = new Dictionary<Category, string>
         {
             { Category.XPath, "XPathHelpers" },
             { Category.Xeger, "XegerHelpers" },
             { Category.Random, "RandomHelpers" },
+            { Category.DynamicLinq, "DynamicLinqHelpers" },
             { Category.JsonPath, "JsonPathHelpers" },
             { Category.Humanizer, "HumanizerHelpers" },
             { Category.Xslt, "XsltHelpers" }
         };
-
-        if (options.DynamicLinqHelperOptions?.Allow == true)
-        {
-            dynamicLoadedHelpers.Add(Category.DynamicLinq, "DynamicLinqHelpers");
-        }
 
         List<string> paths;
         if (options.CustomHelperPaths != null)
@@ -131,13 +127,20 @@ public static class HandlebarsHelpers
 
             if (!RuntimeInformationUtils.IsBlazorWASM)
             {
-                Add(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName), paths);
+                Add(Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName), paths);
             }
 #endif
         }
 
-        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext, options);
+        var helpers = helpersMapping
+            .Where(kvp => options.Categories.Contains(kvp.Key))
+            .ToDictionary(k => k.Key, v => v.Value);
 
+        var dynamicLoadedHelpers = dynamicLoadedHelpersMapping
+            .Where(kvp => options.Categories.Contains(kvp.Key))
+            .ToDictionary(k => k.Key, v => v.Value);
+
+        var additionalLoadedHelpers = PluginLoader.Load(paths, dynamicLoadedHelpers, handlebarsContext, options);
         foreach (var item in additionalLoadedHelpers)
         {
             helpers.Add(item.Key, item.Value);
@@ -157,7 +160,7 @@ public static class HandlebarsHelpers
         // https://github.com/Handlebars-Net/Handlebars.Net#relaxedhelpernaming
         handlebarsContext.Configuration.Compatibility.RelaxedHelperNaming = options.PrefixSeparatorIsDot;
 
-        foreach (var item in helpers.Where(h => options.Categories == null || options.Categories.Length == 0 || options.Categories.Contains(h.Key)))
+        foreach (var item in helpers.Where(h => options.Categories.Contains(h.Key)))
         {
             RegisterCustomHelper(handlebarsContext, options, item.Key.ToString(), item.Value);
         }

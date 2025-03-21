@@ -13,6 +13,28 @@ public class HandlebarsHelpersOptions
     private const string Dot = ".";
 
     /// <summary>
+    /// An array of the default allowed HandlebarsHelpers.
+    /// </summary>
+    public static readonly Category[] DefaultAllowedHandlebarsHelpers =
+    [
+        Category.Boolean,
+        Category.Constants,
+        Category.DateTime,
+        Category.Enumerable,
+        Category.Humanizer,
+        Category.JsonPath,
+        Category.Math,
+        Category.Object,
+        Category.Random,
+        Category.Regex,
+        Category.String,
+        Category.Url,
+        Category.Xeger,
+        Category.XPath,
+        Category.Xslt
+    ];
+
+    /// <summary>
     /// Default options.
     /// </summary>
     public static HandlebarsHelpersOptions Default => new();
@@ -38,12 +60,14 @@ public class HandlebarsHelpersOptions
     public string? Prefix { get; set; }
 
     /// <summary>
-    /// The categories to register. By default all categories are registered. See the WIKI for details.
+    /// The categories to register.
+    ///
+    /// By default, all categories except <see cref="Category.DynamicLinq"/> and <see cref="Category.Environment"/> are registered. See the WIKI for details.
     /// </summary>
-    public Category[]? Categories { get; set; }
+    public Category[] Categories { get; set; } = DefaultAllowedHandlebarsHelpers;
 
     /// <summary>
-    /// The helpers to register.
+    /// The additional helpers to register.
     /// </summary>
     public IHelpers[]? Helpers { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
+using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Options;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -26,9 +28,9 @@ public class DynamicLinqHelpersTemplateTests
         {
             o.UseCategoryPrefix = false;
             o.DateTimeService = dateTimeServiceMock.Object;
+            o.Categories = o.Categories.Concat([Category.DynamicLinq]).ToArray();
             o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
             {
-                Allow = true,
                 AllowEqualsAndToStringMethodsOnObject = true
             };
         });
