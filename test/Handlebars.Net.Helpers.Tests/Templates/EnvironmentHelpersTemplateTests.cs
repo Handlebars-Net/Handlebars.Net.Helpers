@@ -83,6 +83,6 @@ public class EnvironmentHelpersTemplateTests
         Action act = () => compiled(data);
 
         // Assert
-        act.Should().Throw<HandlebarsRuntimeException>();
+        act.Should().Throw<HandlebarsRuntimeException>().WithMessage("Template references a helper that cannot be resolved. Helper 'GetEnvironmentVariable'");
     }
 }

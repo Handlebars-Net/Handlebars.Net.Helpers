@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Dynamic.Core.Exceptions;
 using FluentAssertions;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Options;
@@ -37,7 +38,7 @@ public class DynamicLinqHelpersTemplateTests
     }
 
     [Fact]
-    public void NotAllowed()
+    public void Linq_CategoryNotDefined_ShouldThrowException()
     {
         // Arrange
         var handlebarsContext = Handlebars.Create();
@@ -51,12 +52,46 @@ public class DynamicLinqHelpersTemplateTests
         // Act
         var action = () =>
         {
-            var template = handlebarsContext.Compile("{{Linq 'it' 'it'}}");
+            var template = handlebarsContext.Compile("{{Linq Path 'it'}}");
             _ = template(request);
         };
 
         // Assert
         action.Should().Throw<HandlebarsRuntimeException>().WithMessage("Template references a helper that cannot be resolved. Helper 'Linq'");
+    }
+
+    [Fact]
+    public void Linq_AllowEqualsAndToStringMethodsOnObjectIsFalse_ShouldThrowException()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.UseCategoryPrefix = false;
+            o.Categories = o.Categories.Concat([Category.DynamicLinq]).ToArray();
+            o.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = false
+            };
+        });
+
+        var request = new
+        {
+            Path = "/test"
+        };
+
+        // Act
+        var action = () =>
+        {
+            var template = handlebarsContext.Compile("{{Linq Path 'it.ToString()'}}");
+            _ = template(request);
+        };
+
+        // Assert
+        action.Should()
+            .Throw<HandlebarsException>()
+            .WithMessage("Method 'ToString' on type 'Object' is not accessible.")
+            .WithInnerException<ParseException>();
     }
 
     [Fact]

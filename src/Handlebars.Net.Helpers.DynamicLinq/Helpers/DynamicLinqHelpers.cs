@@ -59,7 +59,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Expression), ex);
+            throw new HandlebarsException(ex.Message, ex);
         }
     }
 
@@ -407,7 +407,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
         }
         catch (Exception ex)
         {
-            throw new HandlebarsException(nameof(Where), ex);
+            throw new HandlebarsException(ex.Message, ex);
         }
     }
 
