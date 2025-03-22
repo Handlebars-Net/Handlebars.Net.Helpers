@@ -1,3 +1,8 @@
+# 2.5.0-preview-01 (22 March 2025)
+- [#112](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/112) - Update System.Linq.Dynamic.Core to version 1.6.0.2 [bug, dependencies] contributed by [StefH](https://github.com/StefH)
+- [#123](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/123) - Update GitHub Actions CreateRelease.yml to auto generate release notes [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#125](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/125) - Implement default AllowedHandlebarsHelpers [bug] contributed by [StefH](https://github.com/StefH)
+
 # 2.4.13 (01 March 2025)
 - [#122](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/122) - Adding compare helpers to the Object helpers [enhancement] contributed by [fabianosuet](https://github.com/fabianosuet)
 - [#121](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/121) - Add generic object compare helpers to the ObjectHelpers [enhancement]
