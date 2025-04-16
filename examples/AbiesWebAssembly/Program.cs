@@ -4,13 +4,12 @@ using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using Abies;
-using AbiesWebAssembly;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Options;
 using static Abies.Html.Elements;
-using Attribute = Abies.DOM.Attribute;
+using static Abies.Html.Attributes;
 
 Console.WriteLine("Bootstrapping...");
 
@@ -158,7 +157,7 @@ public class HandlebarsNetTestApp : Application<Model, Arguments>
             ])
         ).ToArray();
 
-        var tableElement = table([new Attribute(1, "class", "table")],
+        var tableElement = table([className("table")],
             [
                 thead([],
                 [
@@ -176,11 +175,11 @@ public class HandlebarsNetTestApp : Application<Model, Arguments>
             [
                 h1([], [text("Results")]),
 
-               tableElement,
+                tableElement,
 
-               br([]),
+                br([]),
 
-               text($"Total results: {model.Results.Count}")
+                text($"Total results: {model.Results.Count}")
             ])
         );
     }
