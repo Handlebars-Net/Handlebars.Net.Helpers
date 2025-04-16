@@ -10,6 +10,7 @@ using HandlebarsDotNet.Helpers;
 using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Options;
 using static Abies.Html.Elements;
+using Attribute = Abies.DOM.Attribute;
 
 Console.WriteLine("Bootstrapping...");
 
@@ -149,20 +150,37 @@ public class HandlebarsNetTestApp : Application<Model, Arguments>
 
     public static Document View(Model model)
     {
-        var table = div([], model.Results
-            .Select(r => Fluent.pre([], [text($"{r.Test} : {r.Result}")]))
-            .ToArray());
+        var rows = model.Results.Select(r =>
+            tr([],
+            [
+                td([], [pre([], [text(r.Test)])]),
+                td([], [pre([], [text(r.Result)])])
+            ])
+        ).ToArray();
+
+        var tableElement = table([new Attribute(1, "class", "table")],
+            [
+                thead([],
+                [
+                    tr([],
+                    [
+                        th([], [text("Test")]),
+                        th([], [text("Result")])
+                    ])
+                ]),
+                tbody([], rows)
+            ]);
 
         return new Document("Handlebars.Net",
             div([],
             [
                 h1([], [text("Results")]),
 
-                table,
+               tableElement,
 
-                Fluent.br(),
+               br([]),
 
-                text($"Total results: {model.Results.Count}")
+               text($"Total results: {model.Results.Count}")
             ])
         );
     }
