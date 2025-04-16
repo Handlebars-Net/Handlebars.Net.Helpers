@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="C:\Users\StefHeyenrath\.nuget\packages\abies\1.0.5-beta\contentFiles\any\any\wwwroot\abies.js" />
+    <Content Remove="wwwroot\abies.js" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Abies" Version="1.0.5-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.DynamicLinq\Handlebars.Net.Helpers.DynamicLinq.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Humanizer\Handlebars.Net.Helpers.Humanizer.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Json\Handlebars.Net.Helpers.Json.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Random\Handlebars.Net.Helpers.Random.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xeger\Handlebars.Net.Helpers.Xeger.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.XPath\Handlebars.Net.Helpers.XPath.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers.Xslt\Handlebars.Net.Helpers.Xslt.csproj" />
+    <ProjectReference Include="..\..\src\Handlebars.Net.Helpers\Handlebars.Net.Helpers.csproj" />
+  </ItemGroup>
+
+</Project>
