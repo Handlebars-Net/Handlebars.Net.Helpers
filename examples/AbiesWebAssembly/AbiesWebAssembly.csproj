@@ -4,8 +4,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
+
   <ItemGroup>
-    <Content Remove="C:\Users\StefHeyenrath\.nuget\packages\abies\1.0.8-beta\contentFiles\any\any\wwwroot\abies.js" />
     <Content Remove="wwwroot\abies.js" />
   </ItemGroup>
   
