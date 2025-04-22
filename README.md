@@ -1,4 +1,4 @@
-# Handlebars.Net.Helpers
+﻿# Handlebars.Net.Helpers
 Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/Handlebars.Net)
 
 ## Project
@@ -129,13 +129,14 @@ The following default built-in helpers are available:
 - [Dictionary](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Dictionary)
 - [Constants](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Constants)
 - [Enumerable](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Enumerable)
+- [Environment](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Environment) [🔺](#a-environmenthelpers)
 - [Math](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Math)
 - [Regex](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Regex)
 - [String](https://github.com/StefH/Handlebars.Net.Helpers/wiki/String)
 - [Url](https://github.com/StefH/Handlebars.Net.Helpers/wiki/Url)
 
-And the following additonal helpers are available
-- [DynamicLinq](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/DynamicLinq)
+And the following additonal helpers are available:
+- [DynamicLinq](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/DynamicLinq) [🔺](#b-systemlinqdynamiccore)
 - [Humanizer](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Humanizer)
 - [Json](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Json)
 - [Random](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/wiki/Random)
@@ -150,3 +151,8 @@ And the following additonal helpers are available
 - Some code based on https://www.30secondsofcode.org/c-sharp/t/string/p/1
 - Some documentation based on https://github.com/arinet/HandlebarDocs
 - SimpleJson copied from (https://github.com/facebook-csharp-sdk/simple-json)
+
+
+## Example
+- Static WebAssembly WebSite on GitHub Pages: [handlebars-net.github.io/Handlebars.Net.Helpers](https://handlebars-net.github.io/Handlebars.Net.Helpers/)
+  <br>Created with [Abies](https://github.com/Picea/Abies).
