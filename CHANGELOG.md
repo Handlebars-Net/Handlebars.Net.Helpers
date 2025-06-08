@@ -1,3 +1,7 @@
+# 2.5.1 (08 June 2025)
+- [#128](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/128) - Support incompatible types in array (merge to common structure) [enhancement] contributed by [StefH](https://github.com/StefH)
+- [#104](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/104) - DynamicLinq gets confused on inconsistent JSON objects [bug]
+
 # 2.5.0 (22 April 2025)
 - [#112](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/112) - Update System.Linq.Dynamic.Core to version 1.6.0.2 [bug, dependencies] contributed by [StefH](https://github.com/StefH)
 - [#123](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/123) - Update GitHub Actions CreateRelease.yml to auto generate release notes [enhancement] contributed by [StefH](https://github.com/StefH)
