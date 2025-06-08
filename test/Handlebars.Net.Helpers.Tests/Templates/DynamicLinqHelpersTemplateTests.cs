@@ -224,4 +224,45 @@ public class DynamicLinqHelpersTemplateTests
         // Assert
         result.Should().Be("0:0:stef\r\n1:1:test\r\n");
     }
+
+    [Fact]
+    public void Linq_Where_OnJObject()
+    {
+        // Arrange
+        var data = JObject.Parse(
+            """
+            {
+                "users": [
+                    {
+                        "name": "Emily",
+                        "age": 99
+                    },
+                    {
+                        "name": "Jason",
+                        "phone_numbers": [ "+15555555555" ],
+                        "complex_array": [
+                            {
+                                "testFlag": true 
+                            }
+                        ]
+                    },
+                ]
+            }
+            """);
+
+        var templateText =
+            """
+            {{#each (Where users 'it.name == "Emily"')}}
+            <div>{{this.name}}</div>
+            {{/each}}
+            """;
+
+        var template = _handlebarsContext.Compile(templateText);
+
+        // Act
+        var renderedText = template(data);
+
+        // Assert
+        renderedText.Trim().Should().Be("<div>Emily</div>");
+    }
 }
