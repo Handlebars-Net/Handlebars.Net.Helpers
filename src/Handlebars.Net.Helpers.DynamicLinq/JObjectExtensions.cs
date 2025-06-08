@@ -159,8 +159,10 @@ internal static class JObjectExtensions
             throw new InvalidOperationException($"Unable to convert {nameof(JToken)} of type: {arg.Type} to {nameof(JArray)}.");
         }
 
+        var converted = JArrayMerger.MergeToCommonStructure(array);
+
         var result = new List<object?>();
-        foreach (var item in array)
+        foreach (var item in converted)
         {
             result.Add(ConvertJObject(item));
         }
