@@ -4,7 +4,7 @@ using Xunit;
 
 namespace HandlebarsDotNet.Helpers.Tests.DynamicLinq;
 
-public class JArrayMatcherTests
+public class JArrayMergerTests
 {
     [Fact]
     public void MergeToCommonStructure_WithIdenticalObjects_ReturnsOriginalArray()
