@@ -1,3 +1,6 @@
+# 2.5.2 (10 June 2025)
+- [#129](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/129) - Update RandomDataGenerator.Net to 1.0.19 [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.5.1 (08 June 2025)
 - [#128](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/128) - Support incompatible types in array (merge to common structure) [enhancement] contributed by [StefH](https://github.com/StefH)
 - [#104](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/104) - DynamicLinq gets confused on inconsistent JSON objects [bug]
