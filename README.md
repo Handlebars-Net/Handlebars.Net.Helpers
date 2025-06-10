@@ -1,4 +1,4 @@
-﻿# Handlebars.Net.Helpers
+﻿# ![Project Icon](./resources/hbnet-icon_32x32.png) Handlebars.Net.Helpers
 Several helpers which can be used for [Handlebars.Net](https://github.com/rexm/Handlebars.Net)
 
 ## Project
