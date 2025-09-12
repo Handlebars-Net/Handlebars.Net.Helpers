@@ -10,7 +10,7 @@ namespace HandlebarsDotNet.Helpers.Options;
 /// </summary>
 public class HandlebarsHelpersOptions
 {
-    private const string Dot = ".";
+    public const string Dot = ".";
 
     /// <summary>
     /// An array of the default allowed HandlebarsHelpers.

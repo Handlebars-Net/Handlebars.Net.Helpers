@@ -133,17 +133,12 @@ public class HumanizerHelpers(IHandlebars context, HandlebarsHelpersOptions opti
     [HandlebarsWriter(WriterType.String)]
     public string ToMetric(object value)
     {
-        switch (value)
+        return value switch
         {
-            case int intValue:
-                return intValue.ToMetric();
-
-            case double doubleValue:
-                return doubleValue.ToMetric();
-
-            default:
-                throw new NotSupportedException($"The value '{value}' must be an int or double.");
-        }
+            int intValue => intValue.ToMetric(),
+            double doubleValue => doubleValue.ToMetric(),
+            _ => throw new NotSupportedException($"The value '{value}' must be an int or double.")
+        };
     }
 
     [HandlebarsWriter(WriterType.String)]
@@ -218,7 +213,7 @@ public class HumanizerHelpers(IHandlebars context, HandlebarsHelpersOptions opti
         return value.Transform(MapToStringTransformer(transformer));
     }
 
-    [HandlebarsWriter(WriterType.String)]
+    [HandlebarsWriter(WriterType.String, $"{nameof(Humanizer)}.{nameof(Truncate)}")]
     public string Truncate(string value, int length, string? separator = null, string? truncator = null, string? truncateFrom = null)
     {
         if (string.IsNullOrWhiteSpace(separator))

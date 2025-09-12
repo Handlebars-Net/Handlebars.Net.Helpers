@@ -1,5 +1,4 @@
-﻿using System;
-using HandlebarsDotNet.Helpers.Enums;
+﻿using HandlebarsDotNet.Helpers.Enums;
 
 namespace HandlebarsDotNet.Helpers.Attributes;
 
