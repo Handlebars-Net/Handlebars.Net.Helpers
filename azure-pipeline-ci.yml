@@ -25,35 +25,16 @@ steps:
       $jdkPath = $env:JAVA_HOME_17_X64
       Write-Host "##vso[task.setvariable variable=JAVA_HOME]$jdkPath"
 
-# - task: SonarCloudPrepare@1
-#   displayName: 'Prepare analysis on SonarCloud'
-#   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
-#   inputs:
-#     SonarCloud: SonarCloud
-#     organization: stefh-github
-#     projectKey: 'Handlebars.Net.Helpers'
-#     projectName: 'Handlebars.Net.Helpers'
-#     extraProperties: |
-#       sonar.cs.opencover.reportsPaths=**/coverage.net8.0.opencover.xml
-
 - script: |
     dotnet sonarscanner begin /k:"Handlebars.Net.Helpers" /o:"stefh-github" /d:sonar.branch.name=$(Build.SourceBranchName) /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="$(SONAR_TOKEN)" /d:sonar.pullrequest.provider=github /d:sonar.cs.opencover.reportsPaths=**/coverage.net8.0.opencover.xml /d:sonar.verbose=true
   displayName: 'Begin analysis on SonarCloud'
   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
 
-# Build source, tests and run tests for net452 and net6.0 (with coverage)
+# Build source, tests and run tests for net452 and net8.0 (with coverage)
 - script: |
     dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework net452
     dotnet test ./test/Handlebars.Net.Helpers.Tests/Handlebars.Net.Helpers.Tests.csproj --configuration Debug --framework net8.0 --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
   displayName: 'Build source, tests and run tests for net452 and net8.0 (with coverage)'
-
-# - task: SonarCloudAnalyze@1
-#   displayName: 'SonarCloud: Run Code Analysis'
-#   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
-  
-# - task: SonarCloudPublish@1
-#   displayName: 'SonarCloud: Publish Quality Gate Result'
-#   condition: and(succeeded(), eq(variables['RUN_SONAR'], 'yes'), ne(variables['Build.Reason'], 'PullRequest')) # Do not run for PullRequests
 
 - script: |
     dotnet sonarscanner end /d:sonar.token="$(SONAR_TOKEN)"
