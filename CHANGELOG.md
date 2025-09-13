@@ -1,3 +1,7 @@
+# 2.5.3 (13 September 2025)
+- [#132](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/132) - Humanizer Truncate should always be used as &quot;Humanizer.Truncate&quot; [bug] contributed by [StefH](https://github.com/StefH)
+- [#133](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/133) - Fix SonarCloud [enhancement] contributed by [StefH](https://github.com/StefH)
+
 # 2.5.2 (10 June 2025)
 - [#129](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/129) - Update RandomDataGenerator.Net to 1.0.19 [enhancement] contributed by [StefH](https://github.com/StefH)
 
