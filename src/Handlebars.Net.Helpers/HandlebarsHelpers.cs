@@ -184,7 +184,7 @@ public static class HandlebarsHelpers
 
     private static void RegisterCustomHelper(IHandlebars handlebarsContext, HandlebarsHelpersOptions options, string categoryPrefix, IHelpers helper)
     {
-        Type helperClassType = helper.GetType();
+        var helperClassType = helper.GetType();
 
         var methods = helperClassType.GetMethods()
             .Select(methodInfo => new
@@ -220,15 +220,16 @@ public static class HandlebarsHelpers
     private static string GetName(MethodInfo methodInfo, HandlebarsWriterAttribute attribute, HandlebarsHelpersOptions options, string categoryPrefix)
     {
         var names = new List<string>();
-        if (attribute.Name is { } && !string.IsNullOrWhiteSpace(attribute.Name))
+        if (!string.IsNullOrWhiteSpace(attribute.Name))
         {
-            names.Add(attribute.Name);
+            var modifiedName = attribute.Name!.Replace(HandlebarsHelpersOptions.Dot, options.PrefixSeparator);
+            names.Add(modifiedName);
         }
         else
         {
-            if (options.Prefix is { } && !string.IsNullOrWhiteSpace(options.Prefix))
+            if (!string.IsNullOrWhiteSpace(options.Prefix))
             {
-                names.Add(options.Prefix);
+                names.Add(options.Prefix!);
             }
 
             if (options.UseCategoryPrefix)
@@ -333,7 +334,7 @@ public static class HandlebarsHelpers
             parameterCountRequired--;
         }
 
-        if (model is { })
+        if (model != null)
         {
             numberOfArguments += 1;
         }
@@ -374,7 +375,7 @@ public static class HandlebarsHelpers
         var parsedArguments = ArgumentsParser.Parse(context, methodInfo.GetParameters(), arguments);
 
         // Add null for optional arguments
-        for (int i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
+        for (var i = 0; i < parameterCountAllowed.Max() - numberOfArguments; i++)
         {
             parsedArguments.Add(null);
         }
@@ -384,7 +385,7 @@ public static class HandlebarsHelpers
             parsedArguments.Insert(0, true);
         }
 
-        if (model is { })
+        if (model != null)
         {
             parsedArguments.Insert(0, model);
         }
@@ -416,6 +417,6 @@ public static class HandlebarsHelpers
     /// </summary>
     private static string[] CreateHelperNames(string helperName)
     {
-        return new[] { helperName, $"[{helperName}]" };
+        return [helperName, $"[{helperName}]"];
     }
 }

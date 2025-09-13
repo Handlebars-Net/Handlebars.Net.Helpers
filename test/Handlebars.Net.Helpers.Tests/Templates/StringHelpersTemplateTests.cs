@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using FluentAssertions;
 using HandlebarsDotNet.Compiler;
+using HandlebarsDotNet.Helpers.Enums;
 using HandlebarsDotNet.Helpers.Models;
 using HandlebarsDotNet.Helpers.Utils;
 using Moq;
@@ -536,6 +537,24 @@ public class StringHelpersTemplateTests
         // Assert
         decodeResult.Should().BeTrue();
         decoded.Should().Be("test  abc");
+    }
+
+    [Fact]
+    public void Truncate()
+    {
+        // Arrange
+        var handlebarsContext = Handlebars.Create();
+        HandlebarsHelpers.Register(handlebarsContext, o =>
+        {
+            o.UseCategoryPrefix = false;
+            o.Categories = [Category.String, Category.Humanizer];
+        });
+        var action = handlebarsContext.Compile("{{Truncate \"This is a long sentence that needs truncating.\" 10 }}");
+
+        // Act
+        var result = action("");
+
+        result.Should().Be("This is a ");
     }
 
     [Fact]
