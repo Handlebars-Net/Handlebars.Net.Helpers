@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HandlebarsDotNet.Helpers.Attributes;
@@ -343,12 +344,34 @@ internal class StringHelpers(IHandlebars context, HandlebarsHelpersOptions optio
     }
 
     [HandlebarsWriter(WriterType.Value)]
+    public object? First(IEnumerable<object?> values)
+    {
+        if (values is null)
+        {
+            throw new ArgumentNullException(nameof(values));
+        }
+
+        return values.FirstOrDefault();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
+    public object? Last(IEnumerable<object?> values)
+    {
+        if (values is null)
+        {
+            throw new ArgumentNullException(nameof(values));
+        }
+
+        return values.LastOrDefault();
+    }
+
+    [HandlebarsWriter(WriterType.Value)]
     public string[] Split(string value, string separator)
     {
         Guard.NotNull(value);
         Guard.NotNull(separator);
 
-        return separator.Length == 1 ? value.Split(separator[0]) : value.Split(separator.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+        return value.Split(new[] { separator }, StringSplitOptions.None);
     }
 
     [HandlebarsWriter(WriterType.Value)]

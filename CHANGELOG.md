@@ -1,3 +1,8 @@
+# 2.5.4 (TBD)
+- Fix String.Split to correctly handle multi-character separators (e.g., `"<br />"` now splits on the whole string instead of each character) [bug]
+- Add String.First helper to get the first element from an array/collection [enhancement]
+- Add String.Last helper to get the last element from an array/collection [enhancement]
+
 # 2.5.3 (13 September 2025)
 - [#132](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/132) - Humanizer Truncate should always be used as &quot;Humanizer.Truncate&quot; [bug] contributed by [StefH](https://github.com/StefH)
 - [#133](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/133) - Fix SonarCloud [enhancement] contributed by [StefH](https://github.com/StefH)

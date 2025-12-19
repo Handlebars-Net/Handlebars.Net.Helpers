@@ -596,4 +596,52 @@ public class StringHelpersTemplateTests
         decodeResult.Should().BeTrue();
         decoded.Should().Be("test 2020-Apr-15 abc");
     }
+
+    [Theory]
+    [InlineData("{{String.First (String.Split \"a<br />b<br />c\" \"<br />\")}}", "a")]
+    [InlineData("{{String.First (String.Split \"Honors Algebra 2<br /><br />More text\" \"<br />\")}}", "Honors Algebra 2")]
+    [InlineData("{{String.First (String.Split \"single\" \";\")}}", "single")]
+    public void FirstWithSplit(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("{{String.Last (String.Split \"a<br />b<br />c\" \"<br />\")}}", "c")]
+    [InlineData("{{String.Last (String.Split \"single\" \";\")}}", "single")]
+    public void LastWithSplit(string template, string expected)
+    {
+        // Arrange
+        var action = _handlebarsContext.Compile(template);
+
+        // Act
+        var result = action("");
+
+        // Assert
+        result.Should().Be(expected);
+    }
+
+    [Fact]
+    public void FirstWithSplit_FromModel()
+    {
+        // Arrange
+        var model = new
+        {
+            yourField = "Honors Algebra 2<br /><br /><span style=\"background-color: #fbeeb8;\"><strong>Textbook<br /></strong>Algebra and Trigonometry</span>"
+        };
+        var action = _handlebarsContext.Compile("{{String.First (String.Split yourField \"<br />\")}}");
+
+        // Act
+        var result = action(model);
+
+        // Assert
+        result.Should().Be("Honors Algebra 2");
+    }
 }

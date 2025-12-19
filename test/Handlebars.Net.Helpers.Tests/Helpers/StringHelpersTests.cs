@@ -598,4 +598,90 @@ public class StringHelpersTests
         // Assert
         action.Should().Throw<ArgumentException>();
     }
+
+    [Theory]
+    [InlineData("a;b;c", ";", new[] { "a", "b", "c" })]
+    [InlineData("a<br />b<br />c", "<br />", new[] { "a", "b", "c" })]
+    [InlineData("Honors Algebra 2<br /><br />More text", "<br />", new[] { "Honors Algebra 2", "", "More text" })]
+    [InlineData("no separator here", ";", new[] { "no separator here" })]
+    public void Split(string value, string separator, string[] expected)
+    {
+        // Act
+        var result = _sut.Split(value, separator);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void First_ReturnsFirstElement()
+    {
+        // Arrange
+        var values = new object[] { "first", "second", "third" };
+
+        // Act
+        var result = _sut.First(values);
+
+        // Assert
+        result.Should().Be("first");
+    }
+
+    [Fact]
+    public void First_ReturnsNullForEmptyCollection()
+    {
+        // Arrange
+        var values = Array.Empty<object>();
+
+        // Act
+        var result = _sut.First(values);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void First_ThrowsForNullCollection()
+    {
+        // Act
+        Action action = () => _sut.First(null!);
+
+        // Assert
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void Last_ReturnsLastElement()
+    {
+        // Arrange
+        var values = new object[] { "first", "second", "third" };
+
+        // Act
+        var result = _sut.Last(values);
+
+        // Assert
+        result.Should().Be("third");
+    }
+
+    [Fact]
+    public void Last_ReturnsNullForEmptyCollection()
+    {
+        // Arrange
+        var values = Array.Empty<object>();
+
+        // Act
+        var result = _sut.Last(values);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public void Last_ThrowsForNullCollection()
+    {
+        // Act
+        Action action = () => _sut.Last(null!);
+
+        // Assert
+        action.Should().Throw<ArgumentNullException>();
+    }
 }
