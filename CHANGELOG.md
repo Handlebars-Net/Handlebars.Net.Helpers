@@ -1,3 +1,7 @@
+# 2.5.5 (31 March 2026)
+- [#137](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/137) - Relax Humanizer dependency from exact pin to version range [2.14.1, 4.0.0) contributed by [Copilot](https://github.com/apps/copilot-swe-agent)
+- [#136](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/136) - Hard-pinned `Humanizer` v2 via `Handlebars.Net.Helpers.Humanizer` [enhancement]
+
 # 2.5.4 (21 December 2025)
 - [#135](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/pull/135) - Add String.First/Last helpers and fix Split for multi-char separators [enhancement] contributed by [ablyler](https://github.com/ablyler)
 - [#130](https://github.com/Handlebars-Net/Handlebars.Net.Helpers/issues/130) - Conflict Between Truncate Helpers Prevents Usage Without Prefix [bug]
