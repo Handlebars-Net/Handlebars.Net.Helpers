@@ -4,8 +4,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>net451;net452;net46;netstandard1.3;netstandard2.0;netstandard2.1;net6.0;net8.0</TargetFrameworks>
-    <VersionPrefix>2.5.5</VersionPrefix>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+    <VersionPrefix>2.6.0</VersionPrefix>
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <Copyright>Copyright © 2020-2025 Stef Heyenrath</Copyright>
@@ -22,10 +22,10 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- CVE-2019-0820 -->
+  <!--<ItemGroup>
+    --><!-- CVE-2019-0820 --><!--
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <Choose>
     <!-- The environment variable `Prerelease` is set in the azure-pipelines.yml file. -->
