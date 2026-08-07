@@ -10,7 +10,7 @@ namespace HandlebarsDotNet.Helpers.Parsers;
 public static class ArgumentsParser
 {
     private static readonly Type[] SupportedTypes = { typeof(int), typeof(long), typeof(double) };
-
+    
     public static List<object?> Parse(IHandlebars context, ParameterInfo[] parameters, Arguments arguments)
     {
         var result = new List<(object? Argument, object? DefaultValue)>();
@@ -33,6 +33,11 @@ public static class ArgumentsParser
 
     public static object? Parse(IHandlebars context, object? argument, object? defaultValue, bool convertObjectArrayToStringList = false)
     {
+        if (argument == null)
+        {
+            return defaultValue;
+        }
+
         if (argument is UndefinedBindingResult argumentAsUndefinedBindingResult)
         {
             if (TryParseUndefinedBindingResult(argumentAsUndefinedBindingResult, out var parsedAsObjectList))
@@ -52,7 +57,7 @@ public static class ArgumentsParser
             }
         }
 
-        return argument;
+        return argument ?? defaultValue;
     }
 
     public static object ParseAsIntLongOrDouble(IHandlebars context, object? value)

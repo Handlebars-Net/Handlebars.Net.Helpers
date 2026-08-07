@@ -243,5 +243,12 @@ public class ObjectHelpersTests
         {
             return obj is CustomObject @object && Value == @object.Value;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            hashCode.Add(Value);
+            return hashCode.ToHashCode();
+        }
     }
 }
