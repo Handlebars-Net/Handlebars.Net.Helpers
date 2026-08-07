@@ -33,11 +33,6 @@ public static class ArgumentsParser
 
     public static object? Parse(IHandlebars context, object? argument, object? defaultValue, bool convertObjectArrayToStringList = false)
     {
-        if (argument == null)
-        {
-            return defaultValue;
-        }
-
         if (argument is UndefinedBindingResult argumentAsUndefinedBindingResult)
         {
             if (TryParseUndefinedBindingResult(argumentAsUndefinedBindingResult, out var parsedAsObjectList))
