@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using HandlebarsDotNet;
 using HandlebarsDotNet.Helpers;
+using HandlebarsDotNet.Helpers.Enums;
+using HandlebarsDotNet.Helpers.Options;
 using Newtonsoft.Json.Linq;
 
 namespace ConsoleApp;
@@ -47,7 +50,19 @@ class Program
         var template1 = handlebars.Compile("{{ifCond MyData eq 01 X Y}}");
         var result1 = template1.Invoke(new { MyData = "01" });
 
-        HandlebarsHelpers.Register(handlebars, options => { options.UseCategoryPrefix = false; });
+        HandlebarsHelpers.Register(handlebars, options =>
+        {
+            var categories = HandlebarsHelpersOptions.DefaultAllowedHandlebarsHelpers.ToList();
+            categories.Add(Category.Environment);
+            categories.Add(Category.DynamicLinq);
+
+            options.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = true
+            };
+            options.Categories = categories.ToArray();
+            options.UseCategoryPrefix = false;
+        });
 
         //handlebars.RegisterHelper("ArrayTest", (context, arguments) =>
         //{
@@ -146,9 +161,9 @@ class Program
             "{{Count a }}",
             "{{Count a 'it.Contains(\"o\")'}}",
             "{{Count a 'it.Contains(\"z\")'}}",
-            "{{DynamicLinq.Max a }}",
-            "{{DynamicLinq.Max a 'it.Contains(\"o\")'}}",
-            "{{DynamicLinq.Max a 'it.Contains(\"z\")'}}",
+            "{{DynamicLinq.Min i }}",
+            "{{DynamicLinq.Max i }}",
+            "{{DynamicLinq.Sum i }}",
             "{{Any a 'it.Contains(\"o\")'}}",
             "{{All a 'it.Contains(\"o\")'}}",
             "{{All a 'it.Length > 1'}}",
@@ -161,7 +176,6 @@ class Program
             "{{OrderBy a 'it'}}",
             "{{OrderBy a 'it desc'}}",
             "{{OfType a 'int'}}",
-            "{{DynamicLinq.Sum i}}",
 
             "JObject {{Count o.a }}",
             "JObject {{Where o.a 'it.Contains(\"s\")'}}",
@@ -171,41 +185,42 @@ class Program
             "{{a.length}}"
         };
 
+        var p1 = new JObject
+        {
+            { "X", new JValue("x") }
+        };
+        var p2 = new JObject
+        {
+            { "X", new JValue("y") }
+        };
+        var o = new JObject
+        {
+            { "Id", new JValue(9) },
+            { "Name", new JValue("Test") },
+            { "a", new JArray("stef", "test", "other") },
+            { "a2", new JArray(p1, p2) }
+        };
+
+        var dictionary = new Dictionary<string, object>
+        {
+            { "1", "one" },
+            { "2", "two" },
+            { "d", "ddd" }
+        };
+
+        var t = new
+        {
+            x = DateTime.Now,
+            i = new[] { 1, 2, 4 },
+            a = new[] { "stef", "test", "other" },
+            dup = new[] { "stef", "stef", "other" },
+            d = new[] { new DateTime(2022, 1, 1), DateTime.Now },
+            o = o,
+            data = dictionary
+        };
+
         foreach (string test in tests)
         {
-            var p1 = new JObject
-            {
-                { "X", new JValue("x") }
-            };
-            var p2 = new JObject
-            {
-                { "X", new JValue("y") }
-            };
-            var o = new JObject
-            {
-                { "Id", new JValue(9) },
-                { "Name", new JValue("Test") },
-                { "a", new JArray("stef", "test", "other") },
-                { "a2", new JArray(p1, p2) }
-            };
-
-            var dictionary = new Dictionary<string, object>
-            {
-                { "1", "one" },
-                { "2", "two" },
-                { "d", "ddd" }
-            };
-
-            var t = new
-            {
-                x = DateTime.Now,
-                i = new[] { 1, 2, 4 },
-                a = new[] { "stef", "test", "other" },
-                dup = new[] { "stef", "stef", "other" },
-                d = new[] { new DateTime(2022, 1, 1), DateTime.Now },
-                o = o,
-                data = dictionary
-            };
             var template = handlebars.Compile(test);
             var result = template.Invoke(t);
             Console.WriteLine($"{test} : '{result}'");
@@ -214,7 +229,20 @@ class Program
         Console.WriteLine(new string('-', 80));
 
         var handlebars2 = Handlebars.Create();
-        HandlebarsHelpers.Register(handlebars2, options => { options.UseCategoryPrefix = true; });
+        HandlebarsHelpers.Register(handlebars2, options =>
+        {
+            var categories = HandlebarsHelpersOptions.DefaultAllowedHandlebarsHelpers.ToList();
+            categories.Add(Category.Environment);
+            categories.Add(Category.DynamicLinq);
+
+            options.DynamicLinqHelperOptions = new HandlebarsDynamicLinqHelperOptions
+            {
+                AllowEqualsAndToStringMethodsOnObject = true
+            };
+            options.Categories = categories.ToArray();
+            options.UseCategoryPrefix = true;
+        });
+
 
         var tests2 = new[]
         {
@@ -224,18 +252,19 @@ class Program
             "{{[DynamicLinq.Sum] i}}"
         };
 
+        var t2 = new
+        {
+            x = DateTime.Now,
+            i = new[] { 1, 2, 4 },
+            a = new[] { "stef", "test", "other" },
+            dup = new[] { "stef", "stef", "other" },
+            d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
+        };
+
         foreach (string test in tests2)
         {
-            var t = new
-            {
-                x = DateTime.Now,
-                i = new[] { 1, 2, 4 },
-                a = new[] { "stef", "test", "other" },
-                dup = new[] { "stef", "stef", "other" },
-                d = new[] { new DateTime(2022, 1, 1), DateTime.Now }
-            };
             var template = handlebars2.Compile(test);
-            var result = template.Invoke(t);
+            var result = template.Invoke(t2);
             Console.WriteLine($"{test} : '{result}'");
         }
     }

@@ -336,7 +336,7 @@ public class DynamicLinqHelpers : BaseHelpers, IHelpers
     {
         Guard.NotNull(value);
 
-        // CallWhere(...) and call Skip.
+        // CallWhere(...) and call SkipWhile.
         return CallWhere(value).SkipWhile(_config, linqPredicate).ToDynamicArray();
     }
 

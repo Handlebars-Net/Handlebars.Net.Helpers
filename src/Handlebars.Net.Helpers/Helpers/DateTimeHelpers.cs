@@ -122,7 +122,7 @@ internal class DateTimeHelpers(IHandlebars context, HandlebarsHelpersOptions opt
         {
             null => null,
             DateTime dateTimeValue => dateTimeValue,
-            string stringValue => string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format),
+            string stringValue => string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format!),
             _ => GetDatetime(value.ToString(), format)
         };
     }

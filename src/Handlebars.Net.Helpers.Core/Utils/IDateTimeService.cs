@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace HandlebarsDotNet.Helpers.Utils;
 
-namespace HandlebarsDotNet.Helpers.Utils
+public interface IDateTimeService
 {
-    public interface IDateTimeService
-    {
-        DateTime Now();
+    DateTime Now();
 
-        DateTime UtcNow();        
-    }
+    DateTime UtcNow();        
 }

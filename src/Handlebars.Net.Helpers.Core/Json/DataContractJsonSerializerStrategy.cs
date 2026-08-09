@@ -1,9 +1,4 @@
-﻿using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Serialization;
-
-namespace HandlebarsDotNet.Helpers.Json;
+﻿namespace HandlebarsDotNet.Helpers.Json;
 
 #if SIMPLE_JSON_DATACONTRACT
 [GeneratedCode("simple-json", "1.0.0")]

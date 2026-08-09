@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net451;net452;net46;netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
+        <TargetFramework>net8.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <RootNamespace>HandlebarsDotNet.Helpers.Tests</RootNamespace>
         <AssemblyName>HandlebarsDotNet.Helpers.Tests</AssemblyName>
