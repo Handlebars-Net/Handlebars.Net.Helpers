@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Reflection;
 
 namespace HandlebarsDotNet.Helpers.Utils;
 
