@@ -1,5 +1,8 @@
-﻿namespace HandlebarsDotNet.Helpers.Enums;
+namespace HandlebarsDotNet.Helpers.Enums;
 
+/// <summary>
+/// Represents the available helper categories.
+/// </summary>
 public enum Category
 {
     Constants,
@@ -19,5 +22,5 @@ public enum Category
     Boolean,
     Object,
     Xslt,
-    Custom // Custom helpers. Not used by the library itself.
+    Custom
 }
