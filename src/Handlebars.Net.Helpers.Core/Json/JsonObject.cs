@@ -114,7 +114,7 @@ public
     /// <returns></returns>
     public bool TryGetValue(string key, out object value)
     {
-        return _members.TryGetValue(key, out value);
+        return _members.TryGetValue(key, out value!);
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -28,8 +29,8 @@ class DataContractJsonSerializerStrategy : PocoJsonSerializerStrategy
             return base.GetterValueFactory(type);
         }
 
-        string jsonKey;
-        IDictionary<string, ReflectionUtils.GetDelegate> result = new Dictionary<string, ReflectionUtils.GetDelegate>();
+        string? jsonKey;
+        var result = new Dictionary<string, ReflectionUtils.GetDelegate>();
         foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
         {
             if (propertyInfo.CanRead)
@@ -39,11 +40,13 @@ class DataContractJsonSerializerStrategy : PocoJsonSerializerStrategy
                     result[jsonKey] = ReflectionUtils.GetGetMethod(propertyInfo);
             }
         }
+
         foreach (FieldInfo fieldInfo in ReflectionUtils.GetFields(type))
         {
             if (!fieldInfo.IsStatic && CanAdd(fieldInfo, out jsonKey))
                 result[jsonKey] = ReflectionUtils.GetGetMethod(fieldInfo);
         }
+
         return result;
     }
 
@@ -51,9 +54,12 @@ class DataContractJsonSerializerStrategy : PocoJsonSerializerStrategy
     {
         bool hasDataContract = ReflectionUtils.GetAttribute(type, typeof(DataContractAttribute)) != null;
         if (!hasDataContract)
+        {
             return base.SetterValueFactory(type);
-        string jsonKey;
-        IDictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>> result = new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
+        }
+
+        string? jsonKey;
+        var result = new Dictionary<string, KeyValuePair<Type, ReflectionUtils.SetDelegate>>();
         foreach (PropertyInfo propertyInfo in ReflectionUtils.GetProperties(type))
         {
             if (propertyInfo.CanWrite)
@@ -63,26 +69,33 @@ class DataContractJsonSerializerStrategy : PocoJsonSerializerStrategy
                     result[jsonKey] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(propertyInfo.PropertyType, ReflectionUtils.GetSetMethod(propertyInfo));
             }
         }
+
         foreach (FieldInfo fieldInfo in ReflectionUtils.GetFields(type))
         {
             if (!fieldInfo.IsInitOnly && !fieldInfo.IsStatic && CanAdd(fieldInfo, out jsonKey))
                 result[jsonKey] = new KeyValuePair<Type, ReflectionUtils.SetDelegate>(fieldInfo.FieldType, ReflectionUtils.GetSetMethod(fieldInfo));
         }
+
         // todo implement sorting for DATACONTRACT.
         return result;
     }
 
-    private static bool CanAdd(MemberInfo info, out string jsonKey)
+    private static bool CanAdd(MemberInfo info, [NotNullWhen(true)] out string? jsonKey)
     {
         jsonKey = null;
         if (ReflectionUtils.GetAttribute(info, typeof(IgnoreDataMemberAttribute)) != null)
+        {
             return false;
-        DataMemberAttribute dataMemberAttribute = (DataMemberAttribute)ReflectionUtils.GetAttribute(info, typeof(DataMemberAttribute));
+        }
+
+        var dataMemberAttribute = ReflectionUtils.GetAttribute(info, typeof(DataMemberAttribute)) as DataMemberAttribute;
         if (dataMemberAttribute == null)
+        {
             return false;
+        }
+
         jsonKey = string.IsNullOrEmpty(dataMemberAttribute.Name) ? info.Name : dataMemberAttribute.Name;
         return true;
     }
 }
-
 #endif

@@ -118,11 +118,14 @@ internal class DateTimeHelpers(IHandlebars context, HandlebarsHelpersOptions opt
 
     private DateTime? GetDatetime(object? value, string? format)
     {
+
         return value switch
         {
             null => null,
             DateTime dateTimeValue => dateTimeValue,
+#pragma warning disable CS8604 // Possible null reference argument.
             string stringValue => string.IsNullOrEmpty(format) ? Parse(stringValue) : ParseExact(stringValue, format),
+#pragma warning restore CS8604 // Possible null reference argument.
             _ => GetDatetime(value.ToString(), format)
         };
     }
