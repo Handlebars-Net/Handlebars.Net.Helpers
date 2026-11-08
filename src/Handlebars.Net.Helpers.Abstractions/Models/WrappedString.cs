@@ -75,6 +75,7 @@ public class WrappedString
         }
         catch
         {
+            // If HTML decoding fails, we will just return the original text.
         }
 
         decoded = text;
