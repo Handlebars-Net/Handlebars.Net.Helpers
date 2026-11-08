@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Handlebars.Net.Helpers.Abstractions</AssemblyName>
+    <RootNamespace>HandlebarsDotNet.Helpers</RootNamespace>
+    <Description>Abstractions for Handlebars.Net.Helpers</Description>
+    <PackageId>Handlebars.Net.Helpers.Abstractions</PackageId>
+    <PackageTags>handlebars;helpers;abstractions;models;enum</PackageTags>
+    <ProjectGuid>{44F163B9-411A-4F95-BD59-40B5F62D077E}</ProjectGuid>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../Handlebars.Net.Helpers.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworks>net451;netstandard1.3</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nullable" Version="1.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

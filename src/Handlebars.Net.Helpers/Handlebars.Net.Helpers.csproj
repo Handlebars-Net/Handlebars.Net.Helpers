@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Handlebars.Net.Helpers.Abstractions\Handlebars.Net.Helpers.Abstractions.csproj" />
     <ProjectReference Include="..\Handlebars.Net.Helpers.Core\Handlebars.Net.Helpers.Core.csproj" />
   </ItemGroup>
 

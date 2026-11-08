@@ -209,7 +209,7 @@ class ReflectionUtils
 #if SIMPLE_JSON_TYPEINFO
         return propertyInfo.GetMethod;
 #else
-        return propertyInfo.GetGetMethod(true);
+        return propertyInfo.GetGetMethod(true)!;
 #endif
     }
 
@@ -218,7 +218,7 @@ class ReflectionUtils
 #if SIMPLE_JSON_TYPEINFO
         return propertyInfo.SetMethod;
 #else
-        return propertyInfo.GetSetMethod(true);
+        return propertyInfo.GetSetMethod(true)!;
 #endif
     }
 
@@ -304,12 +304,12 @@ class ReflectionUtils
     public static GetDelegate GetGetMethodByReflection(PropertyInfo propertyInfo)
     {
         MethodInfo methodInfo = GetGetterMethodInfo(propertyInfo);
-        return source => methodInfo.Invoke(source, EmptyObjects);
+        return source => methodInfo.Invoke(source, EmptyObjects)!;
     }
 
     public static GetDelegate GetGetMethodByReflection(FieldInfo fieldInfo)
     {
-        return fieldInfo.GetValue;
+        return fieldInfo.GetValue!;
     }
 
 #if !SIMPLE_JSON_NO_LINQ_EXPRESSION
@@ -317,7 +317,7 @@ class ReflectionUtils
     {
         MethodInfo getMethodInfo = GetGetterMethodInfo(propertyInfo);
         ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
-        UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType) ? Expression.TypeAs(instance, propertyInfo.DeclaringType) : Expression.Convert(instance, propertyInfo.DeclaringType);
+        UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType!) ? Expression.TypeAs(instance, propertyInfo.DeclaringType!) : Expression.Convert(instance, propertyInfo.DeclaringType!);
         Func<object, object> compiled = Expression.Lambda<Func<object, object>>(Expression.TypeAs(Expression.Call(instanceCast, getMethodInfo), typeof(object)), instance).Compile();
         return source => compiled(source);
     }
@@ -325,7 +325,7 @@ class ReflectionUtils
     public static GetDelegate GetGetMethodByExpression(FieldInfo fieldInfo)
     {
         ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
-        MemberExpression member = Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType), fieldInfo);
+        MemberExpression member = Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType!), fieldInfo);
         GetDelegate compiled = Expression.Lambda<GetDelegate>(Expression.Convert(member, typeof(object)), instance).Compile();
         return source => compiled(source);
     }
@@ -366,7 +366,7 @@ class ReflectionUtils
         MethodInfo setMethodInfo = GetSetterMethodInfo(propertyInfo);
         ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
         ParameterExpression value = Expression.Parameter(typeof(object), "value");
-        UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType) ? Expression.TypeAs(instance, propertyInfo.DeclaringType) : Expression.Convert(instance, propertyInfo.DeclaringType);
+        UnaryExpression instanceCast = !IsValueType(propertyInfo.DeclaringType!) ? Expression.TypeAs(instance, propertyInfo.DeclaringType!) : Expression.Convert(instance, propertyInfo.DeclaringType!);
         UnaryExpression valueCast = !IsValueType(propertyInfo.PropertyType) ? Expression.TypeAs(value, propertyInfo.PropertyType) : Expression.Convert(value, propertyInfo.PropertyType);
         Action<object, object> compiled = Expression.Lambda<Action<object, object>>(Expression.Call(instanceCast, setMethodInfo, valueCast), new ParameterExpression[] { instance, value }).Compile();
         return delegate (object source, object val) { compiled(source, val); };
@@ -377,7 +377,7 @@ class ReflectionUtils
         ParameterExpression instance = Expression.Parameter(typeof(object), "instance");
         ParameterExpression value = Expression.Parameter(typeof(object), "value");
         Action<object, object> compiled = Expression.Lambda<Action<object, object>>(
-            Assign(Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType), fieldInfo), Expression.Convert(value, fieldInfo.FieldType)), instance, value).Compile();
+            Assign(Expression.Field(Expression.Convert(instance, fieldInfo.DeclaringType!), fieldInfo), Expression.Convert(value, fieldInfo.FieldType)), instance, value).Compile();
         return delegate (object source, object val) { compiled(source, val); };
     }
 
@@ -401,7 +401,7 @@ class ReflectionUtils
     }
 #endif
 
-    public sealed class ThreadSafeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    public sealed class ThreadSafeDictionary<TKey, TValue> : IDictionary<TKey, TValue> where TKey : notnull
     {
         private readonly object _lock = new();
         private readonly ThreadSafeDictionaryValueFactory<TKey, TValue> _valueFactory;

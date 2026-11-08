@@ -44,7 +44,7 @@ class PocoJsonSerializerStrategy : IJsonSerializerStrategy
 
     internal virtual ReflectionUtils.ConstructorDelegate ContructorDelegateFactory(Type key)
     {
-        return ReflectionUtils.GetConstructor(key, key.IsArray ? ArrayConstructorParameterTypes : EmptyTypes);
+        return ReflectionUtils.GetConstructor(key, key.IsArray ? ArrayConstructorParameterTypes : EmptyTypes)!;
     }
 
     internal virtual IDictionary<string, ReflectionUtils.GetDelegate> GetterValueFactory(Type type)
@@ -91,7 +91,7 @@ class PocoJsonSerializerStrategy : IJsonSerializerStrategy
         return result;
     }
 
-    public virtual bool TrySerializeNonPrimitiveObject(object? input, out object? output)
+    public virtual bool TrySerializeNonPrimitiveObject(object? input, [NotNullWhen(true)] out object? output)
     {
         return TrySerializeKnownTypes(input, out output) || TrySerializeUnknownTypes(input!, out output);
     }
